@@ -1,14 +1,13 @@
 import React, { Component, Fragment } from 'react';
-import './App.css';
 
-class App extends Component {
+class HomeRoute extends Component {
   render() {
-
     return (
       <Fragment>
+        <div onClick={() => console.log('Hello world!')}/>
       </Fragment>
     );
   }
 }
 
-export default App;
+export default HomeRoute;
