@@ -1,10 +1,13 @@
 module.exports = {
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 7,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true,
     },
+    "allowImportExportEverywhere": true,
+    "codeFrame": false,
   },
   "env": {
     "browser": true,

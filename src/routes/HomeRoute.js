@@ -1,10 +1,14 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, lazy, Suspense } from 'react';
+
+const HomeContainer = lazy(() => import('../containers/HomeContainer'));
 
 class HomeRoute extends Component {
   render() {
     return (
       <Fragment>
-        <div onClick={() => console.log('Hello world!')}/>
+        <Suspense fallback={<div>Fallback component</div>}>
+          <HomeContainer />
+        </Suspense>
       </Fragment>
     );
   }
