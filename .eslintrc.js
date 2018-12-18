@@ -10,6 +10,7 @@ module.exports = {
     "codeFrame": false,
   },
   "env": {
+    "node": true,
     "browser": true,
     "jest": true,
   },
