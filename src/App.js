@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import LandingRoute from './landing/view/LandingRoute';
 import './App.css';
-import { BrowserRouter } from 'react-router-dom';
-import Routes from './routes';
 
 class App extends Component {
   render() {
@@ -9,7 +9,10 @@ class App extends Component {
     return (
       <Fragment>
         <BrowserRouter>
-          <Routes />
+          <Switch>
+            <Route exact path='/' component={LandingRoute} />
+            <Redirect to='/' />
+          </Switch>
         </BrowserRouter>
       </Fragment>
     );

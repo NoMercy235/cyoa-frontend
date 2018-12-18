@@ -1,17 +1,17 @@
 import React, { Component, Fragment, lazy, Suspense } from 'react';
 
-const HomeContainer = lazy(() => import('../containers/HomeContainer'));
+const LandingContainer = lazy(() => import('./containers/LandingContainer'));
 
-class HomeRoute extends Component {
+class LandingRoute extends Component {
   render() {
     return (
       <Fragment>
         <Suspense fallback={<div>Fallback component</div>}>
-          <HomeContainer />
+          <LandingContainer />
         </Suspense>
       </Fragment>
     );
   }
 }
 
-export default HomeRoute;
+export default LandingRoute;
