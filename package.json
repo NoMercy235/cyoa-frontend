@@ -9,6 +9,7 @@
     "classnames": "^2.2.6",
     "mobx": "^5.8.0",
     "mobx-react": "^5.4.3",
+    "mobx-utils": "^5.1.0",
     "node-sass": "^4.11.0",
     "prop-types": "^15.6.2",
     "react": "^16.6.0",

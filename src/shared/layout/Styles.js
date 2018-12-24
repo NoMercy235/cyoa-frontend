@@ -1,4 +1,5 @@
 const drawerWidth = 240;
+const openedDrawerAppMargin = 24;
 
 export const styles = theme => ({
   root: {
@@ -17,6 +18,12 @@ export const styles = theme => ({
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
+  },
+  appTitle: {
+    flexGrow: 1,
+  },
+  appLoginButton: {
+    marginRight: openedDrawerAppMargin,
   },
   menuButton: {
     marginLeft: 12,
@@ -54,5 +61,10 @@ export const styles = theme => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginLeft: 0,
+  },
+  modalContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
