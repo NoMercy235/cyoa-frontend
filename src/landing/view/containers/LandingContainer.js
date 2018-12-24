@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withDefaultLayout } from '../../../shared/hoc/DefaultLayout';
 import LandingCmp from '../components/LandingCmp';
 
 class LandingContainer extends Component {
@@ -12,4 +13,4 @@ class LandingContainer extends Component {
 LandingContainer.propTypes = {
 };
 
-export default LandingContainer;
+export default withDefaultLayout(LandingContainer);
