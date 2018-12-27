@@ -10,28 +10,20 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { styles } from '../layout/Styles';
 import Button from '@material-ui/core/Button';
-import { inject, observer } from 'mobx-react';
-import { appPropTypes } from '../store/AppStore';
-import Modal from '@material-ui/core/Modal';
-import Authentication from '../components/authentication/Authentication';
+import AuthenticationModal from '../components/authentication/AuthenticationModal';
 
-@inject('appStore')
-@observer
 class Header extends Component {
   constructor (props) {
     super(props);
-    this.props.appStore.registerModal({
-      id: 'loginModal',
-      component: <p>Hello world</p>,
-    });
+    this.state = { modalOpen: false };
   }
 
   onShowLoginModal = () => {
-    this.props.appStore.showModal('loginModal');
+    this.setState({ modalOpen: true });
   };
 
   onHideLoginModal = () => {
-    this.props.appStore.hideModal('loginModal');
+    this.setState({ modalOpen: false });
   };
 
   render() {
@@ -73,13 +65,10 @@ class Header extends Component {
           </Toolbar>
         </AppBar>
 
-        <Modal
-          className={classes.modalContainer}
-          open={this.props.appStore.isModalOpen('loginModal')}
-          onBackdropClick={this.onHideLoginModal}
-        >
-          <Authentication onCancel={this.onHideLoginModal} />
-        </Modal>
+        <AuthenticationModal
+          open={this.state.modalOpen}
+          onClose={this.onHideLoginModal}
+        />
       </Fragment>
     );
   }
@@ -90,8 +79,6 @@ Header.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
   onHandleDrawerOpened: PropTypes.func.isRequired,
-
-  appStore: appPropTypes,
 };
 
 export default withStyles(styles, { withTheme: true })(Header);

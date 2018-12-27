@@ -31,6 +31,9 @@ module.exports = {
 
     // disable rules from base configurations
     "no-console": "off",
+
+    // custom
+    "react/prop-types": [2, { ignore: ['children'] }],
   },
   "plugins": [
     "react",

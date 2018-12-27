@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import * as PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -17,10 +17,7 @@ class Authentication extends Component {
     const { classes } = this.props;
 
     return (
-      <div
-        className={classes.container}
-        tabIndex={-1}
-      >
+      <Fragment>
         <Typography variant="h6" id="modal-title">
           Login to your account
         </Typography>
@@ -94,7 +91,7 @@ class Authentication extends Component {
             );
           }}
         </Formik>
-      </div>
+      </Fragment>
     );
   }
 }
