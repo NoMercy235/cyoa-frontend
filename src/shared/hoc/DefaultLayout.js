@@ -8,16 +8,16 @@ import { styles } from '../layout/Styles';
 export function withDefaultLayout(InnerComponent) {
   return withStyles(styles)(class DefaultLayout extends Component {
     state = {
-      open: false,
+      drawerOpen: false,
     };
 
     handleDrawerOpen = () => {
-      this.setState({ open: true });
+      this.setState({ drawerOpen: true });
     };
 
 
     handleDrawerClose = () => {
-      this.setState({ open: false });
+      this.setState({ drawerOpen: false });
     };
 
     render() {
@@ -25,16 +25,16 @@ export function withDefaultLayout(InnerComponent) {
       return (
         <div className={classes.root}>
           <Header
-            open={this.state.open}
+            drawerOpen={this.state.drawerOpen}
             onHandleDrawerOpened={this.handleDrawerOpen}
           />
           <Drawer
-            open={this.state.open}
+            open={this.state.drawerOpen}
             onHandleDrawerClose={this.handleDrawerClose}
           />
           <main
             className={classNames(classes.content, {
-              [classes.contentShift]: this.state.open,
+              [classes.contentShift]: this.state.drawerOpen,
             })}
           >
             <div className={classes.drawerHeader} />

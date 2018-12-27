@@ -35,7 +35,7 @@ class Header extends Component {
   };
 
   render() {
-    const { classes, open } = this.props;
+    const { classes, drawerOpen } = this.props;
 
     return (
       <Fragment>
@@ -43,15 +43,15 @@ class Header extends Component {
         <AppBar
           position="fixed"
           className={classNames(classes.appBar, {
-            [classes.appBarShift]: open,
+            [classes.appBarShift]: drawerOpen,
           })}
         >
-          <Toolbar disableGutters={!open}>
+          <Toolbar disableGutters={!drawerOpen}>
             <IconButton
               color="inherit"
               aria-label="Open drawer"
               onClick={this.props.onHandleDrawerOpened}
-              className={classNames(classes.menuButton, open && classes.hide)}
+              className={classNames(classes.menuButton, drawerOpen && classes.hide)}
             >
               <MenuIcon />
             </IconButton>
@@ -64,7 +64,7 @@ class Header extends Component {
               Choose your own adventure!
             </Typography>
             <Button
-              className={classNames(!open && classes.appLoginButton)}
+              className={classNames(!drawerOpen && classes.appLoginButton)}
               onClick={this.onShowLoginModal}
               color="inherit"
             >
@@ -86,7 +86,7 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  open: PropTypes.bool.isRequired,
+  drawerOpen: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
   onHandleDrawerOpened: PropTypes.func.isRequired,
