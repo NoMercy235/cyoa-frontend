@@ -76,10 +76,9 @@ class Header extends Component {
         <Modal
           className={classes.modalContainer}
           open={this.props.appStore.isModalOpen('loginModal')}
-          onClose={this.onHideLoginModal}
           onBackdropClick={this.onHideLoginModal}
         >
-          <Authentication />
+          <Authentication onCancel={this.onHideLoginModal} />
         </Modal>
       </Fragment>
     );
