@@ -1,6 +1,11 @@
 export const styles = theme => ({
-  buttons: {
-    display: 'flex',
-    justifyContent: 'space-between',
+  helperText: {
+    paddingTop: 10,
+    float: 'right',
+  },
+  here: {
+    color: theme.palette.primary.dark,
+    fontWeight: 'bold',
+    cursor: 'pointer',
   },
 });
