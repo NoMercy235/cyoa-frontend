@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { styles } from './Authentication.css';
-import Authentication from './LoginForm';
+import LoginForm from './LoginForm';
 import { appPropTypes } from '../../store/AppStore';
 import Dialog from '@material-ui/core/Dialog';
 import { DialogTitle } from '../dialog/Title';
@@ -10,11 +10,17 @@ import { DialogContent } from '../dialog/Content';
 import { DialogActions } from '../dialog/Actions';
 import { Formik } from 'formik';
 import AuthenticationActions from './AuthenticationActions';
-import Typography from '@material-ui/core/es/Typography/Typography';
+import { NoAccount } from './NoAccount';
+import { HasAccount } from './HasAccount';
+import RegisterForm from './RegisterForm';
 
 class AuthenticationModal extends Component {
   state = {
     isLoggingIn: true,
+  };
+
+  onChangeState = () => {
+    this.setState({ isLoggingIn: !this.state.isLoggingIn });
   };
 
   renderTitle() {
@@ -23,32 +29,34 @@ class AuthenticationModal extends Component {
       : 'Register a new account';
   }
 
+  renderOkText() {
+    return this.state.isLoggingIn
+      ? 'Login'
+      : 'Register';
+  }
+
   renderHelperText() {
     if (this.state.isLoggingIn) {
-      const here = (
-        <span
-          className={this.props.classes.here}
-          onClick={console.log}
-        >
-          here
-        </span>
-      );
-      return (
-        <Typography
-          className={this.props.classes.helperText}
-          variant="caption"
-          color="inherit">
-          No account? Register {here}!
-        </Typography>
-      );
+      return <NoAccount onHandleClick={this.onChangeState} />;
+    } else {
+      return <HasAccount onHandleClick={this.onChangeState} />;
     }
   }
+
+  renderForm(formik) {
+    if (this.state.isLoggingIn) {
+      return <LoginForm formik={formik} />;
+    } else {
+      return <RegisterForm formik={formik} />;
+    }
+  }
+
 
   render() {
     return (
       <Fragment>
         <Formik
-          initialValues={{ username: '', password: '' }}
+          initialValues={{ username: '', password: '', repeatPassword: '' }}
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
               alert(JSON.stringify(values, null, 2));
@@ -71,6 +79,7 @@ class AuthenticationModal extends Component {
               <Dialog
                 open={this.props.open}
                 onClose={this.props.onClose}
+                classes={{ paper: this.props.classes.dialogSize }}
               >
                 <DialogTitle
                   onClose={this.props.onClose}
@@ -78,13 +87,13 @@ class AuthenticationModal extends Component {
                   {this.renderTitle()}
                 </DialogTitle>
                 <DialogContent>
-                  <Authentication formik={formik} />
+                  {this.renderForm(formik)}
                   {this.renderHelperText()}
                 </DialogContent>
                 <DialogActions>
                   <AuthenticationActions
                     formik={formik}
-                    okText="Login"
+                    okText={this.renderOkText()}
                     onClose={this.props.onClose}/>
                 </DialogActions>
               </Dialog>

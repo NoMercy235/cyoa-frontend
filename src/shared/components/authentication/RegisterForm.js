@@ -5,7 +5,7 @@ import { styles } from './Authentication.css';
 import { Field, Form } from 'formik';
 import TextField from '@material-ui/core/TextField';
 
-class LoginForm extends Component {
+class RegisterForm extends Component {
   render() {
     const { formik } = this.props;
 
@@ -31,6 +31,7 @@ class LoginForm extends Component {
           render={({ field }) => {
             return <TextField
               {...field}
+              type="password"
               label="Password"
               fullWidth
               helperText={formik.errors.password}
@@ -39,14 +40,29 @@ class LoginForm extends Component {
             />;
           }}
         />
+        <Field
+          name="repeatPassword"
+          required
+          render={({ field }) => {
+            return <TextField
+              {...field}
+              type="password"
+              label="Repeat password"
+              fullWidth
+              helperText={formik.errors.repeatPassword}
+              error={!!formik.errors.repeatPassword}
+              value={formik.values.repeatPassword}
+            />;
+          }}
+        />
       </Form>
     );
   }
 }
 
-LoginForm.propTypes = {
+RegisterForm.propTypes = {
   classes: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(LoginForm);
+export default withStyles(styles)(RegisterForm);
