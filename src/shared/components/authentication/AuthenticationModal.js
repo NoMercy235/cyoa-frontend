@@ -13,9 +13,10 @@ import AuthenticationActions from './AuthenticationActions';
 import { NoAccount } from './NoAccount';
 import { HasAccount } from './HasAccount';
 import RegisterForm from './RegisterForm';
-import { authService } from './AuthenticationService';
+import { authService } from '../../domain/services/AuthenticationService';
 import { inject } from 'mobx-react';
 import { UserModel } from '../../domain/models/UserModel';
+import { AuthenticationModel } from '../../domain/models/AuthenticationModel';
 
 @inject('appStore')
 class AuthenticationModal extends Component {
@@ -25,6 +26,22 @@ class AuthenticationModal extends Component {
 
   onChangeState = () => {
     this.setState({ isLoggingIn: !this.state.isLoggingIn });
+  };
+
+  login = async (values) => {
+    const response = await authService.login(values);
+    this.props.appStore.setUser(
+      new UserModel(response.user)
+    );
+    this.props.onClose();
+  };
+
+  register = async (values) => {
+    const response = await authService.register(values);
+    this.props.appStore.setUser(
+      new UserModel(response.user)
+    );
+    this.props.onClose();
   };
 
   renderTitle() {
@@ -55,32 +72,23 @@ class AuthenticationModal extends Component {
     }
   }
 
-
   render() {
     return (
       <Fragment>
         <Formik
-          initialValues={{ email: '', password: '', repeatPassword: '' }}
+          initialValues={new AuthenticationModel()}
           onSubmit={async (values, { setSubmitting }) => {
             try {
-              const response = await authService.login(values);
-              this.props.appStore.setUser(
-                new UserModel(response.user)
-              );
-              this.props.onClose();
+              this.state.isLoggingIn
+                ? await this.login(values)
+                : await this.register(values);
             } finally {
               setSubmitting(false);
             }
           }}
           validate={values => {
-            let errors = {};
-            if (!values.email) {
-              errors.email = 'This field is required';
-            }
-            if (!values.password) {
-              errors.password = 'This field is required';
-            }
-            return errors;
+            const model = new AuthenticationModel(values);
+            return model.checkErrors({ isLoggingIn: this.state.isLoggingIn });
           }}
         >
           {formik => {
