@@ -8,11 +8,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { styles } from '../layout/Styles';
+import { styles } from './Styles';
 import Button from '@material-ui/core/Button';
-import AuthenticationModal from '../components/authentication/AuthenticationModal';
+import AuthenticationModal from '../authentication/AuthenticationModal';
 import { inject, observer } from 'mobx-react';
-import { appPropTypes } from '../store/AppStore';
+import { appPropTypes } from '../../store/AppStore';
 
 @inject('appStore')
 @observer
