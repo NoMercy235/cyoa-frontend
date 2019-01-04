@@ -1,9 +1,12 @@
-export class AuthenticationModel {
+import { BaseModel } from './BaseModel';
+
+export class AuthenticationModel extends BaseModel {
   email = '';
   password = '';
   repeatPassword = '';
 
   constructor (metadata) {
+    super();
     Object.assign(this, metadata);
   }
 

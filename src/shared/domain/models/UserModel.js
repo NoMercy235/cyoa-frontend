@@ -1,4 +1,6 @@
-export class UserModel {
+import { BaseModel } from './BaseModel';
+
+export class UserModel extends BaseModel {
   _id;
   email;
   firstName;
@@ -7,6 +9,7 @@ export class UserModel {
   lastName;
 
   constructor (metadata) {
+    super();
     Object.assign(this, metadata);
   }
 }

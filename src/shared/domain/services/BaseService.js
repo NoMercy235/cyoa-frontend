@@ -9,5 +9,10 @@ export class BaseService {
         'Content-Type': 'application/json',
       },
     });
+
+    this.client.interceptors.response.use(
+      null,
+      err => { throw err.response.data; },
+    );
   }
 }

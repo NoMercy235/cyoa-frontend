@@ -17,15 +17,28 @@ import { authService } from '../../domain/services/AuthenticationService';
 import { inject } from 'mobx-react';
 import { UserModel } from '../../domain/models/UserModel';
 import { AuthenticationModel } from '../../domain/models/AuthenticationModel';
+import Snackbar from '../snackbar/Snackbar';
+import { BaseModel } from '../../domain/models/BaseModel';
 
 @inject('appStore')
 class AuthenticationModal extends Component {
   state = {
     isLoggingIn: true,
+
+    // snackbar
+    open: false,
+    variant: 'success',
+    message: '',
   };
 
-  onChangeState = () => {
-    this.setState({ isLoggingIn: !this.state.isLoggingIn });
+  onChangeState = (metadata) => {
+    return () => this.setState(metadata);
+  };
+
+  getSnackbarText = () => {
+    return this.state.isLoggingIn
+      ? 'Login successful!'
+      : 'Register successful!';
   };
 
   login = async (values) => {
@@ -58,9 +71,13 @@ class AuthenticationModal extends Component {
 
   renderHelperText() {
     if (this.state.isLoggingIn) {
-      return <NoAccount onHandleClick={this.onChangeState} />;
+      return <NoAccount
+        onHandleClick={this.onChangeState({ isLoggingIn: false })}
+      />;
     } else {
-      return <HasAccount onHandleClick={this.onChangeState} />;
+      return <HasAccount
+        onHandleClick={this.onChangeState({ isLoggingIn: true })}
+      />;
     }
   }
 
@@ -82,6 +99,17 @@ class AuthenticationModal extends Component {
               this.state.isLoggingIn
                 ? await this.login(values)
                 : await this.register(values);
+              this.onChangeState({
+                variant: 'success',
+                open: true,
+                message: this.getSnackbarText(),
+              })();
+            } catch (e) {
+              this.onChangeState({
+                variant: 'error',
+                open: true,
+                message: BaseModel.handleError(e),
+              })();
             } finally {
               setSubmitting(false);
             }
@@ -117,6 +145,12 @@ class AuthenticationModal extends Component {
             );
           }}
         </Formik>
+        <Snackbar
+          open={this.state.open}
+          onClose={this.onChangeState({ open: false })}
+          message={this.state.message}
+          variant={this.state.variant}
+        />
       </Fragment>
     );
   }
