@@ -17,6 +17,7 @@
 .env.production.local
 .idea
 *.ignoreme*
+src/config.js
 
 npm-debug.log*
 yarn-debug.log*

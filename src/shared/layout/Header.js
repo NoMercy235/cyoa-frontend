@@ -11,7 +11,11 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { styles } from '../layout/Styles';
 import Button from '@material-ui/core/Button';
 import AuthenticationModal from '../components/authentication/AuthenticationModal';
+import { inject, observer } from 'mobx-react';
+import { appPropTypes } from '../store/AppStore';
 
+@inject('appStore')
+@observer
 class Header extends Component {
   constructor (props) {
     super(props);
@@ -26,8 +30,33 @@ class Header extends Component {
     this.setState({ modalOpen: false });
   };
 
+  renderLogin = (props) => {
+    const { drawerOpen, classes } = props;
+    return (
+      <Button
+        className={classNames(!drawerOpen && classes.appLoginButton)}
+        onClick={this.onShowLoginModal}
+        color="inherit"
+      >
+        Login
+      </Button>
+    );
+  };
+
+  renderLogout = (props) => {
+    const { drawerOpen, classes } = props;
+    return (
+      <Button
+        className={classNames(!drawerOpen && classes.appLoginButton)}
+        color="inherit"
+      >
+        Logout
+      </Button>
+    );
+  };
+
   render() {
-    const { classes, drawerOpen } = this.props;
+    const { classes, drawerOpen, appStore } = this.props;
 
     return (
       <Fragment>
@@ -55,13 +84,10 @@ class Header extends Component {
             >
               Choose your own adventure!
             </Typography>
-            <Button
-              className={classNames(!drawerOpen && classes.appLoginButton)}
-              onClick={this.onShowLoginModal}
-              color="inherit"
-            >
-              Login
-            </Button>
+            {appStore.isLoggedIn
+              ? this.renderLogout(this.props)
+              : this.renderLogin(this.props)
+            }
           </Toolbar>
         </AppBar>
 
@@ -79,6 +105,7 @@ Header.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
   onHandleDrawerOpened: PropTypes.func.isRequired,
+  appStore: appPropTypes,
 };
 
 export default withStyles(styles, { withTheme: true })(Header);

@@ -13,7 +13,11 @@ import AuthenticationActions from './AuthenticationActions';
 import { NoAccount } from './NoAccount';
 import { HasAccount } from './HasAccount';
 import RegisterForm from './RegisterForm';
+import { authService } from './AuthenticationService';
+import { inject } from 'mobx-react';
+import { UserModel } from '../../domain/models/UserModel';
 
+@inject('appStore')
 class AuthenticationModal extends Component {
   state = {
     isLoggingIn: true,
@@ -56,17 +60,22 @@ class AuthenticationModal extends Component {
     return (
       <Fragment>
         <Formik
-          initialValues={{ username: '', password: '', repeatPassword: '' }}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
+          initialValues={{ email: '', password: '', repeatPassword: '' }}
+          onSubmit={async (values, { setSubmitting }) => {
+            try {
+              const response = await authService.login(values);
+              this.props.appStore.setUser(
+                new UserModel(response.user)
+              );
+              this.props.onClose();
+            } finally {
               setSubmitting(false);
-            }, 500);
+            }
           }}
           validate={values => {
             let errors = {};
-            if (!values.username) {
-              errors.username = 'This field is required';
+            if (!values.email) {
+              errors.email = 'This field is required';
             }
             if (!values.password) {
               errors.password = 'This field is required';

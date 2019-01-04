@@ -12,16 +12,16 @@ class RegisterForm extends Component {
     return (
       <Form noValidate>
         <Field
-          name="username"
+          name="email"
           required
           render={({ field }) => {
             return <TextField
               {...field}
-              label="Username"
+              label="Email"
               fullWidth
-              helperText={formik.errors.username}
-              error={!!formik.errors.username}
-              value={formik.values.username}
+              helperText={formik.errors.email}
+              error={!!formik.errors.email}
+              value={formik.values.email}
             />;
           }}
         />
