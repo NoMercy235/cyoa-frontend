@@ -8,6 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import Exit from '@material-ui/icons/ExitToAppRounded';
 import { styles } from './Styles';
 import Button from '@material-ui/core/Button';
 import AuthenticationModal from '../authentication/AuthenticationModal';
@@ -50,7 +51,7 @@ class Header extends Component {
         className={classNames(!drawerOpen && classes.appLoginButton)}
         color="inherit"
       >
-        Logout
+        <Exit />
       </Button>
     );
   };
