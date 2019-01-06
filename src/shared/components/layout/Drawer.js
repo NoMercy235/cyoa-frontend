@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import UIDrawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -12,8 +12,48 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import { styles } from './Styles';
+import { withRouter } from 'react-router-dom';
+import { inject, observer } from 'mobx-react';
+import { appPropTypes } from '../../store/AppStore';
 
+const publicMenu = [
+  {
+    name: 'home',
+    label: 'Home',
+    route: '/',
+    icon: <HomeIcon />,
+  },
+];
+
+const adminMenu = [
+  {
+    name: 'myStories',
+    label: 'My stories',
+    route: '/admin/stories',
+    icon: undefined,
+    condition: (appStore) => appStore.isLoggedIn,
+  },
+];
+
+@inject('appStore')
+@observer
 class Drawer extends Component {
+  onItemClick = (item, history) => () => {
+    history.push(item.route);
+    this.props.onHandleDrawerClose();
+  };
+
+  renderItem = (item) => {
+    const Item = withRouter(({ history }) => (
+      <ListItem button onClick={this.onItemClick(item, history)}>
+        {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
+        <ListItemText primary={item.label} />
+      </ListItem>
+    ));
+
+    return <Item key={item.name} />;
+  };
+
   render() {
     const { classes, theme, open } = this.props;
 
@@ -35,14 +75,14 @@ class Drawer extends Component {
           </div>
           <Divider />
           <List>
-            {['Home', 'Starred', 'Send email', 'Drafts'].map((text) => (
-              <ListItem button key={text}>
-                <ListItemIcon><HomeIcon /></ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
+            {publicMenu.map(this.renderItem)}
           </List>
           <Divider />
+          <List>
+            {adminMenu
+              .filter(item => item.condition(this.props.appStore))
+              .map(this.renderItem)}
+          </List>
         </UIDrawer>
       </Fragment>
     );
@@ -54,6 +94,7 @@ Drawer.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
   onHandleDrawerClose: PropTypes.func.isRequired,
+  appStore: appPropTypes,
 };
 
 export default withStyles(styles, { withTheme: true })(Drawer);

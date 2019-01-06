@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import LandingRoute from '../../../landing/view/LandingRoute';
 import { withDefaultLayout } from '../../hoc/DefaultLayout';
+import AdminRoute from '../../../admin/AdminRoute';
 
 class IndexRoute extends Component {
   render() {
     return (
-      <BrowserRouter>
-        <Switch>
-          <Route exact path='/' component={LandingRoute} />
-          <Redirect to='/' />
-        </Switch>
-      </BrowserRouter>
+      <Switch>
+        <Route exact path='/' component={LandingRoute} />
+        <Route path='/admin' component={AdminRoute} />
+        <Redirect to='/' />
+      </Switch>
     );
   }
 }
