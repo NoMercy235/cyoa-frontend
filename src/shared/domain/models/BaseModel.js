@@ -1,9 +1,11 @@
 export class BaseModel {
   static handleError(e) {
-    if (!e.errors) return e.message;
-    return Object.keys(e.errors)
-      .filter(key => !key.startsWith('_'))
-      .map(key => e.errors[key].message)
-      .join('. ');
+    // Error set by the server
+    if (e.message) return e.message;
+
+    // Duplicate key error set by Mongo.
+    if (e.code && e.code === 11000) {
+      return `Duplicate value: ${e.errmsg.match(/"[\s\S]+"/)[0]}`;
+    }
   }
 }
