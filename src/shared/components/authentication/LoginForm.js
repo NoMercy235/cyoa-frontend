@@ -31,6 +31,7 @@ class LoginForm extends Component {
           render={({ field }) => {
             return <TextField
               {...field}
+              type="password"
               label="Password"
               fullWidth
               helperText={formik.errors.password}
