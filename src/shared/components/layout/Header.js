@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button';
 import AuthenticationModal from '../authentication/AuthenticationModal';
 import { inject, observer } from 'mobx-react';
 import { appPropTypes } from '../../store/AppStore';
+import { withRouter } from 'react-router-dom';
 
 @inject('appStore')
 @observer
@@ -31,6 +32,13 @@ class Header extends Component {
     this.setState({ modalOpen: false });
   };
 
+  onHandleLogout = (history) => () => {
+    this.props.appStore.setUser(null);
+    localStorage.removeItem('jwt');
+    localStorage.removeItem('user');
+    history.replace('/');
+  };
+
   renderLogin = (props) => {
     const { drawerOpen, classes } = props;
     return (
@@ -46,14 +54,16 @@ class Header extends Component {
 
   renderLogout = (props) => {
     const { drawerOpen, classes } = props;
-    return (
+    const Logout = withRouter(({ history }) => (
       <Button
         className={classNames(!drawerOpen && classes.appLoginButton)}
+        onClick={this.onHandleLogout(history)}
         color="inherit"
       >
         <Exit />
       </Button>
-    );
+    ));
+    return <Logout />;
   };
 
   render() {

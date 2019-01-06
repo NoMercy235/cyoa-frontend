@@ -10,6 +10,16 @@ export class BaseService {
       },
     });
 
+    this.client.interceptors.request.use(
+      config => {
+        const jwt = localStorage.getItem('jwt');
+        if (jwt) {
+          config.headers.append('Authorization', `Bearer ${jwt}`);
+        }
+        return config;
+      },
+    );
+
     this.client.interceptors.response.use(
       null,
       err => { throw err.response.data; },

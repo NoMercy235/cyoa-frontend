@@ -3,6 +3,13 @@ import { action, computed, observable } from 'mobx';
 import { UserModel } from '../domain/models/UserModel';
 
 class AppStore {
+  constructor () {
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.user = JSON.parse(user);
+    }
+  }
+
   @observable user;
 
   @action setUser(user) {

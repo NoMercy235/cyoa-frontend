@@ -41,20 +41,23 @@ class AuthenticationModal extends Component {
       : 'Register successful!';
   };
 
-  login = async (values) => {
-    const response = await authService.login(values);
+  authenticate = response => {
+    localStorage.setItem('jwt', response.token);
+    localStorage.setItem('user', JSON.stringify(response.user));
     this.props.appStore.setUser(
       new UserModel(response.user)
     );
     this.props.onClose();
   };
 
+  login = async (values) => {
+    const response = await authService.login(values);
+    this.authenticate(response);
+  };
+
   register = async (values) => {
     const response = await authService.register(values);
-    this.props.appStore.setUser(
-      new UserModel(response.user)
-    );
-    this.props.onClose();
+    this.authenticate(response);
   };
 
   renderTitle() {
