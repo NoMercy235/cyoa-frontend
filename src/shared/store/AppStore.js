@@ -21,7 +21,7 @@ class AppStore {
   }
 }
 
-export const appPropTypes = PropTypes.shape({
+export const appStorePropTypes = PropTypes.shape({
   user: PropTypes.instanceOf(UserModel),
 
   setUser: PropTypes.func,

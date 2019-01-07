@@ -6,7 +6,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
-import { CollectionModel } from '../../domain/CollectionModel';
+import { CollectionModel } from '../../domain/models/CollectionModel';
 import classNames from 'classnames';
 import { styles as tableStyles } from '../../style/TableCmp.css';
 import { styles as collectionsTableStyles } from '../../style/CollectionsTableCmp.css';

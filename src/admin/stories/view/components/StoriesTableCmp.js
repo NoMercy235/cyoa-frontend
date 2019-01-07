@@ -8,22 +8,9 @@ import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import { styles as storiesTableStyles } from '../../style/StoriesTableCmp.css';
 import { styles as tableStyles } from '../../style/TableCmp.css';
-import { StoryModel } from '../../domain/StoryModel';
+import { StoryModel } from '../../domain/models/StoryModel';
 import classNames from 'classnames';
 import { TableCell } from './TableCell';
-
-let id = 0;
-function createData(name, tags, created_at) {
-  id += 1;
-  return new StoryModel({ _id: id, name, tags, created_at });
-}
-
-const rows = [
-  createData('Heroine', ['test', 'me'], 'azi'),
-  createData('The frozen lake', ['test', 'me'], 'azi'),
-  createData('WIldest dreams', ['test', 'me'], 'azi'),
-];
-
 
 class StoriesTableCmp extends Component {
   render() {
@@ -40,7 +27,7 @@ class StoriesTableCmp extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row =>
+            {this.props.stories.map(row =>
               <TableRow className={classes.row} key={row._id}>
                 <TableCell component="th" scope="row">
                   {row.name}
@@ -58,6 +45,7 @@ class StoriesTableCmp extends Component {
 
 StoriesTableCmp.propTypes = {
   classes: PropTypes.object,
+  stories: PropTypes.arrayOf(PropTypes.shape(StoryModel)),
 };
 
 export default withStyles(theme => ({

@@ -14,7 +14,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import { styles } from './Styles';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
-import { appPropTypes } from '../../store/AppStore';
+import { appStorePropTypes } from '../../store/AppStore';
 
 const publicMenu = [
   {
@@ -94,7 +94,7 @@ Drawer.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
   onHandleDrawerClose: PropTypes.func.isRequired,
-  appStore: appPropTypes,
+  appStore: appStorePropTypes,
 };
 
 export default withStyles(styles, { withTheme: true })(Drawer);

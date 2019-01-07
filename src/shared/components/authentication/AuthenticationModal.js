@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { styles } from './Authentication.css';
 import LoginForm from './LoginForm';
-import { appPropTypes } from '../../store/AppStore';
+import { appStorePropTypes } from '../../store/AppStore';
 import Dialog from '@material-ui/core/Dialog';
 import { DialogTitle } from '../dialog/Title';
 import { DialogContent } from '../dialog/Content';
@@ -163,7 +163,7 @@ AuthenticationModal.propTypes = {
   classes: PropTypes.object,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  appStore: appPropTypes,
+  appStore: appStorePropTypes,
 };
 
 export default withStyles(styles, { withTheme: true })(AuthenticationModal);

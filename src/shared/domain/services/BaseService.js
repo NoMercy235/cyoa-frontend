@@ -1,5 +1,6 @@
 import * as axios from 'axios';
 import { config } from '../../../config';
+import { Utils } from '@nomercy235/utils';
 
 export class BaseService {
   constructor() {
@@ -14,7 +15,7 @@ export class BaseService {
       config => {
         const jwt = localStorage.getItem('jwt');
         if (jwt) {
-          config.headers.append('Authorization', `Bearer ${jwt}`);
+          config.headers['authorization'] = `Bearer ${jwt}`;
         }
         return config;
       },
@@ -22,7 +23,12 @@ export class BaseService {
 
     this.client.interceptors.response.use(
       null,
-      err => { throw err.response.data; },
+      err => {
+        // Redirect to the landing page and set an error descriptor
+        // TODO: show some kind of an error? hold the request and prompt the user to authenticate?
+        window.location = '/?loginError=true';
+        throw Utils.safeAccess(err, 'response.data') || err;
+      },
     );
   }
 }

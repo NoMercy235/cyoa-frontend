@@ -13,7 +13,7 @@ import { styles } from './Styles';
 import Button from '@material-ui/core/Button';
 import AuthenticationModal from '../authentication/AuthenticationModal';
 import { inject, observer } from 'mobx-react';
-import { appPropTypes } from '../../store/AppStore';
+import { appStorePropTypes } from '../../store/AppStore';
 import { withRouter } from 'react-router-dom';
 
 @inject('appStore')
@@ -116,7 +116,7 @@ Header.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
   onHandleDrawerOpened: PropTypes.func.isRequired,
-  appStore: appPropTypes,
+  appStore: appStorePropTypes,
 };
 
 export default withStyles(styles, { withTheme: true })(Header);

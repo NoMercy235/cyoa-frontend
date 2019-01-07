@@ -4,7 +4,7 @@ import LandingRoute from '../../../landing/view/LandingRoute';
 import { withDefaultLayout } from '../../hoc/DefaultLayout';
 import AdminRoute from '../../../admin/AdminRoute';
 import { inject, observer } from 'mobx-react';
-import { appPropTypes } from '../../store/AppStore';
+import { appStorePropTypes } from '../../store/AppStore';
 import withAuth from '../../hoc/AuthRoute';
 
 @inject('appStore')
@@ -22,7 +22,7 @@ class IndexRoute extends Component {
 }
 
 IndexRoute.propTypes = {
-  appStore: appPropTypes,
+  appStore: appStorePropTypes,
 };
 
 export default withRouter(withDefaultLayout(IndexRoute));
