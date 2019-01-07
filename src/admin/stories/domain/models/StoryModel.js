@@ -1,4 +1,5 @@
 import { BaseModel } from '../../../../shared/domain/models/BaseModel';
+import * as moment from 'moment';
 
 export class StoryModel extends BaseModel {
   _id;
@@ -12,6 +13,14 @@ export class StoryModel extends BaseModel {
   constructor(metadata) {
     super();
     Object.assign(this, metadata);
+    if (this.created_at) {
+      this.created_at = moment(this.created_at);
+    }
+  }
+
+  get createdAt() {
+    if (!this.created_at) return '';
+    return this.created_at.format('DD-MM-YYYY HH:mm');
   }
 
   static getTableColumns() {

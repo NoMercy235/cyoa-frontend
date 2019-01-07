@@ -5,14 +5,18 @@ import classes from '../../style/StoryContainer.module.scss';
 import { storyService } from '../../domain/services/StoryService';
 import { inject, observer } from 'mobx-react';
 import { storyStorePropTypes } from '../../domain/stores/StoryStore';
+import { StoryModel } from '../../domain/models/StoryModel';
 
 @inject('storyStore')
 @observer
 class StoryContainer extends Component {
+  async fetchStories() {
+    const stories = (await storyService.list()).map(s => new StoryModel(s));
+    this.props.storyStore.setStories(stories);
+  }
+
   componentDidMount () {
-    storyService.list().then(stories => {
-      this.props.storyStore.setStories(stories);
-    });
+    this.fetchStories();
   }
 
   render() {

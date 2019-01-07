@@ -33,7 +33,7 @@ class StoriesTableCmp extends Component {
                   {row.name}
                 </TableCell>
                 <TableCell align="right">{row.tags.join(', ')}</TableCell>
-                <TableCell align="right">{row.created_at}</TableCell>
+                <TableCell align="right">{row.createdAt}</TableCell>
               </TableRow>
             )}
           </TableBody>
