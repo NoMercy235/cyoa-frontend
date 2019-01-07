@@ -1,11 +1,13 @@
 import React, { Component, Fragment } from 'react';
-import CollectionsTableCmp from '../components/CollectionsTableCmp';
-import StoriesTableCmp from '../components/StoriesTableCmp';
+import CollectionsTableCmp from '../components/tables/CollectionsTableCmp';
+import StoriesTableCmp from '../components/tables/StoriesTableCmp';
 import classes from '../../style/StoryContainer.module.scss';
 import { storyService } from '../../domain/services/StoryService';
 import { inject, observer } from 'mobx-react';
 import { storyStorePropTypes } from '../../domain/stores/StoryStore';
 import { StoryModel } from '../../domain/models/StoryModel';
+import NewStory from '../components/actions/NewStory';
+import ActionBar from '../../../../shared/components/ActionBar';
 
 @inject('storyStore')
 @observer
@@ -23,8 +25,15 @@ class StoryContainer extends Component {
     return (
       <Fragment>
         <div className={classes.tableContainer}>
-          <CollectionsTableCmp />
-          <StoriesTableCmp stories={this.props.storyStore.stories} />
+          <div className={classes.collectionsContainer}>
+            <CollectionsTableCmp />
+          </div>
+          <div className={classes.storiesContainer}>
+            <ActionBar>
+              <NewStory />
+            </ActionBar>
+            <StoriesTableCmp stories={this.props.storyStore.stories} />
+          </div>
         </div>
       </Fragment>
     );

@@ -6,34 +6,45 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
-import { styles as storiesTableStyles } from '../../style/StoriesTableCmp.css';
-import { styles as tableStyles } from '../../style/TableCmp.css';
-import { StoryModel } from '../../domain/models/StoryModel';
+import { CollectionModel } from '../../../domain/models/CollectionModel';
 import classNames from 'classnames';
+import { styles as tableStyles } from '../../../style/TableCmp.css';
+import { styles as collectionsTableStyles } from '../../../style/CollectionsTableCmp.css';
 import { TableCell } from './TableCell';
 
-class StoriesTableCmp extends Component {
+let id = 0;
+function createData(name, tags, created_at) {
+  id += 1;
+  return new CollectionModel({ _id: id, name, tags, created_at });
+}
+
+const rows = [
+  createData('Heroine', ['test', 'me'], 'azi'),
+  createData('The frozen lake', ['test', 'me'], 'azi'),
+  createData('WIldest dreams', ['test', 'me'], 'azi'),
+];
+
+
+class CollectionsTableCmp extends Component {
   render() {
     const { classes } = this.props;
 
     return (
-      <Paper className={classNames(classes.root, classes.storiesTable)}>
+      <Paper className={classNames(classes.root, classes.collectionsTable)}>
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              {StoryModel.getTableColumns().map((column, i) =>
+              {CollectionModel.getTableColumns().map((column, i) =>
                 <TableCell key={i}>{column.label}</TableCell>
               )}
             </TableRow>
           </TableHead>
           <TableBody>
-            {this.props.stories.map(row =>
+            {rows.map(row =>
               <TableRow className={classes.row} key={row._id}>
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>
-                <TableCell align="right">{row.tags.join(', ')}</TableCell>
-                <TableCell align="right">{row.createdAt}</TableCell>
               </TableRow>
             )}
           </TableBody>
@@ -43,12 +54,11 @@ class StoriesTableCmp extends Component {
   }
 }
 
-StoriesTableCmp.propTypes = {
+CollectionsTableCmp.propTypes = {
   classes: PropTypes.object,
-  stories: PropTypes.arrayOf(PropTypes.shape(StoryModel)),
 };
 
 export default withStyles(theme => ({
   ...tableStyles(theme),
-  ...storiesTableStyles(theme),
-}))(StoriesTableCmp);
+  ...collectionsTableStyles(theme),
+}))(CollectionsTableCmp);

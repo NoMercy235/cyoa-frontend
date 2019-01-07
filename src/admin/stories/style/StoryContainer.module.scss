@@ -10,8 +10,20 @@
     flex-direction: row;
     flex-wrap: wrap;
 
-    div[class*="TableCmp"]:not(:last-of-type) {
+    div[class*="Container"]:not(:last-of-type) {
       margin-right: 10px;
     }
   }
+}
+
+.collectionsContainer {
+  display: flex;
+  flex: 1 1;
+}
+
+.storiesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 2 2;
 }
