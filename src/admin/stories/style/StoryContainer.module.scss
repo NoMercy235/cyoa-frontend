@@ -1,0 +1,17 @@
+.tableContainer {
+  width: 100%;
+  display: flex;
+
+  @media screen and (max-width:1070px) {
+    flex-direction: column;
+  }
+
+  @media screen and (min-width:1071px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    div[class*="TableCmp"]:not(:last-of-type) {
+      margin-right: 10px;
+    }
+  }
+}

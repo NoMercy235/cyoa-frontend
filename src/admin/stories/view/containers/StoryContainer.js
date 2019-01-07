@@ -1,10 +1,17 @@
-import React, { Component } from 'react';
-import StoryCmp from '../components/StoryCmp';
+import React, { Component, Fragment } from 'react';
+import CollectionsTableCmp from '../components/CollectionsTableCmp';
+import StoriesTableCmp from '../components/StoriesTableCmp';
+import classes from '../../style/StoryContainer.module.scss';
 
 class StoryContainer extends Component {
   render() {
     return (
-      <StoryCmp />
+      <Fragment>
+        <div className={classes.tableContainer}>
+          <CollectionsTableCmp />
+          <StoriesTableCmp />
+        </div>
+      </Fragment>
     );
   }
 }
