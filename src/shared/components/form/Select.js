@@ -8,6 +8,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import FormControl from '@material-ui/core/FormControl';
 import { TagModel } from '../../../admin/stories/domain/models/TagModel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import { withStyles } from '@material-ui/core';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -64,6 +66,7 @@ class Select extends Component {
             <Input
               id="select-multiple-checkbox"
               {...this.props.formikField}
+              error={!!this.props.helperText}
             />
           }
           renderValue={selected => {
@@ -87,6 +90,11 @@ class Select extends Component {
             );
           })}
         </MuiSelect>
+        <FormHelperText
+          className={this.props.classes.helperText}
+        >
+          {this.props.helperText}
+        </FormHelperText>
       </FormControl>
     );
   }
@@ -95,8 +103,14 @@ class Select extends Component {
 Select.propTypes = {
   formikField: PropTypes.object.isRequired,
   label: PropTypes.string,
+  helperText: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.shape(TagModel)),
   className: PropTypes.string,
+  classes: PropTypes.object.isRequired,
 };
 
-export default Select;
+export default withStyles(theme => ({
+  helperText: {
+    color: theme.palette.error.main,
+  },
+}))(Select);

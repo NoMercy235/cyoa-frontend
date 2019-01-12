@@ -13,6 +13,7 @@ import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
 import { styles } from './SaveStory.css';
 import SaveStoryForm from './SaveStoryForm';
 import SaveStoryActions from './SaveStoryActions';
+import { storyService } from '../../../../domain/services/StoryService';
 
 @inject('appStore')
 class SaveStoryModal extends Component {
@@ -37,20 +38,21 @@ class SaveStoryModal extends Component {
         <Formik
           initialValues={new StoryModel()}
           onSubmit={async (values, { setSubmitting }) => {
+            let message = 'Story saved!';
+            let variant = 'success';
             try {
-              this.onChangeState({
-                variant: 'success',
-                open: true,
-                message: this.getSnackbarText(),
-              })();
+              await storyService.save(StoryModel.forApi(values));
+              this.props.onClose();
             } catch (e) {
-              this.onChangeState({
-                variant: 'error',
-                open: true,
-                message: BaseModel.handleError(e),
-              })();
+              variant = 'error';
+              message = BaseModel.handleError(e);
             } finally {
               setSubmitting(false);
+              this.onChangeState({
+                open: true,
+                variant,
+                message,
+              })();
             }
           }}
           validate={values => {

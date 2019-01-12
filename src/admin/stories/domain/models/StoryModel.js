@@ -2,13 +2,13 @@ import { BaseModel } from '../../../../shared/domain/models/BaseModel';
 import * as moment from 'moment';
 
 export class StoryModel extends BaseModel {
-  _id;
-  name;
-  description;
-  tags;
-  author;
-  startSeq;
-  created_at;
+  _id = '';
+  name = '';
+  description = '';
+  tags = [];
+  author = '';
+  startSeq = '';
+  created_at = '';
 
   constructor(metadata) {
     super();
@@ -28,7 +28,22 @@ export class StoryModel extends BaseModel {
     if (!this.name) {
       errors.name = 'This field is required';
     }
+    if (!this.description) {
+      errors.description = 'This field is required';
+    }
+    if (!this.tags || !this.tags.length) {
+      errors.tags = 'This field is required';
+    }
     return errors;
+  }
+
+  static forApi(story) {
+    return {
+      name: story.name,
+      description: story.description,
+      tags: story.tags,
+      startSeq: story.startSeq,
+    };
   }
 
   static getTableColumns() {

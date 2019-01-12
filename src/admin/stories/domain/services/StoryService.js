@@ -12,6 +12,16 @@ class StoryService extends BaseService {
       throw e;
     }
   }
+
+  async save(story) {
+    try {
+      const response = await this.client.post(this.endpoint, story);
+      return response.data;
+    } catch (e) {
+      // Show toaster or something
+      throw e;
+    }
+  }
 }
 
 export const storyService = new StoryService();

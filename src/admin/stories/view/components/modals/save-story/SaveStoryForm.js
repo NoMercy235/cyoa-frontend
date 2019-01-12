@@ -37,6 +37,7 @@ class SaveStoryForm extends Component {
                   className={classes.tags}
                   formikField={field}
                   label="Tag"
+                  helperText={formik.errors.tags}
                 />
               );
             }}
