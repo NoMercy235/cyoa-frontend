@@ -24,10 +24,12 @@ export class BaseService {
     this.client.interceptors.response.use(
       null,
       err => {
-        // Redirect to the landing page and set an error descriptor
+        // Redirect to the landing page and set an error descriptor if the response is 'Unauthorized'
         // TODO: show some kind of an error? hold the request and prompt the user to authenticate?
-        window.location = '/?loginError=true';
-        throw Utils.safeAccess(err, 'response.data') || err;
+        if (err.response.status === 401) {
+          window.location = '/?loginError=true';
+          throw Utils.safeAccess(err, 'response.data') || err;
+        }
       },
     );
   }
