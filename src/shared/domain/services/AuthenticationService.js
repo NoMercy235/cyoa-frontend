@@ -6,7 +6,6 @@ class AuthenticationService extends BaseService {
       const response = await this.client.post('auth/authenticate', metadata);
       return response.data;
     } catch (e) {
-      // Show toaster or something
       throw e;
     }
   }
@@ -16,7 +15,6 @@ class AuthenticationService extends BaseService {
       const response = await this.client.post('auth/register', metadata);
       return response.data;
     } catch (e) {
-      // Show toaster or something
       throw e;
     }
   }

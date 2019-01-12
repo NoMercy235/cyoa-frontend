@@ -4,6 +4,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import { styles } from './Authentication.css';
 import { Field, Form } from 'formik';
 import TextField from '@material-ui/core/TextField';
+import { hasError } from '../form/helpers';
 
 class LoginForm extends Component {
   render() {
@@ -19,9 +20,8 @@ class LoginForm extends Component {
               {...field}
               label="Email"
               fullWidth
-              helperText={formik.errors.email}
-              error={!!formik.errors.email}
               value={formik.values.email}
+              {...hasError(formik, 'email')}
             />;
           }}
         />
@@ -34,9 +34,8 @@ class LoginForm extends Component {
               type="password"
               label="Password"
               fullWidth
-              helperText={formik.errors.password}
-              error={!!formik.errors.password}
               value={formik.values.password}
+              {...hasError(formik, 'password')}
             />;
           }}
         />

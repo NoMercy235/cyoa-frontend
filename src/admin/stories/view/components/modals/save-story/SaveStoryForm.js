@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core';
 import Select from '../../../../../../shared/components/form/Select';
 import { styles } from './SaveStory.css';
+import { hasError } from '../../../../../../shared/components/form/helpers';
 
 
 class SaveStoryForm extends Component {
@@ -22,9 +23,8 @@ class SaveStoryForm extends Component {
                 {...field}
                 label="Name"
                 className={classes.name}
-                helperText={formik.errors.name}
-                error={!!formik.errors.name}
                 value={formik.values.name}
+                {...hasError(formik, 'name')}
               />;
             }}
           />
@@ -37,7 +37,7 @@ class SaveStoryForm extends Component {
                   className={classes.tags}
                   formikField={field}
                   label="Tag"
-                  helperText={formik.errors.tags}
+                  {...hasError(formik, 'tags')}
                 />
               );
             }}
@@ -54,9 +54,8 @@ class SaveStoryForm extends Component {
               fullWidth
               multiline
               rows={3}
-              helperText={formik.errors.description}
-              error={!!formik.errors.description}
               value={formik.values.description}
+              {...hasError(formik, 'description')}
             />;
           }}
         />
