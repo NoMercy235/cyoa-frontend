@@ -41,7 +41,7 @@ class CollectionsTableCmp extends Component {
           </TableHead>
           <TableBody>
             {rows.map(row =>
-              <TableRow className={classes.row} key={row._id}>
+              <TableRow className={classes.row} key={row._id} hover={true}>
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>

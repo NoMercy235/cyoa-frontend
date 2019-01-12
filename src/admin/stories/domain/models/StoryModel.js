@@ -23,6 +23,14 @@ export class StoryModel extends BaseModel {
     return this.created_at.format('DD-MM-YYYY HH:mm');
   }
 
+  checkErrors() {
+    let errors = {};
+    if (!this.name) {
+      errors.name = 'This field is required';
+    }
+    return errors;
+  }
+
   static getTableColumns() {
     return [
       { label: 'Name', sortable: false },
