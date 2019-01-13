@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Header from '../components/layout/Header';
+import Header from '../components/layout/header/Header';
 import classNames from 'classnames';
 import Drawer from '../components/layout/Drawer';
 import { styles } from '../components/layout/Styles';
