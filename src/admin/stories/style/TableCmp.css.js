@@ -3,6 +3,7 @@ export const styles = theme => ({
     width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
+    flex: '1 1',
   },
   table: {
     [theme.breakpoints.down('sm')]: {

@@ -8,6 +8,7 @@ import { storyStorePropTypes } from '../../domain/stores/StoryStore';
 import { StoryModel } from '../../domain/models/StoryModel';
 import NewStory from '../components/actions/NewStory';
 import ActionBar from '../../../../shared/components/ActionBar';
+import NewCollection from '../components/actions/NewCollection';
 
 @inject('storyStore')
 @observer
@@ -26,6 +27,9 @@ class StoryContainer extends Component {
       <Fragment>
         <div className={classes.tableContainer}>
           <div className={classes.collectionsContainer}>
+            <ActionBar>
+              <NewCollection />
+            </ActionBar>
             <CollectionsTableCmp />
           </div>
           <div className={classes.storiesContainer}>
