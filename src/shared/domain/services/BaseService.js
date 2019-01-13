@@ -28,7 +28,11 @@ export class BaseService {
       err => {
         // Redirect to the landing page and set an error descriptor if the response is 'Unauthorized'
         // TODO: show some kind of an error? hold the request and prompt the user to authenticate?
-        if (err.response.status === 401 && !err.response.config.url.match(/auth\/authenticate$/)) {
+        if (
+          err.response.status === 401 &&
+          !err.response.config.url.match(/auth\/authenticate$/) &&
+          window.location.pathname !== '/'
+        ) {
           window.location = '/?loginError=true';
         }
 
