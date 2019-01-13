@@ -11,8 +11,20 @@ import { styles as tableStyles } from '../../../style/TableCmp.css';
 import { StoryModel } from '../../../domain/models/StoryModel';
 import classNames from 'classnames';
 import { TableCell } from './TableCell';
+import { TagModel } from '../../../../../shared/domain/models/TagModel';
 
 class StoriesTableCmp extends Component {
+  tags = TagModel.get();
+
+  renderTags(tags) {
+    return tags
+      .map(st => {
+        const tag = this.tags.find(t => t._id === st);
+        return tag ? tag.name : st;
+      })
+      .join(', ');
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -32,7 +44,7 @@ class StoriesTableCmp extends Component {
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>
-                <TableCell align="right">{row.tags.join(', ')}</TableCell>
+                <TableCell align="right">{this.renderTags(row.tags)}</TableCell>
                 <TableCell align="right">{row.createdAt}</TableCell>
               </TableRow>
             )}

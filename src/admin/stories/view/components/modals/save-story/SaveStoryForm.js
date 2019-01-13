@@ -6,9 +6,11 @@ import { withStyles } from '@material-ui/core';
 import Select from '../../../../../../shared/components/form/Select';
 import { styles } from './SaveStory.css';
 import { hasError } from '../../../../../../shared/components/form/helpers';
-
+import { TagModel } from '../../../../../../shared/domain/models/TagModel';
 
 class SaveStoryForm extends Component {
+  tags = TagModel.get();
+
   render() {
     const { formik, classes } = this.props;
 
@@ -37,6 +39,7 @@ class SaveStoryForm extends Component {
                   className={classes.tags}
                   formikField={field}
                   label="Tag"
+                  items={this.tags}
                   {...hasError(formik, 'tags')}
                 />
               );

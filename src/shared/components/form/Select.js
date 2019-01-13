@@ -7,7 +7,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import FormControl from '@material-ui/core/FormControl';
-import { TagModel } from '../../../admin/stories/domain/models/TagModel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { withStyles } from '@material-ui/core';
 
@@ -22,78 +21,58 @@ const MenuProps = {
   },
 };
 
-let id = 1;
-function createTag(metadata) {
-  return new TagModel({
-    _id: id++,
-    name: metadata.toLowerCase().replace(/\s/g, '_'),
-    label: metadata,
-  });
-}
-
-const tags = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-].map(createTag);
-
 class Select extends Component {
   state = {
-    selectedTags: [],
+    selected: [],
   };
 
   handleChange = e => {
-    this.setState({ selectedTags: e.target.value });
+    this.setState({ selected: e.target.value });
     this.props.formikField.onChange(e);
   };
 
   render() {
+    const { className, label, items, formikField, helperText, classes } = this.props;
+
     return (
-      <FormControl className={this.props.className}>
-        <InputLabel htmlFor="select-multiple-checkbox">{this.props.label}</InputLabel>
+      <FormControl className={className}>
+        <InputLabel htmlFor="select-multiple-checkbox">{label}</InputLabel>
         <MuiSelect
           multiple
-          value={this.state.selectedTags}
+          value={this.state.selected}
           onChange={this.handleChange}
           input={
             <Input
               id="select-multiple-checkbox"
-              {...this.props.formikField}
-              error={!!this.props.helperText}
+              {...formikField}
+              error={!!helperText}
             />
           }
           renderValue={selected => {
             return selected
               .map(s => {
-                return tags.find(t => t.name === s);
+                return items.find(t => t._id === s);
               })
-              .map(t => t.label)
+              .map(t => t.name)
               .join(', ');
           }}
           MenuProps={MenuProps}
         >
-          {tags.map(tag => {
+          {items.map(item => {
             return (
-              <MenuItem key={tag._id} value={tag.name}>
+              <MenuItem key={item._id} value={item._id}>
                 <Checkbox
-                  checked={!!this.state.selectedTags.find(t => t === tag.name)}
+                  checked={!!this.state.selected.find(t => t === item._id)}
                 />
-                <ListItemText primary={tag.label} />
+                <ListItemText primary={item.name} />
               </MenuItem>
             );
           })}
         </MuiSelect>
         <FormHelperText
-          className={this.props.classes.helperText}
+          className={classes.helperText}
         >
-          {this.props.helperText}
+          {helperText}
         </FormHelperText>
       </FormControl>
     );
@@ -104,7 +83,10 @@ Select.propTypes = {
   formikField: PropTypes.object.isRequired,
   label: PropTypes.string,
   helperText: PropTypes.string,
-  items: PropTypes.arrayOf(PropTypes.shape(TagModel)),
+  items: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string,
+    name: PropTypes.string,
+  })),
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
 };
