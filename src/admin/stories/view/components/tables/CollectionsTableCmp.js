@@ -12,22 +12,13 @@ import { styles as tableStyles } from '../../../style/TableCmp.css';
 import { styles as collectionsTableStyles } from '../../../style/CollectionsTableCmp.css';
 import { TableCell } from './TableCell';
 
-let id = 0;
-function createData(name, tags, created_at) {
-  id += 1;
-  return new CollectionModel({ _id: id, name, tags, created_at });
-}
-
-const rows = [
-  createData('Heroine', ['test', 'me'], 'azi'),
-  createData('The frozen lake', ['test', 'me'], 'azi'),
-  createData('WIldest dreams', ['test', 'me'], 'azi'),
-];
-
-
 class CollectionsTableCmp extends Component {
   render() {
     const { classes } = this.props;
+    const collections = [
+      new CollectionModel({ name: 'Default' }),
+      ...this.props.collections,
+    ];
 
     return (
       <Paper className={classNames(classes.root, classes.collectionsTable)}>
@@ -40,7 +31,7 @@ class CollectionsTableCmp extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row =>
+            {collections.map(row =>
               <TableRow className={classes.row} key={row._id} hover={true}>
                 <TableCell component="th" scope="row">
                   {row.name}
@@ -56,6 +47,7 @@ class CollectionsTableCmp extends Component {
 
 CollectionsTableCmp.propTypes = {
   classes: PropTypes.object,
+  collections: PropTypes.arrayOf(PropTypes.shape(CollectionModel)),
 };
 
 export default withStyles(theme => ({

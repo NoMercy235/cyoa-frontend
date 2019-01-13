@@ -9,6 +9,8 @@ import { StoryModel } from '../../domain/models/StoryModel';
 import NewStory from '../components/actions/NewStory';
 import ActionBar from '../../../../shared/components/ActionBar';
 import NewCollection from '../components/actions/NewCollection';
+import { collectionService } from '../../domain/services/CollectionService';
+import { CollectionModel } from '../../domain/models/CollectionModel';
 
 @inject('storyStore')
 @observer
@@ -18,8 +20,14 @@ class StoryContainer extends Component {
     this.props.storyStore.setStories(stories);
   }
 
+  async fetchCollections() {
+    const collections = (await collectionService.list()).map(c => new CollectionModel(c));
+    this.props.storyStore.setCollections(collections);
+  }
+
   componentDidMount () {
     this.fetchStories();
+    this.fetchCollections();
   }
 
   render() {
@@ -30,7 +38,7 @@ class StoryContainer extends Component {
             <ActionBar>
               <NewCollection />
             </ActionBar>
-            <CollectionsTableCmp />
+            <CollectionsTableCmp collections={this.props.storyStore.collections} />
           </div>
           <div className={classes.storiesContainer}>
             <ActionBar>
