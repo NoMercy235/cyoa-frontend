@@ -13,6 +13,10 @@ import { styles as collectionsTableStyles } from '../../../style/CollectionsTabl
 import { TableCell } from './TableCell';
 
 class CollectionsTableCmp extends Component {
+  onChangeCollection = (id) => () => {
+    this.props.onChangeCollection(id);
+  };
+
   render() {
     const { classes } = this.props;
     const collections = [
@@ -32,7 +36,12 @@ class CollectionsTableCmp extends Component {
           </TableHead>
           <TableBody>
             {collections.map(row =>
-              <TableRow className={classes.row} key={row._id} hover={true}>
+              <TableRow
+                className={classes.row}
+                key={row._id}
+                hover={true}
+                onClick={this.onChangeCollection(row._id)}
+              >
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>
@@ -48,6 +57,7 @@ class CollectionsTableCmp extends Component {
 CollectionsTableCmp.propTypes = {
   classes: PropTypes.object,
   collections: PropTypes.arrayOf(PropTypes.shape(CollectionModel)),
+  onChangeCollection: PropTypes.func,
 };
 
 export default withStyles(theme => ({

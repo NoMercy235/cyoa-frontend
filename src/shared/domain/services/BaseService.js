@@ -3,6 +3,8 @@ import { config } from '../../../config';
 import { Utils } from '@nomercy235/utils';
 
 export class BaseService {
+  endpoint = '';
+
   constructor() {
     this.client = axios.create({
       baseURL: config.BASE_URL,
@@ -33,5 +35,31 @@ export class BaseService {
         throw Utils.safeAccess(err, 'response.data') || err;
       },
     );
+  }
+
+  async list(filters = {}) {
+    let query = '';
+
+    Object.keys(filters).forEach(key => {
+      const a = encodeURIComponent(`filter[${key}][op]`) + `=${filters[key].op}`;
+      const b = encodeURIComponent(`filter[${key}][value]`) + `=${filters[key].value}`;
+      query += [a, b, ''].join('&');
+    });
+
+    try {
+      const response = await this.client.get(this.endpoint + query);
+      return response.data;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async save(resource) {
+    try {
+      const response = await this.client.post(this.endpoint, resource);
+      return response.data;
+    } catch (e) {
+      throw e;
+    }
   }
 }

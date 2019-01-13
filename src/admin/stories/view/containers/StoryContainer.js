@@ -15,19 +15,27 @@ import { CollectionModel } from '../../domain/models/CollectionModel';
 @inject('storyStore')
 @observer
 class StoryContainer extends Component {
-  async fetchStories() {
-    const stories = (await storyService.list()).map(s => new StoryModel(s));
+  async fetchStories(filters) {
+    const stories = (await storyService.list(filters)).map(s => new StoryModel(s));
     this.props.storyStore.setStories(stories);
   }
 
-  async fetchCollections() {
-    const collections = (await collectionService.list()).map(c => new CollectionModel(c));
+  async fetchCollections(filters) {
+    const collections = (await collectionService.list(filters)).map(c => new CollectionModel(c));
     this.props.storyStore.setCollections(collections);
   }
 
+  onChangeCollection = (colId) => {
+    this.fetchStories(
+      { fromCollection: { op: 'equals', value: colId } }
+    );
+  };
+
   componentDidMount () {
-    this.fetchStories();
     this.fetchCollections();
+    this.fetchStories(
+      { fromCollection: { op: 'equals', value: '' } }
+    );
   }
 
   render() {
@@ -38,7 +46,10 @@ class StoryContainer extends Component {
             <ActionBar>
               <NewCollection />
             </ActionBar>
-            <CollectionsTableCmp collections={this.props.storyStore.collections} />
+            <CollectionsTableCmp
+              collections={this.props.storyStore.collections}
+              onChangeCollection={this.onChangeCollection}
+            />
           </div>
           <div className={classes.storiesContainer}>
             <ActionBar>
