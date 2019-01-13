@@ -6,10 +6,21 @@ import AdminRoute from '../../../admin/AdminRoute';
 import { inject, observer } from 'mobx-react';
 import { appStorePropTypes } from '../../store/AppStore';
 import withAuth from '../../hoc/AuthRoute';
+import { tagService } from '../../domain/services/TagService';
+import { TagModel } from '../../domain/models/TagModel';
 
 @inject('appStore')
 @observer
 class IndexRoute extends Component {
+  async getTags() {
+    const tags = await tagService.list();
+    this.props.appStore.setTags(tags.map(t => new TagModel(t)));
+  }
+
+  componentDidMount () {
+    this.getTags();
+  }
+
   render() {
     return (
       <Switch>
