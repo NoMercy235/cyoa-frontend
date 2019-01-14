@@ -42,7 +42,8 @@ class SaveStoryModal extends Component {
             let message = 'Story saved!';
             let variant = 'success';
             try {
-              await storyService.save(StoryModel.forApi(values));
+              const story = await storyService.save(StoryModel.forApi(values));
+              this.props.storyStore.addStory(story);
               this.props.onClose();
             } catch (e) {
               variant = 'error';

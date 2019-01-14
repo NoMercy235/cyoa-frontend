@@ -13,7 +13,10 @@ import SaveCollectionForm from './SaveCollectionForm';
 import SaveCollectionActions from './SaveCollectionActions';
 import { collectionService } from '../../../../domain/services/CollectionService';
 import { CollectionModel } from '../../../../domain/models/CollectionModel';
+import { inject } from 'mobx-react';
+import { storyStorePropTypes } from '../../../../domain/stores/StoryStore';
 
+@inject('storyStore')
 class SaveCollectionModal extends Component {
   state = {
     // snackbar
@@ -39,7 +42,8 @@ class SaveCollectionModal extends Component {
             let message = 'Collection saved!';
             let variant = 'success';
             try {
-              await collectionService.save(CollectionModel.forApi(values));
+              const collection = await collectionService.save(CollectionModel.forApi(values));
+              this.props.storyStore.addCollection(collection);
               this.props.onClose();
             } catch (e) {
               variant = 'error';
@@ -102,6 +106,7 @@ SaveCollectionModal.propTypes = {
   collection: PropTypes.shape(CollectionModel),
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  storyStore: storyStorePropTypes,
 };
 
 export default withStyles(styles, { withTheme: true })(SaveCollectionModal);

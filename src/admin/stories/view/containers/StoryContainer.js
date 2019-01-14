@@ -47,6 +47,8 @@ class StoryContainer extends Component {
   }
 
   render() {
+    const { stories, collections } = this.props.storyStore;
+
     return (
       <Fragment>
         <div className={classes.tableContainer}>
@@ -54,16 +56,20 @@ class StoryContainer extends Component {
             <ActionBar>
               <NewCollection />
             </ActionBar>
-            <CollectionsTableCmp
-              collections={this.props.storyStore.collections}
-              onChangeCollection={this.onChangeCollection}
-            />
+            {!!collections.length &&
+              <CollectionsTableCmp
+                collections={collections}
+                onChangeCollection={this.onChangeCollection}
+              />
+            }
           </div>
           <div className={classes.storiesContainer}>
             <ActionBar>
               <NewStory />
             </ActionBar>
-            <StoriesTableCmp stories={this.props.storyStore.stories} />
+            {!!stories.length &&
+              <StoriesTableCmp stories={stories}/>
+            }
           </div>
         </div>
       </Fragment>

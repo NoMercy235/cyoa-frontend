@@ -11,8 +11,16 @@ class StoryStore {
     this.stories = stories;
   }
 
+  @action addStory(story) {
+    this.stories.push(story);
+  }
+
   @action setCollections(collections) {
     this.collections = collections;
+  }
+
+  @action addCollection(collection) {
+    this.collections.push(collection);
   }
 }
 
@@ -21,6 +29,7 @@ export const storyStorePropTypes = PropTypes.shape({
   collections: PropTypes.arrayOf(PropTypes.shape(CollectionModel)),
 
   setStories: PropTypes.func,
+  addStory: PropTypes.func,
   setCollections: PropTypes.func,
 });
 
