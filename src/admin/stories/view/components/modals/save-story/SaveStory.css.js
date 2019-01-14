@@ -6,11 +6,11 @@ export const styles = theme => ({
   firstRowContainer: {
     display: 'flex',
   },
-  name: {
+  tags: {
     flex: '1 1',
     paddingRight: theme.spacing.unit,
   },
-  tags: {
+  fromCollection: {
     flex: '1 1',
   },
 });

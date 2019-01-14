@@ -47,7 +47,9 @@ export class BaseService {
     Object.keys(filters).forEach(key => {
       const a = encodeURIComponent(`filter[${key}][op]`) + `=${filters[key].op}`;
       const b = encodeURIComponent(`filter[${key}][value]`) + `=${filters[key].value}`;
-      query += [a, b, ''].join('&');
+      const options = filters[key].options ? JSON.stringify(filters[key].options) : {};
+      const c = encodeURIComponent(`filter[${key}][options]`) + `=${options}`;
+      query += [a, b, c, ''].join('&');
     });
 
     try {

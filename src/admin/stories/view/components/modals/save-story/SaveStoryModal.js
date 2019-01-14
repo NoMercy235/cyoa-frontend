@@ -14,8 +14,9 @@ import { styles } from './SaveStory.css';
 import SaveStoryForm from './SaveStoryForm';
 import SaveStoryActions from './SaveStoryActions';
 import { storyService } from '../../../../domain/services/StoryService';
+import { storyStorePropTypes } from '../../../../domain/stores/StoryStore';
 
-@inject('appStore')
+@inject('storyStore')
 class SaveStoryModal extends Component {
   state = {
     // snackbar
@@ -76,6 +77,7 @@ class SaveStoryModal extends Component {
                   <SaveStoryForm
                     formik={formik}
                     onClose={this.props.onClose}
+                    collections={this.props.storyStore.collections}
                   />
                 </DialogContent>
                 <DialogActions>
@@ -104,6 +106,7 @@ SaveStoryModal.propTypes = {
   story: PropTypes.shape(StoryModel),
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  storyStore: storyStorePropTypes,
 };
 
 export default withStyles(styles, { withTheme: true })(SaveStoryModal);

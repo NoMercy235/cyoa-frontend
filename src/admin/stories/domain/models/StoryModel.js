@@ -9,6 +9,7 @@ export class StoryModel extends BaseModel {
   author = '';
   startSeq = '';
   created_at = '';
+  fromCollection = '';
 
   constructor(metadata) {
     super();
@@ -43,6 +44,7 @@ export class StoryModel extends BaseModel {
       description: story.description,
       tags: story.tags,
       startSeq: story.startSeq,
+      fromCollection: story.fromCollection,
     };
   }
 

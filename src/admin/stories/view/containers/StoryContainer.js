@@ -25,17 +25,25 @@ class StoryContainer extends Component {
     this.props.storyStore.setCollections(collections);
   }
 
+  getStoryFilter(value) {
+    return {
+      fromCollection: {
+        op: 'equals',
+        value,
+        options: {
+          allowEmpty: true,
+        },
+      },
+    };
+  }
+
   onChangeCollection = (colId) => {
-    this.fetchStories(
-      { fromCollection: { op: 'equals', value: colId } }
-    );
+    this.fetchStories(this.getStoryFilter(colId));
   };
 
   componentDidMount () {
     this.fetchCollections();
-    this.fetchStories(
-      { fromCollection: { op: 'equals', value: '' } }
-    );
+    this.fetchStories(this.getStoryFilter(''));
   }
 
   render() {

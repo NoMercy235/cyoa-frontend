@@ -38,7 +38,7 @@ class Select extends Component {
       <FormControl className={className}>
         <InputLabel htmlFor="select-multiple-checkbox">{label}</InputLabel>
         <MuiSelect
-          multiple
+          multiple={this.props.multiple}
           value={this.state.selected}
           onChange={this.handleChange}
           input={
@@ -49,6 +49,9 @@ class Select extends Component {
             />
           }
           renderValue={selected => {
+            if (!Array.isArray(selected)) {
+              return items.find(t => t._id === selected).name;
+            }
             return selected
               .map(s => {
                 return items.find(t => t._id === s);
@@ -61,9 +64,9 @@ class Select extends Component {
           {items.map(item => {
             return (
               <MenuItem key={item._id} value={item._id}>
-                <Checkbox
+                {this.props.multiple && <Checkbox
                   checked={!!this.state.selected.find(t => t === item._id)}
-                />
+                />}
                 <ListItemText primary={item.name} />
               </MenuItem>
             );
@@ -88,6 +91,7 @@ Select.propTypes = {
     name: PropTypes.string,
   })),
   className: PropTypes.string,
+  multiple: PropTypes.bool,
   classes: PropTypes.object.isRequired,
 };
 
