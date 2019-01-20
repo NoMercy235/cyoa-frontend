@@ -2,7 +2,7 @@ import { BaseService } from '../../../../shared/domain/services/BaseService';
 import { StoryModel } from '../models/StoryModel';
 
 class StoryService extends BaseService {
-  endpoint = 'api/story?';
+  endpoint = 'api/story';
 
   async save(story) {
     try {

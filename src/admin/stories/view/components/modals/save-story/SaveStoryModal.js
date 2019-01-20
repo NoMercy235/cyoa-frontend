@@ -5,7 +5,6 @@ import Dialog from '@material-ui/core/Dialog';
 import { Formik } from 'formik';
 import { inject } from 'mobx-react';
 import { StoryModel } from '../../../../domain/models/StoryModel';
-import { BaseModel } from '../../../../../../shared/domain/models/BaseModel';
 import { DialogTitle } from '../../../../../../shared/components/dialog/Title';
 import { DialogContent } from '../../../../../../shared/components/dialog/Content';
 import { DialogActions } from '../../../../../../shared/components/dialog/Actions';
@@ -15,6 +14,7 @@ import SaveStoryForm from './SaveStoryForm';
 import SaveStoryActions from './SaveStoryActions';
 import { storyService } from '../../../../domain/services/StoryService';
 import { storyStorePropTypes } from '../../../../domain/stores/StoryStore';
+import { withSnackbar } from '../../../../../../shared/components/form/helpers';
 
 @inject('storyStore')
 class SaveStoryModal extends Component {
@@ -39,22 +39,17 @@ class SaveStoryModal extends Component {
         <Formik
           initialValues={new StoryModel()}
           onSubmit={async (values, { setSubmitting }) => {
-            let message = 'Story saved!';
-            let variant = 'success';
             try {
-              const story = await storyService.save(StoryModel.forApi(values));
+              const story = await withSnackbar.call(
+                this,
+                storyService.save,
+                [StoryModel.forApi(values)],
+                'Story saved!',
+              );
               this.props.storyStore.addStory(story);
               this.props.onClose();
-            } catch (e) {
-              variant = 'error';
-              message = BaseModel.handleError(e);
             } finally {
               setSubmitting(false);
-              this.onChangeState({
-                open: true,
-                variant,
-                message,
-              })();
             }
           }}
           validate={values => {

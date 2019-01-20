@@ -41,7 +41,7 @@ export class BaseService {
     );
   }
 
-  async list(filters = {}) {
+  list = async (filters = {}) => {
     let query = '';
 
     Object.keys(filters).forEach(key => {
@@ -53,19 +53,30 @@ export class BaseService {
     });
 
     try {
-      const response = await this.client.get(this.endpoint + query);
+      const url = this.endpoint + '?' + query;
+      const response = await this.client.get(url);
       return response.data;
     } catch (e) {
       throw e;
     }
-  }
+  };
 
-  async save(resource) {
+  save = async resource => {
     try {
       const response = await this.client.post(this.endpoint, resource);
       return response.data;
     } catch (e) {
       throw e;
     }
-  }
+  };
+
+  delete = async resourceId => {
+    try {
+      const url = `${this.endpoint}/${resourceId}`;
+      const response = await this.client.delete(url);
+      return response.data;
+    } catch (e) {
+      throw e;
+    }
+  };
 }

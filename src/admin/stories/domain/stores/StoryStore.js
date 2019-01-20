@@ -22,6 +22,10 @@ class StoryStore {
   @action addCollection(collection) {
     this.collections.push(collection);
   }
+
+  @action removeCollection(colId) {
+    this.collections = this.collections.filter(c => c._id !== colId);
+  }
 }
 
 export const storyStorePropTypes = PropTypes.shape({
@@ -31,6 +35,7 @@ export const storyStorePropTypes = PropTypes.shape({
   setStories: PropTypes.func,
   addStory: PropTypes.func,
   setCollections: PropTypes.func,
+  removeCollection: PropTypes.func,
 });
 
 

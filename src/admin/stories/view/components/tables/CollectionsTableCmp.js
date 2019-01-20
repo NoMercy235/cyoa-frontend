@@ -13,10 +13,15 @@ import { styles as collectionsTableStyles } from '../../../style/CollectionsTabl
 import { TableCell } from './TableCell';
 import DeleteIcon from '@material-ui/icons/Delete';
 import customClasses from '../../../style/StoryContainer.module.scss';
+import IconButton from '@material-ui/core/IconButton';
 
 class CollectionsTableCmp extends Component {
-  onChangeCollection = (id) => () => {
+  onChangeCollection = id => () => {
     this.props.onChangeCollection(id);
+  };
+
+  onDeleteCollection = id => () => {
+    this.props.onDeleteCollection(id);
   };
 
   render() {
@@ -53,7 +58,12 @@ class CollectionsTableCmp extends Component {
                     {row.name}
                   </span>
                   <div className={customClasses.actionsContainer}>
-                    <DeleteIcon className={classes.deleteIcon} />
+                    <IconButton
+                      onClick={this.onDeleteCollection(row._id)}
+                      className={classes.margin}
+                    >
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
                   </div>
                 </TableCell>
               </TableRow>
@@ -68,7 +78,8 @@ class CollectionsTableCmp extends Component {
 CollectionsTableCmp.propTypes = {
   classes: PropTypes.object,
   collections: PropTypes.arrayOf(PropTypes.shape(CollectionModel)),
-  onChangeCollection: PropTypes.func,
+  onChangeCollection: PropTypes.func.isRequired,
+  onDeleteCollection: PropTypes.func.isRequired,
 };
 
 export default withStyles(theme => ({

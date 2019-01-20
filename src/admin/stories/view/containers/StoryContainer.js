@@ -11,10 +11,23 @@ import ActionBar from '../../../../shared/components/ActionBar';
 import NewCollection from '../components/actions/NewCollection';
 import { collectionService } from '../../domain/services/CollectionService';
 import { CollectionModel } from '../../domain/models/CollectionModel';
+import Snackbar from '../../../../shared/components/snackbar/Snackbar';
+import { withSnackbar } from '../../../../shared/components/form/helpers';
 
 @inject('storyStore')
 @observer
 class StoryContainer extends Component {
+  state = {
+    // snackbar
+    open: false,
+    variant: 'success',
+    message: '',
+  };
+
+  onChangeState = (metadata) => {
+    return () => this.setState(metadata);
+  };
+
   async fetchStories(filters) {
     const stories = (await storyService.list(filters)).map(s => new StoryModel(s));
     this.props.storyStore.setStories(stories);
@@ -41,6 +54,16 @@ class StoryContainer extends Component {
     this.fetchStories(this.getStoryFilter(colId));
   };
 
+  onDeleteCollection = async (colId) => {
+    await withSnackbar.call(
+      this,
+      collectionService.delete,
+      [colId],
+      'Collection deleted'
+    );
+    this.props.storyStore.removeCollection(colId);
+  };
+
   componentDidMount () {
     this.fetchCollections();
     this.fetchStories(this.getStoryFilter(''));
@@ -60,6 +83,7 @@ class StoryContainer extends Component {
               <CollectionsTableCmp
                 collections={collections}
                 onChangeCollection={this.onChangeCollection}
+                onDeleteCollection={this.onDeleteCollection}
               />
             }
           </div>
@@ -72,6 +96,12 @@ class StoryContainer extends Component {
             }
           </div>
         </div>
+        <Snackbar
+          open={this.state.open}
+          onClose={this.onChangeState({ open: false })}
+          message={this.state.message}
+          variant={this.state.variant}
+        />
       </Fragment>
     );
   }

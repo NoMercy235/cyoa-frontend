@@ -3,7 +3,6 @@ import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import { Formik } from 'formik';
-import { BaseModel } from '../../../../../../shared/domain/models/BaseModel';
 import { DialogTitle } from '../../../../../../shared/components/dialog/Title';
 import { DialogContent } from '../../../../../../shared/components/dialog/Content';
 import { DialogActions } from '../../../../../../shared/components/dialog/Actions';
@@ -15,6 +14,7 @@ import { collectionService } from '../../../../domain/services/CollectionService
 import { CollectionModel } from '../../../../domain/models/CollectionModel';
 import { inject } from 'mobx-react';
 import { storyStorePropTypes } from '../../../../domain/stores/StoryStore';
+import { withSnackbar } from '../../../../../../shared/components/form/helpers';
 
 @inject('storyStore')
 class SaveCollectionModal extends Component {
@@ -39,22 +39,17 @@ class SaveCollectionModal extends Component {
         <Formik
           initialValues={new CollectionModel()}
           onSubmit={async (values, { setSubmitting }) => {
-            let message = 'Collection saved!';
-            let variant = 'success';
             try {
-              const collection = await collectionService.save(CollectionModel.forApi(values));
+              const collection = await withSnackbar.call(
+                this,
+                collectionService.save,
+                [CollectionModel.forApi(values)],
+                'Collection saved!',
+              );
               this.props.storyStore.addCollection(collection);
               this.props.onClose();
-            } catch (e) {
-              variant = 'error';
-              message = BaseModel.handleError(e);
             } finally {
               setSubmitting(false);
-              this.onChangeState({
-                open: true,
-                variant,
-                message,
-              })();
             }
           }}
           validate={values => {
