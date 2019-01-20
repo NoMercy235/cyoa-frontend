@@ -24,6 +24,11 @@ export class StoryModel extends BaseModel {
     return this.created_at.format('DD-MM-YYYY HH:mm');
   }
 
+  get createdAtShort() {
+    if (!this.created_at) return '';
+    return this.created_at.format('DD-MM-YYYY');
+  }
+
   checkErrors() {
     let errors = {};
     if (!this.name) {

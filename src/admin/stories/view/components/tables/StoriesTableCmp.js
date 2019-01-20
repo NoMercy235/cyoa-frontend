@@ -12,6 +12,9 @@ import { StoryModel } from '../../../domain/models/StoryModel';
 import classNames from 'classnames';
 import { TableCell } from './TableCell';
 import { TagModel } from '../../../../../shared/domain/models/TagModel';
+import DeleteIcon from '@material-ui/icons/Delete';
+import customClasses from '../../../style/StoryContainer.module.scss';
+import Tooltip from '@material-ui/core/Tooltip';
 
 class StoriesTableCmp extends Component {
   tags = TagModel.get();
@@ -31,21 +34,51 @@ class StoriesTableCmp extends Component {
     return (
       <Paper className={classNames(classes.root, classes.storiesTable)}>
         <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
+          <TableHead className={classes.header}>
+            <TableRow className={classes.thead}>
               {StoryModel.getTableColumns().map((column, i) =>
-                <TableCell key={i}>{column.label}</TableCell>
+                <TableCell
+                  className={classes.cell}
+                  key={i}
+                >
+                  {column.label}
+                </TableCell>
               )}
             </TableRow>
           </TableHead>
           <TableBody>
             {this.props.stories.map(row =>
-              <TableRow className={classes.row} key={row._id} hover={true}>
-                <TableCell component="th" scope="row">
-                  {row.name}
+              <TableRow
+                className={classNames(classes.row, customClasses.row)}
+                key={row._id}
+                hover={true}
+              >
+                <TableCell className={classes.cell} scope="row">
+                  <Tooltip title={row.name} enterDelay={1000}>
+                    <div className={classes.storyName}>
+                      {row.name}
+                    </div>
+                  </Tooltip>
                 </TableCell>
-                <TableCell align="right">{this.renderTags(row.tags)}</TableCell>
-                <TableCell align="right">{row.createdAt}</TableCell>
+                <TableCell
+                  className={classes.cell}
+                  align="right"
+                >
+                  {this.renderTags(row.tags)}
+                </TableCell>
+                <TableCell
+                  className={classes.cell}
+                  align="right"
+                >
+                  <span
+                    className={classes.textWithActionsContainer}
+                  >
+                    {row.createdAtShort}
+                  </span>
+                  <div className={customClasses.actionsContainer}>
+                    <DeleteIcon className={classes.deleteIcon} />
+                  </div>
+                </TableCell>
               </TableRow>
             )}
           </TableBody>

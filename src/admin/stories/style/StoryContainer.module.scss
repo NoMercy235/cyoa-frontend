@@ -29,3 +29,21 @@
   align-items: flex-start;
   flex: 2 2;
 }
+
+.row {
+  .actionsContainer {
+    display: none;
+  }
+}
+
+.row:hover {
+  .actionsContainer {
+    display: flex;
+  }
+}
+
+.actionsContainer {
+  align-items: center;
+  flex: 0.1 10;
+  padding: 10px;
+}

@@ -11,6 +11,8 @@ import classNames from 'classnames';
 import { styles as tableStyles } from '../../../style/TableCmp.css';
 import { styles as collectionsTableStyles } from '../../../style/CollectionsTableCmp.css';
 import { TableCell } from './TableCell';
+import DeleteIcon from '@material-ui/icons/Delete';
+import customClasses from '../../../style/StoryContainer.module.scss';
 
 class CollectionsTableCmp extends Component {
   onChangeCollection = (id) => () => {
@@ -27,23 +29,32 @@ class CollectionsTableCmp extends Component {
     return (
       <Paper className={classNames(classes.root, classes.collectionsTable)}>
         <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
+          <TableHead className={classes.header}>
+            <TableRow className={classes.thead}>
               {CollectionModel.getTableColumns().map((column, i) =>
-                <TableCell key={i}>{column.label}</TableCell>
+                <TableCell className={classes.cell} key={i}>
+                  {column.label}
+                </TableCell>
               )}
             </TableRow>
           </TableHead>
           <TableBody>
             {collections.map(row =>
               <TableRow
-                className={classes.row}
+                className={classNames(classes.row, customClasses.row)}
                 key={row._id}
                 hover={true}
-                onClick={this.onChangeCollection(row._id)}
               >
-                <TableCell component="th" scope="row">
-                  {row.name}
+                <TableCell className={classes.cell}>
+                  <span
+                    className={classes.clickableText}
+                    onClick={this.onChangeCollection(row._id)}
+                  >
+                    {row.name}
+                  </span>
+                  <div className={customClasses.actionsContainer}>
+                    <DeleteIcon className={classes.deleteIcon} />
+                  </div>
                 </TableCell>
               </TableRow>
             )}
