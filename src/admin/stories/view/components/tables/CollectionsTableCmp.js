@@ -14,6 +14,9 @@ import { TableCell } from './TableCell';
 import DeleteIcon from '@material-ui/icons/Delete';
 import customClasses from '../../../style/StoryContainer.module.scss';
 import IconButton from '@material-ui/core/IconButton';
+import { withConfirmation } from '../../../../../shared/hoc/withConfirmation';
+
+const IconButtonHOC = withConfirmation(IconButton);
 
 class CollectionsTableCmp extends Component {
   onChangeCollection = id => () => {
@@ -58,12 +61,13 @@ class CollectionsTableCmp extends Component {
                     {row.name}
                   </span>
                   <div className={customClasses.actionsContainer}>
-                    <IconButton
+                    <IconButtonHOC
+                      title="Delete confirmation"
+                      description="Are you sure you want to delete this collection?"
                       onClick={this.onDeleteCollection(row._id)}
-                      className={classes.margin}
                     >
                       <DeleteIcon fontSize="small" />
-                    </IconButton>
+                    </IconButtonHOC>
                   </div>
                 </TableCell>
               </TableRow>

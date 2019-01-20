@@ -16,6 +16,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import customClasses from '../../../style/StoryContainer.module.scss';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
+import { withConfirmation } from '../../../../../shared/hoc/withConfirmation';
+
+const IconButtonHOC = withConfirmation(IconButton);
 
 class StoriesTableCmp extends Component {
   tags = TagModel.get();
@@ -81,12 +84,13 @@ class StoriesTableCmp extends Component {
                     {row.createdAtShort}
                   </span>
                   <div className={customClasses.actionsContainer}>
-                    <IconButton
+                    <IconButtonHOC
+                      title="Delete confirmation"
+                      description="Are you sure you want to delete this story?"
                       onClick={this.onDeleteStory(row._id)}
-                      className={classes.margin}
                     >
                       <DeleteIcon fontSize="small" />
-                    </IconButton>
+                    </IconButtonHOC>
                   </div>
                 </TableCell>
               </TableRow>
