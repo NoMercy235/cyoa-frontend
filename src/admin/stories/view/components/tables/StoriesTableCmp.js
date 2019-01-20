@@ -15,6 +15,7 @@ import { TagModel } from '../../../../../shared/domain/models/TagModel';
 import DeleteIcon from '@material-ui/icons/Delete';
 import customClasses from '../../../style/StoryContainer.module.scss';
 import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
 
 class StoriesTableCmp extends Component {
   tags = TagModel.get();
@@ -27,6 +28,10 @@ class StoriesTableCmp extends Component {
       })
       .join(', ');
   }
+
+  onDeleteStory = id => () => {
+    this.props.onDeleteStory(id);
+  };
 
   render() {
     const { classes } = this.props;
@@ -76,7 +81,12 @@ class StoriesTableCmp extends Component {
                     {row.createdAtShort}
                   </span>
                   <div className={customClasses.actionsContainer}>
-                    <DeleteIcon className={classes.deleteIcon} />
+                    <IconButton
+                      onClick={this.onDeleteStory(row._id)}
+                      className={classes.margin}
+                    >
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
                   </div>
                 </TableCell>
               </TableRow>
@@ -91,6 +101,7 @@ class StoriesTableCmp extends Component {
 StoriesTableCmp.propTypes = {
   classes: PropTypes.object,
   stories: PropTypes.arrayOf(PropTypes.shape(StoryModel)),
+  onDeleteStory: PropTypes.func.isRequired,
 };
 
 export default withStyles(theme => ({

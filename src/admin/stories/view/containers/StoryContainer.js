@@ -64,6 +64,16 @@ class StoryContainer extends Component {
     this.props.storyStore.removeCollection(colId);
   };
 
+  onDeleteStory = async storyId => {
+    await withSnackbar.call(
+      this,
+      storyService.delete,
+      [storyId],
+      'Story deleted'
+    );
+    this.props.storyStore.removeStory(storyId);
+  };
+
   componentDidMount () {
     this.fetchCollections();
     this.fetchStories(this.getStoryFilter(''));
@@ -92,7 +102,10 @@ class StoryContainer extends Component {
               <NewStory />
             </ActionBar>
             {!!stories.length &&
-              <StoriesTableCmp stories={stories}/>
+              <StoriesTableCmp
+                stories={stories}
+                onDeleteStory={this.onDeleteStory}
+              />
             }
           </div>
         </div>

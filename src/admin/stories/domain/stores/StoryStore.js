@@ -15,6 +15,10 @@ class StoryStore {
     this.stories.push(story);
   }
 
+  @action removeStory(storyId) {
+    this.stories = this.stories.filter(c => c._id !== storyId);
+  }
+
   @action setCollections(collections) {
     this.collections = collections;
   }
@@ -34,6 +38,7 @@ export const storyStorePropTypes = PropTypes.shape({
 
   setStories: PropTypes.func,
   addStory: PropTypes.func,
+  removeStory: PropTypes.func,
   setCollections: PropTypes.func,
   removeCollection: PropTypes.func,
 });
