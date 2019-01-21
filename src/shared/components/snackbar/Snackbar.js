@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { styles } from './Snackbar.css';
 import { withStyles } from '@material-ui/core';
 import SnackbarContent from '@material-ui/core/es/SnackbarContent/SnackbarContent';
+import * as ReactDOM from 'react-dom';
 
 const variantIcon = {
   success: CheckCircleIcon,
@@ -35,7 +36,7 @@ class Snackbar extends React.Component {
 
     const Icon = variantIcon[variant];
 
-    return (
+    return ReactDOM.createPortal(
       <MuiSnackbar
         anchorOrigin={{ vertical, horizontal }}
         open={open}
@@ -63,7 +64,8 @@ class Snackbar extends React.Component {
             </IconButton>,
           ]}
         />
-      </MuiSnackbar>
+      </MuiSnackbar>,
+      document.body
     );
   }
 }

@@ -2,6 +2,11 @@ import * as axios from 'axios';
 import { config } from '../../../config';
 import { Utils } from '@nomercy235/utils';
 
+/**
+ * This class uses normal functions which are without async/await
+ * due to a bug in Babel that prevents the usage of super in children
+ * classes if the parent class' method was marked async.
+ */
 export class BaseService {
   endpoint = '';
 
@@ -39,9 +44,14 @@ export class BaseService {
         throw Utils.safeAccess(err, 'response.data') || err;
       },
     );
+
+    this.list = this.list.bind(this);
+    this.save = this.save.bind(this);
+    this.update = this.update.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
-  list = async (filters = {}) => {
+  list(filters = {}) {
     let query = '';
 
     Object.keys(filters).forEach(key => {
@@ -52,31 +62,25 @@ export class BaseService {
       query += [a, b, c, ''].join('&');
     });
 
-    try {
-      const url = this.endpoint + '?' + query;
-      const response = await this.client.get(url);
-      return response.data;
-    } catch (e) {
-      throw e;
-    }
-  };
+    const url = this.endpoint + '?' + query;
+    return this.client.get(url).then(BaseService.onSuccess);
+  }
 
-  save = async resource => {
-    try {
-      const response = await this.client.post(this.endpoint, resource);
-      return response.data;
-    } catch (e) {
-      throw e;
-    }
-  };
+  save(resource) {
+    return this.client.post(this.endpoint, resource).then(BaseService.onSuccess);
+  }
 
-  delete = async resourceId => {
-    try {
-      const url = `${this.endpoint}/${resourceId}`;
-      const response = await this.client.delete(url);
-      return response.data;
-    } catch (e) {
-      throw e;
-    }
-  };
+  update(id, metadata) {
+    const url = `${this.endpoint}/${id}`;
+    return this.client.put(url, metadata).then(BaseService.onSuccess);
+  }
+
+  delete(resourceId) {
+    const url = `${this.endpoint}/${resourceId}`;
+    return this.client.delete(url).then(BaseService.onSuccess);
+  }
+
+  static onSuccess(response) {
+    return response.data;
+  }
 }

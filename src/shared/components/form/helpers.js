@@ -18,6 +18,7 @@ export async function withSnackbar (innerFunction, params, successMsg) {
   } catch (e) {
     variant = 'error';
     message = BaseModel.handleError(e);
+    throw e;
   } finally {
     this.setState({
       open: true,

@@ -4,14 +4,9 @@ import { StoryModel } from '../models/StoryModel';
 class StoryService extends BaseService {
   endpoint = 'api/story';
 
-  async save(story) {
-    try {
-      const dbStory = await super.save(story);
-      return new StoryModel(dbStory);
-    } catch (e) {
-      throw e;
-    }
-  }
+  save = story => {
+    return super.save(story).then(s => new StoryModel(s));
+  };
 }
 
 export const storyService = new StoryService();

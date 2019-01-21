@@ -7,5 +7,7 @@ export class BaseModel {
     if (e.code && e.code === 11000) {
       return `Duplicate value: ${e.errmsg.match(/"[\s\S]+"/)[0]}`;
     }
+
+    return 'An error has occured';
   }
 }

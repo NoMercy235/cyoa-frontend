@@ -27,6 +27,13 @@ class StoryStore {
     this.collections.push(collection);
   }
 
+  @action updateCollection(id, newCollection) {
+    this.collections = this.collections.map(c => {
+      if (c._id !== id) return c;
+      return newCollection;
+    });
+  }
+
   @action removeCollection(colId) {
     this.collections = this.collections.filter(c => c._id !== colId);
   }

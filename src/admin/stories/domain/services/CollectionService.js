@@ -4,14 +4,13 @@ import { CollectionModel } from '../models/CollectionModel';
 class CollectionService extends BaseService {
   endpoint = 'api/collection';
 
-  async save(story) {
-    try {
-      const dbCollection = await super.save(story);
-      return new CollectionModel(dbCollection);
-    } catch (e) {
-      throw e;
-    }
-  }
+  save = collection => {
+    return super.save(collection).then(c => new CollectionModel(c));
+  };
+
+  update = (id, collection) => {
+    return super.update(id, collection).then(c => new CollectionModel(c));
+  };
 }
 
 export const collectionService = new CollectionService();

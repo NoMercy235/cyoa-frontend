@@ -33,20 +33,38 @@ class SaveCollectionModal extends Component {
     return this.props.collection ? 'Edit collection' : 'Create collection';
   }
 
+  saveCollection = async values => {
+    const collection = await withSnackbar.call(
+      this,
+      collectionService.save,
+      [CollectionModel.forApi(values)],
+      'Collection saved!',
+    );
+    this.props.storyStore.addCollection(collection);
+  };
+
+  updateCollection = async values => {
+    const collection = await withSnackbar.call(
+      this,
+      collectionService.update,
+      [values._id, CollectionModel.forApi(values)],
+      'Collection updated!',
+    );
+    this.props.storyStore.updateCollection(values._id, collection);
+  };
+
   render() {
     return (
       <Fragment>
         <Formik
-          initialValues={new CollectionModel()}
+          initialValues={this.props.collection || new CollectionModel()}
           onSubmit={async (values, { setSubmitting }) => {
             try {
-              const collection = await withSnackbar.call(
-                this,
-                collectionService.save,
-                [CollectionModel.forApi(values)],
-                'Collection saved!',
-              );
-              this.props.storyStore.addCollection(collection);
+              if (values._id) {
+                await this.updateCollection(values);
+              } else {
+                await this.saveCollection(values);
+              }
               this.props.onClose();
             } finally {
               setSubmitting(false);
@@ -98,7 +116,7 @@ class SaveCollectionModal extends Component {
 
 SaveCollectionModal.propTypes = {
   classes: PropTypes.object,
-  collection: PropTypes.shape(CollectionModel),
+  collection: PropTypes.instanceOf(CollectionModel),
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   storyStore: storyStorePropTypes,
