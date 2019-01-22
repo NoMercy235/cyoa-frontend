@@ -53,21 +53,30 @@ class SaveStoryModal extends Component {
     this.props.storyStore.updateStory(values._id, story);
   };
 
+  getInitialValues = () => {
+    return this.props.story || new StoryModel();
+  };
+
+  onClose = (resetForm) => () => {
+    resetForm(this.getInitialValues());
+    this.props.onClose();
+  };
+
   render() {
-    const { open, onClose, classes, storyStore } = this.props;
+    const { open, classes, storyStore } = this.props;
 
     return (
       <Fragment>
         <Formik
-          initialValues={this.props.story || new StoryModel()}
-          onSubmit={async (values, { setSubmitting }) => {
+          initialValues={this.getInitialValues()}
+          onSubmit={async (values, { setSubmitting, resetForm }) => {
             try {
               if (values._id) {
                 await this.updateStory(values);
               } else {
                 await this.saveStory(values);
               }
-              onClose();
+              this.onClose(resetForm)();
             } finally {
               setSubmitting(false);
             }
@@ -81,25 +90,25 @@ class SaveStoryModal extends Component {
             return (
               <Dialog
                 open={open}
-                onClose={onClose}
+                onClose={this.onClose(formik.resetForm)}
                 classes={{ paper: classes.dialogSize }}
               >
                 <DialogTitle
-                  onClose={onClose}
+                  onClose={this.onClose(formik.resetForm)}
                 >
                   {this.renderTitle()}
                 </DialogTitle>
                 <DialogContent>
                   <SaveStoryForm
                     formik={formik}
-                    onClose={onClose}
+                    onClose={this.onClose(formik.resetForm)}
                     collections={storyStore.collections}
                   />
                 </DialogContent>
                 <DialogActions>
                   <SaveStoryActions
                     formik={formik}
-                    onClose={onClose}
+                    onClose={this.onClose(formik.resetForm)}
                   />
                 </DialogActions>
               </Dialog>
