@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, runInAction } from 'mobx';
 import * as PropTypes from 'prop-types';
 import { StoryModel } from '../models/StoryModel';
 import { CollectionModel } from '../models/CollectionModel';
@@ -16,10 +16,19 @@ class StoryStore {
   }
 
   @action updateStory(id, newStory) {
-    this.stories = this.stories.map(c => {
-      if (c._id !== id) return c;
-      return newStory;
-    });
+    // Hack needed to prevent the immediate update of a component due to mobx
+    // observables. When changing the collection of a story, that would
+    // remove it from the current active table and throw an error when the app
+    // would try to run this.setState on an unmounted component.
+    setTimeout(() => runInAction(() => {
+      this.stories = this.stories
+        .map(s => {
+          if (s._id !== id) return s;
+          if (s.fromCollection !== newStory.fromCollection) return null;
+          return newStory;
+        })
+        .filter(s => s);
+    }), 100);
   }
 
   @action removeStory(storyId) {
