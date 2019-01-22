@@ -9,6 +9,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { withStyles } from '@material-ui/core';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ClearSelectIcon from './ClearSelectIcon';
+import { Utils } from '@nomercy235/utils';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -47,6 +50,11 @@ class Select extends Component {
               {...formikField}
               error={!!helperText}
             />
+          }
+          IconComponent={
+            Utils.safeAccess(this.state.selected, 'length')
+              ? () => <ClearSelectIcon onClick={() => this.handleChange({ target: { value: [], name: 'fromCollection' }})} />
+              : ArrowDropDownIcon
           }
           renderValue={selected => {
             if (!Array.isArray(selected)) {
