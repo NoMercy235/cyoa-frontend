@@ -17,6 +17,7 @@ import customClasses from '../../../style/StoryContainer.module.scss';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import { withConfirmation } from '../../../../../shared/hoc/withConfirmation';
+import EditStory from '../actions/EditStory';
 
 const IconButtonHOC = withConfirmation(IconButton);
 
@@ -84,6 +85,7 @@ class StoriesTableCmp extends Component {
                     {row.createdAtShort}
                   </span>
                   <div className={customClasses.actionsContainer}>
+                    <EditStory story={row} />
                     <IconButtonHOC
                       title="Delete confirmation"
                       description="Are you sure you want to delete this story?"

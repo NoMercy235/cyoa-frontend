@@ -12,9 +12,9 @@ import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
 import { styles } from './SaveStory.css';
 import SaveStoryForm from './SaveStoryForm';
 import SaveStoryActions from './SaveStoryActions';
-import { storyService } from '../../../../domain/services/StoryService';
 import { storyStorePropTypes } from '../../../../domain/stores/StoryStore';
 import { withSnackbar } from '../../../../../../shared/components/form/helpers';
+import { storyService } from '../../../../domain/services/StoryService';
 
 @inject('storyStore')
 class SaveStoryModal extends Component {
@@ -33,21 +33,41 @@ class SaveStoryModal extends Component {
     return this.props.story ? 'Edit story' : 'Create story';
   }
 
+  saveStory = async values => {
+    const story = await withSnackbar.call(
+      this,
+      storyService.save,
+      [StoryModel.forApi(values)],
+      'Story saved!',
+    );
+    this.props.storyStore.addStory(story);
+  };
+
+  updateStory = async values => {
+    const story = await withSnackbar.call(
+      this,
+      storyService.update,
+      [values._id, StoryModel.forApi(values)],
+      'Story updated!',
+    );
+    this.props.storyStore.updateStory(values._id, story);
+  };
+
   render() {
+    const { open, onClose, classes, storyStore } = this.props;
+
     return (
       <Fragment>
         <Formik
-          initialValues={new StoryModel()}
+          initialValues={this.props.story || new StoryModel()}
           onSubmit={async (values, { setSubmitting }) => {
             try {
-              const story = await withSnackbar.call(
-                this,
-                storyService.save,
-                [StoryModel.forApi(values)],
-                'Story saved!',
-              );
-              this.props.storyStore.addStory(story);
-              this.props.onClose();
+              if (values._id) {
+                await this.updateStory(values);
+              } else {
+                await this.saveStory(values);
+              }
+              onClose();
             } finally {
               setSubmitting(false);
             }
@@ -60,26 +80,26 @@ class SaveStoryModal extends Component {
           {formik => {
             return (
               <Dialog
-                open={this.props.open}
-                onClose={this.props.onClose}
-                classes={{ paper: this.props.classes.dialogSize }}
+                open={open}
+                onClose={onClose}
+                classes={{ paper: classes.dialogSize }}
               >
                 <DialogTitle
-                  onClose={this.props.onClose}
+                  onClose={onClose}
                 >
                   {this.renderTitle()}
                 </DialogTitle>
                 <DialogContent>
                   <SaveStoryForm
                     formik={formik}
-                    onClose={this.props.onClose}
-                    collections={this.props.storyStore.collections}
+                    onClose={onClose}
+                    collections={storyStore.collections}
                   />
                 </DialogContent>
                 <DialogActions>
                   <SaveStoryActions
                     formik={formik}
-                    onClose={this.props.onClose}
+                    onClose={onClose}
                   />
                 </DialogActions>
               </Dialog>

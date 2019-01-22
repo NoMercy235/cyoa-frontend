@@ -7,6 +7,10 @@ class StoryService extends BaseService {
   save = story => {
     return super.save(story).then(s => new StoryModel(s));
   };
+
+  update = (id, story) => {
+    return super.update(id, story).then(c => new StoryModel(c));
+  };
 }
 
 export const storyService = new StoryService();

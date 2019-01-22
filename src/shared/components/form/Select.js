@@ -23,7 +23,7 @@ const MenuProps = {
 
 class Select extends Component {
   state = {
-    selected: [],
+    selected: this.props.formikField.value,
   };
 
   handleChange = e => {

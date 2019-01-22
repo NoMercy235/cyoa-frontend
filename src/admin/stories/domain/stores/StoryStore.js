@@ -15,6 +15,13 @@ class StoryStore {
     this.stories.push(story);
   }
 
+  @action updateStory(id, newStory) {
+    this.stories = this.stories.map(c => {
+      if (c._id !== id) return c;
+      return newStory;
+    });
+  }
+
   @action removeStory(storyId) {
     this.stories = this.stories.filter(c => c._id !== storyId);
   }

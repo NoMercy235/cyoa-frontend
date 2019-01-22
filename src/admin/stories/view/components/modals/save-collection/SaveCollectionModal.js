@@ -54,6 +54,8 @@ class SaveCollectionModal extends Component {
   };
 
   render() {
+    const { open, onClose, classes } = this.props;
+
     return (
       <Fragment>
         <Formik
@@ -65,7 +67,7 @@ class SaveCollectionModal extends Component {
               } else {
                 await this.saveCollection(values);
               }
-              this.props.onClose();
+              onClose();
             } finally {
               setSubmitting(false);
             }
@@ -78,25 +80,25 @@ class SaveCollectionModal extends Component {
           {formik => {
             return (
               <Dialog
-                open={this.props.open}
-                onClose={this.props.onClose}
-                classes={{ paper: this.props.classes.dialogSize }}
+                open={open}
+                onClose={onClose}
+                classes={{ paper: classes.dialogSize }}
               >
                 <DialogTitle
-                  onClose={this.props.onClose}
+                  onClose={onClose}
                 >
                   {this.renderTitle()}
                 </DialogTitle>
                 <DialogContent>
                   <SaveCollectionForm
                     formik={formik}
-                    onClose={this.props.onClose}
+                    onClose={onClose}
                   />
                 </DialogContent>
                 <DialogActions>
                   <SaveCollectionActions
                     formik={formik}
-                    onClose={this.props.onClose}
+                    onClose={onClose}
                   />
                 </DialogActions>
               </Dialog>
