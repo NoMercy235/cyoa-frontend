@@ -18,6 +18,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import { withConfirmation } from '../../../../../shared/hoc/withConfirmation';
 import EditStory from '../actions/EditStory';
+import { withRouter } from 'react-router-dom';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 const IconButtonHOC = withConfirmation(IconButton);
 
@@ -35,6 +37,36 @@ class StoriesTableCmp extends Component {
 
   onDeleteStory = id => () => {
     this.props.onDeleteStory(id);
+  };
+
+  onSelect = (history, row) => () => {
+    history.push(`stories/${row._id}`);
+  };
+
+  renderName = row => {
+    const { classes } = this.props;
+    const Name = withRouter(({ history }) => (
+      <Tooltip title={row.name} enterDelay={1000}>
+        <span
+          className={classNames(classes.clickableText, classes.storyName)}
+          onClick={this.onSelect(history, row)}
+        >
+          {row.name}
+        </span>
+      </Tooltip>
+    ));
+    return <Name />;
+  };
+
+  renderSeeIcon = row => {
+    const Icon = withRouter(({ history }) => (
+      <IconButton
+        onClick={this.onSelect(history, row)}
+      >
+        <VisibilityIcon fontSize="small" />
+      </IconButton>
+    ));
+    return <Icon />;
   };
 
   render() {
@@ -63,17 +95,7 @@ class StoriesTableCmp extends Component {
                 hover={true}
               >
                 <TableCell className={classes.cell} scope="row">
-                  <Tooltip title={row.name} enterDelay={1000}>
-                    <div className={classes.storyName}>
-                      {row.name}
-                    </div>
-                  </Tooltip>
-                </TableCell>
-                <TableCell
-                  className={classes.cell}
-                  align="right"
-                >
-                  {this.renderTags(row.tags)}
+                  {this.renderName(row)}
                 </TableCell>
                 <TableCell
                   className={classes.cell}
@@ -82,9 +104,10 @@ class StoriesTableCmp extends Component {
                   <span
                     className={classes.textWithActionsContainer}
                   >
-                    {row.createdAtShort}
+                    {this.renderTags(row.tags)}
                   </span>
                   <div className={customClasses.actionsContainer}>
+                    {this.renderSeeIcon(row)}
                     <EditStory story={row} />
                     <IconButtonHOC
                       title="Delete confirmation"

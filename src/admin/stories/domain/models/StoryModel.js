@@ -57,7 +57,6 @@ export class StoryModel extends BaseModel {
     return [
       { label: 'Name', sortable: false },
       { label: 'Tags', sortable: false },
-      { label: 'Created on', sortable: false },
     ];
   }
 }

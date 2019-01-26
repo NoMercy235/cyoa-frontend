@@ -66,6 +66,11 @@ export class BaseService {
     return this.client.get(url).then(BaseService.onSuccess);
   }
 
+  get(id) {
+    const url = this.endpoint + '/' + id;
+    return this.client.get(url).then(BaseService.onSuccess);
+  }
+
   save(resource) {
     return this.client.post(this.endpoint, resource).then(BaseService.onSuccess);
   }
