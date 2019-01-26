@@ -1,14 +1,34 @@
 import React, { Component, Fragment } from 'react';
 import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../stories/domain/models/StoryModel';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import PlayerTabContainer from '../containers/PlayerTabContainer';
+import SequenceTabContainer from '../containers/SequenceTabContainer';
 
 class StoryView extends Component {
+  state = {
+    currentTab: 0,
+  };
+
+  handleChange = (event, value) => {
+    this.setState({ currentTab: value });
+  };
+
   render() {
+    const { currentTab } = this.state;
+
     return (
       <Fragment>
-        Story cmp
-        <br />
-        {this.props.story.name}
+        <AppBar position="static">
+          <Tabs value={currentTab} onChange={this.handleChange}>
+            <Tab label="Player" />
+            <Tab label="Sequences" />
+          </Tabs>
+        </AppBar>
+        {currentTab === 0 && <PlayerTabContainer/>}
+        {currentTab === 1 && <SequenceTabContainer/>}
       </Fragment>
     );
   }

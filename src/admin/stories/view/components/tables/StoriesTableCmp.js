@@ -10,7 +10,7 @@ import { styles as storiesTableStyles } from '../../../style/StoriesTableCmp.css
 import { styles as tableStyles } from '../../../style/TableCmp.css';
 import { StoryModel } from '../../../domain/models/StoryModel';
 import classNames from 'classnames';
-import { TableCell } from './TableCell';
+import { TableCell } from '../../../../../shared/components/table/TableCell';
 import { TagModel } from '../../../../../shared/domain/models/TagModel';
 import DeleteIcon from '@material-ui/icons/Delete';
 import customClasses from '../../../style/StoryContainer.module.scss';
