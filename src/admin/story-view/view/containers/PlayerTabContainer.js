@@ -34,11 +34,11 @@ class PlayerTabContainer extends Component {
     return (
       <Fragment>
         <NewAttribute />
-        <AttributesTableCmp
+        {!!attributes.length && <AttributesTableCmp
           attributes={attributes}
           onSelectAttribute={this.onSelectAttribute}
           onDeleteAttribute={this.onDeleteAttribute}
-        />
+        />}
       </Fragment>
     );
   }
