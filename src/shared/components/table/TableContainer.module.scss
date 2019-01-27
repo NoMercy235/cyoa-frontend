@@ -1,0 +1,16 @@
+.row {
+  .actionsContainer {
+    display: none;
+  }
+}
+
+.row:hover {
+  .actionsContainer {
+    display: flex;
+  }
+}
+
+.actionsContainer {
+  align-items: center;
+  flex: 0.1 10;
+}

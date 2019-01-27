@@ -18,6 +18,7 @@ class StoryView extends Component {
 
   render() {
     const { currentTab } = this.state;
+    const { story } = this.props;
 
     return (
       <Fragment>
@@ -27,8 +28,8 @@ class StoryView extends Component {
             <Tab label="Sequences" />
           </Tabs>
         </AppBar>
-        {currentTab === 0 && <PlayerTabContainer/>}
-        {currentTab === 1 && <SequenceTabContainer/>}
+        {currentTab === 0 && <PlayerTabContainer story={story} />}
+        {currentTab === 1 && <SequenceTabContainer story={story} />}
       </Fragment>
     );
   }

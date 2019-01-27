@@ -6,6 +6,7 @@ import { testStore } from './landing/domain/TestStore';
 import IndexRoute from './shared/components/layout/IndexRoute';
 import { BrowserRouter } from 'react-router-dom';
 import { storyStore } from './admin/stories/domain/stores/StoryStore';
+import { storyViewStore } from './admin/story-view/domain/stores/StoryViewStore';
 
 class App extends Component {
   render() {
@@ -16,6 +17,7 @@ class App extends Component {
             testStore={testStore}
             appStore={appStore}
             storyStore={storyStore}
+            storyViewStore={storyViewStore}
           >
             <IndexRoute />
           </Provider>

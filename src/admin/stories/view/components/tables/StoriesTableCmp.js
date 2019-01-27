@@ -7,13 +7,13 @@ import Paper from '@material-ui/core/Paper';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import { styles as storiesTableStyles } from '../../../style/StoriesTableCmp.css';
-import { styles as tableStyles } from '../../../style/TableCmp.css';
+import { styles as tableStyles } from '../../../../../shared/components/table/TableCmp.css';
 import { StoryModel } from '../../../domain/models/StoryModel';
 import classNames from 'classnames';
 import { TableCell } from '../../../../../shared/components/table/TableCell';
 import { TagModel } from '../../../../../shared/domain/models/TagModel';
 import DeleteIcon from '@material-ui/icons/Delete';
-import customClasses from '../../../style/StoryContainer.module.scss';
+import sharedClasses from '../../../../../shared/components/table/TableContainer.module.scss';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import { withConfirmation } from '../../../../../shared/hoc/withConfirmation';
@@ -90,7 +90,7 @@ class StoriesTableCmp extends Component {
           <TableBody>
             {this.props.stories.map(row =>
               <TableRow
-                className={classNames(classes.row, customClasses.row)}
+                className={classNames(classes.row, sharedClasses.row)}
                 key={row._id}
                 hover={true}
               >
@@ -106,7 +106,7 @@ class StoriesTableCmp extends Component {
                   >
                     {this.renderTags(row.tags)}
                   </span>
-                  <div className={customClasses.actionsContainer}>
+                  <div className={sharedClasses.actionsContainer}>
                     {this.renderSeeIcon(row)}
                     <EditStory story={row} />
                     <IconButtonHOC

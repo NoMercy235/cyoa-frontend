@@ -51,7 +51,7 @@ export class BaseService {
     this.delete = this.delete.bind(this);
   }
 
-  list(filters = {}) {
+  list(filters = {}, routeParams) {
     let query = '';
 
     Object.keys(filters).forEach(key => {
@@ -62,7 +62,14 @@ export class BaseService {
       query += [a, b, c, ''].join('&');
     });
 
-    const url = this.endpoint + '?' + query;
+    let url = this.endpoint + '?' + query;
+
+    if (routeParams) {
+      Object.keys(routeParams).forEach(key => {
+        url = url.replace(key, routeParams[key]);
+      });
+    }
+
     return this.client.get(url).then(BaseService.onSuccess);
   }
 
