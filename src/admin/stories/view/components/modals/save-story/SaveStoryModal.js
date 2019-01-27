@@ -11,10 +11,10 @@ import { DialogActions } from '../../../../../../shared/components/dialog/Action
 import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
 import { styles } from './SaveStory.css';
 import SaveStoryForm from './SaveStoryForm';
-import SaveStoryActions from './SaveStoryActions';
 import { storyStorePropTypes } from '../../../../domain/stores/StoryStore';
 import { withSnackbar } from '../../../../../../shared/components/form/helpers';
 import { storyService } from '../../../../domain/services/StoryService';
+import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 
 @inject('storyStore')
 class SaveStoryModal extends Component {
@@ -106,7 +106,7 @@ class SaveStoryModal extends Component {
                   />
                 </DialogContent>
                 <DialogActions>
-                  <SaveStoryActions
+                  <BasicFormActions
                     formik={formik}
                     onClose={this.onClose(formik.resetForm)}
                   />

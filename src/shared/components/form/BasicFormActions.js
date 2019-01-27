@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import * as PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 
-class SaveAttributeActions extends Component {
+class BasicFormActions extends Component {
   render() {
     const { formik } = this.props;
 
@@ -27,9 +27,9 @@ class SaveAttributeActions extends Component {
   }
 }
 
-SaveAttributeActions.propTypes = {
+BasicFormActions.propTypes = {
   formik: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
-export default SaveAttributeActions;
+export default BasicFormActions;

@@ -7,12 +7,13 @@ import { StoryModel } from '../../../domain/models/StoryModel';
 import classNames from 'classnames';
 import { TagModel } from '../../../../../shared/domain/models/TagModel';
 import Tooltip from '@material-ui/core/Tooltip';
-import EditStory from '../actions/EditStory';
 import { withRouter } from 'react-router-dom';
 import TableCmp from '../../../../../shared/components/table/TableCmp';
-import NewStory from '../actions/NewStory';
 import ViewRow from '../../../../../shared/components/table/actions/ViewRow';
 import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow';
+import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
+import SaveStoryModal from '../modals/save-story/SaveStoryModal';
+import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
 
 class StoriesTableCmp extends Component {
   tags = TagModel.get();
@@ -60,7 +61,11 @@ class StoriesTableCmp extends Component {
     return (
       <div key={row._id} className={this.props.classes.actionsContainer}>
         {this.renderSeeIcon(row)}
-        <EditStory story={row} />
+        <BasicEditAction
+          resourceName="story"
+          resource={row}
+          modalComponent={SaveStoryModal}
+        />
         <DeleteRow
           title="Delete confirmation"
           description="Are you sure you want to delete this story?"
@@ -84,7 +89,12 @@ class StoriesTableCmp extends Component {
 
     const options = {
       customToolbar: () => {
-        return <NewStory />;
+        return (
+          <BasicNewAction
+            tooltip="New story"
+            modalComponent={SaveStoryModal}
+          />
+        );
       },
     };
 

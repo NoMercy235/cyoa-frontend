@@ -14,7 +14,7 @@ import { attributeService } from '../../../../domain/services/AttributeService';
 import { AttributeModel } from '../../../../domain/models/AttributeModel';
 import { storyViewStorePropTypes } from '../../../../domain/stores/StoryViewStore';
 import SaveAttributeForm from './SaveAttributeForm';
-import SaveAttributeActions from './SaveAttributeActions';
+import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 
 @inject('storyViewStore')
 class SaveAttributeModal extends Component {
@@ -105,7 +105,7 @@ class SaveAttributeModal extends Component {
                   />
                 </DialogContent>
                 <DialogActions>
-                  <SaveAttributeActions
+                  <BasicFormActions
                     formik={formik}
                     onClose={this.onClose(formik.resetForm)}
                   />

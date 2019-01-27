@@ -4,10 +4,11 @@ import { withStyles } from '@material-ui/core';
 import { CollectionModel } from '../../../domain/models/CollectionModel';
 import { styles as tableStyles } from '../../../../../shared/components/table/TableCmp.css';
 import { styles as collectionsTableStyles } from '../../../style/CollectionsTableCmp.css';
-import EditCollection from '../actions/EditCollections';
-import NewCollection from '../actions/NewCollection';
 import TableCmp from '../../../../../shared/components/table/TableCmp';
 import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow';
+import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
+import SaveCollectionModal from '../modals/save-collection/SaveCollectionModal';
+import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
 
 class CollectionsTableCmp extends Component {
   onChangeCollection = id => () => {
@@ -33,7 +34,11 @@ class CollectionsTableCmp extends Component {
     if (!index) return '';
     return (
       <div key={row._id} className={this.props.classes.actionsContainer}>
-        <EditCollection collection={row}/>
+        <BasicEditAction
+          resourceName="collection"
+          resource={row}
+          modalComponent={SaveCollectionModal}
+        />
         <DeleteRow
           title="Delete confirmation"
           description="Are you sure you want to delete this collection?"
@@ -56,7 +61,12 @@ class CollectionsTableCmp extends Component {
 
     const options = {
       customToolbar: () => {
-        return <NewCollection />;
+        return (
+          <BasicNewAction
+            tooltip="New collection"
+            modalComponent={SaveCollectionModal}
+          />
+        );
       },
     };
 

@@ -14,7 +14,7 @@ import { storyViewStorePropTypes } from '../../../../domain/stores/StoryViewStor
 import { SequenceModel } from '../../../../domain/models/SequenceModel';
 import { sequenceService } from '../../../../domain/services/SequenceService';
 import SaveSequenceForm from './SaveSequenceForm';
-import SaveSequenceActions from './SaveSequenceActions';
+import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 
 @inject('storyViewStore')
 class SaveSequenceModal extends Component {
@@ -105,7 +105,7 @@ class SaveSequenceModal extends Component {
                   />
                 </DialogContent>
                 <DialogActions>
-                  <SaveSequenceActions
+                  <BasicFormActions
                     formik={formik}
                     onClose={this.onClose(formik.resetForm)}
                   />

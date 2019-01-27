@@ -5,8 +5,9 @@ import { styles as tableStyles } from '../../../../../shared/components/table/Ta
 import TableCmp from '../../../../../shared/components/table/TableCmp';
 import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow';
 import { SequenceModel } from '../../../domain/models/SequenceModel';
-import NewSequence from '../actions/NewSequence';
-import EditSequence from '../actions/EditSequence';
+import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
+import SaveSequenceModal from '../modals/save-sequence/SaveSequenceModal';
+import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
 
 class SequenceTableCmp extends Component {
   onDeleteSequence = id => () => {
@@ -16,7 +17,11 @@ class SequenceTableCmp extends Component {
   getActions = row => {
     return (
       <div key={row._id} className={this.props.classes.actionsContainer}>
-        <EditSequence sequence={row} />
+        <BasicEditAction
+          resourceName="sequence"
+          resource={row}
+          modalComponent={SaveSequenceModal}
+        />
         <DeleteRow
           title="Delete confirmation"
           description="Are you sure you want to delete this sequence?"
@@ -36,7 +41,12 @@ class SequenceTableCmp extends Component {
 
     const options = {
       customToolbar: () => {
-        return <NewSequence />;
+        return (
+          <BasicNewAction
+            tooltip="New sequence"
+            modalComponent={SaveSequenceModal}
+          />
+        );
       },
     };
 

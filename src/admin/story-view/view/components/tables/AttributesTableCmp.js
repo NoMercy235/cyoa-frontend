@@ -3,11 +3,12 @@ import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import { styles as tableStyles } from '../../../../../shared/components/table/TableCmp.css';
 import { AttributeModel } from '../../../domain/models/AttributeModel';
-import EditAttribute from '../actions/EditAttribute';
-import NewAttribute from '../actions/NewAttribute';
 import TableCmp from '../../../../../shared/components/table/TableCmp';
 import ViewRow from '../../../../../shared/components/table/actions/ViewRow';
 import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow';
+import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
+import SaveAttributeModal from '../modals/save-attribute/SaveAttributeModal';
+import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
 
 class AttributesTableCmp extends Component {
   onSelectAttribute = id => () => {
@@ -22,7 +23,11 @@ class AttributesTableCmp extends Component {
     return (
       <div key={row._id} className={this.props.classes.actionsContainer}>
         <ViewRow onClick={this.onSelectAttribute(row._id)}/>
-        <EditAttribute attribute={row} />
+        <BasicEditAction
+          resourceName="attribute"
+          resource={row}
+          modalComponent={SaveAttributeModal}
+        />
         <DeleteRow
           title="Delete confirmation"
           description="Are you sure you want to delete this attribute?"
@@ -42,7 +47,12 @@ class AttributesTableCmp extends Component {
 
     const options = {
       customToolbar: () => {
-        return <NewAttribute />;
+        return (
+          <BasicNewAction
+            tooltip="New attribute"
+            modalComponent={SaveAttributeModal}
+          />
+        );
       },
     };
 

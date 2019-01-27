@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import SaveStoryModal from '../modals/save-story/SaveStoryModal';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/es/Tooltip/Tooltip';
+import * as PropTypes from 'prop-types';
 
-class NewStory extends Component {
+class BasicNewAction extends Component {
   state = {
     modalOpen: false,
   };
@@ -18,9 +18,12 @@ class NewStory extends Component {
   };
 
   render() {
+    const ModalComponent = this.props.modalComponent;
+    const { tooltip } = this.props;
+
     return (
       <Fragment>
-        <Tooltip title="New story">
+        <Tooltip title={tooltip}>
           <IconButton
             onClick={this.onShowModal}
           >
@@ -28,7 +31,7 @@ class NewStory extends Component {
           </IconButton>
         </Tooltip>
 
-        <SaveStoryModal
+        <ModalComponent
           open={this.state.modalOpen}
           onClose={this.onHideModal}
         />
@@ -37,7 +40,9 @@ class NewStory extends Component {
   }
 }
 
-NewStory.propTypes = {
+BasicNewAction.propTypes = {
+  tooltip: PropTypes.string.isRequired,
+  modalComponent: PropTypes.func.isRequired,
 };
 
-export default NewStory;
+export default BasicNewAction;
