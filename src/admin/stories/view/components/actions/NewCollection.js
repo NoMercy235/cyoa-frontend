@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import Button from '@material-ui/core/Button';
 import SaveCollectionModal from '../modals/save-collection/SaveCollectionModal';
+import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/es/Tooltip/Tooltip';
 
 class NewCollection extends Component {
   state = {
@@ -18,13 +20,13 @@ class NewCollection extends Component {
   render() {
     return (
       <Fragment>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={this.onShowModal}
-        >
-          New collection
-        </Button>
+        <Tooltip title="New collection">
+          <IconButton
+            onClick={this.onShowModal}
+          >
+            <AddIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
 
         <SaveCollectionModal
           open={this.state.modalOpen}

@@ -5,8 +5,6 @@ import classes from '../../style/StoryContainer.module.scss';
 import { storyService } from '../../domain/services/StoryService';
 import { inject, observer } from 'mobx-react';
 import { storyStorePropTypes } from '../../domain/stores/StoryStore';
-import ActionBar from '../../../../shared/components/ActionBar';
-import NewCollection from '../components/actions/NewCollection';
 import { collectionService } from '../../domain/services/CollectionService';
 import Snackbar from '../../../../shared/components/snackbar/Snackbar';
 import { withSnackbar } from '../../../../shared/components/form/helpers';
@@ -83,9 +81,6 @@ class StoryContainer extends Component {
       <Fragment>
         <div className={classes.tableContainer}>
           <div className={classes.collectionsContainer}>
-            <ActionBar>
-              <NewCollection />
-            </ActionBar>
             {!!collections.length &&
               <CollectionsTableCmp
                 collections={collections}

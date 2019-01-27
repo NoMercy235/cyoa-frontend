@@ -40,7 +40,11 @@ export class CollectionModel extends BaseModel {
 
   static getTableColumns() {
     return [
-      { label: 'Name', sortable: false },
+      { name: 'Name' },
+      {
+        name: '',
+        options: { filter: false, sort: false },
+      },
     ];
   }
 }

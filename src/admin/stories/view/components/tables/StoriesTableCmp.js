@@ -93,7 +93,6 @@ class StoriesTableCmp extends Component {
     });
 
     const options = {
-      filter: false,
       customToolbar: () => {
         return <NewStory />;
       },
