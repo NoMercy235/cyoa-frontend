@@ -5,6 +5,7 @@ import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../stories/domain/models/StoryModel';
 import { inject, observer } from 'mobx-react';
 import { storyViewStorePropTypes } from '../../domain/stores/StoryViewStore';
+import NewAttribute from '../components/actions/NewAttribute';
 
 @inject('storyViewStore')
 @observer
@@ -19,6 +20,7 @@ class PlayerTabContainer extends Component {
 
   getAttributes = async () => {
     const params = { ':story': this.props.story._id };
+    attributeService.setNextRouteParams(params);
     const attributes = await attributeService.list({}, params);
     this.props.storyViewStore.setAttributes(attributes);
   };
@@ -31,6 +33,7 @@ class PlayerTabContainer extends Component {
     const { attributes } = this.props.storyViewStore;
     return (
       <Fragment>
+        <NewAttribute />
         <AttributesTableCmp
           attributes={attributes}
           onSelectAttribute={this.onSelectAttribute}

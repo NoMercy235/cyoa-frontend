@@ -3,10 +3,10 @@ import * as PropTypes from 'prop-types';
 import { Field, Form } from 'formik';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core';
-import { styles } from './SaveCollection.css';
+import { styles } from './SaveAttribute.css';
 import { hasError } from '../../../../../../shared/components/form/helpers';
 
-class SaveCollectionForm extends Component {
+class SaveAttributeForm extends Component {
   render() {
     const { formik, classes } = this.props;
 
@@ -19,10 +19,23 @@ class SaveCollectionForm extends Component {
             return <TextField
               {...field}
               label="Name"
-              fullWidth
               className={classes.name}
               value={formik.values.name}
               {...hasError(formik, 'name')}
+            />;
+          }}
+        />
+        <Field
+          name="startValue"
+          required
+          render={({ field }) => {
+            return <TextField
+              {...field}
+              label="Start value"
+              type="number"
+              className={classes.startValue}
+              value={formik.values.startValue}
+              {...hasError(formik, 'startValue')}
             />;
           }}
         />
@@ -47,9 +60,9 @@ class SaveCollectionForm extends Component {
   }
 }
 
-SaveCollectionForm.propTypes = {
+SaveAttributeForm.propTypes = {
   classes: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SaveCollectionForm);
+export default withStyles(styles)(SaveAttributeForm);

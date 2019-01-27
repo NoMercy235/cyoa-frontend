@@ -9,6 +9,7 @@ import { Utils } from '@nomercy235/utils';
  */
 export class BaseService {
   endpoint = '';
+  routeParams;
 
   constructor() {
     this.client = axios.create({
@@ -51,7 +52,7 @@ export class BaseService {
     this.delete = this.delete.bind(this);
   }
 
-  list(filters = {}, routeParams) {
+  list(filters = {}) {
     let query = '';
 
     Object.keys(filters).forEach(key => {
@@ -62,34 +63,42 @@ export class BaseService {
       query += [a, b, c, ''].join('&');
     });
 
-    let url = this.endpoint + '?' + query;
-
-    if (routeParams) {
-      Object.keys(routeParams).forEach(key => {
-        url = url.replace(key, routeParams[key]);
-      });
-    }
-
+    let url = this.withRouteParams(this.endpoint + '?' + query);
     return this.client.get(url).then(BaseService.onSuccess);
   }
 
   get(id) {
-    const url = this.endpoint + '/' + id;
+    const url = this.withRouteParams(this.endpoint + '/' + id);
     return this.client.get(url).then(BaseService.onSuccess);
   }
 
   save(resource) {
-    return this.client.post(this.endpoint, resource).then(BaseService.onSuccess);
+    const url = this.withRouteParams(this.endpoint);
+    return this.client.post(url, resource).then(BaseService.onSuccess);
   }
 
   update(id, metadata) {
-    const url = `${this.endpoint}/${id}`;
+    const url = this.withRouteParams(`${this.endpoint}/${id}`);
     return this.client.put(url, metadata).then(BaseService.onSuccess);
   }
 
   delete(resourceId) {
-    const url = `${this.endpoint}/${resourceId}`;
+    const url = this.withRouteParams(`${this.endpoint}/${resourceId}`);
     return this.client.delete(url).then(BaseService.onSuccess);
+  }
+
+  withRouteParams(url) {
+    let result = url;
+    if (this.routeParams) {
+      Object.keys(this.routeParams).forEach(key => {
+        result = url.replace(key, this.routeParams[key]);
+      });
+    }
+    return result;
+  }
+
+  setNextRouteParams(params) {
+    this.routeParams = params;
   }
 
   static onSuccess(response) {

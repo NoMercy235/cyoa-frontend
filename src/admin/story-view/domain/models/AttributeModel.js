@@ -16,7 +16,7 @@ export class AttributeModel extends BaseModel {
     if (!this.name) {
       errors.name = 'This field is required';
     }
-    if (!this.startValue) {
+    if (this.startValue !== 0 && !this.startValue) {
       errors.startValue = 'This field is required';
     }
     return errors;
