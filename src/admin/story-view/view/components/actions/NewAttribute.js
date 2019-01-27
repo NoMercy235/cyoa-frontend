@@ -20,7 +20,7 @@ class NewAttribute extends Component {
   render() {
     return (
       <Fragment>
-        <Tooltip title="New story">
+        <Tooltip title="New attribute">
           <IconButton
             onClick={this.onShowModal}
           >
