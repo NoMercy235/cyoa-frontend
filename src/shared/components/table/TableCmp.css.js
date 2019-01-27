@@ -11,6 +11,8 @@ export const styles = theme => ({
   },
   clickableText: {
     flex: 1,
+    display: 'flex',
+    alignItems: 'center',
     '&:hover': onHoverChange(theme),
   },
   actionsContainer: {

@@ -9,9 +9,15 @@ import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow'
 import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
 import SaveCollectionModal from '../modals/save-collection/SaveCollectionModal';
 import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
+import SelectedIcon from '@material-ui/icons/KeyboardArrowRight';
 
 class CollectionsTableCmp extends Component {
+  state = {
+    selectedCollection: '',
+  };
+
   onChangeCollection = id => () => {
+    this.setState({ selectedCollection: id });
     this.props.onChangeCollection(id);
   };
 
@@ -25,6 +31,7 @@ class CollectionsTableCmp extends Component {
         className={this.props.classes.clickableText}
         onClick={this.onChangeCollection(row._id)}
       >
+        {this.state.selectedCollection === row._id && <SelectedIcon/>}
         {row.name}
       </span>
     );
