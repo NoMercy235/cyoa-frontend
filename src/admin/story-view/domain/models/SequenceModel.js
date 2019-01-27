@@ -33,6 +33,7 @@ export class SequenceModel extends BaseModel {
 
   static getTableColumns() {
     return [
+      { name: 'Id', options: { display: 'excluded' } },
       { name: 'Name' },
       {
         name: '',

@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import { styles as tableStyles } from '../../../../../shared/components/table/TableCmp.css';
+import { styles as customStyles } from '../../../style/SequenceTableCmp.css';
 import TableCmp from '../../../../../shared/components/table/TableCmp';
 import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow';
 import { SequenceModel } from '../../../domain/models/SequenceModel';
 import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
 import SaveSequenceModal from '../modals/save-sequence/SaveSequenceModal';
 import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
+import OptionTableCmp from './OptionTableCmp';
 
 class SequenceTableCmp extends Component {
   onDeleteSequence = id => () => {
@@ -31,15 +33,28 @@ class SequenceTableCmp extends Component {
     );
   };
 
+  renderOptionsTable = (rowData) => {
+    const { classes } = this.props;
+    return (
+      <tr>
+        <td colSpan="3" className={classes.optionsTableContainer}>
+          <OptionTableCmp sequenceId={rowData[0]}/>
+        </td>
+      </tr>
+    );
+  };
+
   render() {
     const { sequences } = this.props;
     const columns = SequenceModel.getTableColumns();
 
     const data = sequences.map(a => {
-      return [a.name, this.getActions(a)];
+      return [a._id, a.name, this.getActions(a)];
     });
 
     const options = {
+      expandableRows: true,
+      renderExpandableRow: this.renderOptionsTable,
       customToolbar: () => {
         return (
           <BasicNewAction
@@ -69,4 +84,5 @@ SequenceTableCmp.propTypes = {
 
 export default withStyles(theme => ({
   ...tableStyles(theme),
+  ...customStyles(theme),
 }))(SequenceTableCmp);

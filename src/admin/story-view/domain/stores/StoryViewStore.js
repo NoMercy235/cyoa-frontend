@@ -45,6 +45,10 @@ class StoryViewStore {
   @action removeSequence(sequenceId) {
     this.sequences = this.sequences.filter(a => a._id !== sequenceId);
   }
+
+  getSequenceById(sequenceId) {
+    return this.sequences.find(s => s._id === sequenceId);
+  }
 }
 
 export const storyViewStorePropTypes = PropTypes.shape({

@@ -46,6 +46,9 @@ class AttributesTableCmp extends Component {
     });
 
     const options = {
+      pagination: true,
+      rowsPerPage: 5,
+      rowsPerPageOptions: [5],
       customToolbar: () => {
         return (
           <BasicNewAction
