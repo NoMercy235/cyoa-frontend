@@ -9,7 +9,6 @@ import TableCmp from '../../../../../shared/components/table/TableCmp';
 import ViewRow from '../../../../../shared/components/table/actions/ViewRow';
 import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow';
 
-
 class AttributesTableCmp extends Component {
   onSelectAttribute = id => () => {
     this.props.onSelectAttribute(id);

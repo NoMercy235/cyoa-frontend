@@ -4,6 +4,7 @@ import { AttributeModel } from '../models/AttributeModel';
 
 class StoryViewStore {
   @observable attributes = [];
+  @observable sequences = [];
 
   @action setAttributes(attributes) {
     this.attributes = attributes;
@@ -23,6 +24,26 @@ class StoryViewStore {
 
   @action removeAttribute(attributeId) {
     this.attributes = this.attributes.filter(a => a._id !== attributeId);
+  }
+
+  @action setSequences(sequences) {
+    this.sequences = sequences;
+  }
+
+  @action addSequence(sequence) {
+    this.sequences.push(sequence);
+  }
+
+  @action updateSequence(id, newSequence) {
+    this.sequences = this.sequences
+      .map(s => {
+        if (s._id !== id) return s;
+        return newSequence;
+      });
+  }
+
+  @action removeSequence(sequenceId) {
+    this.sequences = this.sequences.filter(a => a._id !== sequenceId);
   }
 }
 

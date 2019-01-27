@@ -10,8 +10,8 @@ class AttributeService extends BaseService {
     });
   };
 
-  save = collection => {
-    return super.save(collection).then(a => new AttributeModel(a));
+  save = attribute => {
+    return super.save(attribute).then(a => new AttributeModel(a));
   };
 
   update = (id, attribute) => {
