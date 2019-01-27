@@ -6,6 +6,7 @@ import { inject, observer } from 'mobx-react';
 import SequenceTableCmp from '../components/tables/SequenceTableCmp';
 import { storyViewStorePropTypes } from '../../domain/stores/StoryViewStore';
 import { sequenceService } from '../../domain/services/SequenceService';
+import { withSnackbar } from '../../../../shared/components/form/helpers';
 
 @inject('storyViewStore')
 @observer
@@ -21,8 +22,16 @@ class SequenceTabContainer extends Component {
     return () => this.setState(metadata);
   };
 
-  onDeleteSequence = id => {
-    console.log('Deleteing: ', id);
+  onDeleteSequence = async sequenceId => {
+    const params = { ':story': this.props.story._id };
+    sequenceService.setNextRouteParams(params);
+    await withSnackbar.call(
+      this,
+      sequenceService.delete,
+      [sequenceId],
+      'Sequence deleted'
+    );
+    this.props.storyViewStore.removeSequence(sequenceId);
   };
 
   getSequences = async () => {
