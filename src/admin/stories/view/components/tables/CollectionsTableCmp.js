@@ -4,14 +4,10 @@ import { withStyles } from '@material-ui/core';
 import { CollectionModel } from '../../../domain/models/CollectionModel';
 import { styles as tableStyles } from '../../../../../shared/components/table/TableCmp.css';
 import { styles as collectionsTableStyles } from '../../../style/CollectionsTableCmp.css';
-import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
-import { withConfirmation } from '../../../../../shared/hoc/withConfirmation';
 import EditCollection from '../actions/EditCollections';
 import NewCollection from '../actions/NewCollection';
 import TableCmp from '../../../../../shared/components/table/TableCmp';
-
-const IconButtonHOC = withConfirmation(IconButton);
+import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow';
 
 class CollectionsTableCmp extends Component {
   onChangeCollection = id => () => {
@@ -38,13 +34,11 @@ class CollectionsTableCmp extends Component {
     return (
       <div key={row._id} className={this.props.classes.actionsContainer}>
         <EditCollection collection={row}/>
-        <IconButtonHOC
+        <DeleteRow
           title="Delete confirmation"
           description="Are you sure you want to delete this collection?"
           onClick={this.onDeleteCollection(row._id)}
-        >
-          <DeleteIcon fontSize="small" />
-        </IconButtonHOC>
+        />
       </div>
     );
   };

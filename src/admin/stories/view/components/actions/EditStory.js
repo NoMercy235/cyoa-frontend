@@ -4,6 +4,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import * as PropTypes from 'prop-types';
 import SaveStoryModal from '../modals/save-story/SaveStoryModal';
 import { StoryModel } from '../../../domain/models/StoryModel';
+import Tooltip from '@material-ui/core/es/Tooltip/Tooltip';
 
 class EditStory extends Component {
   state = {
@@ -24,7 +25,9 @@ class EditStory extends Component {
         <IconButton
           onClick={this.onShowModal}
         >
-          <EditIcon fontSize="small" />
+          <Tooltip title="Edit">
+            <EditIcon fontSize="small" />
+          </Tooltip>
         </IconButton>
         <SaveStoryModal
           open={this.state.modalOpen}

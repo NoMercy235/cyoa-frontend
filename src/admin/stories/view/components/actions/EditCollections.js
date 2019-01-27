@@ -4,6 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import * as PropTypes from 'prop-types';
 import { CollectionModel } from '../../../domain/models/CollectionModel';
+import Tooltip from '@material-ui/core/es/Tooltip/Tooltip';
 
 class EditCollection extends Component {
   state = {
@@ -24,7 +25,9 @@ class EditCollection extends Component {
         <IconButton
           onClick={this.onShowModal}
         >
-          <EditIcon fontSize="small" />
+          <Tooltip title="Edit">
+            <EditIcon fontSize="small" />
+          </Tooltip>
         </IconButton>
         <SaveCollectionModal
           open={this.state.modalOpen}

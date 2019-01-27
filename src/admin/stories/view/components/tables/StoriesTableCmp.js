@@ -6,17 +6,13 @@ import { styles as tableStyles } from '../../../../../shared/components/table/Ta
 import { StoryModel } from '../../../domain/models/StoryModel';
 import classNames from 'classnames';
 import { TagModel } from '../../../../../shared/domain/models/TagModel';
-import DeleteIcon from '@material-ui/icons/Delete';
 import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
-import { withConfirmation } from '../../../../../shared/hoc/withConfirmation';
 import EditStory from '../actions/EditStory';
 import { withRouter } from 'react-router-dom';
-import VisibilityIcon from '@material-ui/icons/Visibility';
 import TableCmp from '../../../../../shared/components/table/TableCmp';
 import NewStory from '../actions/NewStory';
-
-const IconButtonHOC = withConfirmation(IconButton);
+import ViewRow from '../../../../../shared/components/table/actions/ViewRow';
+import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow';
 
 class StoriesTableCmp extends Component {
   tags = TagModel.get();
@@ -55,11 +51,7 @@ class StoriesTableCmp extends Component {
 
   renderSeeIcon = row => {
     const Icon = withRouter(({ history }) => (
-      <IconButton
-        onClick={this.onSelect(history, row)}
-      >
-        <VisibilityIcon fontSize="small" />
-      </IconButton>
+      <ViewRow onClick={this.onSelect(history, row)}/>
     ));
     return <Icon />;
   };
@@ -69,13 +61,11 @@ class StoriesTableCmp extends Component {
       <div key={row._id} className={this.props.classes.actionsContainer}>
         {this.renderSeeIcon(row)}
         <EditStory story={row} />
-        <IconButtonHOC
+        <DeleteRow
           title="Delete confirmation"
           description="Are you sure you want to delete this story?"
           onClick={this.onDeleteStory(row._id)}
-        >
-          <DeleteIcon fontSize="small" />
-        </IconButtonHOC>
+        />
       </div>
     );
   };

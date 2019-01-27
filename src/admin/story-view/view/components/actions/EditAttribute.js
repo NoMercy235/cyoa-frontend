@@ -4,6 +4,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import * as PropTypes from 'prop-types';
 import { AttributeModel } from '../../../domain/models/AttributeModel';
 import SaveAttributeModal from '../modals/save-attribute/SaveAttributeModal';
+import Tooltip from '@material-ui/core/es/Tooltip/Tooltip';
 
 class EditAttribute extends Component {
   state = {
@@ -24,7 +25,9 @@ class EditAttribute extends Component {
         <IconButton
           onClick={this.onShowModal}
         >
-          <EditIcon fontSize="small" />
+          <Tooltip title="Edit">
+            <EditIcon fontSize="small" />
+          </Tooltip>
         </IconButton>
         <SaveAttributeModal
           open={this.state.modalOpen}
