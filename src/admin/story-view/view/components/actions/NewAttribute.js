@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import Button from '@material-ui/core/Button';
 import SaveAttributeModal from '../modals/save-attribute/SaveAttributeModal';
+import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/es/Tooltip/Tooltip';
 
 class NewAttribute extends Component {
   state = {
@@ -18,13 +20,13 @@ class NewAttribute extends Component {
   render() {
     return (
       <Fragment>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={this.onShowModal}
-        >
-          New attribute
-        </Button>
+        <Tooltip title="New story">
+          <IconButton
+            onClick={this.onShowModal}
+          >
+            <AddIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
 
         <SaveAttributeModal
           open={this.state.modalOpen}

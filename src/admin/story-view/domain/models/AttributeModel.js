@@ -32,8 +32,12 @@ export class AttributeModel extends BaseModel {
 
   static getTableColumns() {
     return [
-      { label: 'Name', sortable: false },
-      { label: 'Start Value', sortable: false },
+      { name: 'Name' },
+      { name: 'Start Value', options: { filter: false} },
+      {
+        name: '',
+        options: { filter: false, sort: false },
+      },
     ];
   }
 }

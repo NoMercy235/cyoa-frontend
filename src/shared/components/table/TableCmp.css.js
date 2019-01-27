@@ -50,4 +50,9 @@ export const styles = theme => ({
   textWithActionsContainer: {
     flex: 1,
   },
+  actionsContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
 });

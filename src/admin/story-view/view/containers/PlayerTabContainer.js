@@ -5,7 +5,6 @@ import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../stories/domain/models/StoryModel';
 import { inject, observer } from 'mobx-react';
 import { storyViewStorePropTypes } from '../../domain/stores/StoryViewStore';
-import NewAttribute from '../components/actions/NewAttribute';
 import { withSnackbar } from '../../../../shared/components/form/helpers';
 import Snackbar from '../../../../shared/components/snackbar/Snackbar';
 
@@ -54,7 +53,6 @@ class PlayerTabContainer extends Component {
     const { attributes } = this.props.storyViewStore;
     return (
       <Fragment>
-        <NewAttribute />
         {!!attributes.length && <AttributesTableCmp
           attributes={attributes}
           onSelectAttribute={this.onSelectAttribute}
