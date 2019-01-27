@@ -6,22 +6,43 @@ import { StoryModel } from '../../../stories/domain/models/StoryModel';
 import { inject, observer } from 'mobx-react';
 import { storyViewStorePropTypes } from '../../domain/stores/StoryViewStore';
 import NewAttribute from '../components/actions/NewAttribute';
+import { withSnackbar } from '../../../../shared/components/form/helpers';
+import Snackbar from '../../../../shared/components/snackbar/Snackbar';
 
 @inject('storyViewStore')
 @observer
 class PlayerTabContainer extends Component {
+  state = {
+    // snackbar
+    open: false,
+    variant: 'success',
+    message: '',
+  };
+
+  onChangeState = (metadata) => {
+    return () => this.setState(metadata);
+  };
+
   onSelectAttribute = id => {
     console.log('Selected: ', id);
   };
 
-  onDeleteAttribute = id => {
-    console.log('Delete: ', id);
+  onDeleteAttribute = async attributeId => {
+    const params = { ':story': this.props.story._id };
+    attributeService.setNextRouteParams(params);
+    await withSnackbar.call(
+      this,
+      attributeService.delete,
+      [attributeId],
+      'Attribute deleted'
+    );
+    this.props.storyViewStore.removeAttribute(attributeId);
   };
 
   getAttributes = async () => {
     const params = { ':story': this.props.story._id };
     attributeService.setNextRouteParams(params);
-    const attributes = await attributeService.list({}, params);
+    const attributes = await attributeService.list();
     this.props.storyViewStore.setAttributes(attributes);
   };
 
@@ -39,6 +60,12 @@ class PlayerTabContainer extends Component {
           onSelectAttribute={this.onSelectAttribute}
           onDeleteAttribute={this.onDeleteAttribute}
         />}
+        <Snackbar
+          open={this.state.open}
+          onClose={this.onChangeState({ open: false })}
+          message={this.state.message}
+          variant={this.state.variant}
+        />
       </Fragment>
     );
   }
