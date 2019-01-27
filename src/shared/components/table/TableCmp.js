@@ -22,12 +22,12 @@ class TableCmp extends Component {
 
   render() {
     const options = Object.assign({}, this.defaultOptions, this.props.options);
-    const { classes, data, columns } = this.props;
+    const { title, columns, data, classes } = this.props;
 
     return (
       <Paper className={classes.root}>
         <MUIDataTable
-          title="Attributes"
+          title={title}
           data={data}
           columns={columns}
           options={options}
@@ -38,10 +38,11 @@ class TableCmp extends Component {
 }
 
 TableCmp.propTypes = {
-  options: PropTypes.object,
   classes: PropTypes.object,
-  data: PropTypes.array,
-  columns: PropTypes.array,
+  title: PropTypes.string.isRequired,
+  columns: PropTypes.array.isRequired,
+  data: PropTypes.array.isRequired,
+  options: PropTypes.object,
 };
 
 export default withStyles(theme => ({

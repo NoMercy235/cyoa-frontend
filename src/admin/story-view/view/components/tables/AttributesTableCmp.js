@@ -58,6 +58,7 @@ class AttributesTableCmp extends Component {
 
     return (
       <TableCmp
+        title="Attributes"
         columns={columns}
         data={data}
         options={options}

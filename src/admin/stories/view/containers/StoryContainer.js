@@ -5,7 +5,6 @@ import classes from '../../style/StoryContainer.module.scss';
 import { storyService } from '../../domain/services/StoryService';
 import { inject, observer } from 'mobx-react';
 import { storyStorePropTypes } from '../../domain/stores/StoryStore';
-import NewStory from '../components/actions/NewStory';
 import ActionBar from '../../../../shared/components/ActionBar';
 import NewCollection from '../components/actions/NewCollection';
 import { collectionService } from '../../domain/services/CollectionService';
@@ -96,9 +95,6 @@ class StoryContainer extends Component {
             }
           </div>
           <div className={classes.storiesContainer}>
-            <ActionBar>
-              <NewStory />
-            </ActionBar>
             {!!stories.length &&
               <StoriesTableCmp
                 stories={stories}

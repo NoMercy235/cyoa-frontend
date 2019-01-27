@@ -55,8 +55,15 @@ export class StoryModel extends BaseModel {
 
   static getTableColumns() {
     return [
-      { label: 'Name', sortable: false },
-      { label: 'Tags', sortable: false },
+      { name: 'Name' },
+      {
+        name: 'Tags',
+        options: { filter: false, sort: false },
+      },
+      {
+        name: '',
+        options: { filter: false, sort: false },
+      },
     ];
   }
 }
