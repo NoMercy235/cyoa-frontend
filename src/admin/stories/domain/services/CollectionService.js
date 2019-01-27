@@ -4,6 +4,12 @@ import { CollectionModel } from '../models/CollectionModel';
 class CollectionService extends BaseService {
   endpoint = 'api/collection';
 
+  list = filters => {
+    return super.list(filters).then(collections => {
+      return collections.map(c => new CollectionModel(c));
+    });
+  };
+
   save = collection => {
     return super.save(collection).then(c => new CollectionModel(c));
   };

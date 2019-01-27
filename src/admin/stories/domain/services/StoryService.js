@@ -4,6 +4,12 @@ import { StoryModel } from '../models/StoryModel';
 class StoryService extends BaseService {
   endpoint = 'api/story';
 
+  list = filters => {
+    return super.list(filters).then(stories => {
+      return stories.map(s => new StoryModel(s));
+    });
+  };
+
   save = story => {
     return super.save(story).then(s => new StoryModel(s));
   };

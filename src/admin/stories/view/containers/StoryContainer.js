@@ -5,12 +5,10 @@ import classes from '../../style/StoryContainer.module.scss';
 import { storyService } from '../../domain/services/StoryService';
 import { inject, observer } from 'mobx-react';
 import { storyStorePropTypes } from '../../domain/stores/StoryStore';
-import { StoryModel } from '../../domain/models/StoryModel';
 import NewStory from '../components/actions/NewStory';
 import ActionBar from '../../../../shared/components/ActionBar';
 import NewCollection from '../components/actions/NewCollection';
 import { collectionService } from '../../domain/services/CollectionService';
-import { CollectionModel } from '../../domain/models/CollectionModel';
 import Snackbar from '../../../../shared/components/snackbar/Snackbar';
 import { withSnackbar } from '../../../../shared/components/form/helpers';
 
@@ -29,12 +27,12 @@ class StoryContainer extends Component {
   };
 
   async fetchStories(filters) {
-    const stories = (await storyService.list(filters)).map(s => new StoryModel(s));
+    const stories = (await storyService.list(filters));
     this.props.storyStore.setStories(stories);
   }
 
   async fetchCollections(filters) {
-    const collections = (await collectionService.list(filters)).map(c => new CollectionModel(c));
+    const collections = (await collectionService.list(filters));
     this.props.storyStore.setCollections(collections);
   }
 
