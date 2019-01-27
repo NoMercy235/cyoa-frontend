@@ -15,6 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { withConfirmation } from '../../../../../shared/hoc/withConfirmation';
 import { AttributeModel } from '../../../domain/models/AttributeModel';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import EditAttribute from '../actions/EditAttribute';
 
 const IconButtonHOC = withConfirmation(IconButton);
 
@@ -69,6 +70,7 @@ class AttributesTableCmp extends Component {
                     >
                       <VisibilityIcon fontSize="small" />
                     </IconButton>
+                    <EditAttribute attribute={row} />
                     <IconButtonHOC
                       title="Delete confirmation"
                       description="Are you sure you want to delete this attribute?"

@@ -4,12 +4,18 @@ import { AttributeModel } from '../models/AttributeModel';
 class AttributeService extends BaseService {
   endpoint = 'api/attribute/:story';
 
-  save = collection => {
-    return super.save(collection).then(c => new AttributeModel(c));
+  list = filters => {
+    return super.list(filters).then(attrs => {
+      return attrs.map(a => new AttributeModel(a));
+    });
   };
 
-  update = (id, collection) => {
-    return super.update(id, collection).then(c => new AttributeModel(c));
+  save = collection => {
+    return super.save(collection).then(a => new AttributeModel(a));
+  };
+
+  update = (id, attribute) => {
+    return super.update(id, attribute).then(a => new AttributeModel(a));
   };
 }
 
