@@ -14,10 +14,6 @@ import { Utils } from '@nomercy235/utils';
 @inject('storyViewStore')
 @observer
 class OptionTableCmp extends Component {
-  state = {
-    options: [],
-  };
-
   getNextSeqName(option) {
     return Utils.safeAccess(
       this.props.storyViewStore.getSequenceById(option.nextSeq),
@@ -44,7 +40,7 @@ class OptionTableCmp extends Component {
     const params = { ':sequence': sequenceId };
     optionService.setNextRouteParams(params);
     const options = await optionService.list();
-    this.setState({ options });
+    this.props.storyViewStore.setOptionsToSequence(sequenceId, options);
   };
 
   componentDidMount () {
@@ -52,8 +48,9 @@ class OptionTableCmp extends Component {
   }
 
   render() {
-    const { options } = this.state;
+    const { sequenceId, storyViewStore } = this.props;
     const columns = OptionModel.getTableColumns();
+    const options = storyViewStore.getSequenceOptions(sequenceId);
 
     const data = options.map(o => {
       return [
@@ -74,6 +71,7 @@ class OptionTableCmp extends Component {
           <BasicNewAction
             tooltip="New option"
             modalComponent={SaveOptionModal}
+            innerProps={{ sequenceId }}
           />
         );
       },

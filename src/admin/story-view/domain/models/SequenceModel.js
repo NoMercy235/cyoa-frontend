@@ -1,11 +1,12 @@
 import { BaseModel } from '../../../../shared/domain/models/BaseModel';
+import { observable } from 'mobx';
 
 export class SequenceModel extends BaseModel {
   _id = '';
   name = '';
   content = '';
   isEnding = false;
-  options = [];
+  @observable options = [];
 
   constructor(metadata) {
     super();

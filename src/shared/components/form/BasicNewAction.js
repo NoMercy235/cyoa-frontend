@@ -19,8 +19,7 @@ class BasicNewAction extends Component {
 
   render() {
     const ModalComponent = this.props.modalComponent;
-    const { tooltip } = this.props;
-
+    const { tooltip, innerProps } = this.props;
     return (
       <Fragment>
         <Tooltip title={tooltip}>
@@ -34,6 +33,7 @@ class BasicNewAction extends Component {
         <ModalComponent
           open={this.state.modalOpen}
           onClose={this.onHideModal}
+          {...(innerProps || {})}
         />
       </Fragment>
     );
@@ -43,6 +43,7 @@ class BasicNewAction extends Component {
 BasicNewAction.propTypes = {
   tooltip: PropTypes.string.isRequired,
   modalComponent: PropTypes.func.isRequired,
+  innerProps: PropTypes.object,
 };
 
 export default BasicNewAction;

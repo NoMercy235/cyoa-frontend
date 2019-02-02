@@ -46,6 +46,20 @@ class StoryViewStore {
     this.sequences = this.sequences.filter(a => a._id !== sequenceId);
   }
 
+  @action setOptionsToSequence(sequenceId, options) {
+    const s = this.getSequenceById(sequenceId);
+    s.options = options;
+  }
+
+  @action addOptionToSequence(sequenceId, option) {
+    const s = this.sequences.find(s => s._id === sequenceId);
+    s.options.push(option);
+  }
+
+  getSequenceOptions(sequenceId) {
+    return this.getSequenceById(sequenceId).options;
+  }
+
   getSequenceById(sequenceId) {
     return this.sequences.find(s => s._id === sequenceId);
   }
@@ -65,6 +79,9 @@ export const storyViewStorePropTypes = PropTypes.shape({
 
   getSequenceById: PropTypes.func,
   getAttributeById: PropTypes.func,
+
+  setOptionsToSequence: PropTypes.func,
+  addOptionToSequence: PropTypes.func,
 });
 
 

@@ -34,14 +34,23 @@ class SaveOptionModal extends Component {
     return this.props.option ? 'Edit option' : 'Create option';
   }
 
+  setParams = () => {
+    const params = { ':sequence': this.props.sequenceId };
+    optionService.setNextRouteParams(params);
+  };
+
   saveOption = async values => {
-    await withSnackbar.call(
+    this.setParams();
+    const option = await withSnackbar.call(
       this,
       optionService.save,
       [OptionModel.forApi(values)],
       'Option saved!',
     );
-    // this.props.storyViewStore.addOption(option);
+    this.props.storyViewStore.addOptionToSequence(
+      this.props.sequenceId,
+      option
+    );
   };
 
   updateOption = async values => {
@@ -134,6 +143,7 @@ SaveOptionModal.propTypes = {
   option: PropTypes.instanceOf(OptionModel),
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  sequenceId: PropTypes.string.isRequired,
   storyViewStore: storyViewStorePropTypes,
 };
 
