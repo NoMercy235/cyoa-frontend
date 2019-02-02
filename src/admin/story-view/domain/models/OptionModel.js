@@ -26,8 +26,13 @@ export class OptionModel extends BaseModel {
     errors.consequences = new Array(this.consequences.length);
     this.consequences.forEach((c, i) => {
       errors.consequences[i] = c.checkErrors();
+      if (!Object.keys(errors.consequences[i])) {
+        delete errors.consequences[i];
+      }
     });
-    if (!Object.keys(errors.consequences)) {
+    errors = errors.consequences.filter(e => e && e.length);
+
+    if (!errors.consequences.length) {
       delete errors.consequences;
     }
 

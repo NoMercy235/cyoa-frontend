@@ -49,6 +49,10 @@ class StoryViewStore {
   getSequenceById(sequenceId) {
     return this.sequences.find(s => s._id === sequenceId);
   }
+
+  getAttributeById(attributeId) {
+    return this.attributes.find(a => a._id === attributeId);
+  }
 }
 
 export const storyViewStorePropTypes = PropTypes.shape({
@@ -58,6 +62,9 @@ export const storyViewStorePropTypes = PropTypes.shape({
   addAttribute: PropTypes.func,
   updateAttribute: PropTypes.func,
   removeAttribute: PropTypes.func,
+
+  getSequenceById: PropTypes.func,
+  getAttributeById: PropTypes.func,
 });
 
 
