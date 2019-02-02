@@ -27,7 +27,6 @@ class SaveOptionForm extends Component {
   };
 
   onRemoveConsequence = arrayHelpers => index => {
-    console.log(index);
     arrayHelpers.remove(index);
   };
 

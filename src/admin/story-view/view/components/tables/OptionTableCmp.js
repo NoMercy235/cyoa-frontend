@@ -9,6 +9,7 @@ import { inject, observer } from 'mobx-react';
 import { storyViewStorePropTypes } from '../../../domain/stores/StoryViewStore';
 import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
 import SaveOptionModal from '../modals/save-option/SaveOptionModal';
+import { Utils } from '@nomercy235/utils';
 
 @inject('storyViewStore')
 @observer
@@ -18,7 +19,25 @@ class OptionTableCmp extends Component {
   };
 
   getNextSeqName(option) {
-    return this.props.storyViewStore.getSequenceById(option.nextSeq).name;
+    return Utils.safeAccess(
+      this.props.storyViewStore.getSequenceById(option.nextSeq),
+      'name'
+    );
+  }
+
+  getAttributeName(consequence) {
+    return Utils.safeAccess(
+      this.props.storyViewStore.getAttributeById(consequence.attribute),
+      'name',
+    );
+  }
+
+  getConsequences(option) {
+    return option.consequences.map((c, i) =>
+      <div key={i}>
+        <b>{this.getAttributeName(c)}</b>&nbsp;:&nbsp;<b>{c.changeValue}</b>
+      </div>
+    );
   }
 
   getOptions = async sequenceId => {
@@ -40,7 +59,7 @@ class OptionTableCmp extends Component {
       return [
         o.action,
         this.getNextSeqName(o),
-        'consequence'];
+        this.getConsequences(o)];
     });
 
     const tableOptions = {

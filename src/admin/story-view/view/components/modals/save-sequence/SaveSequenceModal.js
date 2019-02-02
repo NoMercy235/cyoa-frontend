@@ -69,6 +69,7 @@ class SaveSequenceModal extends Component {
       <Fragment>
         <Formik
           initialValues={this.getInitialValues()}
+          validateOnChange={false}
           onSubmit={async (values, { setSubmitting, resetForm }) => {
             try {
               if (values._id) {
