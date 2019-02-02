@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/es/Tooltip/Tooltip';
+import Tooltip from '@material-ui/core/Tooltip';
 import * as PropTypes from 'prop-types';
 
 class BasicNewAction extends Component {
