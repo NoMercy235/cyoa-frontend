@@ -73,6 +73,7 @@ class SaveStoryModal extends Component {
         <Formik
           enableReinitialize={true}
           initialValues={this.getInitialValues()}
+          validateOnChange={false}
           onSubmit={async (values, { setSubmitting, resetForm }) => {
             try {
               if (values._id) {
