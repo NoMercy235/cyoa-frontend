@@ -7,6 +7,8 @@ import { optionService } from '../../../domain/services/OptionService';
 import { OptionModel } from '../../../domain/models/OptionModel';
 import { inject, observer } from 'mobx-react';
 import { storyViewStorePropTypes } from '../../../domain/stores/StoryViewStore';
+import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
+import SaveOptionModal from '../modals/save-option/SaveOptionModal';
 
 @inject('storyViewStore')
 @observer
@@ -45,8 +47,16 @@ class OptionTableCmp extends Component {
       search: false,
       textLabels: {
         body: {
-          noMatch: 'No results available',
+          noMatch: 'No options available',
         },
+      },
+      customToolbar: () => {
+        return (
+          <BasicNewAction
+            tooltip="New option"
+            modalComponent={SaveOptionModal}
+          />
+        );
       },
     };
 

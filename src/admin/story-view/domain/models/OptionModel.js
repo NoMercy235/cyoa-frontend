@@ -5,7 +5,7 @@ export class OptionModel extends BaseModel {
   action = '';
   sequence = '';
   nextSeq = '';
-  consequence = [];
+  consequences = [];
 
   constructor(metadata) {
     super();
@@ -14,9 +14,23 @@ export class OptionModel extends BaseModel {
 
   checkErrors() {
     let errors = {};
+
     if (!this.action) {
       errors.action = 'This field is required';
     }
+
+    if (!this.nextSeq) {
+      errors.nextSeq = 'This field is required';
+    }
+
+    errors.consequences = new Array(this.consequences.length);
+    this.consequences.forEach((c, i) => {
+      errors.consequences[i] = c.checkErrors();
+    });
+    if (!Object.keys(errors.consequences)) {
+      delete errors.consequences;
+    }
+
     return errors;
   }
 
@@ -25,7 +39,7 @@ export class OptionModel extends BaseModel {
       action: option.action,
       sequence: option.sequence,
       nextSeq: option.nextSeq,
-      consequence: option.consequence,
+      consequences: option.consequences,
     };
   }
 

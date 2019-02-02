@@ -50,10 +50,10 @@ class SequenceTabContainer extends Component {
 
     return (
       <Fragment>
-        {!!sequences.length && <SequenceTableCmp
+        <SequenceTableCmp
           sequences={sequences}
           onDeleteSequence={this.onDeleteSequence}
-        />}
+        />
         <Snackbar
           open={this.state.open}
           onClose={this.onChangeState({ open: false })}

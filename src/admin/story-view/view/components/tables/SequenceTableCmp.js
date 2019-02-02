@@ -10,7 +10,9 @@ import BasicEditAction from '../../../../../shared/components/form/BasicEditActi
 import SaveSequenceModal from '../modals/save-sequence/SaveSequenceModal';
 import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
 import OptionTableCmp from './OptionTableCmp';
+import { observer } from 'mobx-react';
 
+@observer
 class SequenceTableCmp extends Component {
   onDeleteSequence = id => () => {
     this.props.onDeleteSequence(id);
