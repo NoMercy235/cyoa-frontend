@@ -56,6 +56,11 @@ class StoryViewStore {
     s.options.push(option);
   }
 
+  @action reset() {
+    this.attributes = [];
+    this.sequences = [];
+  }
+
   getSequenceOptions(sequenceId) {
     return this.getSequenceById(sequenceId).options;
   }
@@ -82,6 +87,8 @@ export const storyViewStorePropTypes = PropTypes.shape({
 
   setOptionsToSequence: PropTypes.func,
   addOptionToSequence: PropTypes.func,
+
+  reset: PropTypes.func,
 });
 
 
