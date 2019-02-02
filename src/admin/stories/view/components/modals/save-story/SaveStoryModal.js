@@ -40,7 +40,9 @@ class SaveStoryModal extends Component {
       [StoryModel.forApi(values)],
       'Story saved!',
     );
-    this.props.storyStore.addStory(story);
+    if (story.fromCollection === this.props.storyStore.getSelectedCollection) {
+      this.props.storyStore.addStory(story);
+    }
   };
 
   updateStory = async values => {
@@ -54,7 +56,8 @@ class SaveStoryModal extends Component {
   };
 
   getInitialValues = () => {
-    return this.props.story || new StoryModel();
+    return this.props.story ||
+      new StoryModel({ fromCollection: this.props.storyStore.getSelectedCollection });
   };
 
   onClose = (resetForm) => () => {
@@ -68,6 +71,7 @@ class SaveStoryModal extends Component {
     return (
       <Fragment>
         <Formik
+          enableReinitialize={true}
           initialValues={this.getInitialValues()}
           onSubmit={async (values, { setSubmitting, resetForm }) => {
             try {

@@ -10,8 +10,10 @@ import BasicEditAction from '../../../../../shared/components/form/BasicEditActi
 import SaveCollectionModal from '../modals/save-collection/SaveCollectionModal';
 import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
 import SelectedIcon from '@material-ui/icons/KeyboardArrowRight';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
+import { storyStorePropTypes } from '../../../domain/stores/StoryStore';
 
+@inject('storyStore')
 @observer
 class CollectionsTableCmp extends Component {
   state = {
@@ -21,6 +23,7 @@ class CollectionsTableCmp extends Component {
   onChangeCollection = id => () => {
     this.setState({ selectedCollection: id });
     this.props.onChangeCollection(id);
+    this.props.storyStore.setSelectedCollection(id);
   };
 
   onDeleteCollection = id => () => {
@@ -95,6 +98,8 @@ CollectionsTableCmp.propTypes = {
   collections: PropTypes.arrayOf(PropTypes.shape(CollectionModel)),
   onChangeCollection: PropTypes.func.isRequired,
   onDeleteCollection: PropTypes.func.isRequired,
+
+  storyStore: storyStorePropTypes,
 };
 
 export default withStyles(theme => ({

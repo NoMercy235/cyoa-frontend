@@ -42,7 +42,6 @@ class SaveStoryForm extends Component {
           />
           <Field
             name="fromCollection"
-            required
             render={({ field }) => {
               return (
                 <Select
@@ -51,7 +50,7 @@ class SaveStoryForm extends Component {
                   label="Collection"
                   fullWidth
                   items={this.getCollections()}
-                  {...hasError(formik, 'tags')}
+                  {...hasError(formik, 'fromCollection')}
                 />
               );
             }}

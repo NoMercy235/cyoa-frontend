@@ -1,4 +1,4 @@
-import { observable, action, runInAction } from 'mobx';
+import { observable, action, runInAction, computed } from 'mobx';
 import * as PropTypes from 'prop-types';
 import { StoryModel } from '../models/StoryModel';
 import { CollectionModel } from '../models/CollectionModel';
@@ -6,6 +6,7 @@ import { CollectionModel } from '../models/CollectionModel';
 class StoryStore {
   @observable stories = [];
   @observable collections = [];
+  @observable selectedCollection = observable.box('');
 
   @action setStories(stories) {
     this.stories = stories;
@@ -53,6 +54,14 @@ class StoryStore {
   @action removeCollection(colId) {
     this.collections = this.collections.filter(c => c._id !== colId);
   }
+
+  @action setSelectedCollection(value) {
+    this.selectedCollection.set(value);
+  }
+
+  @computed get getSelectedCollection() {
+    return this.selectedCollection.get();
+  }
 }
 
 export const storyStorePropTypes = PropTypes.shape({
@@ -61,9 +70,16 @@ export const storyStorePropTypes = PropTypes.shape({
 
   setStories: PropTypes.func,
   addStory: PropTypes.func,
+  updateStory: PropTypes.func,
   removeStory: PropTypes.func,
+
   setCollections: PropTypes.func,
+  addCollection: PropTypes.func,
+  updateCollection: PropTypes.func,
   removeCollection: PropTypes.func,
+
+  setSelectedCollection: PropTypes.func,
+  getSelectedCollection: PropTypes.func,
 });
 
 
