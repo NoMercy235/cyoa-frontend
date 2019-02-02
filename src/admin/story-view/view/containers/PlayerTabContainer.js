@@ -53,11 +53,11 @@ class PlayerTabContainer extends Component {
     const { attributes } = this.props.storyViewStore;
     return (
       <Fragment>
-        {!!attributes.length && <AttributesTableCmp
+        <AttributesTableCmp
           attributes={attributes}
           onSelectAttribute={this.onSelectAttribute}
           onDeleteAttribute={this.onDeleteAttribute}
-        />}
+        />
         <Snackbar
           open={this.state.open}
           onClose={this.onChangeState({ open: false })}

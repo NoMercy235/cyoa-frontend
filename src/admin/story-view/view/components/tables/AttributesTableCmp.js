@@ -9,7 +9,9 @@ import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow'
 import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
 import SaveAttributeModal from '../modals/save-attribute/SaveAttributeModal';
 import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
+import { observer } from 'mobx-react';
 
+@observer
 class AttributesTableCmp extends Component {
   onSelectAttribute = id => () => {
     this.props.onSelectAttribute(id);
