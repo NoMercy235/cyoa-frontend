@@ -81,21 +81,17 @@ class StoryContainer extends Component {
       <Fragment>
         <div className={classes.tableContainer}>
           <div className={classes.collectionsContainer}>
-            {!!collections.length &&
-              <CollectionsTableCmp
-                collections={collections}
-                onChangeCollection={this.onChangeCollection}
-                onDeleteCollection={this.onDeleteCollection}
-              />
-            }
+            <CollectionsTableCmp
+              collections={collections}
+              onChangeCollection={this.onChangeCollection}
+              onDeleteCollection={this.onDeleteCollection}
+            />
           </div>
           <div className={classes.storiesContainer}>
-            {!!stories.length &&
-              <StoriesTableCmp
-                stories={stories}
-                onDeleteStory={this.onDeleteStory}
-              />
-            }
+            <StoriesTableCmp
+              stories={stories}
+              onDeleteStory={this.onDeleteStory}
+            />
           </div>
         </div>
         <Snackbar

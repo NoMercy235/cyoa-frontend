@@ -14,7 +14,9 @@ import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow'
 import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
 import SaveStoryModal from '../modals/save-story/SaveStoryModal';
 import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
+import { observer } from 'mobx-react';
 
+@observer
 class StoriesTableCmp extends Component {
   tags = TagModel.get();
 
