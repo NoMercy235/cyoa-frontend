@@ -7,7 +7,7 @@ import { DialogTitle } from '../../../../../../shared/components/dialog/Title';
 import { DialogContent } from '../../../../../../shared/components/dialog/Content';
 import { DialogActions } from '../../../../../../shared/components/dialog/Actions';
 import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
-import { styles } from './SaveSequence.css';
+import { styles } from '../../../../style/SaveSequence.css';
 import { inject } from 'mobx-react';
 import { withSnackbar } from '../../../../../../shared/components/form/helpers';
 import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
@@ -15,6 +15,8 @@ import { SequenceModel } from '../../../../../../infrastructure/models/SequenceM
 import { sequenceService } from '../../../../../../infrastructure/services/SequenceService';
 import SaveSequenceForm from './SaveSequenceForm';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
+import { storyService } from '../../../../../../infrastructure/services/StoryService';
+import { withRouter } from 'react-router-dom';
 
 @inject('storyViewStore')
 class SaveSequenceModal extends Component {
@@ -41,6 +43,7 @@ class SaveSequenceModal extends Component {
       'Sequence saved!',
     );
     this.props.storyViewStore.addSequence(sequence);
+    return sequence;
   };
 
   updateSequence = async values => {
@@ -51,6 +54,11 @@ class SaveSequenceModal extends Component {
       'Sequence updated!',
     );
     this.props.storyViewStore.updateSequence(values._id, sequence);
+    return sequence;
+  };
+
+  updateStoryStartSeq = async seq => {
+    storyService.update(this.props.match.params.id, { startSeq: seq._id });
   };
 
   getInitialValues = () => {
@@ -72,11 +80,17 @@ class SaveSequenceModal extends Component {
           validateOnChange={false}
           onSubmit={async (values, { setSubmitting, resetForm }) => {
             try {
+              let seq = {};
               if (values._id) {
-                await this.updateSequence(values);
+                seq = await this.updateSequence(values);
               } else {
                 await this.saveSequence(values);
               }
+
+              if (values.isStartSeq) {
+                await this.updateStoryStartSeq(seq);
+              }
+
               this.onClose(resetForm)();
             } finally {
               setSubmitting(false);
@@ -127,6 +141,7 @@ class SaveSequenceModal extends Component {
 }
 
 SaveSequenceModal.propTypes = {
+  match: PropTypes.object,
   classes: PropTypes.object,
   sequence: PropTypes.instanceOf(SequenceModel),
   open: PropTypes.bool.isRequired,
@@ -134,4 +149,6 @@ SaveSequenceModal.propTypes = {
   storyViewStore: storyViewStorePropTypes,
 };
 
-export default withStyles(styles, { withTheme: true })(SaveSequenceModal);
+export default withStyles(styles, { withTheme: true })(
+  withRouter(SaveSequenceModal),
+);
