@@ -36,6 +36,7 @@ class BasicEditAction extends Component {
           open={this.state.modalOpen}
           onClose={this.onHideModal}
           {...resourceProp}
+          {...this.props.innerProps}
         />
       </Fragment>
     );
@@ -43,6 +44,7 @@ class BasicEditAction extends Component {
 }
 
 BasicEditAction.propTypes = {
+  innerProps: PropTypes.object,
   resourceName: PropTypes.string.isRequired,
   resource: PropTypes.object.isRequired,
   tooltip: PropTypes.string,

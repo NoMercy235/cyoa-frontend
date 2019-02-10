@@ -40,7 +40,10 @@ class SequenceTableCmp extends Component {
     return (
       <tr>
         <td colSpan="3" className={classes.optionsTableContainer}>
-          <OptionTableCmp sequenceId={rowData[0]}/>
+          <OptionTableCmp
+            sequenceId={rowData[0]}
+            onDeleteOption={this.props.onDeleteOption}
+          />
         </td>
       </tr>
     );
@@ -82,6 +85,7 @@ SequenceTableCmp.propTypes = {
   classes: PropTypes.object,
   sequences: PropTypes.arrayOf(PropTypes.shape(SequenceModel)),
   onDeleteSequence: PropTypes.func.isRequired,
+  onDeleteOption: PropTypes.func.isRequired,
 };
 
 export default withStyles(theme => ({

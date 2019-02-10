@@ -53,6 +53,10 @@ export class OptionModel extends BaseModel {
       { name: 'Action' },
       { name: 'Leads to' },
       { name: 'Consequence' },
+      {
+        name: '',
+        options: { filter: false, sort: false },
+      },
     ];
   }
 }

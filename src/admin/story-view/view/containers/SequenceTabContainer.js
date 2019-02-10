@@ -7,6 +7,7 @@ import SequenceTableCmp from '../components/tables/SequenceTableCmp';
 import { storyViewStorePropTypes } from '../../domain/stores/StoryViewStore';
 import { sequenceService } from '../../domain/services/SequenceService';
 import { withSnackbar } from '../../../../shared/components/form/helpers';
+import { optionService } from '../../domain/services/OptionService';
 
 @inject('storyViewStore')
 @observer
@@ -34,6 +35,18 @@ class SequenceTabContainer extends Component {
     this.props.storyViewStore.removeSequence(sequenceId);
   };
 
+  onDeleteOption = async (sequenceId, optionId) => {
+    const params = { ':sequence': sequenceId };
+    optionService.setNextRouteParams(params);
+    await withSnackbar.call(
+      this,
+      optionService.delete,
+      [optionId],
+      'Option deleted'
+    );
+    this.props.storyViewStore.removeSequence(sequenceId);
+  };
+
   getSequences = async () => {
     const params = { ':story': this.props.story._id };
     sequenceService.setNextRouteParams(params);
@@ -53,6 +66,7 @@ class SequenceTabContainer extends Component {
         <SequenceTableCmp
           sequences={sequences}
           onDeleteSequence={this.onDeleteSequence}
+          onDeleteOption={this.onDeleteOption}
         />
         <Snackbar
           open={this.state.open}

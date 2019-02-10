@@ -10,6 +10,8 @@ import { storyViewStorePropTypes } from '../../../domain/stores/StoryViewStore';
 import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
 import SaveOptionModal from '../modals/save-option/SaveOptionModal';
 import { Utils } from '@nomercy235/utils';
+import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
+import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow';
 
 @inject('storyViewStore')
 @observer
@@ -43,6 +45,28 @@ class OptionTableCmp extends Component {
     this.props.storyViewStore.setOptionsToSequence(sequenceId, options);
   };
 
+  onDeleteOption = (sequenceId, id) => () => {
+    this.props.onDeleteOption(sequenceId, id);
+  };
+
+  getActions = row => {
+    return (
+      <div key={row._id} className={this.props.classes.actionsContainer}>
+        <BasicEditAction
+          resourceName="option"
+          resource={row}
+          modalComponent={SaveOptionModal}
+          innerProps={{ sequenceId: this.props.sequenceId }}
+        />
+        <DeleteRow
+          title="Delete confirmation"
+          description="Are you sure you want to delete this attribute?"
+          onClick={this.onDeleteOption(row._id)}
+        />
+      </div>
+    );
+  };
+
   componentDidMount () {
     this.getOptions(this.props.sequenceId);
   }
@@ -56,7 +80,9 @@ class OptionTableCmp extends Component {
       return [
         o.action,
         this.getNextSeqName(o),
-        this.getConsequences(o)];
+        this.getConsequences(o),
+        this.getActions(o),
+      ];
     });
 
     const tableOptions = {
@@ -91,6 +117,7 @@ class OptionTableCmp extends Component {
 OptionTableCmp.propTypes = {
   classes: PropTypes.object,
   sequenceId: PropTypes.string.isRequired,
+  onDeleteOption: PropTypes.func.isRequired,
 
   storyViewStore: storyViewStorePropTypes,
 };

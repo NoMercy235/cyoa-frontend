@@ -54,13 +54,18 @@ class SaveOptionModal extends Component {
   };
 
   updateOption = async values => {
-    await withSnackbar.call(
+    this.setParams();
+    const option = await withSnackbar.call(
       this,
       optionService.update,
       [values._id, OptionModel.forApi(values)],
       'Option updated!',
     );
-    // this.props.storyViewStore.updateOption(values._id, option);
+    this.props.storyViewStore.updateOption(
+      this.props.sequenceId,
+      values._id,
+      option
+    );
   };
 
   getInitialValues = () => {

@@ -56,6 +56,14 @@ class StoryViewStore {
     s.options.push(option);
   }
 
+  @action updateOption(sequenceId, optionId, option) {
+    const seq = this.sequences.find(s => s._id === sequenceId);
+    seq.options = seq.options.map(o => {
+      if (o._id !== optionId) return o;
+      return option;
+    });
+  }
+
   @action reset() {
     this.attributes = [];
     this.sequences = [];
