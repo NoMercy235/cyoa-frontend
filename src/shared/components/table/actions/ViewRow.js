@@ -6,10 +6,12 @@ import Tooltip from '@material-ui/core/es/Tooltip/Tooltip';
 
 class ViewRow extends Component {
   render() {
+    const { onClick, tooltip, fontSize } = this.props;
+
     return (
-      <IconButton onClick={this.props.onClick}>
-        <Tooltip title={this.props.tooltip || 'View'}>
-          <VisibilityIcon fontSize="small" />
+      <IconButton onClick={onClick}>
+        <Tooltip title={tooltip || 'View'}>
+          <VisibilityIcon fontSize={fontSize || 'small'} />
         </Tooltip>
       </IconButton>
     );
@@ -17,6 +19,7 @@ class ViewRow extends Component {
 }
 
 ViewRow.propTypes = {
+  fontSize: PropTypes.string,
   tooltip: PropTypes.string,
   onClick: PropTypes.func.isRequired,
 };

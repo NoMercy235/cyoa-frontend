@@ -23,9 +23,9 @@ class IndexRoute extends Component {
   render() {
     return (
       <Switch>
-        <Route exact path='/' component={LandingRoute} />
+        <Route path='/public' component={LandingRoute} />
         <Route path='/admin' component={withAuth(AdminRoute)} />
-        <Redirect to='/' />
+        <Redirect exact path='/' to='/public' />
       </Switch>
     );
   }

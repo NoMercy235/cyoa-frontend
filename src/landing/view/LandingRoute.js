@@ -1,15 +1,24 @@
-import React, { Component, Fragment, lazy, Suspense } from 'react';
+import React, { Component } from 'react';
+import { Route, Switch } from 'react-router-dom';
+import LandingContainer from './containers/LandingContainer';
+import { READ_STORY_ROUTE } from '../../shared/constants/routes';
 
-const LandingContainer = lazy(() => import('./containers/LandingContainer'));
+class ReadStory extends Component {
+  render() {
+    return (
+      <span>read me</span>
+    );
+  }
+}
+
 
 class LandingRoute extends Component {
   render() {
     return (
-      <Fragment>
-        <Suspense fallback={<div>Fallback component</div>}>
-          <LandingContainer />
-        </Suspense>
-      </Fragment>
+      <Switch>
+        <Route exact path='/public' component={LandingContainer} />
+        <Route path={READ_STORY_ROUTE} component={ReadStory} />
+      </Switch>
     );
   }
 }

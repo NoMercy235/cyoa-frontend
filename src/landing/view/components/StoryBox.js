@@ -17,6 +17,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { StoryModel } from '../../../infrastructure/models/StoryModel';
 import { TagModel } from '../../../shared/domain/models/TagModel';
+import ViewRow from '../../../shared/components/table/actions/ViewRow';
+import { withRouter } from 'react-router-dom';
+import { makePath, READ_STORY_ROUTE } from '../../../shared/constants/routes';
 
 const styles = theme => ({
   actions: {
@@ -53,6 +56,22 @@ class StoryBox extends React.Component {
     ].filter(v => v).join(' - ');
   };
 
+  goToReadStory = history => () => {
+    const path = makePath(READ_STORY_ROUTE, { ':id': this.props.story._id});
+    history.push(path);
+  };
+
+  getReadBtn = () => {
+    const Btn = withRouter(({ history }) => (
+      <ViewRow
+        onClick={this.goToReadStory(history)}
+        fontSize="default"
+      />
+    ));
+
+    return <Btn />;
+  };
+
   render() {
     const { story, classes } = this.props;
 
@@ -85,6 +104,7 @@ class StoryBox extends React.Component {
           </Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
+          {this.getReadBtn()}
           <IconButton aria-label="Add to favorites">
             <FavoriteIcon />
           </IconButton>
