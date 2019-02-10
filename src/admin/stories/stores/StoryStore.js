@@ -1,7 +1,7 @@
 import { observable, action, runInAction, computed } from 'mobx';
 import * as PropTypes from 'prop-types';
-import { StoryModel } from '../models/StoryModel';
-import { CollectionModel } from '../models/CollectionModel';
+import { StoryModel } from '../../../infrastructure/models/StoryModel';
+import { CollectionModel } from '../../../infrastructure/models/CollectionModel';
 
 class StoryStore {
   @observable stories = [];

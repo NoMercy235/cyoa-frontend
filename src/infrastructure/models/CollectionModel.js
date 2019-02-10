@@ -1,4 +1,4 @@
-import { BaseModel } from '../../../../shared/domain/models/BaseModel';
+import { BaseModel } from '../../shared/domain/models/BaseModel';
 import * as moment from 'moment';
 
 export class CollectionModel extends BaseModel {

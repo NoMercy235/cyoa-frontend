@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import { styles as storiesTableStyles } from '../../../style/StoriesTableCmp.css';
 import { styles as tableStyles } from '../../../../../shared/components/table/TableCmp.css';
-import { StoryModel } from '../../../domain/models/StoryModel';
+import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import classNames from 'classnames';
 import { TagModel } from '../../../../../shared/domain/models/TagModel';
 import Tooltip from '@material-ui/core/Tooltip';

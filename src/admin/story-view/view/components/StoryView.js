@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import * as PropTypes from 'prop-types';
-import { StoryModel } from '../../../stories/domain/models/StoryModel';
+import { StoryModel } from '../../../../infrastructure/models/StoryModel';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';

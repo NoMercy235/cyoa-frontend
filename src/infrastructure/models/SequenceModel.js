@@ -1,4 +1,4 @@
-import { BaseModel } from '../../../../shared/domain/models/BaseModel';
+import { BaseModel } from '../../shared/domain/models/BaseModel';
 import { observable } from 'mobx';
 
 export class SequenceModel extends BaseModel {

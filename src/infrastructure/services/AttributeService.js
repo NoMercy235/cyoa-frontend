@@ -1,4 +1,4 @@
-import { BaseService } from '../../../../shared/domain/services/BaseService';
+import { BaseService } from '../../shared/domain/services/BaseService';
 import { AttributeModel } from '../models/AttributeModel';
 
 class AttributeService extends BaseService {

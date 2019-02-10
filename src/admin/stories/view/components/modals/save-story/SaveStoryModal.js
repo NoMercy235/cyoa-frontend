@@ -4,16 +4,16 @@ import { withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import { Formik } from 'formik';
 import { inject } from 'mobx-react';
-import { StoryModel } from '../../../../domain/models/StoryModel';
+import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import { DialogTitle } from '../../../../../../shared/components/dialog/Title';
 import { DialogContent } from '../../../../../../shared/components/dialog/Content';
 import { DialogActions } from '../../../../../../shared/components/dialog/Actions';
 import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
 import { styles } from './SaveStory.css';
 import SaveStoryForm from './SaveStoryForm';
-import { storyStorePropTypes } from '../../../../domain/stores/StoryStore';
+import { storyStorePropTypes } from '../../../../stores/StoryStore';
 import { withSnackbar } from '../../../../../../shared/components/form/helpers';
-import { storyService } from '../../../../domain/services/StoryService';
+import { storyService } from '../../../../../../infrastructure/services/StoryService';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 
 @inject('storyStore')

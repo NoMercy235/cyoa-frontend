@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import { storyService } from '../../../stories/domain/services/StoryService';
+import { storyService } from '../../../../infrastructure/services/StoryService';
 import StoryView from '../components/StoryView';
 import * as PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { inject } from 'mobx-react';
-import { storyViewStorePropTypes } from '../../domain/stores/StoryViewStore';
+import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
 
 @inject('storyViewStore')
 class StoryViewContainer extends Component {

@@ -5,7 +5,7 @@ import { styles as tableStyles } from '../../../../../shared/components/table/Ta
 import { styles as customStyles } from '../../../style/SequenceTableCmp.css';
 import TableCmp from '../../../../../shared/components/table/TableCmp';
 import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow';
-import { SequenceModel } from '../../../domain/models/SequenceModel';
+import { SequenceModel } from '../../../../../infrastructure/models/SequenceModel';
 import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
 import SaveSequenceModal from '../modals/save-sequence/SaveSequenceModal';
 import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';

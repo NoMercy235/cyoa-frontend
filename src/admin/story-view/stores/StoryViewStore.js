@@ -1,6 +1,6 @@
 import { observable, action } from 'mobx';
 import * as PropTypes from 'prop-types';
-import { AttributeModel } from '../models/AttributeModel';
+import { AttributeModel } from '../../../infrastructure/models/AttributeModel';
 
 class StoryViewStore {
   @observable attributes = [];

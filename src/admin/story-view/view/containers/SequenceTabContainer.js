@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import * as PropTypes from 'prop-types';
-import { StoryModel } from '../../../stories/domain/models/StoryModel';
+import { StoryModel } from '../../../../infrastructure/models/StoryModel';
 import Snackbar from '../../../../shared/components/snackbar/Snackbar';
 import { inject, observer } from 'mobx-react';
 import SequenceTableCmp from '../components/tables/SequenceTableCmp';
-import { storyViewStorePropTypes } from '../../domain/stores/StoryViewStore';
-import { sequenceService } from '../../domain/services/SequenceService';
+import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
+import { sequenceService } from '../../../../infrastructure/services/SequenceService';
 import { withSnackbar } from '../../../../shared/components/form/helpers';
-import { optionService } from '../../domain/services/OptionService';
+import { optionService } from '../../../../infrastructure/services/OptionService';
 
 @inject('storyViewStore')
 @observer

@@ -9,13 +9,13 @@ import { DialogActions } from '../../../../../../shared/components/dialog/Action
 import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
 import { inject } from 'mobx-react';
 import { withSnackbar } from '../../../../../../shared/components/form/helpers';
-import { storyViewStorePropTypes } from '../../../../domain/stores/StoryViewStore';
+import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
-import { optionService } from '../../../../domain/services/OptionService';
-import { OptionModel } from '../../../../domain/models/OptionModel';
+import { optionService } from '../../../../../../infrastructure/services/OptionService';
+import { OptionModel } from '../../../../../../infrastructure/models/OptionModel';
 import SaveOptionForm from './SaveOptionForm';
 import { styles } from './SaveOption.css';
-import { ConsequenceModel } from '../../../../domain/models/ConsequenceModel';
+import { ConsequenceModel } from '../../../../../../infrastructure/models/ConsequenceModel';
 
 @inject('storyViewStore')
 class SaveOptionModal extends Component {

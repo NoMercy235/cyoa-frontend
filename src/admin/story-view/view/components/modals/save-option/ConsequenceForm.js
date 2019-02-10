@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core';
 import { hasError } from '../../../../../../shared/components/form/helpers';
 import Select from '../../../../../../shared/components/form/Select';
 import { styles } from './SaveOption.css';
-import { AttributeModel } from '../../../../domain/models/AttributeModel';
+import { AttributeModel } from '../../../../../../infrastructure/models/AttributeModel';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Tooltip from '@material-ui/core/Tooltip';

@@ -1,4 +1,4 @@
-import { BaseService } from '../../../../shared/domain/services/BaseService';
+import { BaseService } from '../../shared/domain/services/BaseService';
 import { SequenceModel } from '../models/SequenceModel';
 
 class SequenceService extends BaseService {

@@ -2,10 +2,10 @@ import React, { Component, Fragment } from 'react';
 import CollectionsTableCmp from '../components/tables/CollectionsTableCmp';
 import StoriesTableCmp from '../components/tables/StoriesTableCmp';
 import classes from '../../style/StoryContainer.module.scss';
-import { storyService } from '../../domain/services/StoryService';
+import { storyService } from '../../../../infrastructure/services/StoryService';
 import { inject, observer } from 'mobx-react';
-import { storyStorePropTypes } from '../../domain/stores/StoryStore';
-import { collectionService } from '../../domain/services/CollectionService';
+import { storyStorePropTypes } from '../../stores/StoryStore';
+import { collectionService } from '../../../../infrastructure/services/CollectionService';
 import Snackbar from '../../../../shared/components/snackbar/Snackbar';
 import { withSnackbar } from '../../../../shared/components/form/helpers';
 

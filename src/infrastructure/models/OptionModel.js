@@ -1,4 +1,4 @@
-import { BaseModel } from '../../../../shared/domain/models/BaseModel';
+import { BaseModel } from '../../shared/domain/models/BaseModel';
 
 export class OptionModel extends BaseModel {
   _id = '';

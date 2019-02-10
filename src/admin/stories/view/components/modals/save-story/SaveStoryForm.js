@@ -7,7 +7,7 @@ import Select from '../../../../../../shared/components/form/Select';
 import { styles } from './SaveStory.css';
 import { hasError } from '../../../../../../shared/components/form/helpers';
 import { TagModel } from '../../../../../../shared/domain/models/TagModel';
-import { CollectionModel } from '../../../../domain/models/CollectionModel';
+import { CollectionModel } from '../../../../../../infrastructure/models/CollectionModel';
 
 class SaveStoryForm extends Component {
   tags = TagModel.get();

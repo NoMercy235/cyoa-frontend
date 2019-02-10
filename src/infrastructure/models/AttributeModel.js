@@ -1,4 +1,4 @@
-import { BaseModel } from '../../../../shared/domain/models/BaseModel';
+import { BaseModel } from '../../shared/domain/models/BaseModel';
 
 export class AttributeModel extends BaseModel {
   _id = '';

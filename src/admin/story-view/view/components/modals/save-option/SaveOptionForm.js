@@ -5,13 +5,13 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core';
 import { hasError } from '../../../../../../shared/components/form/helpers';
 import Select from '../../../../../../shared/components/form/Select';
-import { SequenceModel } from '../../../../domain/models/SequenceModel';
+import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
 import { styles } from './SaveOption.css';
 import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import ConsequenceForm from './ConsequenceForm';
-import { ConsequenceModel } from '../../../../domain/models/ConsequenceModel';
+import { ConsequenceModel } from '../../../../../../infrastructure/models/ConsequenceModel';
 import Tooltip from '@material-ui/core/Tooltip';
 
 class SaveOptionForm extends Component {

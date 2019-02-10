@@ -9,10 +9,10 @@ import { DialogActions } from '../../../../../../shared/components/dialog/Action
 import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
 import { styles } from './SaveCollection.css';
 import SaveCollectionForm from './SaveCollectionForm';
-import { collectionService } from '../../../../domain/services/CollectionService';
-import { CollectionModel } from '../../../../domain/models/CollectionModel';
+import { collectionService } from '../../../../../../infrastructure/services/CollectionService';
+import { CollectionModel } from '../../../../../../infrastructure/models/CollectionModel';
 import { inject } from 'mobx-react';
-import { storyStorePropTypes } from '../../../../domain/stores/StoryStore';
+import { storyStorePropTypes } from '../../../../stores/StoryStore';
 import { withSnackbar } from '../../../../../../shared/components/form/helpers';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 

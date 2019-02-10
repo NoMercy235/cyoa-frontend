@@ -1,4 +1,4 @@
-import { BaseService } from '../../../../shared/domain/services/BaseService';
+import { BaseService } from '../../shared/domain/services/BaseService';
 import { OptionModel } from '../models/OptionModel';
 
 class OptionService extends BaseService {

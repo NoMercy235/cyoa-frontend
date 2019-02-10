@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import { styles as tableStyles } from '../../../../../shared/components/table/TableCmp.css';
-import { AttributeModel } from '../../../domain/models/AttributeModel';
+import { AttributeModel } from '../../../../../infrastructure/models/AttributeModel';
 import TableCmp from '../../../../../shared/components/table/TableCmp';
 import ViewRow from '../../../../../shared/components/table/actions/ViewRow';
 import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow';

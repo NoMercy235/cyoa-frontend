@@ -10,9 +10,9 @@ import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
 import { styles } from './SaveAttribute.css';
 import { inject } from 'mobx-react';
 import { withSnackbar } from '../../../../../../shared/components/form/helpers';
-import { attributeService } from '../../../../domain/services/AttributeService';
-import { AttributeModel } from '../../../../domain/models/AttributeModel';
-import { storyViewStorePropTypes } from '../../../../domain/stores/StoryViewStore';
+import { attributeService } from '../../../../../../infrastructure/services/AttributeService';
+import { AttributeModel } from '../../../../../../infrastructure/models/AttributeModel';
+import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
 import SaveAttributeForm from './SaveAttributeForm';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 

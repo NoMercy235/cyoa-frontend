@@ -10,9 +10,9 @@ import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
 import { styles } from './SaveSequence.css';
 import { inject } from 'mobx-react';
 import { withSnackbar } from '../../../../../../shared/components/form/helpers';
-import { storyViewStorePropTypes } from '../../../../domain/stores/StoryViewStore';
-import { SequenceModel } from '../../../../domain/models/SequenceModel';
-import { sequenceService } from '../../../../domain/services/SequenceService';
+import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
+import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
+import { sequenceService } from '../../../../../../infrastructure/services/SequenceService';
 import SaveSequenceForm from './SaveSequenceForm';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 

@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import AttributesTableCmp from '../components/tables/AttributesTableCmp';
-import { attributeService } from '../../domain/services/AttributeService';
+import { attributeService } from '../../../../infrastructure/services/AttributeService';
 import * as PropTypes from 'prop-types';
-import { StoryModel } from '../../../stories/domain/models/StoryModel';
+import { StoryModel } from '../../../../infrastructure/models/StoryModel';
 import { inject, observer } from 'mobx-react';
-import { storyViewStorePropTypes } from '../../domain/stores/StoryViewStore';
+import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
 import { withSnackbar } from '../../../../shared/components/form/helpers';
 import Snackbar from '../../../../shared/components/snackbar/Snackbar';
 
