@@ -28,6 +28,12 @@ class PublicStoryService extends BaseService {
       return stories.map(s => new StoryModel(s));
     });
   };
+
+  get = id => {
+    return super.get(id).then(story => {
+      return new StoryModel(story);
+    });
+  };
 }
 
 export const storyService = new StoryService();

@@ -1,0 +1,34 @@
+import React, { Component, Fragment } from 'react';
+import { publicStoryService } from '../../../../infrastructure/services/StoryService';
+import { withRouter } from 'react-router-dom';
+import * as PropTypes from 'prop-types';
+import ReadStoryCmp from '../components/ReadStoryCmp';
+
+class ReadStoryContainer extends Component {
+  state = { story: null };
+
+  getStory = async (storyId) => {
+    const story = await publicStoryService.get(storyId);
+    this.setState({ story });
+  };
+
+  componentDidMount () {
+    this.getStory(this.props.match.params.id);
+  }
+
+  render() {
+    return (
+      <Fragment>
+        {this.state.story && <ReadStoryCmp
+          story={this.state.story}
+        />}
+      </Fragment>
+    );
+  }
+}
+
+ReadStoryContainer.propTypes = {
+  match: PropTypes.object,
+};
+
+export default withRouter(ReadStoryContainer);
