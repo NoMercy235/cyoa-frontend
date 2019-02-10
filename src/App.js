@@ -6,7 +6,7 @@ import IndexRoute from './shared/components/layout/IndexRoute';
 import { BrowserRouter } from 'react-router-dom';
 import { storyStore } from './admin/stories/stores/StoryStore';
 import { storyViewStore } from './admin/story-view/stores/StoryViewStore';
-import { publicStoryStore } from './landing/stores/PublicStoryStore';
+import { publicStoryStore } from './public/landing/stores/PublicStoryStore';
 
 class App extends Component {
   render() {

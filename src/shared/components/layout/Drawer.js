@@ -15,6 +15,7 @@ import { styles } from './Styles';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { appStorePropTypes } from '../../store/AppStore';
+import { ADMIN_STORIES_ROUTE } from '../../constants/routes';
 
 const publicMenu = [
   {
@@ -29,7 +30,7 @@ const adminMenu = [
   {
     name: 'myStories',
     label: 'My stories',
-    route: '/admin/stories',
+    route: ADMIN_STORIES_ROUTE,
     icon: undefined,
     condition: (appStore) => appStore.isLoggedIn,
   },

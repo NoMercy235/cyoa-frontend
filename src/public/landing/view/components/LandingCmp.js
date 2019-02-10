@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { observer } from 'mobx-react';
 import * as PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
-import { StoryModel } from '../../../infrastructure/models/StoryModel';
+import { StoryModel } from '../../../../infrastructure/models/StoryModel';
 import StoryBox from './StoryBox';
 import classes from '../../style/LandingCmp.module.scss';
 

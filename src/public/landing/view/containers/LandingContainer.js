@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import LandingCmp from '../components/LandingCmp';
-import { publicStoryService } from '../../../infrastructure/services/StoryService';
+import { publicStoryService } from '../../../../infrastructure/services/StoryService';
 import { inject, observer } from 'mobx-react';
 import { publicStoryStorePropTypes } from '../../stores/PublicStoryStore';
 

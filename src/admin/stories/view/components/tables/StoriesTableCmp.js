@@ -15,6 +15,7 @@ import BasicNewAction from '../../../../../shared/components/form/BasicNewAction
 import SaveStoryModal from '../modals/save-story/SaveStoryModal';
 import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
 import { observer } from 'mobx-react';
+import { ADMIN_STORY_VIEW_ROUTE, makePath } from '../../../../../shared/constants/routes';
 
 @observer
 class StoriesTableCmp extends Component {
@@ -34,7 +35,8 @@ class StoriesTableCmp extends Component {
   };
 
   onSelect = (history, row) => () => {
-    history.push(`stories/${row._id}`);
+    const path = makePath(ADMIN_STORY_VIEW_ROUTE, { ':id': row._id });
+    history.push(path);
   };
 
   renderName = row => {

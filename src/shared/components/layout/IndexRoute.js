@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
-import LandingRoute from '../../../landing/view/LandingRoute';
 import { withDefaultLayout } from '../../hoc/DefaultLayout';
 import AdminRoute from '../../../admin/AdminRoute';
 import { inject, observer } from 'mobx-react';
 import { appStorePropTypes } from '../../store/AppStore';
 import withAuth from '../../hoc/AuthRoute';
 import { tagService } from '../../domain/services/TagService';
+import PublicRoute from '../../../public/PublicRoute';
+import { ADMIN_ROUTE, LANDING_ROUTE } from '../../constants/routes';
 
 @inject('appStore')
 @observer
@@ -23,9 +24,9 @@ class IndexRoute extends Component {
   render() {
     return (
       <Switch>
-        <Route path='/public' component={LandingRoute} />
-        <Route path='/admin' component={withAuth(AdminRoute)} />
-        <Redirect exact path='/' to='/public' />
+        <Route path={LANDING_ROUTE} component={PublicRoute} />
+        <Route path={ADMIN_ROUTE} component={withAuth(AdminRoute)} />
+        <Redirect exact path='/' to={LANDING_ROUTE} />
       </Switch>
     );
   }
