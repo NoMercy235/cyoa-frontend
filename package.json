@@ -25,7 +25,8 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "serve": "docker-compose down && npm run build && docker-compose build --no-cache && docker-compose up -d"
   },
   "eslintConfig": {
     "extends": "react-app"

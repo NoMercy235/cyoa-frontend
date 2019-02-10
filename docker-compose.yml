@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  cyoa:
+    container_name: cyoa-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
