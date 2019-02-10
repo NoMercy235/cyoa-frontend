@@ -19,4 +19,16 @@ class StoryService extends BaseService {
   };
 }
 
+
+class PublicStoryService extends BaseService {
+  endpoint = 'public/story';
+
+  list = (filters = {}) => {
+    return super.list(filters).then(stories => {
+      return stories.map(s => new StoryModel(s));
+    });
+  };
+}
+
 export const storyService = new StoryService();
+export const publicStoryService = new PublicStoryService();

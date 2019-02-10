@@ -18,4 +18,10 @@ export class TagModel extends BaseModel {
     }
     return TagModel.tags;
   }
+
+  static getOne(id) {
+    // Fix for older tags
+    // TODO: remove this
+    return TagModel.get().find(t => t._id === id) || id;
+  }
 }

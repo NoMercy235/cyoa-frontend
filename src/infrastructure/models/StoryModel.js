@@ -7,6 +7,7 @@ export class StoryModel extends BaseModel {
   description = '';
   tags = [];
   author = '';
+  authorShort = '';
   startSeq = '';
   created_at = '';
   fromCollection = '';

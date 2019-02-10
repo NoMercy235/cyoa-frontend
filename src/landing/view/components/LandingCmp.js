@@ -1,35 +1,36 @@
 import React, { Component, Fragment } from 'react';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
 import * as PropTypes from 'prop-types';
+import Typography from '@material-ui/core/Typography';
+import { StoryModel } from '../../../infrastructure/models/StoryModel';
+import StoryBox from './StoryBox';
+import classes from '../../style/LandingCmp.module.scss';
 
-@inject('testStore')
 @observer
 class LandingCmp extends Component {
-  constructor(props) {
-    super(props);
-    this.index = 0;
-  }
-
-  changeName = () => {
-    this.props.testStore.changeName('abc: ' + this.index);
-    this.index ++;
-  };
-
   render() {
+    const { stories } = this.props;
     return (
       <Fragment>
-        <p>test me pls</p>
-        <button onClick={this.changeName}>
-          Click here to change the name
-        </button>
-        <p>{ this.props.testStore.name.get() }</p>
+        <Typography
+          variant="h6"
+          color="inherit"
+          noWrap
+        >
+          Latest stories:
+        </Typography>
+        <div className={classes.storiesContainer}>
+          {!!stories.length && stories.map(s => (
+            <StoryBox key={s._id} story={s}/>
+          ))}
+        </div>
       </Fragment>
     );
   }
 }
 
 LandingCmp.propTypes = {
-  testStore: PropTypes.object,
+  stories: PropTypes.arrayOf(PropTypes.shape(StoryModel)),
 };
 
 export default LandingCmp;

@@ -1,0 +1,9 @@
+.storiesContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  div:not(:last-of-type) {
+    margin-bottom: 10px;
+  }
+}
