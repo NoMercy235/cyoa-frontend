@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
@@ -12,14 +12,14 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 // import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { StoryModel } from '../../../../infrastructure/models/StoryModel';
-import { TagModel } from '../../../../shared/domain/models/TagModel';
-import ViewRow from '../../../../shared/components/table/actions/ViewRow';
+import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
+import { TagModel } from '../../../../../shared/domain/models/TagModel';
+import ViewRow from '../../../../../shared/components/table/actions/ViewRow';
 import { withRouter } from 'react-router-dom';
-import { makePath, READ_STORY_ROUTE } from '../../../../shared/constants/routes';
+import { makePath, READ_STORY_ROUTE } from '../../../../../shared/constants/routes';
+import ShareButton from './ShareButton';
 
 const styles = theme => ({
   actions: {
@@ -40,7 +40,7 @@ const styles = theme => ({
   },
 });
 
-class StoryBox extends React.Component {
+class StoryBox extends Component {
   state = { expanded: false };
 
   handleExpandClick = () => {
@@ -56,9 +56,17 @@ class StoryBox extends React.Component {
     ].filter(v => v).join(' - ');
   };
 
+  makePath = (withOrigin = false) => {
+    let path = '';
+    if (withOrigin) {
+      path += window.location.origin;
+    }
+    path += makePath(READ_STORY_ROUTE, { ':id': this.props.story._id});
+    return path;
+  };
+
   goToReadStory = history => () => {
-    const path = makePath(READ_STORY_ROUTE, { ':id': this.props.story._id});
-    history.push(path);
+    history.push(this.makePath());
   };
 
   getReadBtn = () => {
@@ -105,14 +113,7 @@ class StoryBox extends React.Component {
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
           {this.getReadBtn()}
-          {/*
-          <IconButton aria-label="Add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-          */}
-          <IconButton aria-label="Share">
-            <ShareIcon />
-          </IconButton>
+          <ShareButton text={this.makePath(true)}/>
           <IconButton
             className={classnames(classes.expand, {
               [classes.expandOpen]: this.state.expanded,
