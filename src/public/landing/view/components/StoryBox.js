@@ -100,7 +100,7 @@ class StoryBox extends React.Component {
         />*/}
         <CardContent>
           <Typography component="p">
-            {story.description}
+            {story.shortDescription}
           </Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
@@ -124,7 +124,7 @@ class StoryBox extends React.Component {
         </CardActions>
         <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            TBD - perhaps a long(er) description
+            {story.longDescription}
           </CardContent>
         </Collapse>
       </Card>

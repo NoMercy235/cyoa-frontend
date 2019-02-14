@@ -71,18 +71,34 @@ class SaveStoryForm extends Component {
           }}
         />
         <Field
-          name="description"
+          name="shortDescription"
           required
           render={({ field }) => {
             return <TextField
               {...field}
               type="text"
-              label="Description"
+              label="Short description"
               fullWidth
               multiline
-              rows={3}
-              value={formik.values.description}
-              {...hasError(formik, 'description')}
+              rows={2}
+              value={formik.values.shortDescription}
+              {...hasError(formik, 'shortDescription')}
+            />;
+          }}
+        />
+        <Field
+          name="longDescription"
+          required
+          render={({ field }) => {
+            return <TextField
+              {...field}
+              type="text"
+              label="Long description"
+              fullWidth
+              multiline
+              rows={5}
+              value={formik.values.longDescription}
+              {...hasError(formik, 'longDescription')}
             />;
           }}
         />

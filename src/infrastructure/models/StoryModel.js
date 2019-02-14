@@ -5,7 +5,8 @@ import { ERRORS } from '../../shared/constants/errors';
 export class StoryModel extends BaseModel {
   _id = '';
   name = '';
-  description = '';
+  shortDescription = '';
+  longDescription = '';
   tags = [];
   author = '';
   authorShort = '';
@@ -36,8 +37,8 @@ export class StoryModel extends BaseModel {
     if (!this.name) {
       errors.name = ERRORS.fieldRequired;
     }
-    if (!this.description) {
-      errors.description = ERRORS.fieldRequired;
+    if (!this.shortDescription) {
+      errors.shortDescription = ERRORS.fieldRequired;
     }
     if (!this.tags || !this.tags.length) {
       errors.tags = ERRORS.fieldRequired;
@@ -48,7 +49,8 @@ export class StoryModel extends BaseModel {
   static forApi(story) {
     return {
       name: story.name,
-      description: story.description,
+      shortDescription: story.shortDescription,
+      longDescription: story.longDescription,
       tags: story.tags,
       startSeq: story.startSeq,
       fromCollection: story.fromCollection,
