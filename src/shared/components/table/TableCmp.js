@@ -8,6 +8,7 @@ import MUIDataTable from 'mui-datatables';
 
 class TableCmp extends Component {
   defaultOptions = {
+    search: false,
     download: false,
     print: false,
     selectableRows: false,
