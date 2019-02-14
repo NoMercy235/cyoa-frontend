@@ -1,10 +1,13 @@
 import { observable, action } from 'mobx';
 import * as PropTypes from 'prop-types';
 import { AttributeModel } from '../../../infrastructure/models/AttributeModel';
+import { SequenceModel } from '../../../infrastructure/models/SequenceModel';
+import { StoryModel } from '../../../infrastructure/models/StoryModel';
 
 class StoryViewStore {
   @observable attributes = [];
   @observable sequences = [];
+  @observable currentStory = null;
 
   @action setAttributes(attributes) {
     this.attributes = attributes;
@@ -64,9 +67,14 @@ class StoryViewStore {
     });
   }
 
+  @action setCurrentStory(story) {
+    this.currentStory = story;
+  }
+
   @action reset() {
     this.attributes = [];
     this.sequences = [];
+    this.story = null;
   }
 
   getSequenceOptions(sequenceId) {
@@ -84,6 +92,8 @@ class StoryViewStore {
 
 export const storyViewStorePropTypes = PropTypes.shape({
   attributes: PropTypes.arrayOf(PropTypes.shape(AttributeModel)),
+  sequences: PropTypes.arrayOf(PropTypes.shape(SequenceModel)),
+  currentStory: PropTypes.instanceOf(StoryModel),
 
   setAttributes: PropTypes.func,
   addAttribute: PropTypes.func,
@@ -95,6 +105,8 @@ export const storyViewStorePropTypes = PropTypes.shape({
 
   setOptionsToSequence: PropTypes.func,
   addOptionToSequence: PropTypes.func,
+
+  setCurrentStory: PropTypes.func,
 
   reset: PropTypes.func,
 });

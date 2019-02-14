@@ -3,18 +3,15 @@ import { storyService } from '../../../../infrastructure/services/StoryService';
 import StoryView from '../components/StoryView';
 import * as PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
 
 @inject('storyViewStore')
+@observer
 class StoryViewContainer extends Component {
-  state= {
-    story: null,
-  };
-
   async fetchStory(storyId) {
     const story = (await storyService.get(storyId));
-    this.setState({ story });
+    this.props.storyViewStore.setCurrentStory(story);
   }
 
   componentDidMount () {
@@ -26,13 +23,15 @@ class StoryViewContainer extends Component {
   }
 
   render() {
-    if (!this.state.story) {
+    const { currentStory } = this.props.storyViewStore;
+
+    if (!currentStory) {
       return <span>Loading...</span>;
     }
 
     return (
       <Fragment>
-        <StoryView story={this.state.story} />
+        <StoryView story={currentStory} />
       </Fragment>
     );
   }
