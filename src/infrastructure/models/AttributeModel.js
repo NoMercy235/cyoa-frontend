@@ -1,4 +1,5 @@
 import { BaseModel } from '../../shared/domain/models/BaseModel';
+import { ERRORS } from '../../shared/constants/errors';
 
 export class AttributeModel extends BaseModel {
   _id = '';
@@ -14,10 +15,10 @@ export class AttributeModel extends BaseModel {
   checkErrors() {
     let errors = {};
     if (!this.name) {
-      errors.name = 'This field is required';
+      errors.name = ERRORS.fieldRequired;
     }
     if (this.startValue !== 0 && !this.startValue) {
-      errors.startValue = 'This field is required';
+      errors.startValue = ERRORS.fieldRequired;
     }
     return errors;
   }

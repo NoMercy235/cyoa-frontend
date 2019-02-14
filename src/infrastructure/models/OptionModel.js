@@ -1,4 +1,5 @@
 import { BaseModel } from '../../shared/domain/models/BaseModel';
+import { ERRORS } from '../../shared/constants/errors';
 
 export class OptionModel extends BaseModel {
   _id = '';
@@ -16,11 +17,11 @@ export class OptionModel extends BaseModel {
     let errors = {};
 
     if (!this.action) {
-      errors.action = 'This field is required';
+      errors.action = ERRORS.fieldRequired;
     }
 
     if (!this.nextSeq) {
-      errors.nextSeq = 'This field is required';
+      errors.nextSeq = ERRORS.fieldRequired;
     }
 
     errors.consequences = new Array(this.consequences.length);

@@ -1,5 +1,6 @@
 import { BaseModel } from '../../shared/domain/models/BaseModel';
 import * as moment from 'moment';
+import { ERRORS } from '../../shared/constants/errors';
 
 export class CollectionModel extends BaseModel {
   _id = '';
@@ -23,10 +24,10 @@ export class CollectionModel extends BaseModel {
   checkErrors() {
     let errors = {};
     if (!this.name) {
-      errors.name = 'This field is required';
+      errors.name = ERRORS.fieldRequired;
     }
     if (!this.description) {
-      errors.description = 'This field is required';
+      errors.description = ERRORS.fieldRequired;
     }
     return errors;
   }

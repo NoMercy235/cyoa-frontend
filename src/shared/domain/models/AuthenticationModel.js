@@ -1,4 +1,5 @@
 import { BaseModel } from './BaseModel';
+import { ERRORS } from '../../constants/errors';
 
 export class AuthenticationModel extends BaseModel {
   email = '';
@@ -14,13 +15,13 @@ export class AuthenticationModel extends BaseModel {
     const { isLoggingIn } = options;
     let errors = {};
     if (!this.email) {
-      errors.email = 'This field is required';
+      errors.email = ERRORS.fieldRequired;
     }
     if (!this.password) {
-      errors.password = 'This field is required';
+      errors.password = ERRORS.fieldRequired;
     }
     if (!isLoggingIn && !this.repeatPassword) {
-      errors.repeatPassword = 'This field is required';
+      errors.repeatPassword = ERRORS.fieldRequired;
     }
     if (
       !isLoggingIn &&

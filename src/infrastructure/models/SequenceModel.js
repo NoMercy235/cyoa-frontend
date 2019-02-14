@@ -1,5 +1,6 @@
 import { BaseModel } from '../../shared/domain/models/BaseModel';
 import { observable } from 'mobx';
+import { ERRORS } from '../../shared/constants/errors';
 
 export class SequenceModel extends BaseModel {
   _id = '';
@@ -16,10 +17,10 @@ export class SequenceModel extends BaseModel {
   checkErrors() {
     let errors = {};
     if (!this.name) {
-      errors.name = 'This field is required';
+      errors.name = ERRORS.fieldRequired;
     }
     if (!this.content) {
-      errors.content = 'This field is required';
+      errors.content = ERRORS.fieldRequired;
     }
     return errors;
   }

@@ -1,5 +1,6 @@
 import { BaseModel } from '../../shared/domain/models/BaseModel';
 import * as moment from 'moment';
+import { ERRORS } from '../../shared/constants/errors';
 
 export class StoryModel extends BaseModel {
   _id = '';
@@ -33,13 +34,13 @@ export class StoryModel extends BaseModel {
   checkErrors() {
     let errors = {};
     if (!this.name) {
-      errors.name = 'This field is required';
+      errors.name = ERRORS.fieldRequired;
     }
     if (!this.description) {
-      errors.description = 'This field is required';
+      errors.description = ERRORS.fieldRequired;
     }
     if (!this.tags || !this.tags.length) {
-      errors.tags = 'This field is required';
+      errors.tags = ERRORS.fieldRequired;
     }
     return errors;
   }
