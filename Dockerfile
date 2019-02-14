@@ -9,7 +9,7 @@ ENV PORT=80
 WORKDIR /usr/share/nginx/html
 
 COPY ./build /usr/share/nginx/html
-COPY ./config/compression.conf /etc/nginx/conf.d/compression.conf
+COPY ./config/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE $PORT
 
