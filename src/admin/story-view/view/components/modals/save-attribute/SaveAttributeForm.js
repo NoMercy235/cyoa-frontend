@@ -12,33 +12,35 @@ class SaveAttributeForm extends Component {
 
     return (
       <Form noValidate>
-        <Field
-          name="name"
-          required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              label="Name"
-              className={classes.name}
-              value={formik.values.name}
-              {...hasError(formik, 'name')}
-            />;
-          }}
-        />
-        <Field
-          name="startValue"
-          required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              label="Start value"
-              type="number"
-              className={classes.startValue}
-              value={formik.values.startValue}
-              {...hasError(formik, 'startValue')}
-            />;
-          }}
-        />
+        <div className={classes.firstRowContainer}>
+          <Field
+            name="name"
+            required
+            render={({ field }) => {
+              return <TextField
+                {...field}
+                label="Name"
+                className={classes.name}
+                value={formik.values.name}
+                {...hasError(formik, 'name')}
+              />;
+            }}
+          />
+          <Field
+            name="startValue"
+            required
+            render={({ field }) => {
+              return <TextField
+                {...field}
+                label="Start value"
+                type="number"
+                className={classes.startValue}
+                value={formik.values.startValue}
+                {...hasError(formik, 'startValue')}
+              />;
+            }}
+          />
+        </div>
         <Field
           name="description"
           required
