@@ -60,7 +60,7 @@ class PublishBtn extends Component {
   render() {
     const { story } = this.props;
     const { open, message, variant } = this.state;
-    console.log(this.state);
+
     return (
       <Fragment>
         {story.published ? this.renderUnpublishButton() : this.renderPublishButton()}
