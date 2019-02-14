@@ -80,6 +80,17 @@ class StoryBox extends Component {
     return <Btn />;
   };
 
+  parseDescription = (description) => {
+    return description.split('\n').map((line, i) => {
+      if (line === '') return <br key={i}/>;
+      return (
+        <Typography component="p" key={i}>
+          {line}
+        </Typography>
+      );
+    });
+  };
+
   render() {
     const { story, classes } = this.props;
 
@@ -107,9 +118,7 @@ class StoryBox extends Component {
           title="Paella dish"
         />*/}
         <CardContent>
-          <Typography component="p">
-            {story.shortDescription}
-          </Typography>
+          {this.parseDescription(story.shortDescription)}
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
           {this.getReadBtn()}
@@ -127,7 +136,7 @@ class StoryBox extends Component {
         </CardActions>
         <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            {story.longDescription}
+            {this.parseDescription(story.longDescription)}
           </CardContent>
         </Collapse>
       </Card>
