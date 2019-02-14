@@ -8,6 +8,7 @@ import { storyStorePropTypes } from '../../stores/StoryStore';
 import { collectionService } from '../../../../infrastructure/services/CollectionService';
 import Snackbar from '../../../../shared/components/snackbar/Snackbar';
 import { withSnackbar } from '../../../../shared/components/form/helpers';
+import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
 
 @inject('storyStore')
 @observer
@@ -79,6 +80,7 @@ class StoryContainer extends Component {
 
     return (
       <Fragment>
+        <Breadcrumb/>
         <div className={classes.tableContainer}>
           <div className={classes.collectionsContainer}>
             <CollectionsTableCmp

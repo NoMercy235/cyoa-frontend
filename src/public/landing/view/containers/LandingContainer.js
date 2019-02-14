@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import LandingCmp from '../components/LandingCmp';
 import { publicStoryService } from '../../../../infrastructure/services/StoryService';
 import { inject, observer } from 'mobx-react';
 import { publicStoryStorePropTypes } from '../../stores/PublicStoryStore';
+import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
 
 @inject('publicStoryStore')
 @observer
@@ -19,9 +20,12 @@ class LandingContainer extends Component {
   render() {
     const { publicStoryStore } = this.props;
     return (
-      <LandingCmp
-        stories={publicStoryStore.stories}
-      />
+      <Fragment>
+        <Breadcrumb/>
+        <LandingCmp
+          stories={publicStoryStore.stories}
+        />
+      </Fragment>
     );
   }
 }

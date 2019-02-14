@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import PlayerTabContainer from '../containers/PlayerTabContainer';
 import SequenceTabContainer from '../containers/SequenceTabContainer';
 import GeneralTabContainer from '../containers/GeneralTabContainer';
+import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
 
 class StoryView extends Component {
   state = {
@@ -23,6 +24,7 @@ class StoryView extends Component {
 
     return (
       <Fragment>
+        <Breadcrumb/>
         <AppBar position="static">
           <Tabs value={currentTab} onChange={this.handleChange}>
             <Tab label="General" />

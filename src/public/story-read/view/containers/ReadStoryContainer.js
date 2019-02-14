@@ -3,6 +3,7 @@ import { publicStoryService } from '../../../../infrastructure/services/StorySer
 import { withRouter } from 'react-router-dom';
 import * as PropTypes from 'prop-types';
 import ReadStoryCmp from '../components/ReadStoryCmp';
+import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
 
 class ReadStoryContainer extends Component {
   state = { story: null };
@@ -19,6 +20,7 @@ class ReadStoryContainer extends Component {
   render() {
     return (
       <Fragment>
+        <Breadcrumb/>
         {this.state.story && <ReadStoryCmp
           story={this.state.story}
         />}
