@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
 import Snackbar from '../../../../shared/components/snackbar/Snackbar';
 import { inject, observer } from 'mobx-react';
-import SequenceTableCmp from '../components/tables/SequenceTableCmp';
+import SequenceTableCmp from '../components/sequences/sequence-table/SequenceTableCmp';
 import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
 import { sequenceService } from '../../../../infrastructure/services/SequenceService';
 import { withSnackbar } from '../../../../shared/components/form/helpers';

@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import { Field, Form } from 'formik';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core';
-import { styles } from '../../../../style/SaveSequence.css';
+import { styles } from './SaveSequence.css';
 import { hasError } from '../../../../../../shared/components/form/helpers';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';

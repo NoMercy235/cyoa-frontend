@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import PublishBtn from './PublishBtn';
-import classes from '../../../style/GeneralTab.module.scss';
+import classes from './GeneralTab.module.scss';
 
 class GeneralTab extends Component {
   render() {

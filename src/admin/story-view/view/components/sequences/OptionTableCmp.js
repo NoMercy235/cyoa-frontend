@@ -8,7 +8,7 @@ import { OptionModel } from '../../../../../infrastructure/models/OptionModel';
 import { inject, observer } from 'mobx-react';
 import { storyViewStorePropTypes } from '../../../stores/StoryViewStore';
 import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
-import SaveOptionModal from '../modals/save-option/SaveOptionModal';
+import SaveOptionModal from './save-option/SaveOptionModal';
 import { Utils } from '@nomercy235/utils';
 import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
 import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow';

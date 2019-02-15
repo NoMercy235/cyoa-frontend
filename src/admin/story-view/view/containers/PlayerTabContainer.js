@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import AttributesTableCmp from '../components/tables/AttributesTableCmp';
+import AttributesTableCmp from '../components/player/AttributesTableCmp';
 import { attributeService } from '../../../../infrastructure/services/AttributeService';
 import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';

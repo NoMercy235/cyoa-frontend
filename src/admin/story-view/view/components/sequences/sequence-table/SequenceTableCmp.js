@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
-import { styles as tableStyles } from '../../../../../shared/components/table/TableCmp.css';
-import { styles as customStyles } from '../../../style/SequenceTableCmp.css';
-import TableCmp from '../../../../../shared/components/table/TableCmp';
-import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow';
-import { SequenceModel } from '../../../../../infrastructure/models/SequenceModel';
-import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
-import SaveSequenceModal from '../modals/save-sequence/SaveSequenceModal';
-import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
-import OptionTableCmp from './OptionTableCmp';
+import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
+import { styles as customStyles } from './SequenceTableCmp.css';
+import TableCmp from '../../../../../../shared/components/table/TableCmp';
+import DeleteRow from '../../../../../../shared/components/table/actions/DeleteRow';
+import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
+import BasicEditAction from '../../../../../../shared/components/form/BasicEditAction';
+import SaveSequenceModal from '../save-sequence/SaveSequenceModal';
+import BasicNewAction from '../../../../../../shared/components/form/BasicNewAction';
+import OptionTableCmp from '../OptionTableCmp';
 import { observer } from 'mobx-react';
 
 @observer

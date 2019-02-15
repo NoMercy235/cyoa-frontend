@@ -7,7 +7,7 @@ import TableCmp from '../../../../../shared/components/table/TableCmp';
 import ViewRow from '../../../../../shared/components/table/actions/ViewRow';
 import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow';
 import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
-import SaveAttributeModal from '../modals/save-attribute/SaveAttributeModal';
+import SaveAttributeModal from './save-attribute/SaveAttributeModal';
 import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
 import { observer } from 'mobx-react';
 

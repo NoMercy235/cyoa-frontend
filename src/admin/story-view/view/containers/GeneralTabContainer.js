@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
-import GeneralTab from '../components/general-tab/GeneralTab';
+import GeneralTab from '../components/general/GeneralTab';
 
 class GeneralTabContainer extends Component {
   render() {
