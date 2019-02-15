@@ -14,11 +14,11 @@ import red from '@material-ui/core/colors/red';
 // import FavoriteIcon from '@material-ui/icons/Favorite';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
-import { TagModel } from '../../../../../shared/domain/models/TagModel';
-import ViewRow from '../../../../../shared/components/table/actions/ViewRow';
+import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
+import { TagModel } from '../../../../../../shared/domain/models/TagModel';
+import ViewRow from '../../../../../../shared/components/table/actions/ViewRow';
 import { withRouter } from 'react-router-dom';
-import { makePath, READ_STORY_ROUTE } from '../../../../../shared/constants/routes';
+import { makePath, READ_STORY_ROUTE } from '../../../../../../shared/constants/routes';
 import ShareButton from './ShareButton';
 
 const styles = theme => ({
