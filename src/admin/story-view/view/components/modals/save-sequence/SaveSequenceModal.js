@@ -84,7 +84,7 @@ class SaveSequenceModal extends Component {
               if (values._id) {
                 seq = await this.updateSequence(values);
               } else {
-                await this.saveSequence(values);
+                seq = await this.saveSequence(values);
               }
 
               if (values.isStartSeq) {
