@@ -50,6 +50,16 @@ class OptionTableCmp extends Component {
   };
 
   getActions = row => {
+    // The options property is marked as an observable and that's
+    // why React complains when it sees the boxed version of its value.
+    // To get around that, we need to unbox it and create a new model.
+    // toJS is imported from mobx
+    // const unboxedRow = new OptionModel(toJS(row));
+
+    // Or we can just not render the actions until the observable gets unboxed
+    // automatically.
+    if (!(row instanceof OptionModel)) return '';
+
     return (
       <div key={row._id} className={this.props.classes.actionsContainer}>
         <BasicEditAction
