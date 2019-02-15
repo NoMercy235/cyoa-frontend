@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
-import { CollectionModel } from '../../../../../infrastructure/models/CollectionModel';
-import { styles as tableStyles } from '../../../../../shared/components/table/TableCmp.css';
-import { styles as collectionsTableStyles } from '../../../style/CollectionsTableCmp.css';
-import TableCmp from '../../../../../shared/components/table/TableCmp';
-import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow';
-import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
-import SaveCollectionModal from '../modals/save-collection/SaveCollectionModal';
-import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
+import { CollectionModel } from '../../../../../../infrastructure/models/CollectionModel';
+import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
+import { styles as collectionsTableStyles } from './CollectionsTableCmp.css';
+import TableCmp from '../../../../../../shared/components/table/TableCmp';
+import DeleteRow from '../../../../../../shared/components/table/actions/DeleteRow';
+import BasicEditAction from '../../../../../../shared/components/form/BasicEditAction';
+import SaveCollectionModal from '../save-collection/SaveCollectionModal';
+import BasicNewAction from '../../../../../../shared/components/form/BasicNewAction';
 import SelectedIcon from '@material-ui/icons/KeyboardArrowRight';
 import { inject, observer } from 'mobx-react';
-import { storyStorePropTypes } from '../../../stores/StoryStore';
+import { storyStorePropTypes } from '../../../../stores/StoryStore';
 
 @inject('storyStore')
 @observer

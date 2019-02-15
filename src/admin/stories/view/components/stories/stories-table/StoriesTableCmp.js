@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
-import { styles as storiesTableStyles } from '../../../style/StoriesTableCmp.css';
-import { styles as tableStyles } from '../../../../../shared/components/table/TableCmp.css';
-import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
+import { styles as storiesTableStyles } from './StoriesTableCmp.css';
+import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
+import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import classNames from 'classnames';
-import { TagModel } from '../../../../../shared/domain/models/TagModel';
+import { TagModel } from '../../../../../../shared/domain/models/TagModel';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withRouter } from 'react-router-dom';
-import TableCmp from '../../../../../shared/components/table/TableCmp';
-import ViewRow from '../../../../../shared/components/table/actions/ViewRow';
-import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow';
-import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
-import SaveStoryModal from '../modals/save-story/SaveStoryModal';
-import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
+import TableCmp from '../../../../../../shared/components/table/TableCmp';
+import ViewRow from '../../../../../../shared/components/table/actions/ViewRow';
+import DeleteRow from '../../../../../../shared/components/table/actions/DeleteRow';
+import BasicNewAction from '../../../../../../shared/components/form/BasicNewAction';
+import SaveStoryModal from '../save-story/SaveStoryModal';
+import BasicEditAction from '../../../../../../shared/components/form/BasicEditAction';
 import { observer } from 'mobx-react';
-import { ADMIN_STORY_VIEW_ROUTE, makePath } from '../../../../../shared/constants/routes';
+import { ADMIN_STORY_VIEW_ROUTE, makePath } from '../../../../../../shared/constants/routes';
 
 @observer
 class StoriesTableCmp extends Component {

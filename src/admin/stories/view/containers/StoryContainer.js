@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import CollectionsTableCmp from '../components/tables/CollectionsTableCmp';
-import StoriesTableCmp from '../components/tables/StoriesTableCmp';
-import classes from '../../style/StoryContainer.module.scss';
+import CollectionsTableCmp from '../components/collections/collections-table/CollectionsTableCmp';
+import StoriesTableCmp from '../components/stories/stories-table/StoriesTableCmp';
+import classes from './StoryContainer.module.scss';
 import { storyService } from '../../../../infrastructure/services/StoryService';
 import { inject, observer } from 'mobx-react';
 import { storyStorePropTypes } from '../../stores/StoryStore';
