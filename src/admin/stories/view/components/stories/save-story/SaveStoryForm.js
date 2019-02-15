@@ -8,6 +8,7 @@ import { styles } from './SaveStory.css';
 import { hasError } from '../../../../../../shared/components/form/helpers';
 import { TagModel } from '../../../../../../shared/domain/models/TagModel';
 import { CollectionModel } from '../../../../../../infrastructure/models/CollectionModel';
+import FileSelect from '../../../../../../shared/components/form/FileSelect/FileSelect';
 
 class SaveStoryForm extends Component {
   tags = TagModel.get();
@@ -17,6 +18,10 @@ class SaveStoryForm extends Component {
       return { _id: c._id, name: c.name };
     });
   }
+
+  onFileUploaded = base64File => {
+    this.props.formik.setFieldValue('coverPic', base64File);
+  };
 
   render() {
     const { formik, classes } = this.props;
@@ -101,6 +106,12 @@ class SaveStoryForm extends Component {
               {...hasError(formik, 'longDescription')}
             />;
           }}
+        />
+
+        <FileSelect
+          className={classes.uploadBtn}
+          label="Upload cover"
+          onFileUploaded={this.onFileUploaded}
         />
       </Form>
     );

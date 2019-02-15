@@ -14,6 +14,7 @@ export class StoryModel extends BaseModel {
   created_at = '';
   fromCollection = '';
   publish = false;
+  coverPic = '';
 
   constructor(metadata) {
     super();
@@ -55,6 +56,7 @@ export class StoryModel extends BaseModel {
       tags: story.tags,
       startSeq: story.startSeq,
       fromCollection: story.fromCollection,
+      coverPic: story.coverPic,
     };
   }
 

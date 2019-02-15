@@ -13,4 +13,7 @@ export const styles = theme => ({
   fromCollection: {
     flex: '1 1',
   },
+  uploadBtn: {
+    marginTop: theme.spacing.unit,
+  },
 });
