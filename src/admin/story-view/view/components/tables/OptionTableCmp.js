@@ -31,11 +31,13 @@ class OptionTableCmp extends Component {
   }
 
   getConsequences(option) {
-    return option.consequences.map((c, i) =>
-      <div key={i}>
-        <b>{this.getAttributeName(c)}</b>&nbsp;:&nbsp;<b>{c.changeValue}</b>
-      </div>
-    );
+    return option.consequences
+      .filter(c => c.attribute)
+      .map((obj, i) =>
+        <div key={i}>
+          <b>{this.getAttributeName(obj)}</b>&nbsp;:&nbsp;<b>{obj.changeValue}</b>
+        </div>
+      );
   }
 
   getOptions = async sequenceId => {
