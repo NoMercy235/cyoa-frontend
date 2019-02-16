@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core';
 import { styles } from '../components/layout/Styles';
 import * as PropTypes from 'prop-types';
 
-export function withConfirmation(InnerComponent, Modal = ConfirmationModal) {
+export function withModal(InnerComponent, Modal = ConfirmationModal) {
   class Confirmation extends Component {
     state = {
       isOpen: false,

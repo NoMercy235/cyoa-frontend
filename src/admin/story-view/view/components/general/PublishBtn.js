@@ -7,9 +7,9 @@ import { withSnackbar } from '../../../../../shared/components/form/helpers';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import { storyViewStorePropTypes } from '../../../stores/StoryViewStore';
 import Snackbar from '../../../../../shared/components/snackbar/Snackbar';
-import { withConfirmation } from '../../../../../shared/hoc/withConfirmation';
+import { withModal } from '../../../../../shared/hoc/withModal';
 
-const HOCButton = withConfirmation(Button);
+const HOCButton = withModal(Button);
 
 @inject('storyViewStore')
 @observer

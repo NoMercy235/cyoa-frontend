@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import * as PropTypes from 'prop-types';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { withConfirmation } from '../../../hoc/withConfirmation';
+import { withModal } from '../../../hoc/withModal';
 import Tooltip from '@material-ui/core/es/Tooltip/Tooltip';
 
-const IconButtonHOC = withConfirmation(IconButton);
+const IconButtonHOC = withModal(IconButton);
 
 class DeleteRow extends Component {
   render() {
