@@ -8,6 +8,7 @@ import OptionChoice from './OptionChoice';
 import styles from './DisplaySequence.module.scss';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import { sequenceService } from '../../../../../infrastructure/services/SequenceService';
+import { Utils } from '@nomercy235/utils';
 
 class DisplaySequence extends Component {
   state = { sequence: null };
@@ -18,6 +19,11 @@ class DisplaySequence extends Component {
     sequenceService.setNextRouteParams(params);
     const sequence = await sequenceService.get(seq);
     this.setState({ sequence });
+  };
+
+  renderEnding = () => {
+    if (!Utils.safeAccess(this.state.sequence, 'isEnding')) return '';
+    return <span>This is the end. Congrats!</span>;
   };
 
   componentDidUpdate () {
@@ -52,6 +58,7 @@ class DisplaySequence extends Component {
             ))}
           </div>
         </CardActions>
+        {this.renderEnding()}
       </Card>
     );
   }

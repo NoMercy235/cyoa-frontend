@@ -45,6 +45,24 @@ class SaveSequenceForm extends Component {
             }}
           />
         </Typography>
+        <Typography
+          className={classes.isStartSeqContainer}
+          variant="inherit"
+          color="inherit"
+          noWrap
+        >
+          Is this an ending sequence?
+          <Field
+            name="isEnding"
+            render={({ field }) => {
+              return <Checkbox
+                {...field}
+                checked={formik.values.isEnding}
+                value=""
+              />;
+            }}
+          />
+        </Typography>
         <Field
           name="content"
           required
