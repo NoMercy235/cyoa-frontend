@@ -16,6 +16,7 @@ import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { appStorePropTypes } from '../../store/AppStore';
 import { ADMIN_STORIES_ROUTE } from '../../constants/routes';
+import ViewStoryIcon from '@material-ui/icons/Pageview';
 
 const publicMenu = [
   {
@@ -31,7 +32,7 @@ const adminMenu = [
     name: 'myStories',
     label: 'My stories',
     route: ADMIN_STORIES_ROUTE,
-    icon: undefined,
+    icon: <ViewStoryIcon />,
     condition: (appStore) => appStore.isLoggedIn,
   },
 ];
