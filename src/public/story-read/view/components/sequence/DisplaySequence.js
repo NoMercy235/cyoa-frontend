@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -10,6 +10,7 @@ import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import { publicSequenceService } from '../../../../../infrastructure/services/SequenceService';
 import DisplayEnding from './DisplayEnding';
 import { PlayerModel } from '../../../../../infrastructure/models/PlayerModel';
+import DisplaySequenceTitle from './DisplaySequenceTitle';
 
 class DisplaySequence extends Component {
   state = { sequence: null };
@@ -19,14 +20,10 @@ class DisplaySequence extends Component {
     const { player } = this.props;
 
     return (
-      <Fragment>
-        <span>{sequence.name}&nbsp;-&nbsp;</span>
-        {player.attributes.map((a, i) => (
-          <small key={i}>
-            {a.name}:&nbsp;{a.value}&nbsp;
-          </small>
-        ))}
-      </Fragment>
+      <DisplaySequenceTitle
+        player={player}
+        sequence={sequence}
+      />
     );
   };
 
