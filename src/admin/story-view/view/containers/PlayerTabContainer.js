@@ -38,15 +38,8 @@ class PlayerTabContainer extends Component {
     this.props.storyViewStore.removeAttribute(attributeId);
   };
 
-  getAttributes = async () => {
-    const params = { ':story': this.props.story._id };
-    attributeService.setNextRouteParams(params);
-    const attributes = await attributeService.list();
-    this.props.storyViewStore.setAttributes(attributes);
-  };
-
   componentDidMount () {
-    this.getAttributes();
+    this.props.getAttributes();
   }
 
   render() {
@@ -70,7 +63,8 @@ class PlayerTabContainer extends Component {
 }
 
 PlayerTabContainer.propTypes = {
-  story: PropTypes.shape(StoryModel),
+  story: PropTypes.shape(StoryModel).isRequired,
+  getAttributes: PropTypes.func.isRequired,
 
   storyViewStore: storyViewStorePropTypes,
 };

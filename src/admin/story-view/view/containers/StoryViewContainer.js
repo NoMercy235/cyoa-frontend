@@ -5,6 +5,8 @@ import * as PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
+import { attributeService } from '../../../../infrastructure/services/AttributeService';
+import { sequenceService } from '../../../../infrastructure/services/SequenceService';
 
 @inject('storyViewStore')
 @observer
@@ -14,8 +16,24 @@ class StoryViewContainer extends Component {
     this.props.storyViewStore.setCurrentStory(story);
   }
 
+  getAttributes = async () => {
+    const params = { ':story': this.props.match.params.id };
+    attributeService.setNextRouteParams(params);
+    const attributes = await attributeService.list();
+    this.props.storyViewStore.setAttributes(attributes);
+  };
+
+  getSequences = async () => {
+    const params = { ':story': this.props.match.params.id };
+    sequenceService.setNextRouteParams(params);
+    const sequences = await sequenceService.list();
+    this.props.storyViewStore.setSequences(sequences);
+  };
+
   componentDidMount () {
+    this.getAttributes();
     this.fetchStory(this.props.match.params.id);
+    this.getSequences();
   }
 
   componentWillUnmount () {
@@ -31,7 +49,11 @@ class StoryViewContainer extends Component {
 
     return (
       <Fragment>
-        <StoryView story={currentStory} />
+        <StoryView
+          story={currentStory}
+          getAttributes={this.getAttributes}
+          getSequences={this.getSequences}
+        />
       </Fragment>
     );
   }

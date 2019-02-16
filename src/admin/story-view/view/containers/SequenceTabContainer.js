@@ -47,15 +47,8 @@ class SequenceTabContainer extends Component {
     this.props.storyViewStore.removeOptionFromSequence(sequenceId, optionId);
   };
 
-  getSequences = async () => {
-    const params = { ':story': this.props.story._id };
-    sequenceService.setNextRouteParams(params);
-    const sequences = await sequenceService.list();
-    this.props.storyViewStore.setSequences(sequences);
-  };
-
   componentDidMount () {
-    this.getSequences();
+    this.props.getSequences();
   }
 
   render() {
@@ -80,7 +73,8 @@ class SequenceTabContainer extends Component {
 }
 
 SequenceTabContainer.propTypes = {
-  story: PropTypes.shape(StoryModel),
+  story: PropTypes.shape(StoryModel).isRequired,
+  getSequences: PropTypes.func.isRequired,
 
   storyViewStore: storyViewStorePropTypes,
 };

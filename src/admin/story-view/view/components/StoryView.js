@@ -33,15 +33,27 @@ class StoryView extends Component {
           </Tabs>
         </AppBar>
         {currentTab === 0 && <GeneralTabContainer story={story} />}
-        {currentTab === 1 && <PlayerTabContainer story={story} />}
-        {currentTab === 2 && <SequenceTabContainer story={story} />}
+        {currentTab === 1 && (
+          <PlayerTabContainer
+            story={story}
+            getAttributes={this.props.getAttributes}
+          />
+        )}
+        {currentTab === 2 && (
+          <SequenceTabContainer
+            story={story}
+            getSequences={this.props.getSequences}
+          />
+        )}
       </Fragment>
     );
   }
 }
 
 StoryView.propTypes = {
-  story: PropTypes.shape(StoryModel),
+  story: PropTypes.shape(StoryModel).isRequired,
+  getAttributes: PropTypes.func.isRequired,
+  getSequences: PropTypes.func.isRequired,
 };
 
 export default StoryView;
