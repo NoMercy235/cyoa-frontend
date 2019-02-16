@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import DisplaySequence from './DisplaySequence';
 
 class StoryContent extends Component {
   render() {
@@ -10,11 +9,9 @@ class StoryContent extends Component {
     const { startSeq: seq } = story;
 
     return (
-      <Card>
-        <CardContent>
-          {seq.content}
-        </CardContent>
-      </Card>
+      <Fragment>
+        <DisplaySequence seq={seq}/>
+      </Fragment>
     );
   }
 }
