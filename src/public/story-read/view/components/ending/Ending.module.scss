@@ -1,0 +1,7 @@
+.actionsContainer {
+  display: flex;
+
+  & > button:not(:last-of-type) {
+    margin-right: 10px;
+  }
+}
