@@ -4,6 +4,7 @@ import { PlayerModel } from '../models/PlayerModel';
 class PlayerService extends BaseService {
   getOrCreateEndpoint = 'public/player/getOrCreate/:story';
   updateEndpoint = 'public/player/updateAttributes/:playerId';
+  deleteEndpoint = 'public/player';
 
   get = playerId => {
     let url = this.getOrCreateEndpoint;
@@ -25,6 +26,11 @@ class PlayerService extends BaseService {
       .then(response => {
         return new PlayerModel(BaseService.onSuccess(response));
       });
+  };
+
+  delete = playerId => {
+    const url = this.deleteEndpoint + '/' + playerId;
+    return this.client.delete(url).then(BaseService.onSuccess);
   };
 }
 

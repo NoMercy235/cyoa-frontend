@@ -71,8 +71,15 @@ class StoryContent extends Component {
     const { player, seqId } = this.state;
 
     if (!player) return '';
-    if (this.checkPlayerIsDead(player)) {
-      return <EndingContainer player={player}/>;
+    const isDead = this.checkPlayerIsDead(player);
+    const hasWon = this.state.hasWon;
+    if (isDead || hasWon) {
+      return <EndingContainer
+        story={story}
+        player={player}
+        isDead={isDead}
+        hasWon={hasWon}
+      />;
     }
 
     return (
