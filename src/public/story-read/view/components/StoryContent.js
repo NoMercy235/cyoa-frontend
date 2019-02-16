@@ -5,8 +5,7 @@ import DisplaySequence from './sequence/DisplaySequence';
 import { playerService } from '../../../../infrastructure/services/PlayerService';
 import { inject } from 'mobx-react';
 import { appStorePropTypes } from '../../../../shared/store/AppStore';
-import { withRouter } from 'react-router-dom';
-import { makePath, STORY_ENDING_ROUTE } from '../../../../shared/constants/routes';
+import EndingContainer from '../containers/EndingContainer';
 
 @inject('appStore')
 class StoryContent extends Component {
@@ -34,13 +33,7 @@ class StoryContent extends Component {
       if (attr.value <= 0) return true;
     });
 
-    if (isDead.length) {
-      this.props.history.push(
-        makePath(STORY_ENDING_ROUTE,
-          { ':storyId': this.props.story._id }),
-      );
-      return true;
-    }
+    return !!isDead.length;
   };
 
   onOptionClick = async option => {
@@ -54,7 +47,6 @@ class StoryContent extends Component {
         attributes,
       },
     );
-    if (this.checkPlayerIsDead(player)) return;
     this.setState({
       player,
       seqId: option.nextSeq,
@@ -67,7 +59,6 @@ class StoryContent extends Component {
     const player = await playerService.get(
       this.props.appStore.getUserId()
     );
-    if (this.checkPlayerIsDead(player)) return;
     this.setState({ player });
   };
 
@@ -80,6 +71,9 @@ class StoryContent extends Component {
     const { player, seqId } = this.state;
 
     if (!player) return '';
+    if (this.checkPlayerIsDead(player)) {
+      return <EndingContainer player={player}/>;
+    }
 
     return (
       <Fragment>
@@ -96,11 +90,8 @@ class StoryContent extends Component {
 
 StoryContent.propTypes = {
   story: PropTypes.instanceOf(StoryModel).isRequired,
-  match: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
 
   appStore: appStorePropTypes,
 };
 
-export default withRouter(StoryContent);
+export default StoryContent;
