@@ -16,10 +16,14 @@ class StoryBox extends Component {
   state = { expanded: false, coverPic: '' };
 
   handleExpandClick = async () => {
-    const storyGet = await publicStoryService.get(this.props.story._id);
+    const newExpansion = !this.state.expanded;
+    let story = {};
+    if (newExpansion) {
+      story = await publicStoryService.get(this.props.story._id);
+    }
     this.setState(state => ({
       expanded: !state.expanded,
-      coverPic: storyGet.coverPic,
+      coverPic: story.coverPic,
     }));
   };
 

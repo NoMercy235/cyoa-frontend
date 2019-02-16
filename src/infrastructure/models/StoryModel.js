@@ -50,7 +50,7 @@ export class StoryModel extends BaseModel {
   }
 
   static forApi(story) {
-    return {
+    const result = {
       name: story.name,
       shortDescription: story.shortDescription,
       longDescription: story.longDescription,
@@ -60,6 +60,10 @@ export class StoryModel extends BaseModel {
       fromCollection: story.fromCollection,
       coverPic: story.coverPic,
     };
+
+    if (!result.coverPic) delete result.coverPic;
+
+    return result;
   }
 
   static getTableColumns() {
