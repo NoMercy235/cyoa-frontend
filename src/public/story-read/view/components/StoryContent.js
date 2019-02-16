@@ -12,6 +12,7 @@ class StoryContent extends Component {
   state = {
     seqId: this.props.story.startSeq._id,
     player: false,
+    hasWon: false,
   };
 
   getModifiedAttributes = option => {
@@ -37,6 +38,11 @@ class StoryContent extends Component {
   };
 
   onOptionClick = async option => {
+    if (!option) {
+      this.setState({ hasWon: true });
+      return;
+    }
+
     const attributes = this.getModifiedAttributes(option);
 
     const params = { ':playerId': this.state.player._id };

@@ -7,7 +7,8 @@ import { StoryModel } from '../../../../infrastructure/models/StoryModel';
 
 class EndingContainer extends Component {
   renderStoryFinished = () => {
-    return <StoryFinished/>;
+    const { player } = this.props;
+    return <StoryFinished player={player}/>;
   };
 
   renderPlayerDead = () => {

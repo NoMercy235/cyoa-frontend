@@ -70,7 +70,10 @@ class DisplaySequence extends Component {
             ))}
           </div>
         </CardActions>
-        <DisplayEnding sequence={sequence}/>
+        <DisplayEnding
+          sequence={sequence}
+          onHandleClick={onOptionClick}
+        />
       </Card>
     );
   }
