@@ -2,13 +2,24 @@ import * as PropTypes from 'prop-types';
 import { action, computed, observable } from 'mobx';
 import { UserModel } from '../../infrastructure/models/UserModel';
 
+const makeRandomId = function () {
+  return Math.random().toString().substring(2);
+};
+
 class AppStore {
   @observable user;
+  localId = '';
 
   constructor () {
     const user = localStorage.getItem('user');
     if (user) {
       this.user = JSON.parse(user);
+    } else {
+      this.localId = localStorage.getItem('localId');
+      if (!this.localId) {
+        this.localId = makeRandomId();
+        localStorage.setItem('localId', this.localId);
+      }
     }
   }
 
@@ -23,7 +34,7 @@ class AppStore {
   getUserId() {
     return this.isLoggedIn
       ? this.user._id
-      : '';
+      : this.localId;
   }
 }
 
