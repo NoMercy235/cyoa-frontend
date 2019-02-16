@@ -15,6 +15,7 @@ import { storyStorePropTypes } from '../../../../stores/StoryStore';
 import { withSnackbar } from '../../../../../../shared/components/form/helpers';
 import { storyService } from '../../../../../../infrastructure/services/StoryService';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
+import { TagModel } from '../../../../../../infrastructure/models/TagModel';
 
 @inject('storyStore')
 class SaveStoryModal extends Component {
@@ -75,6 +76,11 @@ class SaveStoryModal extends Component {
           initialValues={this.getInitialValues()}
           validateOnChange={false}
           onSubmit={async (values, { setSubmitting, resetForm }) => {
+            values.tagsName = TagModel.get()
+              .filter(
+                tt => values.tags.find(t => tt._id === t)
+              )
+              .map(tt => tt.name);
             try {
               if (values._id) {
                 await this.updateStory(values);

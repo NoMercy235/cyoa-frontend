@@ -8,6 +8,7 @@ export class StoryModel extends BaseModel {
   shortDescription = '';
   longDescription = '';
   tags = [];
+  tagsName = [];
   author = '';
   authorShort = '';
   startSeq = '';
@@ -54,6 +55,7 @@ export class StoryModel extends BaseModel {
       shortDescription: story.shortDescription,
       longDescription: story.longDescription,
       tags: story.tags,
+      tagsName: story.tagsName,
       startSeq: story.startSeq,
       fromCollection: story.fromCollection,
       coverPic: story.coverPic,
