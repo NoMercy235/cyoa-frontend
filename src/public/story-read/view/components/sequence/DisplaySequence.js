@@ -8,9 +8,7 @@ import OptionChoice from './OptionChoice';
 import styles from './DisplaySequence.module.scss';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import { publicSequenceService } from '../../../../../infrastructure/services/SequenceService';
-import { Utils } from '@nomercy235/utils';
-import Button from '@material-ui/core/Button';
-import { LANDING_ROUTE } from '../../../../../shared/constants/routes';
+import DisplayEnding from './DisplayEnding';
 
 class DisplaySequence extends Component {
   state = { sequence: null };
@@ -21,25 +19,6 @@ class DisplaySequence extends Component {
     publicSequenceService.setNextRouteParams(params);
     const sequence = await publicSequenceService.get(seq);
     this.setState({ sequence });
-  };
-
-  goToHome = () => {
-    this.props.history.push(LANDING_ROUTE);
-  };
-
-  renderEnding = () => {
-    if (!Utils.safeAccess(this.state.sequence, 'isEnding')) return '';
-    return (
-      <div className={styles.endingContainer}>
-        This is the end. Congrats!
-        <Button
-          color="secondary"
-          onClick={this.goToHome}
-        >
-          Go back
-        </Button>
-      </div>
-    );
   };
 
   componentDidUpdate () {
@@ -74,7 +53,7 @@ class DisplaySequence extends Component {
             ))}
           </div>
         </CardActions>
-        {this.renderEnding()}
+        <DisplayEnding sequence={sequence}/>
       </Card>
     );
   }
@@ -83,7 +62,6 @@ class DisplaySequence extends Component {
 DisplaySequence.propTypes = {
   story: PropTypes.shape(StoryModel).isRequired,
   seq: PropTypes.string.isRequired,
-  history: PropTypes.object.isRequired,
   onOptionClick: PropTypes.func.isRequired,
 };
 

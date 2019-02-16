@@ -21,14 +21,13 @@ class StoryContent extends Component {
   };
 
   render() {
-    const { story, match, history } = this.props;
+    const { story, match } = this.props;
 
     return (
       <Fragment>
         <DisplaySequence
           story={story}
           seq={match.params.seqId}
-          history={history}
           onOptionClick={this.onOptionClick}
         />
       </Fragment>

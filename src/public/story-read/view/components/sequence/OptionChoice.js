@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { OptionModel } from '../../../../../infrastructure/models/OptionModel';
+import Chip from '@material-ui/core/Chip';
+import FaceIcon from '@material-ui/icons/Face';
+import styles from './DisplaySequence.module.scss';
 
 class OptionChoice extends Component {
   onOptionClick = () => {
@@ -11,9 +14,12 @@ class OptionChoice extends Component {
     const { option } = this.props;
 
     return (
-      <div onClick={this.onOptionClick}>
-        {option.action}
-      </div>
+      <Chip
+        icon={<FaceIcon />}
+        label={option.action}
+        onClick={this.onOptionClick}
+        className={styles.option}
+      />
     );
   }
 }
