@@ -19,4 +19,16 @@ class SequenceService extends BaseService {
   };
 }
 
+
+class PublicSequenceService extends BaseService {
+  endpoint = 'public/sequence/:story';
+
+  get = (id, options) => {
+    return super.get(id, options).then(story => {
+      return new SequenceModel(story);
+    });
+  };
+}
+
 export const sequenceService = new SequenceService();
+export const publicSequenceService = new PublicSequenceService();

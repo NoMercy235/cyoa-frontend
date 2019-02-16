@@ -7,7 +7,7 @@ import CardActions from '@material-ui/core/CardActions';
 import OptionChoice from './OptionChoice';
 import styles from './DisplaySequence.module.scss';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
-import { sequenceService } from '../../../../../infrastructure/services/SequenceService';
+import { publicSequenceService } from '../../../../../infrastructure/services/SequenceService';
 import { Utils } from '@nomercy235/utils';
 
 class DisplaySequence extends Component {
@@ -16,8 +16,8 @@ class DisplaySequence extends Component {
   getSequence = async () => {
     const { story, seq } = this.props;
     const params = { ':story': story._id };
-    sequenceService.setNextRouteParams(params);
-    const sequence = await sequenceService.get(seq);
+    publicSequenceService.setNextRouteParams(params);
+    const sequence = await publicSequenceService.get(seq);
     this.setState({ sequence });
   };
 
