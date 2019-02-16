@@ -61,7 +61,6 @@ class ConsequenceForm extends Component {
         <Tooltip title="Remove consequence">
           <div className={classes.consequenceRemoveBtn}>
             <IconButton
-              disabled={index === 0}
               onClick={this.onRemoveConsequence}
             >
               <CloseIcon fontSize="small" />
