@@ -67,8 +67,14 @@ export class BaseService {
     return this.client.get(url).then(BaseService.onSuccess);
   }
 
-  get(id) {
-    const url = this.withRouteParams(this.endpoint + '/' + id);
+  get(id, options) {
+    let url = this.withRouteParams(this.endpoint + '/' + id);
+    if (options) {
+      url += '?';
+      Object.keys(options).forEach(key => {
+        url += `${key}=${options[key]}`;
+      });
+    }
     return this.client.get(url).then(BaseService.onSuccess);
   }
 

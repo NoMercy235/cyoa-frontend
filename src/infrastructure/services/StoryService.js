@@ -29,8 +29,8 @@ class PublicStoryService extends BaseService {
     });
   };
 
-  get = id => {
-    return super.get(id).then(story => {
+  get = (id, options) => {
+    return super.get(id, options).then(story => {
       return new StoryModel(story);
     });
   };

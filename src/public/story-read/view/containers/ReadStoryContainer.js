@@ -9,7 +9,8 @@ class ReadStoryContainer extends Component {
   state = { story: null };
 
   getStory = async (storyId) => {
-    const story = await publicStoryService.get(storyId);
+    const options = { ignoreFields: 'coverPic' };
+    const story = await publicStoryService.get(storyId, options);
     this.setState({ story });
   };
 
