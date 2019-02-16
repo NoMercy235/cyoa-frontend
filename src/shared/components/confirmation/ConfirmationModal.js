@@ -48,8 +48,12 @@ class ConfirmationModal extends Component {
 
 ConfirmationModal.propTypes = {
   classes: PropTypes.object,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  title: PropTypes.oneOfType([
+    PropTypes.string, PropTypes.func, PropTypes.object,
+  ]).isRequired,
+  description: PropTypes.oneOfType([
+    PropTypes.string, PropTypes.func, PropTypes.object,
+  ]).isRequired,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onAccept: PropTypes.func.isRequired,

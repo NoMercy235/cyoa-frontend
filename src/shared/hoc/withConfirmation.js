@@ -28,6 +28,7 @@ export function withConfirmation(InnerComponent) {
         <Fragment>
           <InnerComponent
             onClick={this.onShowModal}
+            {...this.props.innerProps}
           >
             {this.props.children}
           </InnerComponent>
@@ -44,9 +45,14 @@ export function withConfirmation(InnerComponent) {
 
   Confirmation.propTypes = {
     classes: PropTypes.object,
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    title: PropTypes.oneOfType([
+      PropTypes.string, PropTypes.func, PropTypes.object,
+    ]).isRequired,
+    description: PropTypes.oneOfType([
+      PropTypes.string, PropTypes.func, PropTypes.object,
+    ]).isRequired,
     onClick: PropTypes.func,
+    innerProps: PropTypes.object,
   };
 
   return withStyles(styles)(Confirmation);

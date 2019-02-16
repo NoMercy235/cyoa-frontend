@@ -7,6 +7,9 @@ import { withSnackbar } from '../../../../../shared/components/form/helpers';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import { storyViewStorePropTypes } from '../../../stores/StoryViewStore';
 import Snackbar from '../../../../../shared/components/snackbar/Snackbar';
+import { withConfirmation } from '../../../../../shared/hoc/withConfirmation';
+
+const HOCButton = withConfirmation(Button);
 
 @inject('storyViewStore')
 @observer
@@ -33,27 +36,60 @@ class PublishBtn extends Component {
     this.props.storyViewStore.setCurrentStory(dbStory);
   };
 
+  renderPublishDescription = () => {
+    return (
+      <Fragment>
+        <span>Please note the following:</span>
+        <ul>
+          <li>If the player should be able to lose the story, at least one important attribute is needed</li>
+          <li>You need to have marked one sequence as a starting sequence</li>
+          <li>You need at least one sequence marked as ending sequence </li>
+        </ul>
+      </Fragment>
+    );
+  };
+
   renderPublishButton = () => {
     return (
-      <Button
-        variant="contained"
-        color="primary"
+      <HOCButton
+        title="Publish this story?"
+        description={this.renderPublishDescription()}
+        innerProps={{
+          variant: 'contained',
+          color: 'primary',
+        }}
         onClick={this.onChangePublishState(true, 'Story has been published!')}
       >
         Publish
-      </Button>
+      </HOCButton>
+    );
+  };
+
+  renderUnpublishDescription = () => {
+    return (
+      <Fragment>
+        <span>Please note the following:</span>
+        <ul>
+          <li>Any users currently reading the story will still be able to continue reading it</li>
+          <li>Players in possession of the shared link will still be able to access the story</li>
+        </ul>
+      </Fragment>
     );
   };
 
   renderUnpublishButton = () => {
     return (
-      <Button
-        variant="contained"
-        color="secondary"
+      <HOCButton
+        title="Unpublish this story?"
+        description={this.renderUnpublishDescription()}
+        innerProps={{
+          variant: 'contained',
+          color: 'secondary',
+        }}
         onClick={this.onChangePublishState(false, 'Story has been unpublished!')}
       >
         Unpublish
-      </Button>
+      </HOCButton>
     );
   };
 
