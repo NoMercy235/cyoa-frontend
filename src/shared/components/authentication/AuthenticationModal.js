@@ -13,12 +13,12 @@ import AuthenticationActions from './AuthenticationActions';
 import { NoAccount } from './NoAccount';
 import { HasAccount } from './HasAccount';
 import RegisterForm from './RegisterForm';
-import { authService } from '../../domain/services/AuthenticationService';
+import { authService } from '../../../infrastructure/services/AuthenticationService';
 import { inject } from 'mobx-react';
-import { UserModel } from '../../domain/models/UserModel';
-import { AuthenticationModel } from '../../domain/models/AuthenticationModel';
+import { UserModel } from '../../../infrastructure/models/UserModel';
+import { AuthenticationModel } from '../../../infrastructure/models/AuthenticationModel';
 import Snackbar from '../snackbar/Snackbar';
-import { BaseModel } from '../../domain/models/BaseModel';
+import { BaseModel } from '../../../infrastructure/models/BaseModel';
 
 @inject('appStore')
 class AuthenticationModal extends Component {

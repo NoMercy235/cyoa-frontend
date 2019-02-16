@@ -5,7 +5,7 @@ import { styles as storiesTableStyles } from './StoriesTableCmp.css';
 import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import classNames from 'classnames';
-import { TagModel } from '../../../../../../shared/domain/models/TagModel';
+import { TagModel } from '../../../../../../infrastructure/models/TagModel';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withRouter } from 'react-router-dom';
 import TableCmp from '../../../../../../shared/components/table/TableCmp';

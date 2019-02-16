@@ -6,7 +6,7 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
-import { TagModel } from '../../../../../shared/domain/models/TagModel';
+import { TagModel } from '../../../../../infrastructure/models/TagModel';
 import { styles } from './StoryBox.css';
 
 class StoryHeader extends Component {

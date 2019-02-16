@@ -5,7 +5,7 @@ import AdminRoute from '../../../admin/AdminRoute';
 import { inject, observer } from 'mobx-react';
 import { appStorePropTypes } from '../../store/AppStore';
 import withAuth from '../../hoc/AuthRoute';
-import { tagService } from '../../domain/services/TagService';
+import { tagService } from '../../../infrastructure/services/TagService';
 import PublicRoute from '../../../public/PublicRoute';
 import { ADMIN_ROUTE, LANDING_ROUTE } from '../../constants/routes';
 

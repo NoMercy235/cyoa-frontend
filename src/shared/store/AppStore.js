@@ -1,6 +1,6 @@
 import * as PropTypes from 'prop-types';
 import { action, computed, observable } from 'mobx';
-import { UserModel } from '../domain/models/UserModel';
+import { UserModel } from '../../infrastructure/models/UserModel';
 
 class AppStore {
   @observable user;

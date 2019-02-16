@@ -1,4 +1,4 @@
-import { BaseModel } from '../../shared/domain/models/BaseModel';
+import { BaseModel } from './BaseModel';
 import { observable } from 'mobx';
 import { ERRORS } from '../../shared/constants/errors';
 

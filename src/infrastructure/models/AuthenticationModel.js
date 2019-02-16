@@ -1,5 +1,5 @@
 import { BaseModel } from './BaseModel';
-import { ERRORS } from '../../constants/errors';
+import { ERRORS } from '../../shared/constants/errors';
 
 export class AuthenticationModel extends BaseModel {
   email = '';

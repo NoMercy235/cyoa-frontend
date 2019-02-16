@@ -1,5 +1,5 @@
 import * as axios from 'axios';
-import { config } from '../../../config';
+import { config } from '../../config';
 import { Utils } from '@nomercy235/utils';
 
 /**

@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core';
 import Select from '../../../../../../shared/components/form/Select';
 import { styles } from './SaveStory.css';
 import { hasError } from '../../../../../../shared/components/form/helpers';
-import { TagModel } from '../../../../../../shared/domain/models/TagModel';
+import { TagModel } from '../../../../../../infrastructure/models/TagModel';
 import { CollectionModel } from '../../../../../../infrastructure/models/CollectionModel';
 import FileSelect from '../../../../../../shared/components/form/FileSelect/FileSelect';
 

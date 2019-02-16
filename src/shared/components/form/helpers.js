@@ -1,4 +1,4 @@
-import { BaseModel } from '../../domain/models/BaseModel';
+import { BaseModel } from '../../../infrastructure/models/BaseModel';
 
 function getInnerObject(obj, path) {
   if (path.length) {
