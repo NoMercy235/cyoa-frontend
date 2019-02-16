@@ -11,6 +11,7 @@ import SaveSequenceModal from '../save-sequence/SaveSequenceModal';
 import BasicNewAction from '../../../../../../shared/components/form/BasicNewAction';
 import OptionTableCmp from '../OptionTableCmp';
 import { observer } from 'mobx-react';
+import { renderSequenceTableTitle } from './SequenceTableTitle';
 
 @observer
 class SequenceTableCmp extends Component {
@@ -72,7 +73,7 @@ class SequenceTableCmp extends Component {
 
     return (
       <TableCmp
-        title="Sequences"
+        title={renderSequenceTableTitle()}
         columns={columns}
         data={data}
         options={options}
