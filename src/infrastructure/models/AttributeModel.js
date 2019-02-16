@@ -4,6 +4,7 @@ import { ERRORS } from '../../shared/constants/errors';
 export class AttributeModel extends BaseModel {
   _id = '';
   name = '';
+  isImportant = false;
   description = '';
   startValue = 0;
 
@@ -26,6 +27,7 @@ export class AttributeModel extends BaseModel {
   static forApi(attribute) {
     return {
       name: attribute.name,
+      isImportant: attribute.isImportant,
       description: attribute.description,
       startValue: attribute.startValue,
     };
