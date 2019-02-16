@@ -7,11 +7,24 @@ import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import { styles } from './StoryBox.css';
+import Typography from '@material-ui/core/Typography';
 
 class StoryHeader extends Component {
   state = { expanded: false, coverPic: '' };
 
-  getSubheader = () => {
+  renderTitle = () => {
+    const { story } = this.props;
+    return (
+      <Typography
+        variant="h6"
+        color="inherit"
+      >
+        {story.name}
+      </Typography>
+    );
+  };
+
+  renderSubheader = () => {
     const { story } = this.props;
     return [
       story.authorShort,
@@ -26,7 +39,7 @@ class StoryHeader extends Component {
     return (
       <CardHeader
         avatar={
-          <Avatar aria-label="Recipe" className={classes.avatar}>
+          <Avatar className={classes.avatar}>
             {(story.authorShort[0] || 'N/A').toUpperCase()}
           </Avatar>
         }
@@ -35,8 +48,8 @@ class StoryHeader extends Component {
             <MoreVertIcon />
           </IconButton>
         }
-        title={story.name}
-        subheader={this.getSubheader()}
+        title={this.renderTitle()}
+        subheader={this.renderSubheader()}
       />
     );
   }
