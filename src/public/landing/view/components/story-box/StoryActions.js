@@ -24,7 +24,6 @@ class StoryActions extends Component {
       READ_STORY_ROUTE,
       {
         ':storyId': this.props.story._id,
-        ':seqId': this.props.story.startSeq,
       }
     );
     return path;

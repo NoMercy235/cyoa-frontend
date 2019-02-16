@@ -14,7 +14,7 @@ import {
 const getBreadCrumbs = () => {
   const path = window.location.pathname;
 
-  if (/\/public\/read\/[a-z0-9]+\/sequence\/[a-z0-9]+/.test(path)) {
+  if (/\/public\/read\/[a-z0-9]+/.test(path)) {
     return [
       publicBreadcrumb(),
       storyReadBreadcrumb(),

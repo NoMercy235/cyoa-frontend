@@ -1,5 +1,5 @@
 export const LANDING_ROUTE = '/public';
-export const READ_STORY_ROUTE = '/public/read/:storyId/sequence/:seqId';
+export const READ_STORY_ROUTE = '/public/read/:storyId';
 
 export const ADMIN_ROUTE = '/admin';
 export const ADMIN_STORIES_ROUTE = '/admin/stories';
