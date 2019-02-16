@@ -1,7 +1,5 @@
 import React, { Fragment } from 'react';
-import Typography from '@material-ui/core/Typography';
 import HelpCmp from '../../../../../shared/components/help/HelpCmp';
-
 
 function getTitle() {
   return 'Story general tab';
@@ -21,12 +19,11 @@ function getDescription () {
 
 export function renderGeneralTitle (story) {
   return (
-    <Typography
-      variant="h4"
-      color="inherit"
-    >
-      {story.name}
-      <HelpCmp title={getTitle()} description={getDescription()}/>
-    </Typography>
+    <HelpCmp
+      text={story.name}
+      textSize="h4"
+      title={getTitle()}
+      description={getDescription()}
+    />
   );
 }

@@ -10,6 +10,7 @@ import BasicNewAction from '../../../../../shared/components/form/BasicNewAction
 import SaveAttributeModal from './save-attribute/SaveAttributeModal';
 import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
 import { observer } from 'mobx-react';
+import { renderAttributesTableTitle } from './AttributesTableTitle';
 
 @observer
 class AttributesTableCmp extends Component {
@@ -60,7 +61,7 @@ class AttributesTableCmp extends Component {
 
     return (
       <TableCmp
-        title="Attributes"
+        title={renderAttributesTableTitle()}
         columns={columns}
         data={data}
         options={options}

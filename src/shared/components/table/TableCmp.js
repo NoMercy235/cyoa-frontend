@@ -41,7 +41,9 @@ class TableCmp extends Component {
 
 TableCmp.propTypes = {
   classes: PropTypes.object,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.oneOfType([
+    PropTypes.string, PropTypes.object,
+  ]).isRequired,
   columns: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
   options: PropTypes.object,
