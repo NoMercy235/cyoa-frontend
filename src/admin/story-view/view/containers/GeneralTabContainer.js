@@ -7,29 +7,17 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import styles from './GeneralTabContainer.module.scss';
 import Card from '@material-ui/core/Card';
-import Typography from '@material-ui/core/Typography';
 import PublishBtn from '../components/general/PublishBtn';
-import HelpCmp from '../../../../shared/components/help/HelpCmp';
+import { renderGeneralTitle } from '../components/general/GeneralTitle';
+
 
 class GeneralTabContainer extends Component {
-  getTitle = () => {
-    return (
-      <Typography
-        variant="h4"
-        color="inherit"
-      >
-        {this.props.story.name}
-        <HelpCmp title="hello" description="world"/>
-      </Typography>
-    );
-  };
-
   render() {
     const { story } = this.props;
 
     return (
       <Card className={styles.container}>
-        <CardHeader title={this.getTitle()}/>
+        <CardHeader title={renderGeneralTitle(story)}/>
         <CardContent>
           <GeneralTab story={story}/>
         </CardContent>
