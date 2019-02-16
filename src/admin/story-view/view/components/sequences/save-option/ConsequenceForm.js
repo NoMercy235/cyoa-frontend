@@ -4,7 +4,7 @@ import { Field } from 'formik';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core';
 import { hasError } from '../../../../../../shared/components/form/helpers';
-import Select from '../../../../../../shared/components/form/Select';
+import Select from '../../../../../../shared/components/form/Select/Select';
 import { styles } from './SaveOption.css';
 import { AttributeModel } from '../../../../../../infrastructure/models/AttributeModel';
 import IconButton from '@material-ui/core/IconButton';

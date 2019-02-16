@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import { Field, Form } from 'formik';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core';
-import Select from '../../../../../../shared/components/form/Select';
+import Select from '../../../../../../shared/components/form/Select/Select';
 import { styles } from './SaveStory.css';
 import { hasError } from '../../../../../../shared/components/form/helpers';
 import { TagModel } from '../../../../../../infrastructure/models/TagModel';

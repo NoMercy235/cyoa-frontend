@@ -4,7 +4,7 @@ import { Field, FieldArray, Form } from 'formik';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core';
 import { hasError } from '../../../../../../shared/components/form/helpers';
-import Select from '../../../../../../shared/components/form/Select';
+import Select from '../../../../../../shared/components/form/Select/Select';
 import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
 import { styles } from './SaveOption.css';
 import Typography from '@material-ui/core/Typography';
