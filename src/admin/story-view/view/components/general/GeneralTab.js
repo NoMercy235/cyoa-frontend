@@ -1,16 +1,34 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
-import PublishBtn from './PublishBtn';
-import classes from './GeneralTab.module.scss';
+import styles from './GeneralTab.module.scss';
+import Typography from '@material-ui/core/Typography';
 
 class GeneralTab extends Component {
   render() {
     const { story } = this.props;
     return (
-      <div className={classes.container}>
-        <PublishBtn story={story}/>
-      </div>
+      <Fragment>
+        <Typography
+          variant="h6"
+          color="inherit"
+        >
+          {story.shortDescription}
+        </Typography>
+        <div className={styles.longDescriptionContainer}>
+          <img
+            alt="Cover"
+            className={styles.coverPic}
+            src={story.coverPic}
+          />
+          <Typography
+            variant="h6"
+            color="inherit"
+          >
+            {story.longDescription}
+          </Typography>
+        </div>
+      </Fragment>
     );
   }
 }
