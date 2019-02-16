@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
-import { styles as tableStyles } from '../../../../../shared/components/table/TableCmp.css';
-import TableCmp from '../../../../../shared/components/table/TableCmp';
-import { optionService } from '../../../../../infrastructure/services/OptionService';
-import { OptionModel } from '../../../../../infrastructure/models/OptionModel';
+import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
+import TableCmp from '../../../../../../shared/components/table/TableCmp';
+import { optionService } from '../../../../../../infrastructure/services/OptionService';
+import { OptionModel } from '../../../../../../infrastructure/models/OptionModel';
 import { inject, observer } from 'mobx-react';
-import { storyViewStorePropTypes } from '../../../stores/StoryViewStore';
-import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
-import SaveOptionModal from './save-option/SaveOptionModal';
+import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
+import BasicNewAction from '../../../../../../shared/components/form/BasicNewAction';
+import SaveOptionModal from '../save-option/SaveOptionModal';
 import { Utils } from '@nomercy235/utils';
-import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
-import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow';
+import BasicEditAction from '../../../../../../shared/components/form/BasicEditAction';
+import DeleteRow from '../../../../../../shared/components/table/actions/DeleteRow';
+import { renderOptionTableTitle } from './OptionTableTitle';
 
 @inject('storyViewStore')
 @observer
@@ -110,7 +111,7 @@ class OptionTableCmp extends Component {
 
     return (
       <TableCmp
-        title="Options"
+        title={renderOptionTableTitle()}
         columns={columns}
         data={data}
         options={tableOptions}

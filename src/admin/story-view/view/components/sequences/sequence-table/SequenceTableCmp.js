@@ -9,7 +9,7 @@ import { SequenceModel } from '../../../../../../infrastructure/models/SequenceM
 import BasicEditAction from '../../../../../../shared/components/form/BasicEditAction';
 import SaveSequenceModal from '../save-sequence/SaveSequenceModal';
 import BasicNewAction from '../../../../../../shared/components/form/BasicNewAction';
-import OptionTableCmp from '../OptionTableCmp';
+import OptionTableCmp from '../option-table/OptionTableCmp';
 import { observer } from 'mobx-react';
 import { renderSequenceTableTitle } from './SequenceTableTitle';
 
