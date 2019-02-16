@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { OptionModel } from '../../../../infrastructure/models/OptionModel';
+import { OptionModel } from '../../../../../infrastructure/models/OptionModel';
 
 class OptionChoice extends Component {
   onOptionClick = () => {

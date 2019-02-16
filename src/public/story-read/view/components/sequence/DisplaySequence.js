@@ -5,9 +5,9 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardActions from '@material-ui/core/CardActions';
 import OptionChoice from './OptionChoice';
-import styles from './ReadStory.module.scss';
-import { StoryModel } from '../../../../infrastructure/models/StoryModel';
-import { sequenceService } from '../../../../infrastructure/services/SequenceService';
+import styles from './DisplaySequence.module.scss';
+import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
+import { sequenceService } from '../../../../../infrastructure/services/SequenceService';
 
 class DisplaySequence extends Component {
   state = { sequence: null };

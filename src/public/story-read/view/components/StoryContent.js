@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
-import DisplaySequence from './DisplaySequence';
+import DisplaySequence from './sequence/DisplaySequence';
 import { withRouter } from 'react-router-dom';
 import { makePath, READ_STORY_ROUTE } from '../../../../shared/constants/routes';
 
