@@ -31,7 +31,7 @@ export class OptionModel extends BaseModel {
         delete errors.consequences[i];
       }
     });
-    errors = errors.consequences.filter(e => e && e.length);
+    errors.consequences = errors.consequences.filter(e => e && e.length);
 
     if (!errors.consequences.length) {
       delete errors.consequences;
