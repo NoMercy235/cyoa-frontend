@@ -4,12 +4,12 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Collapse from '@material-ui/core/Collapse';
-import Typography from '@material-ui/core/Typography';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import { storyService } from '../../../../../infrastructure/services/StoryService';
 import { styles } from './StoryBox.css';
 import StoryHeader from './StoryHeader';
 import StoryActions from './StoryActions';
+import { parseContent } from '../../../../../shared/utilities';
 
 class StoryBox extends Component {
   state = { expanded: false, coverPic: '' };
@@ -22,17 +22,6 @@ class StoryBox extends Component {
     }));
   };
 
-  parseDescription = (description) => {
-    return description.split('\n').map((line, i) => {
-      if (line === '') return <br key={i}/>;
-      return (
-        <Typography component="p" key={i}>
-          {line}
-        </Typography>
-      );
-    });
-  };
-
   render() {
     const { story, classes } = this.props;
 
@@ -40,7 +29,7 @@ class StoryBox extends Component {
       <Card className={classes.card}>
         <StoryHeader story={story}/>
         <CardContent>
-          {this.parseDescription(story.shortDescription)}
+          {parseContent(story.shortDescription)}
         </CardContent>
         <StoryActions
           story={story}
@@ -54,7 +43,7 @@ class StoryBox extends Component {
               src={this.state.coverPic}
             />
             <CardContent>
-              {this.parseDescription(story.longDescription)}
+              {parseContent(story.longDescription)}
             </CardContent>
           </div>
         </Collapse>
