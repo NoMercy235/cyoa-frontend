@@ -48,7 +48,7 @@ class DisplaySequence extends Component {
   render() {
     const { sequence } = this.state;
     if (!sequence) return '';
-    const { onOptionClick } = this.props;
+    const { onOptionClick, player } = this.props;
 
     return (
       <Card>
@@ -62,6 +62,7 @@ class DisplaySequence extends Component {
               <OptionChoice
                 key={o._id}
                 option={o}
+                player={player}
                 onOptionClick={onOptionClick}
               />
             ))}
