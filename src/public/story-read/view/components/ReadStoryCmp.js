@@ -1,11 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
+import StoryContent from './StoryContent';
 
 class ReadStoryCmp extends Component {
   render() {
+    const { story } = this.props;
     return (
-      <span>read me from cmp {this.props.story.name} </span>
+      <Fragment>
+        <StoryContent story={story}/>
+      </Fragment>
     );
   }
 }
