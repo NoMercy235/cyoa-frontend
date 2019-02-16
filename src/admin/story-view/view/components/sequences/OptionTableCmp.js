@@ -23,19 +23,12 @@ class OptionTableCmp extends Component {
     );
   }
 
-  getAttributeName(consequence) {
-    return Utils.safeAccess(
-      this.props.storyViewStore.getAttributeById(consequence.attribute),
-      'name',
-    );
-  }
-
   getConsequences(option) {
     return option.consequences
       .filter(c => c.attribute)
-      .map((obj, i) =>
+      .map((attr, i) =>
         <div key={i}>
-          <b>{this.getAttributeName(obj)}</b>&nbsp;:&nbsp;<b>{obj.changeValue}</b>
+          <b>{attr.attribute}</b>&nbsp;:&nbsp;<b>{attr.changeValue}</b>
         </div>
       );
   }

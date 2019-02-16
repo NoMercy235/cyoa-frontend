@@ -14,7 +14,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 class ConsequenceForm extends Component {
   getAttributes = () => {
     return this.props.attributes.map(a => {
-      return { _id: a._id, name: a.name };
+      return { _id: a.name, name: a.name };
     });
   };
 
