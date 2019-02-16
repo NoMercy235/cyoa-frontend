@@ -44,7 +44,7 @@ class SequenceTabContainer extends Component {
       [optionId],
       'Option deleted'
     );
-    this.props.storyViewStore.removeSequence(sequenceId);
+    this.props.storyViewStore.removeOptionFromSequence(sequenceId, optionId);
   };
 
   getSequences = async () => {

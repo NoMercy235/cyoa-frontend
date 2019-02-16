@@ -67,6 +67,11 @@ class StoryViewStore {
     });
   }
 
+  @action removeOptionFromSequence(sequenceId, optionId) {
+    const seq = this.getSequenceById(sequenceId);
+    seq.options = seq.options.filter(o => o._id !== optionId);
+  }
+
   @action setCurrentStory(story) {
     this.currentStory = story;
   }
@@ -105,6 +110,8 @@ export const storyViewStorePropTypes = PropTypes.shape({
 
   setOptionsToSequence: PropTypes.func,
   addOptionToSequence: PropTypes.func,
+  updateOption: PropTypes.func,
+  removeOptionFromSequence: PropTypes.func,
 
   setCurrentStory: PropTypes.func,
 

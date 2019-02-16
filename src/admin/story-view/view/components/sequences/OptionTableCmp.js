@@ -47,8 +47,8 @@ class OptionTableCmp extends Component {
     this.props.storyViewStore.setOptionsToSequence(sequenceId, options);
   };
 
-  onDeleteOption = (sequenceId, id) => () => {
-    this.props.onDeleteOption(sequenceId, id);
+  onDeleteOption = id => () => {
+    this.props.onDeleteOption(this.props.sequenceId, id);
   };
 
   getActions = row => {
