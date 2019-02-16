@@ -9,6 +9,7 @@ import styles from './GeneralTabContainer.module.scss';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import PublishBtn from '../components/general/PublishBtn';
+import HelpCmp from '../../../../shared/components/help/HelpCmp';
 
 class GeneralTabContainer extends Component {
   getTitle = () => {
@@ -18,6 +19,7 @@ class GeneralTabContainer extends Component {
         color="inherit"
       >
         {this.props.story.name}
+        <HelpCmp title="hello" description="world"/>
       </Typography>
     );
   };

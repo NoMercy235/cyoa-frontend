@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Field, Form } from 'formik';
 import TextField from '@material-ui/core/TextField';
-import { withStyles } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 import { styles } from './SaveCollection.css';
 import { hasError } from '../../../../../../shared/components/form/helpers';
 
