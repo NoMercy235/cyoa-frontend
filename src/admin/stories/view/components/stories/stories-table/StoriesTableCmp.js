@@ -5,7 +5,6 @@ import { styles as storiesTableStyles } from './StoriesTableCmp.css';
 import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import classNames from 'classnames';
-import { TagModel } from '../../../../../../infrastructure/models/TagModel';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withRouter } from 'react-router-dom';
 import TableCmp from '../../../../../../shared/components/table/TableCmp';
@@ -19,17 +18,6 @@ import { ADMIN_STORY_VIEW_ROUTE, makePath } from '../../../../../../shared/const
 
 @observer
 class StoriesTableCmp extends Component {
-  tags = TagModel.get();
-
-  renderTags(tags) {
-    return tags
-      .map(st => {
-        const tag = this.tags.find(t => t._id === st);
-        return tag ? tag.name : st;
-      })
-      .join(', ');
-  }
-
   onDeleteStory = id => () => {
     this.props.onDeleteStory(id);
   };
@@ -86,7 +74,7 @@ class StoriesTableCmp extends Component {
     const data = stories.map(s => {
       return [
         this.renderName(s),
-        this.renderTags(s.tags),
+        s.tagsName.join(', '),
         this.getActions(s),
       ];
     });

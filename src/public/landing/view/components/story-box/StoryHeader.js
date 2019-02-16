@@ -6,7 +6,6 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
-import { TagModel } from '../../../../../infrastructure/models/TagModel';
 import { styles } from './StoryBox.css';
 
 class StoryHeader extends Component {
@@ -17,7 +16,7 @@ class StoryHeader extends Component {
     return [
       story.authorShort,
       story.createdAtShort,
-      story.tags.map(t => TagModel.getOne(t).name).join(', '),
+      (story.tagsName || []).join(', '),
     ].filter(v => v).join(' - ');
   };
 
