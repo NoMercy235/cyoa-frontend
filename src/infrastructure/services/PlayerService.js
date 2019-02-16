@@ -1,9 +1,9 @@
 import { BaseService } from './BaseService';
-import { OptionModel } from '../models/OptionModel';
 import { PlayerModel } from '../models/PlayerModel';
 
 class PlayerService extends BaseService {
   getOrCreateEndpoint = 'public/player/getOrCreate/:story';
+  updateEndpoint = 'public/player/updateAttributes/:playerId';
 
   get = playerId => {
     let url = this.getOrCreateEndpoint;
@@ -19,8 +19,12 @@ class PlayerService extends BaseService {
       });
   };
 
-  update = (id, option) => {
-    return super.update(id, option).then(a => new OptionModel(a));
+  update = metadata => {
+    return this.client
+      .put(this.withRouteParams(this.updateEndpoint), metadata)
+      .then(response => {
+        return new PlayerModel(BaseService.onSuccess(response));
+      });
   };
 }
 

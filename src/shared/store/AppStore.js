@@ -19,12 +19,19 @@ class AppStore {
   @computed get isLoggedIn() {
     return !!this.user;
   }
+
+  getUserId() {
+    return this.isLoggedIn
+      ? this.user._id
+      : '';
+  }
 }
 
 export const appStorePropTypes = PropTypes.shape({
   user: PropTypes.instanceOf(UserModel),
 
   setUser: PropTypes.func,
+  getUserId: PropTypes.func,
 
   isLoggedIn: PropTypes.bool,
 });
