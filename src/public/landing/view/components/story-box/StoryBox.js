@@ -5,7 +5,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Collapse from '@material-ui/core/Collapse';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
-import { storyService } from '../../../../../infrastructure/services/StoryService';
+import { publicStoryService } from '../../../../../infrastructure/services/StoryService';
 import { styles } from './StoryBox.css';
 import StoryHeader from './StoryHeader';
 import StoryActions from './StoryActions';
@@ -16,7 +16,7 @@ class StoryBox extends Component {
   state = { expanded: false, coverPic: '' };
 
   handleExpandClick = async () => {
-    const storyGet = await storyService.get(this.props.story._id);
+    const storyGet = await publicStoryService.get(this.props.story._id);
     this.setState(state => ({
       expanded: !state.expanded,
       coverPic: storyGet.coverPic,
@@ -25,6 +25,7 @@ class StoryBox extends Component {
 
   render() {
     const { story, classes } = this.props;
+    const { coverPic, expanded } = this.state;
 
     return (
       <Card className={classes.card}>
@@ -34,14 +35,15 @@ class StoryBox extends Component {
         </CardContent>
         <StoryActions
           story={story}
+          expanded={expanded}
           handleExpandClick={this.handleExpandClick}
         />
-        <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
           <div className={classes.expandedContainer}>
             <img
               alt="Cover"
               className={classes.coverPic}
-              src={this.state.coverPic || notFoundImg}
+              src={coverPic || notFoundImg}
             />
             <CardContent>
               {parseContent(story.longDescription)}

@@ -13,8 +13,6 @@ import ShareButton from '../ShareButton';
 import { styles } from './StoryBox.css';
 
 class StoryActions extends Component {
-  state = { expanded: false, coverPic: '' };
-
   makePath = (withOrigin = false) => {
     let path = '';
     if (withOrigin) {
@@ -53,10 +51,10 @@ class StoryActions extends Component {
         <ShareButton text={this.makePath(true)}/>
         <IconButton
           className={classnames(classes.expand, {
-            [classes.expandOpen]: this.state.expanded,
+            [classes.expandOpen]: this.props.expanded,
           })}
           onClick={this.props.handleExpandClick}
-          aria-expanded={this.state.expanded}
+          aria-expanded={this.props.expanded}
           aria-label="Show more"
         >
           <ExpandMoreIcon />
@@ -67,7 +65,8 @@ class StoryActions extends Component {
 }
 
 StoryActions.propTypes = {
-  story: PropTypes.instanceOf(StoryModel),
+  story: PropTypes.instanceOf(StoryModel).isRequired,
+  expanded: PropTypes.bool.isRequired,
   handleExpandClick: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
