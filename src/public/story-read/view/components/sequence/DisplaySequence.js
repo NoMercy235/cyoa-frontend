@@ -11,6 +11,7 @@ import { publicSequenceService } from '../../../../../infrastructure/services/Se
 import DisplayEnding from './DisplayEnding';
 import { PlayerModel } from '../../../../../infrastructure/models/PlayerModel';
 import DisplaySequenceTitle from './DisplaySequenceTitle';
+import { parseContent } from '../../../../../shared/utilities';
 
 class DisplaySequence extends Component {
   state = { sequence: null };
@@ -25,6 +26,10 @@ class DisplaySequence extends Component {
         sequence={sequence}
       />
     );
+  };
+
+  renderContent = () => {
+    return parseContent(this.state.sequence.content);
   };
 
   getSequence = async () => {
@@ -54,7 +59,7 @@ class DisplaySequence extends Component {
       <Card>
         <CardHeader title={this.renderTitle()}/>
         <CardContent>
-          {sequence.content}
+          {this.renderContent()}
         </CardContent>
         <CardActions disableActionSpacing>
           <div className={styles.optionContainer}>
