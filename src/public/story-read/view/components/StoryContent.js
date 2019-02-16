@@ -10,7 +10,7 @@ import EndingContainer from '../containers/EndingContainer';
 @inject('appStore')
 class StoryContent extends Component {
   state = {
-    seqId: this.props.story.startSeq._id,
+    seqId: '',
     player: false,
     hasWon: false,
   };
@@ -65,7 +65,10 @@ class StoryContent extends Component {
     const player = await playerService.get(
       this.props.appStore.getUserId()
     );
-    this.setState({ player });
+    this.setState({
+      player,
+      seqId: player.lastStorySequence,
+    });
   };
 
   componentDidMount () {
