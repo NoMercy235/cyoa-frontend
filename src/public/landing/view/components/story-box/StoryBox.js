@@ -49,7 +49,7 @@ class StoryBox extends Component {
         <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
           <div className={classes.expandedContainer}>
             <img
-              alt="Cover picture"
+              alt="Cover"
               className={classes.coverPic}
               src={this.state.coverPic}
             />
