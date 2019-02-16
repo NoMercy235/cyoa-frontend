@@ -2,8 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { publicStoryService } from '../../../../infrastructure/services/StoryService';
 import { withRouter } from 'react-router-dom';
 import * as PropTypes from 'prop-types';
-import ReadStoryCmp from '../components/ReadStoryCmp';
 import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
+import StoryContent from '../components/StoryContent';
 
 class ReadStoryContainer extends Component {
   state = { story: null };
@@ -22,7 +22,7 @@ class ReadStoryContainer extends Component {
     return (
       <Fragment>
         <Breadcrumb/>
-        {this.state.story && <ReadStoryCmp
+        {this.state.story && <StoryContent
           story={this.state.story}
         />}
       </Fragment>
