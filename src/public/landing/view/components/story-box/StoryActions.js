@@ -9,7 +9,7 @@ import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import ViewRow from '../../../../../shared/components/table/actions/ViewRow';
 import { withRouter } from 'react-router-dom';
 import { makePath, READ_STORY_ROUTE } from '../../../../../shared/constants/routes';
-import ShareButton from '../home/ShareButton';
+import ShareButton from '../ShareButton';
 import { styles } from './StoryBox.css';
 
 class StoryActions extends Component {
