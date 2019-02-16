@@ -30,8 +30,7 @@ class StoryContent extends Component {
 
   checkPlayerIsDead = player => {
     const isDead = player.attributes.filter(attr => {
-      if (!attr.isImportant) return false;
-      if (attr.value <= 0) return true;
+      return attr.isImportant && attr.value <= 0;
     });
 
     return !!isDead.length;
