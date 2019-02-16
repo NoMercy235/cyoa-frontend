@@ -3,11 +3,15 @@ import * as PropTypes from 'prop-types';
 import { OptionModel } from '../../../../infrastructure/models/OptionModel';
 
 class OptionChoice extends Component {
+  onOptionClick = () => {
+    this.props.onOptionClick(this.props.option);
+  };
+
   render() {
     const { option } = this.props;
 
     return (
-      <div>
+      <div onClick={this.onOptionClick}>
         {option.action}
       </div>
     );
@@ -15,7 +19,8 @@ class OptionChoice extends Component {
 }
 
 OptionChoice.propTypes = {
-  option: PropTypes.shape(OptionModel),
+  option: PropTypes.shape(OptionModel).isRequired,
+  onOptionClick: PropTypes.func.isRequired,
 };
 
 export default OptionChoice;

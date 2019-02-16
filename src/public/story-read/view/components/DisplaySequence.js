@@ -4,24 +4,51 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardActions from '@material-ui/core/CardActions';
-import { SequenceModel } from '../../../../infrastructure/models/SequenceModel';
 import OptionChoice from './OptionChoice';
 import styles from './ReadStory.module.scss';
+import { StoryModel } from '../../../../infrastructure/models/StoryModel';
+import { sequenceService } from '../../../../infrastructure/services/SequenceService';
 
 class DisplaySequence extends Component {
+  state = { sequence: null };
+
+  getSequence = async () => {
+    const { story, seq } = this.props;
+    const params = { ':story': story._id };
+    sequenceService.setNextRouteParams(params);
+    const sequence = await sequenceService.get(seq);
+    this.setState({ sequence });
+  };
+
+  componentDidUpdate () {
+    if (this.props.seq !== this.state.sequence._id) {
+      this.getSequence();
+    }
+  }
+
+  componentDidMount () {
+    this.getSequence();
+  }
+
   render() {
-    const { seq } = this.props;
+    const { sequence } = this.state;
+    if (!sequence) return '';
+    const { onOptionClick } = this.props;
 
     return (
       <Card>
-        <CardHeader title={seq.name}/>
+        <CardHeader title={sequence.name}/>
         <CardContent>
-          {seq.content}
+          {sequence.content}
         </CardContent>
         <CardActions disableActionSpacing>
           <div className={styles.optionContainer}>
-            {seq.options.map(o => (
-              <OptionChoice key={o._id} option={o}/>
+            {sequence.options.map(o => (
+              <OptionChoice
+                key={o._id}
+                option={o}
+                onOptionClick={onOptionClick}
+              />
             ))}
           </div>
         </CardActions>
@@ -31,7 +58,9 @@ class DisplaySequence extends Component {
 }
 
 DisplaySequence.propTypes = {
-  seq: PropTypes.shape(SequenceModel),
+  story: PropTypes.shape(StoryModel).isRequired,
+  seq: PropTypes.string.isRequired,
+  onOptionClick: PropTypes.func.isRequired,
 };
 
 export default DisplaySequence;

@@ -20,7 +20,13 @@ class StoryActions extends Component {
     if (withOrigin) {
       path += window.location.origin;
     }
-    path += makePath(READ_STORY_ROUTE, { ':id': this.props.story._id});
+    path += makePath(
+      READ_STORY_ROUTE,
+      {
+        ':storyId': this.props.story._id,
+        ':seqId': this.props.story.startSeq,
+      }
+    );
     return path;
   };
 

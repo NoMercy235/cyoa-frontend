@@ -15,7 +15,7 @@ class ReadStoryContainer extends Component {
   };
 
   componentDidMount () {
-    this.getStory(this.props.match.params.id);
+    this.getStory(this.props.match.params.storyId);
   }
 
   render() {
