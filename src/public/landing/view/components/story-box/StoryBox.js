@@ -10,6 +10,7 @@ import { styles } from './StoryBox.css';
 import StoryHeader from './StoryHeader';
 import StoryActions from './StoryActions';
 import { parseContent } from '../../../../../shared/utilities';
+import notFoundImg from '../../../../../assets/notfound.png';
 
 class StoryBox extends Component {
   state = { expanded: false, coverPic: '' };
@@ -40,7 +41,7 @@ class StoryBox extends Component {
             <img
               alt="Cover"
               className={classes.coverPic}
-              src={this.state.coverPic}
+              src={this.state.coverPic || notFoundImg}
             />
             <CardContent>
               {parseContent(story.longDescription)}
