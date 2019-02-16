@@ -13,6 +13,32 @@ class RegisterForm extends Component {
     return (
       <Form noValidate>
         <Field
+          name="firstName"
+          required
+          render={({ field }) => {
+            return <TextField
+              {...field}
+              label="First name"
+              fullWidth
+              value={formik.values.firstName}
+              {...hasError(formik, 'firstName')}
+            />;
+          }}
+        />
+        <Field
+          name="lastName"
+          required
+          render={({ field }) => {
+            return <TextField
+              {...field}
+              label="Last name"
+              fullWidth
+              value={formik.values.lastName}
+              {...hasError(formik, 'lastName')}
+            />;
+          }}
+        />
+        <Field
           name="email"
           required
           render={({ field }) => {

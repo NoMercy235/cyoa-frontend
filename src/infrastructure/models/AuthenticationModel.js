@@ -2,6 +2,8 @@ import { BaseModel } from './BaseModel';
 import { ERRORS } from '../../shared/constants/errors';
 
 export class AuthenticationModel extends BaseModel {
+  firstName = '';
+  lastName = '';
   email = '';
   password = '';
   repeatPassword = '';
@@ -14,23 +16,25 @@ export class AuthenticationModel extends BaseModel {
   checkErrors(options) {
     const { isLoggingIn } = options;
     let errors = {};
-    if (!this.email) {
-      errors.email = ERRORS.fieldRequired;
-    }
-    if (!this.password) {
-      errors.password = ERRORS.fieldRequired;
-    }
-    if (!isLoggingIn && !this.repeatPassword) {
-      errors.repeatPassword = ERRORS.fieldRequired;
-    }
+
+    ['firstName', 'lastName', 'email', 'password', 'repeatPassword'].forEach(f => {
+      if (!this[f]) errors[f] = ERRORS.fieldRequired;
+    });
+
     if (
-      !isLoggingIn &&
       this.password &&
       this.repeatPassword &&
       this.password !== this.repeatPassword
     ) {
       errors.repeatPassword = 'Field must be the same as "Password"';
     }
+
+    if (isLoggingIn) {
+      delete errors.firstName;
+      delete errors.lastName;
+      delete errors.repeatPassword;
+    }
+
     return errors;
   }
 
