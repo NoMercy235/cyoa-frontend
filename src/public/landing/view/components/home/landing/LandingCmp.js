@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import * as PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
-import StoryBox from '../story-box/StoryBox';
+import StoryBox from '../../story-box/StoryBox';
 import classes from './LandingCmp.module.scss';
 
 @observer
