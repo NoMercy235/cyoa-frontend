@@ -72,14 +72,19 @@ class AuthenticationModal extends Component {
       : 'Register';
   }
 
-  renderHelperText() {
+  onHelperTextClick = (formik, metadata) => () => {
+    formik.resetForm();
+    this.onChangeState(metadata)();
+  };
+
+  renderHelperText(formik) {
     if (this.state.isLoggingIn) {
       return <NoAccount
-        onHandleClick={this.onChangeState({ isLoggingIn: false })}
+        onHandleClick={this.onHelperTextClick(formik, { isLoggingIn: false })}
       />;
     } else {
       return <HasAccount
-        onHandleClick={this.onChangeState({ isLoggingIn: true })}
+        onHandleClick={this.onHelperTextClick(formik,{ isLoggingIn: true })}
       />;
     }
   }
@@ -136,7 +141,7 @@ class AuthenticationModal extends Component {
                 </DialogTitle>
                 <DialogContent>
                   {this.renderForm(formik)}
-                  {this.renderHelperText()}
+                  {this.renderHelperText(formik)}
                 </DialogContent>
                 <DialogActions>
                   <AuthenticationActions
