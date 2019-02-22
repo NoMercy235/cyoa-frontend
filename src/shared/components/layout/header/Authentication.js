@@ -45,15 +45,18 @@ class Authentication extends Component {
   };
 
   renderLogout = (props) => {
-    const { drawerOpen, classes } = props;
+    const { drawerOpen, classes, appStore } = props;
     const Logout = withRouter(({ history }) => (
-      <Button
-        className={classNames(!drawerOpen && classes.appLoginButton)}
-        onClick={this.onHandleLogout(history)}
-        color="inherit"
-      >
-        <Exit />
-      </Button>
+      <Fragment>
+        {appStore.user.email}
+        <Button
+          className={classNames(!drawerOpen && classes.appLoginButton)}
+          onClick={this.onHandleLogout(history)}
+          color="inherit"
+        >
+          <Exit />
+        </Button>
+      </Fragment>
     ));
     return <Logout />;
   };
