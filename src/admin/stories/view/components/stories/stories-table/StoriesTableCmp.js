@@ -15,6 +15,7 @@ import SaveStoryModal from '../save-story/SaveStoryModal';
 import BasicEditAction from '../../../../../../shared/components/form/BasicEditAction';
 import { observer } from 'mobx-react';
 import { ADMIN_STORY_VIEW_ROUTE, makePath } from '../../../../../../shared/constants/routes';
+import { renderStoriesTableTitle } from './StoriesTableTitle';
 
 @observer
 class StoriesTableCmp extends Component {
@@ -92,7 +93,7 @@ class StoriesTableCmp extends Component {
 
     return (
       <TableCmp
-        title="Stories"
+        title={renderStoriesTableTitle()}
         columns={columns}
         data={data}
         options={options}
