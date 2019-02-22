@@ -1,5 +1,7 @@
 import { BaseModel } from './BaseModel';
 import { ERRORS } from '../../shared/constants/errors';
+import { Utils } from '@nomercy235/utils';
+import { ConsequenceModel } from './ConsequenceModel';
 
 export class OptionModel extends BaseModel {
   _id = '';
@@ -11,6 +13,9 @@ export class OptionModel extends BaseModel {
   constructor(metadata) {
     super();
     Object.assign(this, metadata);
+    if (Utils.safeAccess(this.consequences, 'length')) {
+      this.consequences = this.consequences.map(c => new ConsequenceModel(c));
+    }
   }
 
   checkErrors() {
@@ -26,13 +31,13 @@ export class OptionModel extends BaseModel {
 
     errors.consequences = new Array(this.consequences.length);
     this.consequences.forEach((c, i) => {
-      errors.consequences[i] = c.checkErrors();
-      if (!Object.keys(errors.consequences[i])) {
-        delete errors.consequences[i];
-      }
+      errors.consequences[i] = {
+        index: i,
+        ...c.checkErrors(),
+      };
     });
     errors.consequences = errors.consequences.filter(
-      e => e && Object.keys(e).length
+      e => e && (Object.keys(e).length > 1)
     );
 
     if (!errors.consequences.length) {

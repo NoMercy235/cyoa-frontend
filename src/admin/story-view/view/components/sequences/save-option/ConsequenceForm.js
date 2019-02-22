@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import { Field } from 'formik';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core';
-import { hasError } from '../../../../../../shared/components/form/helpers';
+import { arrayHasError } from '../../../../../../shared/components/form/helpers';
 import Select from '../../../../../../shared/components/form/Select/Select';
 import { styles } from './SaveOption.css';
 import { AttributeModel } from '../../../../../../infrastructure/models/AttributeModel';
@@ -38,7 +38,7 @@ class ConsequenceForm extends Component {
                 label="Attribute"
                 fullWidth
                 items={this.getAttributes()}
-                {...hasError(formik, `consequences.${index}.attribute`)}
+                {...arrayHasError(formik, 'consequences', 'attribute', index)}
               />
             );
           }}
@@ -54,7 +54,7 @@ class ConsequenceForm extends Component {
               type="number"
               fullWidth
               value={formik.values.consequences[index].changeValue}
-              {...hasError(formik, `consequences.${index}.changeValue`)}
+              {...arrayHasError(formik, 'consequences', 'changeValue', index)}
             />;
           }}
         />
