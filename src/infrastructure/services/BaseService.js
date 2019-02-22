@@ -40,6 +40,8 @@ export class BaseService {
           window.location.pathname !== '/'
         ) {
           window.location = '/?loginError=true';
+          localStorage.removeItem('jwt');
+          localStorage.removeItem('user');
         }
 
         throw Utils.safeAccess(err, 'response.data') || err;
