@@ -12,6 +12,7 @@ import BasicNewAction from '../../../../../../shared/components/form/BasicNewAct
 import SelectedIcon from '@material-ui/icons/KeyboardArrowRight';
 import { inject, observer } from 'mobx-react';
 import { storyStorePropTypes } from '../../../../stores/StoryStore';
+import { renderCollectionsTableTitle } from './CollectionsTableTitle';
 
 @inject('storyStore')
 @observer
@@ -84,7 +85,7 @@ class CollectionsTableCmp extends Component {
 
     return (
       <TableCmp
-        title="Collections"
+        title={renderCollectionsTableTitle()}
         columns={columns}
         data={data}
         options={options}
