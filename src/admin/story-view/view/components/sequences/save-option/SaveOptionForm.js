@@ -21,7 +21,7 @@ class SaveOptionForm extends Component {
     });
   };
 
-  addConsequence = arrayHelpers => () => {
+  onAddConsequence = arrayHelpers => () => {
     const consequence = new ConsequenceModel();
     arrayHelpers.push(consequence);
   };
@@ -77,7 +77,7 @@ class SaveOptionForm extends Component {
                 <span>Add consequences</span>
                 <Tooltip title="New consequence">
                   <IconButton
-                    onClick={this.addConsequence(arrayHelpers)}
+                    onClick={this.onAddConsequence(arrayHelpers)}
                   >
                     <AddIcon fontSize="small" />
                   </IconButton>
