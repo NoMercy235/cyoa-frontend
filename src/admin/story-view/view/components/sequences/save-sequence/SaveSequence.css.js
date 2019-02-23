@@ -1,4 +1,4 @@
-export const styles = () => ({
+export const styles = theme => ({
   dialogSize: {
     minWidth: '60vw',
     maxWidth: '60vw',
@@ -6,5 +6,8 @@ export const styles = () => ({
   isStartSeqContainer: {
     display: 'flex',
     alignItems: 'center',
+  },
+  uploadBtn: {
+    marginTop: theme.spacing.unit,
   },
 });

@@ -6,6 +6,7 @@ export class SequenceModel extends BaseModel {
   _id = '';
   name = '';
   authorNote = '';
+  scenePic = '';
   content = '';
   isEnding = false;
   @observable options = [];
@@ -30,6 +31,7 @@ export class SequenceModel extends BaseModel {
     return {
       name: attribute.name,
       authorNote: attribute.authorNote,
+      scenePic: attribute.scenePic,
       content: attribute.content,
       isEnding: attribute.isEnding,
     };

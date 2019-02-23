@@ -28,6 +28,12 @@ class DisplaySequence extends Component {
     );
   };
 
+  renderPicture = () => {
+    const { sequence } = this.state;
+    if (!sequence.scenePic) return '';
+    return <img src={sequence.scenePic} alt=""/>;
+  };
+
   renderContent = () => {
     return parseContent(this.state.sequence.content);
   };
@@ -59,6 +65,7 @@ class DisplaySequence extends Component {
       <Card>
         <CardHeader title={this.renderTitle()}/>
         <CardContent>
+          {this.renderPicture()}
           {this.renderContent()}
         </CardContent>
         <CardActions disableActionSpacing>

@@ -7,8 +7,13 @@ import { styles } from './SaveSequence.css';
 import { hasError } from '../../../../../../shared/components/form/helpers';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
+import FileSelect from '../../../../../../shared/components/form/FileSelect/FileSelect';
 
 class SaveSequenceForm extends Component {
+  onFileUploaded = base64File => {
+    this.props.formik.setFieldValue('scenePic', base64File);
+  };
+
   render() {
     const { formik, classes } = this.props;
 
@@ -91,6 +96,12 @@ class SaveSequenceForm extends Component {
               {...hasError(formik, 'content')}
             />;
           }}
+        />
+
+        <FileSelect
+          className={classes.uploadBtn}
+          label="Upload scene"
+          onFileUploaded={this.onFileUploaded}
         />
       </Form>
     );
