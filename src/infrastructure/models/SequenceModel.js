@@ -7,6 +7,7 @@ export class SequenceModel extends BaseModel {
   name = '';
   authorNote = '';
   scenePic = '';
+  hasScenePic = false;
   content = '';
   isEnding = false;
   @observable options = [];

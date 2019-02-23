@@ -8,10 +8,50 @@ import { hasError } from '../../../../../../shared/components/form/helpers';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import FileSelect from '../../../../../../shared/components/form/FileSelect/FileSelect';
+import Button from '@material-ui/core/Button';
 
 class SaveSequenceForm extends Component {
+  state = {
+    renderViewImage: this.props.formik.values.hasScenePic,
+    scenePic: '',
+  };
+
   onFileUploaded = base64File => {
     this.props.formik.setFieldValue('scenePic', base64File);
+  };
+
+  getSequence = async () => {
+    const seq = await this.props.getSequence();
+    this.setState({
+      renderViewImage: false,
+      scenePic: seq.scenePic,
+    });
+  };
+
+  renderViewImage = () => {
+    const { classes } = this.props;
+    return (
+      <Button
+        className={classes.uploadBtn}
+        variant="contained"
+        component="span"
+        onClick={this.getSequence}
+      >
+        View image
+      </Button>
+    );
+  };
+
+  renderSelectImage = () => {
+    const { classes } = this.props;
+    return (
+      <FileSelect
+        className={classes.uploadBtn}
+        label="Upload scene picture"
+        onFileUploaded={this.onFileUploaded}
+        initialPreview={this.state.scenePic}
+      />
+    );
   };
 
   render() {
@@ -98,12 +138,10 @@ class SaveSequenceForm extends Component {
           }}
         />
 
-        <FileSelect
-          className={classes.uploadBtn}
-          label="Upload scene picture"
-          onFileUploaded={this.onFileUploaded}
-          initialPreview={formik.values.scenePic}
-        />
+        {this.state.renderViewImage
+          ? this.renderViewImage()
+          : this.renderSelectImage()
+        }
       </Form>
     );
   }
@@ -112,6 +150,7 @@ class SaveSequenceForm extends Component {
 SaveSequenceForm.propTypes = {
   classes: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
+  getSequence: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(SaveSequenceForm);

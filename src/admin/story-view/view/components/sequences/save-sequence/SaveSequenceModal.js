@@ -17,6 +17,7 @@ import SaveSequenceForm from './SaveSequenceForm';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 import { storyService } from '../../../../../../infrastructure/services/StoryService';
 import { withRouter } from 'react-router-dom';
+import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 
 @inject('storyViewStore')
 class SaveSequenceModal extends Component {
@@ -25,6 +26,12 @@ class SaveSequenceModal extends Component {
     open: false,
     variant: 'success',
     message: '',
+  };
+
+  getSequence = async () => {
+    const params = { ':story': this.props.story._id };
+    sequenceService.setNextRouteParams(params);
+    return await sequenceService.get(this.props.sequence._id);
   };
 
   onChangeState = (metadata) => {
@@ -71,7 +78,7 @@ class SaveSequenceModal extends Component {
   };
 
   render() {
-    const { open, classes } = this.props;
+    const { open, classes, sequence } = this.props;
 
     return (
       <Fragment>
@@ -82,6 +89,10 @@ class SaveSequenceModal extends Component {
             try {
               let seq = {};
               if (values._id) {
+                // Don't send the scenePic on request if it hasn't been changed.
+                if (values.scenePic === sequence.scenePic) {
+                  delete values.scenePic;
+                }
                 seq = await this.updateSequence(values);
               } else {
                 seq = await this.saveSequence(values);
@@ -116,7 +127,7 @@ class SaveSequenceModal extends Component {
                 <DialogContent>
                   <SaveSequenceForm
                     formik={formik}
-                    onClose={this.onClose(formik.resetForm)}
+                    getSequence={this.getSequence}
                   />
                 </DialogContent>
                 <DialogActions>
@@ -143,6 +154,7 @@ class SaveSequenceModal extends Component {
 SaveSequenceModal.propTypes = {
   match: PropTypes.object,
   classes: PropTypes.object,
+  story: PropTypes.instanceOf(StoryModel).isRequired,
   sequence: PropTypes.instanceOf(SequenceModel),
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
