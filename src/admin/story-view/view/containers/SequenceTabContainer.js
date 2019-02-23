@@ -52,11 +52,12 @@ class SequenceTabContainer extends Component {
   }
 
   render() {
-    const { sequences } = this.props.storyViewStore;
+    const { storyViewStore: { sequences }, story } = this.props;
 
     return (
       <Fragment>
         <SequenceTableCmp
+          story={story}
           sequences={sequences}
           onDeleteSequence={this.onDeleteSequence}
           onDeleteOption={this.onDeleteOption}

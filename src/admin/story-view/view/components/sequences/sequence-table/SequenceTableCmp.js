@@ -12,11 +12,19 @@ import BasicNewAction from '../../../../../../shared/components/form/BasicNewAct
 import OptionTableCmp from '../option-table/OptionTableCmp';
 import { observer } from 'mobx-react';
 import { renderSequenceTableTitle } from './SequenceTableTitle';
+import { sequenceService } from '../../../../../../infrastructure/services/SequenceService';
+import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 
 @observer
 class SequenceTableCmp extends Component {
   onDeleteSequence = id => () => {
     this.props.onDeleteSequence(id);
+  };
+
+  getSequence = async resource => {
+    const params = { ':story': this.props.story._id };
+    sequenceService.setNextRouteParams(params);
+    return await sequenceService.get(resource._id);
   };
 
   getActions = row => {
@@ -26,6 +34,7 @@ class SequenceTableCmp extends Component {
           resourceName="sequence"
           resource={row}
           modalComponent={SaveSequenceModal}
+          getBeforeModal={this.getSequence}
         />
         <DeleteRow
           title="Delete confirmation"
@@ -84,6 +93,7 @@ class SequenceTableCmp extends Component {
 
 SequenceTableCmp.propTypes = {
   classes: PropTypes.object,
+  story: PropTypes.instanceOf(StoryModel),
   sequences: PropTypes.arrayOf(PropTypes.shape(SequenceModel)),
   onDeleteSequence: PropTypes.func.isRequired,
   onDeleteOption: PropTypes.func.isRequired,

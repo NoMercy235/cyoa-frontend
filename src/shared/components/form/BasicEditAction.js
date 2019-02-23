@@ -7,20 +7,28 @@ import Tooltip from '@material-ui/core/es/Tooltip/Tooltip';
 class BasicEditAction extends Component {
   state = {
     modalOpen: false,
+    resource: null,
   };
 
-  onShowModal = () => {
-    this.setState({ modalOpen: true });
+  onShowModal = async () => {
+    const { getBeforeModal } = this.props;
+
+    let resource = this.props.resource;
+    if (this.props.getBeforeModal) {
+      resource = await getBeforeModal(resource);
+    }
+
+    this.setState({ modalOpen: true, resource });
   };
 
   onHideModal = () => {
-    this.setState({ modalOpen: false });
+    this.setState({ modalOpen: false, resource: null });
   };
 
   render() {
     const ModalComponent = this.props.modalComponent;
     const resourceProp = {
-      [this.props.resourceName]: this.props.resource,
+      [this.props.resourceName]: this.state.resource,
     };
 
     return (
@@ -32,12 +40,14 @@ class BasicEditAction extends Component {
             <EditIcon fontSize="small" />
           </Tooltip>
         </IconButton>
-        <ModalComponent
-          open={this.state.modalOpen}
-          onClose={this.onHideModal}
-          {...resourceProp}
-          {...this.props.innerProps}
-        />
+        {this.state.resource &&
+          <ModalComponent
+            open={this.state.modalOpen}
+            onClose={this.onHideModal}
+            {...resourceProp}
+            {...this.props.innerProps}
+          />
+        }
       </Fragment>
     );
   }
@@ -49,6 +59,7 @@ BasicEditAction.propTypes = {
   resource: PropTypes.object.isRequired,
   tooltip: PropTypes.string,
   modalComponent: PropTypes.func.isRequired,
+  getBeforeModal: PropTypes.func,
 };
 
 export default BasicEditAction;
