@@ -13,21 +13,33 @@ function getBase64(file) {
 }
 
 class FileSelect extends React.Component {
+  state = { file: '', base64Img: '' };
+
+  isImg = file => /^image/.test(file.type);
+
   onFileUploaded = async ev => {
     const file = ev.target.files[0];
+
+    if (!file) return;
 
     if (file.size > 10e5) {
       console.error('File larger than 1MB');
       return;
     }
 
-    this.props.onFileUploaded(
-      await getBase64(file),
-    );
+    const base64 = await getBase64(file);
+    this.props.onFileUploaded(base64);
+
+    if (this.isImg(file)) {
+      this.setState({ base64Img: base64 });
+    }
+
+    this.setState({ file });
   };
 
   render() {
-    const { label, className } = this.props;
+    const { className } = this.props;
+    const label = this.state.file.name || this.props.label;
 
     return (
       <Fragment>
@@ -47,6 +59,7 @@ class FileSelect extends React.Component {
             {label || 'Upload'}
           </Button>
         </label>
+        <img src={this.state.base64Img} alt=""/>
       </Fragment>
     );
   }
