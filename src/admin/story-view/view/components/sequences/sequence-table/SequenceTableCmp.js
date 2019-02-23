@@ -40,7 +40,7 @@ class SequenceTableCmp extends Component {
     const { classes } = this.props;
     return (
       <tr>
-        <td colSpan="3" className={classes.optionsTableContainer}>
+        <td colSpan="4" className={classes.optionsTableContainer}>
           <OptionTableCmp
             sequenceId={rowData[0]}
             onDeleteOption={this.props.onDeleteOption}
@@ -55,7 +55,7 @@ class SequenceTableCmp extends Component {
     const columns = SequenceModel.getTableColumns();
 
     const data = sequences.map(a => {
-      return [a._id, a.name, this.getActions(a)];
+      return [a._id, a.name, a.authorNote, this.getActions(a)];
     });
 
     const options = {

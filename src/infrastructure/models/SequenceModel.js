@@ -5,6 +5,7 @@ import { ERRORS } from '../../shared/constants/errors';
 export class SequenceModel extends BaseModel {
   _id = '';
   name = '';
+  authorNote = '';
   content = '';
   isEnding = false;
   @observable options = [];
@@ -28,6 +29,7 @@ export class SequenceModel extends BaseModel {
   static forApi(attribute) {
     return {
       name: attribute.name,
+      authorNote: attribute.authorNote,
       content: attribute.content,
       isEnding: attribute.isEnding,
     };
@@ -37,6 +39,7 @@ export class SequenceModel extends BaseModel {
     return [
       { name: 'Id', options: { display: 'excluded' } },
       { name: 'Name' },
+      { name: 'Author\'s note' },
       {
         name: '',
         options: { filter: false, sort: false },

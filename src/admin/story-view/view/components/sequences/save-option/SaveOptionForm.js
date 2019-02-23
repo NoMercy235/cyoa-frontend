@@ -17,7 +17,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 class SaveOptionForm extends Component {
   getSequences = () => {
     return this.props.sequences.map(s => {
-      return { _id: s._id, name: s.name };
+      let name = s.name;
+      if (s.authorNote) name += ' - ' + s.authorNote;
+      return { _id: s._id, name };
     });
   };
 

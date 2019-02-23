@@ -27,6 +27,19 @@ class SaveSequenceForm extends Component {
             />;
           }}
         />
+        <Field
+          name="authorNote"
+          required
+          render={({ field }) => {
+            return <TextField
+              {...field}
+              label="Author's note"
+              fullWidth
+              value={formik.values.authorNote}
+              {...hasError(formik, 'authorNote')}
+            />;
+          }}
+        />
         <Typography
           className={classes.isStartSeqContainer}
           variant="inherit"
