@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import * as PropTypes from 'prop-types';
 import styles from './FileSelect.module.scss';
@@ -17,7 +17,7 @@ function getBase64(file) {
 class FileSelect extends React.Component {
   state = {
     file: '',
-    base64Img: '',
+    base64Img: this.props.initialPreview || '',
 
     // snackbar
     open: false,
@@ -63,7 +63,7 @@ class FileSelect extends React.Component {
     const label = this.state.file.name || this.props.label;
 
     return (
-      <Fragment>
+      <div className={styles.container}>
         <input
           className={styles.uploadInput}
           onChange={this.onFileUploaded}
@@ -80,7 +80,13 @@ class FileSelect extends React.Component {
             {label || 'Upload'}
           </Button>
         </label>
-        <img src={this.state.base64Img} alt=""/>
+        <div>
+          <img
+            className={styles.preview}
+            src={this.state.base64Img}
+            alt=""
+          />
+        </div>
 
         <Snackbar
           open={this.state.open}
@@ -88,7 +94,7 @@ class FileSelect extends React.Component {
           message={this.state.message}
           variant={this.state.variant}
         />
-      </Fragment>
+      </div>
     );
   }
 }
@@ -96,6 +102,7 @@ class FileSelect extends React.Component {
 FileSelect.propTypes = {
   className: PropTypes.string,
   label: PropTypes.string,
+  initialPreview: PropTypes.string,
   onFileUploaded: PropTypes.func.isRequired,
 };
 

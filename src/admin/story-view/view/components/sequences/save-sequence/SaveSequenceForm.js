@@ -100,8 +100,9 @@ class SaveSequenceForm extends Component {
 
         <FileSelect
           className={classes.uploadBtn}
-          label="Upload scene"
+          label="Upload scene picture"
           onFileUploaded={this.onFileUploaded}
+          initialPreview={formik.values.scenePic}
         />
       </Form>
     );
