@@ -54,7 +54,7 @@ export class BaseService {
     this.delete = this.delete.bind(this);
   }
 
-  list(filters = {}) {
+  list(filters = {}, sort = {}) {
     let query = '';
 
     Object.keys(filters).forEach(key => {
@@ -63,6 +63,12 @@ export class BaseService {
       const options = filters[key].options ? JSON.stringify(filters[key].options) : {};
       const c = encodeURIComponent(`filter[${key}][options]`) + `=${options}`;
       query += [a, b, c, ''].join('&');
+    });
+
+    Object.keys(sort).forEach(key => {
+      const a = encodeURIComponent('sort[field]') + `=${key}`;
+      const b = encodeURIComponent('sort[order]') + `=${sort[key]}`;
+      query += [a, b, ''].join('&');
     });
 
     let url = this.withRouteParams(this.endpoint + '?' + query);
