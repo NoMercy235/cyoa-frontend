@@ -6,11 +6,12 @@ import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
-import ViewRow from '../../../../../shared/components/table/actions/ViewRow';
 import { withRouter } from 'react-router-dom';
 import { makePath, READ_STORY_ROUTE } from '../../../../../shared/constants/routes';
 import ShareButton from '../ShareButton';
 import { styles } from './StoryBox.css';
+import Button from '@material-ui/core/Button';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 class StoryActions extends Component {
   makePath = (withOrigin = false) => {
@@ -32,11 +33,14 @@ class StoryActions extends Component {
   };
 
   getReadBtn = () => {
+    const { classes } = this.props;
     const Btn = withRouter(({ history }) => (
-      <ViewRow
+      <Button
         onClick={this.goToReadStory(history)}
-        fontSize="default"
-      />
+      >
+        <span className={classes.readStoryLabel}>Read</span>
+        <VisibilityIcon fontSize="default" />
+      </Button>
     ));
 
     return <Btn />;

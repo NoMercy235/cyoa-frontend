@@ -26,4 +26,7 @@ export const styles = theme => ({
   expandedContainer: {
     display: 'flex',
   },
+  readStoryLabel: {
+    marginRight: theme.spacing.unit,
+  },
 });
