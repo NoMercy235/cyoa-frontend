@@ -7,7 +7,7 @@ import Tooltip from '@material-ui/core/es/Tooltip/Tooltip';
 class BasicEditAction extends Component {
   state = {
     modalOpen: false,
-    resource: null,
+    resource: this.props.resource || {},
   };
 
   onShowModal = async () => {
@@ -40,14 +40,12 @@ class BasicEditAction extends Component {
             <EditIcon fontSize="small" />
           </Tooltip>
         </IconButton>
-        {this.state.resource &&
-          <ModalComponent
-            open={this.state.modalOpen}
-            onClose={this.onHideModal}
-            {...resourceProp}
-            {...this.props.innerProps}
-          />
-        }
+        <ModalComponent
+          open={this.state.modalOpen}
+          onClose={this.onHideModal}
+          {...resourceProp}
+          {...this.props.innerProps}
+        />
       </Fragment>
     );
   }
