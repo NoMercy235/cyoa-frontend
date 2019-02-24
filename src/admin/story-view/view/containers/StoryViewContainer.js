@@ -26,7 +26,10 @@ class StoryViewContainer extends Component {
   getSequences = async () => {
     const params = { ':story': this.props.match.params.id };
     sequenceService.setNextRouteParams(params);
-    const sequences = await sequenceService.list();
+    const sequences = await sequenceService.list(
+      {},
+      { order: 'asc' },
+    );
     this.props.storyViewStore.setSequences(sequences);
   };
 

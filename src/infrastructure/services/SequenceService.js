@@ -12,8 +12,8 @@ class SequenceService extends BaseService {
     });
   };
 
-  list = filters => {
-    return super.list(filters).then(sequences => {
+  list = (filters, sort) => {
+    return super.list(filters, sort).then(sequences => {
       return sequences.map(s => new SequenceModel(s));
     });
   };

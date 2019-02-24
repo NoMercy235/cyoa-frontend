@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import * as PropTypes from 'prop-types';
 import { AttributeModel } from '../../../infrastructure/models/AttributeModel';
 import { SequenceModel } from '../../../infrastructure/models/SequenceModel';
@@ -45,6 +45,15 @@ class StoryViewStore {
       });
   }
 
+  @action updateSequenceInPlace(id, metadata) {
+    this.sequences = this.sequences
+      .map(s => {
+        if (s._id !== id) return s;
+        s = Object.assign(s, metadata);
+        return s;
+      });
+  }
+
   @action removeSequence(sequenceId) {
     this.sequences = this.sequences.filter(a => a._id !== sequenceId);
   }
@@ -82,6 +91,12 @@ class StoryViewStore {
     this.story = null;
   }
 
+  @computed get sequencesInOrder() {
+    return this.sequences.slice().sort((a, b) => {
+      return a.order > b.order ? 1 : -1;
+    });
+  }
+
   getSequenceOptions(sequenceId) {
     return this.getSequenceById(sequenceId).options;
   }
@@ -107,6 +122,8 @@ export const storyViewStorePropTypes = PropTypes.shape({
 
   getSequenceById: PropTypes.func,
   getAttributeById: PropTypes.func,
+  updateSequence: PropTypes.func,
+  updateSequenceInPlace: PropTypes.func,
 
   setOptionsToSequence: PropTypes.func,
   addOptionToSequence: PropTypes.func,

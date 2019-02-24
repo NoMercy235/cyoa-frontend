@@ -47,20 +47,55 @@ class SequenceTabContainer extends Component {
     this.props.storyViewStore.removeOptionFromSequence(sequenceId, optionId);
   };
 
+  onUpdateSequence = async (seqId, metadata) => {
+    const params = { ':story': this.props.story._id };
+    sequenceService.setNextRouteParams(params);
+    const sequence = await withSnackbar.call(
+      this,
+      sequenceService.update,
+      [seqId, metadata],
+      'Order changed!',
+    );
+    this.props.storyViewStore.updateSequenceInPlace(seqId, { order: sequence.order });
+    return sequence;
+  };
+
+  onMoveSeqUp = seq => {
+    const { sequencesInOrder } = this.props.storyViewStore;
+    const index = sequencesInOrder.findIndex(s => s._id === seq._id);
+    if (index > 0) {
+      const beforeSeq = sequencesInOrder[index - 1];
+      this.onUpdateSequence(beforeSeq._id, { order: seq.order });
+    }
+    this.onUpdateSequence(seq._id, { order: seq.order - 1 });
+  };
+
+  onMoveSeqDown = seq => {
+    const { sequencesInOrder } = this.props.storyViewStore;
+    const index = sequencesInOrder.findIndex(s => s._id === seq._id);
+    if (index < sequencesInOrder.length - 1) {
+      const afterSeq = sequencesInOrder[index + 1];
+      this.onUpdateSequence(afterSeq._id, { order: seq.order });
+    }
+    this.onUpdateSequence(seq._id, { order: seq.order + 1 });
+  };
+
   componentDidMount () {
     this.props.getSequences();
   }
 
   render() {
-    const { storyViewStore: { sequences }, story } = this.props;
+    const { storyViewStore: { sequencesInOrder }, story } = this.props;
 
     return (
       <Fragment>
         <SequenceTableCmp
           story={story}
-          sequences={sequences}
+          sequences={sequencesInOrder}
           onDeleteSequence={this.onDeleteSequence}
           onDeleteOption={this.onDeleteOption}
+          onMoveSeqUp={this.onMoveSeqUp}
+          onMoveSeqDown={this.onMoveSeqDown}
         />
         <Snackbar
           open={this.state.open}

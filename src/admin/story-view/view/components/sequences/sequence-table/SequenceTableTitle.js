@@ -16,6 +16,7 @@ function getDescription () {
         <li><b>content</b> The part of the story that unfolds in the particular sequence</li>
       </ul>
       <span>To define what options each sequence has, use the expand button to the left of the sequence.</span>
+      <p>You can reorder the sequences one step at a time if you wish them to appear in a different order in this table. The reordering will only affect your view of the sequences and will not have an impact on the public page where other users can read your story.</p>
     </Fragment>
   );
 }

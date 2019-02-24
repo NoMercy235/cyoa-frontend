@@ -13,18 +13,38 @@ import OptionTableCmp from '../option-table/OptionTableCmp';
 import { observer } from 'mobx-react';
 import { renderSequenceTableTitle } from './SequenceTableTitle';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
+import BasicReorderAction from '../../../../../../shared/components/form/BasicReorderAction';
 
 @observer
 class SequenceTableCmp extends Component {
+  state = {
+    canReorder: true,
+  };
+
   onDeleteSequence = id => () => {
     this.props.onDeleteSequence(id);
   };
 
-  getActions = row => {
-    const { classes, story } = this.props;
+  onMoveSeqUp = (seq) => () => {
+    this.props.onMoveSeqUp(seq);
+  };
+
+  onMoveSeqDown = (seq) => () => {
+    this.props.onMoveSeqDown(seq);
+  };
+
+  getActions = (row, index) => {
+    const { classes, sequences, story } = this.props;
+    const { canReorder } = this.state;
 
     return (
       <div key={row._id} className={classes.actionsContainer}>
+        {canReorder && <BasicReorderAction
+          onMoveUp={this.onMoveSeqUp(row)}
+          onMoveDown={this.onMoveSeqDown(row)}
+          disableUp={index === 0}
+          disableDown={index === sequences.length - 1}
+        />}
         <BasicEditAction
           resourceName="sequence"
           resource={row}
@@ -58,13 +78,21 @@ class SequenceTableCmp extends Component {
     const { sequences, story } = this.props;
     const columns = SequenceModel.getTableColumns();
 
-    const data = sequences.map(a => {
-      return [a._id, a.name, a.authorNote, this.getActions(a)];
+    const data = sequences.map((a, i) => {
+      return [a._id, a.name, a.authorNote, this.getActions(a, i)];
     });
 
     const options = {
       expandableRows: true,
       renderExpandableRow: this.renderOptionsTable,
+      onTableChange: (action, tableState) => {
+        if (action !== 'expandRow') return;
+        if (tableState.expandedRows.data.length && this.state.canReorder) {
+          this.setState({ canReorder: false });
+        } else if (!tableState.expandedRows.data.length && !this.state.canReorder) {
+          this.setState({ canReorder: true });
+        }
+      },
       customToolbar: () => {
         return (
           <BasicNewAction
@@ -93,6 +121,8 @@ SequenceTableCmp.propTypes = {
   sequences: PropTypes.arrayOf(PropTypes.shape(SequenceModel)),
   onDeleteSequence: PropTypes.func.isRequired,
   onDeleteOption: PropTypes.func.isRequired,
+  onMoveSeqUp: PropTypes.func.isRequired,
+  onMoveSeqDown: PropTypes.func.isRequired,
 };
 
 export default withStyles(theme => ({
