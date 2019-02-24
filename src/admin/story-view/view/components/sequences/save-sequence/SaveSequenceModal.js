@@ -42,9 +42,17 @@ class SaveSequenceModal extends Component {
     return this.props.sequence ? 'Edit sequence' : 'Create sequence';
   }
 
+  sendRequest = async (values, method, args, message) => {
+    const params = { ':story': this.props.story._id };
+    sequenceService.setNextRouteParams(params);
+    return await withSnackbar.call(
+      this, method, args, message,
+    );
+  };
+
   saveSequence = async values => {
-    const sequence = await withSnackbar.call(
-      this,
+    const sequence = await this.sendRequest(
+      values,
       sequenceService.save,
       [SequenceModel.forApi(values)],
       'Sequence saved!',
@@ -54,8 +62,8 @@ class SaveSequenceModal extends Component {
   };
 
   updateSequence = async values => {
-    const sequence = await withSnackbar.call(
-      this,
+    const sequence = await this.sendRequest(
+      values,
       sequenceService.update,
       [values._id, SequenceModel.forApi(values)],
       'Sequence updated!',
