@@ -43,6 +43,7 @@ export class SequenceModel extends BaseModel {
       { name: 'Id', options: { display: 'excluded' } },
       { name: 'Name' },
       { name: 'Author\'s note' },
+      { name: 'Starting' },
       {
         name: '',
         options: { filter: false, sort: false },

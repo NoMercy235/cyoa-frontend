@@ -14,6 +14,8 @@ import { observer } from 'mobx-react';
 import { renderSequenceTableTitle } from './SequenceTableTitle';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import BasicReorderAction from '../../../../../../shared/components/form/BasicReorderAction';
+import NoIcon from '@material-ui/icons/Close';
+import YesIcon from '@material-ui/icons/Check';
 
 @observer
 class SequenceTableCmp extends Component {
@@ -49,7 +51,7 @@ class SequenceTableCmp extends Component {
           resourceName="sequence"
           resource={row}
           modalComponent={SaveSequenceModal}
-          innerProps={{ story }}
+          innerProps={{ story, isStartSeq: this.isStartSeq(row) }}
         />
         <DeleteRow
           title="Delete confirmation"
@@ -74,12 +76,23 @@ class SequenceTableCmp extends Component {
     );
   };
 
+  isStartSeq = seq => this.props.story.startSeq === seq._id;
+
+  renderIsStartSequence = seq => {
+    return this.isStartSeq(seq) ? <YesIcon/> : <NoIcon/>;
+  };
+
   render() {
     const { sequences, story } = this.props;
     const columns = SequenceModel.getTableColumns();
 
-    const data = sequences.map((a, i) => {
-      return [a._id, a.name, a.authorNote, this.getActions(a, i)];
+    const data = sequences.map((s, i) => {
+      return [
+        s._id,
+        s.name,
+        s.authorNote,
+        this.renderIsStartSequence(s),
+        this.getActions(s, i)];
     });
 
     const options = {
@@ -98,7 +111,7 @@ class SequenceTableCmp extends Component {
           <BasicNewAction
             tooltip="New sequence"
             modalComponent={SaveSequenceModal}
-            innerProps={{ story }}
+            innerProps={{ story, isStartSeq: false }}
           />
         );
       },

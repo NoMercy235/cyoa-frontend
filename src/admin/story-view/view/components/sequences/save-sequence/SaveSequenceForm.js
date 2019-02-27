@@ -97,6 +97,7 @@ class SaveSequenceForm extends Component {
             render={({ field }) => {
               return <Checkbox
                 {...field}
+                disabled={this.props.isStartSeq}
                 checked={formik.values.isStartSeq}
                 value=""
               />;
@@ -150,6 +151,7 @@ class SaveSequenceForm extends Component {
 SaveSequenceForm.propTypes = {
   classes: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
+  isStartSeq: PropTypes.bool.isRequired,
   getSequence: PropTypes.func.isRequired,
 };
 

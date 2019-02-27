@@ -74,10 +74,22 @@ class SaveSequenceModal extends Component {
 
   updateStoryStartSeq = async seq => {
     storyService.update(this.props.match.params.id, { startSeq: seq._id });
+    // This does trigger the render function a second time (after the
+    // update or addition of a new sequence) but it shouldn't affect
+    // performance as there are not many things rendered and this
+    // method should not be called often.
+    this.props.storyViewStore.updateCurrentStory(
+      { startSeq: seq._id }
+    );
   };
 
   getInitialValues = () => {
-    return this.props.sequence || new SequenceModel();
+    const resource = this.props.sequence || new SequenceModel();
+    // This was done because the isStartSeq property is not located on
+    // the sequence, but on the story, thus it couldn't have been
+    // loaded correctly while editing in any other way.
+    resource.isStartSeq = this.props.isStartSeq;
+    return resource;
   };
 
   onClose = (resetForm) => () => {
@@ -135,6 +147,7 @@ class SaveSequenceModal extends Component {
                 <DialogContent>
                   <SaveSequenceForm
                     formik={formik}
+                    isStartSeq={this.props.isStartSeq}
                     getSequence={this.getSequence}
                   />
                 </DialogContent>
@@ -163,6 +176,7 @@ SaveSequenceModal.propTypes = {
   match: PropTypes.object,
   classes: PropTypes.object,
   story: PropTypes.instanceOf(StoryModel).isRequired,
+  isStartSeq: PropTypes.bool.isRequired,
   sequence: PropTypes.instanceOf(SequenceModel),
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,

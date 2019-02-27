@@ -85,6 +85,12 @@ class StoryViewStore {
     this.currentStory = story;
   }
 
+  @action updateCurrentStory(metadata) {
+    this.currentStory = new StoryModel(
+      Object.assign({}, this.currentStory, metadata)
+    );
+  }
+
   @action reset() {
     this.attributes = [];
     this.sequences = [];
@@ -131,6 +137,7 @@ export const storyViewStorePropTypes = PropTypes.shape({
   removeOptionFromSequence: PropTypes.func,
 
   setCurrentStory: PropTypes.func,
+  updateCurrentStory: PropTypes.func,
 
   reset: PropTypes.func,
 });
