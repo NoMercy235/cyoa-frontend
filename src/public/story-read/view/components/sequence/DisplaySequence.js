@@ -31,7 +31,13 @@ class DisplaySequence extends Component {
   renderPicture = () => {
     const { sequence } = this.state;
     if (!sequence.scenePic) return '';
-    return <img src={sequence.scenePic} alt=""/>;
+    return (
+      <img
+        className={styles.scenePic}
+        src={sequence.scenePic}
+        alt=""
+      />
+    );
   };
 
   renderContent = () => {
