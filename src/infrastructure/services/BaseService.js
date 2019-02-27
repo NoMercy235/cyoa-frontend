@@ -1,6 +1,7 @@
 import * as axios from 'axios';
 import { config } from '../../config';
 import { Utils } from '@nomercy235/utils';
+import { loadProgressBar } from 'axios-progress-bar';
 
 /**
  * This class uses normal functions which are without async/await
@@ -8,45 +9,59 @@ import { Utils } from '@nomercy235/utils';
  * classes if the parent class' method was marked async.
  */
 export class BaseService {
+  static axiosClient;
+  static nProgressConfig = {
+    easing: 'ease',
+    speed: 500,
+    showSpinner: false,
+  };
+
   endpoint = '';
   routeParams;
 
+  get client () {
+    return BaseService.axiosClient;
+  }
+
   constructor() {
-    this.client = axios.create({
-      baseURL: config.BASE_URL,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    if (!BaseService.axiosClient) {
+      BaseService.axiosClient = axios.create({
+        baseURL: config.BASE_URL,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-    this.client.interceptors.request.use(
-      config => {
-        const jwt = localStorage.getItem('jwt');
-        if (jwt) {
-          config.headers['authorization'] = `Bearer ${jwt}`;
-        }
-        return config;
-      },
-    );
+      BaseService.axiosClient.interceptors.request.use(
+        config => {
+          const jwt = localStorage.getItem('jwt');
+          if (jwt) {
+            config.headers['authorization'] = `Bearer ${jwt}`;
+          }
+          return config;
+        },
+      );
 
-    this.client.interceptors.response.use(
-      null,
-      err => {
-        // Redirect to the home page and set an error descriptor if the response is 'Unauthorized'
-        // TODO: show some kind of an error? hold the request and prompt the user to authenticate?
-        if (
-          Utils.safeAccess(err, 'response.status') === 401 &&
-          !err.response.config.url.match(/auth\/authenticate$/) &&
-          window.location.pathname !== '/'
-        ) {
-          window.location = '/?loginError=true';
-          localStorage.removeItem('jwt');
-          localStorage.removeItem('user');
-        }
+      BaseService.axiosClient.interceptors.response.use(
+        null,
+        err => {
+          // Redirect to the home page and set an error descriptor if the response is 'Unauthorized'
+          // TODO: show some kind of an error? hold the request and prompt the user to authenticate?
+          if (
+            Utils.safeAccess(err, 'response.status') === 401 &&
+            !err.response.config.url.match(/auth\/authenticate$/) &&
+            window.location.pathname !== '/'
+          ) {
+            window.location = '/?loginError=true';
+            localStorage.removeItem('jwt');
+            localStorage.removeItem('user');
+          }
 
-        throw Utils.safeAccess(err, 'response.data') || err;
-      },
-    );
+          throw Utils.safeAccess(err, 'response.data') || err;
+        },
+      );
+      loadProgressBar(BaseService.nProgressConfig, BaseService.axiosClient);
+    }
 
     this.list = this.list.bind(this);
     this.save = this.save.bind(this);

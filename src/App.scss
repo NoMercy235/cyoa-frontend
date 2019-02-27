@@ -1,0 +1,16 @@
+// The axios-progress-bar CSS override
+@import '~axios-progress-bar/dist/nprogress.css';
+
+#nprogress .bar {
+  z-index: 1100 !important;
+  background: red !important;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px red, 0 0 5px red !important;
+}
+
+#nprogress .spinner-icon {
+  border-top-color: red !important;
+  border-left-color: red !important;
+}
