@@ -3,6 +3,7 @@ import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import styles from './GeneralTab.module.scss';
 import Typography from '@material-ui/core/Typography';
+import notFoundImg from '../../../../../assets/notfound.png';
 
 class GeneralTab extends Component {
   render() {
@@ -19,7 +20,7 @@ class GeneralTab extends Component {
           <img
             alt="Cover"
             className={styles.coverPic}
-            src={story.coverPic}
+            src={story.coverPic || notFoundImg}
           />
           <Typography
             variant="h6"
