@@ -115,6 +115,7 @@ class SaveCollectionModal extends Component {
     return (
       <Fragment>
         <Formik
+          enableReinitialize={true}
           initialValues={this.getInitialValues()}
           onSubmit={this.onSubmit}
           validate={this.validate}

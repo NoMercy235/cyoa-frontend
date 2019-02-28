@@ -115,6 +115,7 @@ class SaveAttributeModal extends Component {
     return (
       <Fragment>
         <Formik
+          enableReinitialize={true}
           initialValues={this.getInitialValues()}
           validateOnChange={false}
           onSubmit={this.onSubmit}

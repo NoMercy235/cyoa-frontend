@@ -153,6 +153,7 @@ class AuthenticationModal extends Component {
     return (
       <Fragment>
         <Formik
+          enableReinitialize={true}
           initialValues={new AuthenticationModel()}
           onSubmit={this.onSubmit}
           validate={this.validate}
