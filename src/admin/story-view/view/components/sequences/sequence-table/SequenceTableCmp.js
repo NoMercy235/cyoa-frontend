@@ -64,9 +64,11 @@ class SequenceTableCmp extends Component {
 
   renderOptionsTable = (rowData) => {
     const { classes } = this.props;
+    const colSpan = SequenceModel.getTableColumns().length;
+
     return (
       <tr>
-        <td colSpan="4" className={classes.optionsTableContainer}>
+        <td colSpan={colSpan} className={classes.optionsTableContainer}>
           <OptionTableCmp
             sequenceId={rowData[0]}
             onDeleteOption={this.props.onDeleteOption}
