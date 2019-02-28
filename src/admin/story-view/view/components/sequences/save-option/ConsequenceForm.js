@@ -22,41 +22,49 @@ class ConsequenceForm extends Component {
     this.props.onRemoveConsequence(this.props.index);
   };
 
+  renderAttributeField = ({ field }) => {
+    const { formik, classes, index } = this.props;
+    return (
+      <Select
+        formikField={field}
+        className={classes.consequenceAttribute}
+        label="Attribute"
+        fullWidth
+        items={this.getAttributes()}
+        {...arrayHasError(formik, 'consequences', 'attribute', index)}
+      />
+    );
+  };
+
+  renderConsequenceField = ({ field }) => {
+    const { formik, classes, index } = this.props;
+    return (
+      <TextField
+        {...field}
+        className={classes.consequenceChangeValue}
+        label="Change value"
+        type="number"
+        fullWidth
+        value={formik.values.consequences[index].changeValue}
+        {...arrayHasError(formik, 'consequences', 'changeValue', index)}
+      />
+    );
+  };
+
   render() {
-    const { formik, index, classes } = this.props;
+    const { index, classes } = this.props;
 
     return (
       <div className={classes.consequenceRow}>
         <Field
           name={`consequences.${index}.attribute`}
           required
-          render={({ field }) => {
-            return (
-              <Select
-                formikField={field}
-                className={classes.consequenceAttribute}
-                label="Attribute"
-                fullWidth
-                items={this.getAttributes()}
-                {...arrayHasError(formik, 'consequences', 'attribute', index)}
-              />
-            );
-          }}
+          render={this.renderAttributeField}
         />
         <Field
           name={`consequences.${index}.changeValue`}
           required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              className={classes.consequenceChangeValue}
-              label="Change value"
-              type="number"
-              fullWidth
-              value={formik.values.consequences[index].changeValue}
-              {...arrayHasError(formik, 'consequences', 'changeValue', index)}
-            />;
-          }}
+          render={this.renderConsequenceField}
         />
         <Tooltip title="Remove consequence">
           <div className={classes.consequenceRemoveBtn}>

@@ -96,7 +96,7 @@ class DisplaySequence extends Component {
 }
 
 DisplaySequence.propTypes = {
-  story: PropTypes.shape(StoryModel).isRequired,
+  story: PropTypes.instanceOf(StoryModel).isRequired,
   seq: PropTypes.string.isRequired,
   player: PropTypes.instanceOf(PlayerModel).isRequired,
   onOptionClick: PropTypes.func.isRequired,

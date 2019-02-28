@@ -51,7 +51,7 @@ class StoryView extends Component {
 }
 
 StoryView.propTypes = {
-  story: PropTypes.shape(StoryModel).isRequired,
+  story: PropTypes.instanceOf(StoryModel).isRequired,
   getAttributes: PropTypes.func.isRequired,
   getSequences: PropTypes.func.isRequired,
 };

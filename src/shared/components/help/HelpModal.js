@@ -10,16 +10,16 @@ import { styles } from './Help.css';
 
 class ConfirmationModal extends Component {
   render() {
-    const { title, description } = this.props;
+    const { classes, title, description, open, onClose } = this.props;
 
     return (
       <Dialog
-        open={this.props.open}
-        onClose={this.props.onClose}
-        classes={{ paper: this.props.classes.dialogSize }}
+        open={open}
+        onClose={onClose}
+        classes={{ paper: classes.dialogSize }}
       >
         <DialogTitle
-          onClose={this.props.onClose}
+          onClose={onClose}
         >
           {title}
         </DialogTitle>
@@ -29,7 +29,7 @@ class ConfirmationModal extends Component {
         <DialogActions>
           <Button
             type="submit"
-            onClick={this.props.onClose}
+            onClick={onClose}
           >
             Got it
           </Button>

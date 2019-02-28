@@ -44,6 +44,7 @@ class PlayerTabContainer extends Component {
 
   render() {
     const { attributes } = this.props.storyViewStore;
+    const { open, message, variant } = this.state;
     return (
       <Fragment>
         <AttributesTableCmp
@@ -52,10 +53,10 @@ class PlayerTabContainer extends Component {
           onDeleteAttribute={this.onDeleteAttribute}
         />
         <Snackbar
-          open={this.state.open}
+          open={open}
           onClose={this.onChangeState({ open: false })}
-          message={this.state.message}
-          variant={this.state.variant}
+          message={message}
+          variant={variant}
         />
       </Fragment>
     );
@@ -63,7 +64,7 @@ class PlayerTabContainer extends Component {
 }
 
 PlayerTabContainer.propTypes = {
-  story: PropTypes.shape(StoryModel).isRequired,
+  story: PropTypes.instanceOf(StoryModel).isRequired,
   getAttributes: PropTypes.func.isRequired,
 
   storyViewStore: storyViewStorePropTypes,

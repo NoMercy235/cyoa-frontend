@@ -89,75 +89,81 @@ class AuthenticationModal extends Component {
     }
   }
 
-  renderForm(formik) {
-    if (this.state.isLoggingIn) {
-      return <LoginForm formik={formik} />;
-    } else {
-      return <RegisterForm formik={formik} />;
+  onSubmit = async (values, { setSubmitting }) => {
+    try {
+      this.state.isLoggingIn
+        ? await this.login(values)
+        : await this.register(values);
+      this.onChangeState({
+        variant: 'success',
+        open: true,
+        message: this.getSnackbarText(),
+      })();
+    } catch (e) {
+      this.onChangeState({
+        variant: 'error',
+        open: true,
+        message: BaseModel.handleError(e),
+      })();
+    } finally {
+      setSubmitting(false);
     }
-  }
+  };
+
+  validate = values => {
+    const model = new AuthenticationModel(values);
+    return model.checkErrors({ isLoggingIn: this.state.isLoggingIn });
+  };
+
+  renderForm = formik => {
+    const { classes, open, onClose } = this.props;
+    const { isLoggingIn } = this.state;
+
+    return (
+      <Dialog
+        open={open}
+        onClose={onClose}
+        classes={{ paper: classes.dialogSize }}
+      >
+        <DialogTitle
+          onClose={onClose}
+        >
+          {this.renderTitle()}
+        </DialogTitle>
+        <DialogContent>
+          {isLoggingIn
+            ? <LoginForm formik={formik} />
+            : <RegisterForm formik={formik} />
+          }
+          {this.renderHelperText(formik)}
+        </DialogContent>
+        <DialogActions>
+          <AuthenticationActions
+            formik={formik}
+            okText={this.renderOkText()}
+            onClose={onClose}/>
+        </DialogActions>
+      </Dialog>
+    );
+  };
 
   render() {
+    const { open, message, variant } = this.state;
+
     return (
       <Fragment>
         <Formik
           initialValues={new AuthenticationModel()}
-          onSubmit={async (values, { setSubmitting }) => {
-            try {
-              this.state.isLoggingIn
-                ? await this.login(values)
-                : await this.register(values);
-              this.onChangeState({
-                variant: 'success',
-                open: true,
-                message: this.getSnackbarText(),
-              })();
-            } catch (e) {
-              this.onChangeState({
-                variant: 'error',
-                open: true,
-                message: BaseModel.handleError(e),
-              })();
-            } finally {
-              setSubmitting(false);
-            }
-          }}
-          validate={values => {
-            const model = new AuthenticationModel(values);
-            return model.checkErrors({ isLoggingIn: this.state.isLoggingIn });
-          }}
+          onSubmit={this.onSubmit}
+          validate={this.validate}
         >
-          {formik => {
-            return (
-              <Dialog
-                open={this.props.open}
-                onClose={this.props.onClose}
-                classes={{ paper: this.props.classes.dialogSize }}
-              >
-                <DialogTitle
-                  onClose={this.props.onClose}
-                >
-                  {this.renderTitle()}
-                </DialogTitle>
-                <DialogContent>
-                  {this.renderForm(formik)}
-                  {this.renderHelperText(formik)}
-                </DialogContent>
-                <DialogActions>
-                  <AuthenticationActions
-                    formik={formik}
-                    okText={this.renderOkText()}
-                    onClose={this.props.onClose}/>
-                </DialogActions>
-              </Dialog>
-            );
-          }}
+          {this.renderForm}
         </Formik>
         <Snackbar
-          open={this.state.open}
+          open={open}
           onClose={this.onChangeState({ open: false })}
-          message={this.state.message}
-          variant={this.state.variant}
+          message={message}
+          variant={variant}
         />
       </Fragment>
     );

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import ConfirmationModal from '../components/confirmation/ConfirmationModal';
 import { withStyles } from '@material-ui/core';
-import { styles } from '../components/layout/Styles';
+import { styles } from '../components/layout/Styles.css';
 import * as PropTypes from 'prop-types';
 
 export function withModal(InnerComponent, Modal = ConfirmationModal) {
@@ -24,18 +24,21 @@ export function withModal(InnerComponent, Modal = ConfirmationModal) {
     };
 
     render() {
+      const { innerProps, children, title, description } = this.props;
+      const { isOpen } = this.state;
+
       return (
         <Fragment>
           <InnerComponent
             onClick={this.onShowModal}
-            {...this.props.innerProps}
+            {...innerProps}
           >
-            {this.props.children}
+            {children}
           </InnerComponent>
           <Modal
-            title={this.props.title}
-            description={this.props.description}
-            open={this.state.isOpen}
+            title={title}
+            description={description}
+            open={isOpen}
             onClose={this.onHideModal}
             onAccept={this.onAccept}/>
         </Fragment>

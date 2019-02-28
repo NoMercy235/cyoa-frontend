@@ -7,37 +7,46 @@ import TextField from '@material-ui/core/TextField';
 import { hasError } from '../form/helpers';
 
 class LoginForm extends Component {
-  render() {
+  renderEmailField = ({ field }) => {
     const { formik } = this.props;
+    return (
+      <TextField
+        {...field}
+        label="Email"
+        fullWidth
+        value={formik.values.email}
+        {...hasError(formik, 'email')}
+      />
+    );
+  };
+
+  renderPasswordField = ({ field }) => {
+    const { formik } = this.props;
+    return (
+      <TextField
+        {...field}
+        type="password"
+        label="Password"
+        fullWidth
+        value={formik.values.password}
+        {...hasError(formik, 'password')}
+      />
+    );
+  };
+
+  render() {
 
     return (
       <Form noValidate>
         <Field
           name="email"
           required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              label="Email"
-              fullWidth
-              value={formik.values.email}
-              {...hasError(formik, 'email')}
-            />;
-          }}
+          render={this.renderEmailField}
         />
         <Field
           name="password"
           required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              type="password"
-              label="Password"
-              fullWidth
-              value={formik.values.password}
-              {...hasError(formik, 'password')}
-            />;
-          }}
+          render={this.renderPasswordField}
         />
       </Form>
     );

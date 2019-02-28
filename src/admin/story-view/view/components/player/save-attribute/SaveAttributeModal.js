@@ -62,64 +62,71 @@ class SaveAttributeModal extends Component {
     this.props.onClose();
   };
 
+  onSubmit = async (values, { setSubmitting, resetForm }) => {
+    try {
+      if (values._id) {
+        await this.updateAttribute(values);
+      } else {
+        await this.saveAttribute(values);
+      }
+      this.onClose(resetForm)();
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  validate = values => {
+    const model = new AttributeModel(values);
+    return model.checkErrors();
+  };
+
+  renderForm = formik => {
+    const { classes, open } = this.props;
+    return (
+      <Dialog
+        open={open}
+        onClose={this.onClose(formik.resetForm)}
+        classes={{ paper: classes.dialogSize }}
+      >
+        <DialogTitle
+          onClose={this.onClose(formik.resetForm)}
+        >
+          {this.renderTitle()}
+        </DialogTitle>
+        <DialogContent>
+          <SaveAttributeForm
+            formik={formik}
+            onClose={this.onClose(formik.resetForm)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <BasicFormActions
+            formik={formik}
+            onClose={this.onClose(formik.resetForm)}
+          />
+        </DialogActions>
+      </Dialog>
+    );
+  };
+
   render() {
-    const { open, classes } = this.props;
+    const { open, message, variant } = this.state;
 
     return (
       <Fragment>
         <Formik
           initialValues={this.getInitialValues()}
           validateOnChange={false}
-          onSubmit={async (values, { setSubmitting, resetForm }) => {
-            try {
-              if (values._id) {
-                await this.updateAttribute(values);
-              } else {
-                await this.saveAttribute(values);
-              }
-              this.onClose(resetForm)();
-            } finally {
-              setSubmitting(false);
-            }
-          }}
-          validate={values => {
-            const model = new AttributeModel(values);
-            return model.checkErrors();
-          }}
+          onSubmit={this.onSubmit}
+          validate={this.validate}
         >
-          {formik => {
-            return (
-              <Dialog
-                open={open}
-                onClose={this.onClose(formik.resetForm)}
-                classes={{ paper: classes.dialogSize }}
-              >
-                <DialogTitle
-                  onClose={this.onClose(formik.resetForm)}
-                >
-                  {this.renderTitle()}
-                </DialogTitle>
-                <DialogContent>
-                  <SaveAttributeForm
-                    formik={formik}
-                    onClose={this.onClose(formik.resetForm)}
-                  />
-                </DialogContent>
-                <DialogActions>
-                  <BasicFormActions
-                    formik={formik}
-                    onClose={this.onClose(formik.resetForm)}
-                  />
-                </DialogActions>
-              </Dialog>
-            );
-          }}
+          {this.renderForm}
         </Formik>
         <Snackbar
-          open={this.state.open}
+          open={open}
           onClose={this.onChangeState({ open: false })}
-          message={this.state.message}
-          variant={this.state.variant}
+          message={message}
+          variant={variant}
         />
       </Fragment>
     );

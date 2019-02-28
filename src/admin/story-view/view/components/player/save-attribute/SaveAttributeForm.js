@@ -9,8 +9,62 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 
 class SaveAttributeForm extends Component {
-  render() {
+  renderNameField = ({ field }) => {
     const { formik, classes } = this.props;
+    return (
+      <TextField
+        {...field}
+        label="Name"
+        className={classes.name}
+        value={formik.values.name}
+        {...hasError(formik, 'name')}
+      />
+    );
+  };
+
+  renderStartValueField = ({ field }) => {
+    const { formik, classes } = this.props;
+    return (
+      <TextField
+        {...field}
+        label="Start value"
+        type="number"
+        className={classes.startValue}
+        value={formik.values.startValue}
+        {...hasError(formik, 'startValue')}
+      />
+    );
+  };
+
+  renderIsImportantField = ({ field }) => {
+    const { formik } = this.props;
+    return (
+      <Checkbox
+        {...field}
+        checked={formik.values.isImportant}
+        value=""
+      />
+    );
+  };
+
+  renderDescriptionField = ({ field }) => {
+    const { formik } = this.props;
+    return (
+      <TextField
+        {...field}
+        type="text"
+        label="Description"
+        fullWidth
+        multiline
+        rows={3}
+        value={formik.values.description}
+        {...hasError(formik, 'description')}
+      />
+    );
+  };
+
+  render() {
+    const { classes } = this.props;
 
     return (
       <Form noValidate>
@@ -18,29 +72,12 @@ class SaveAttributeForm extends Component {
           <Field
             name="name"
             required
-            render={({ field }) => {
-              return <TextField
-                {...field}
-                label="Name"
-                className={classes.name}
-                value={formik.values.name}
-                {...hasError(formik, 'name')}
-              />;
-            }}
+            render={this.renderNameField}
           />
           <Field
             name="startValue"
             required
-            render={({ field }) => {
-              return <TextField
-                {...field}
-                label="Start value"
-                type="number"
-                className={classes.startValue}
-                value={formik.values.startValue}
-                {...hasError(formik, 'startValue')}
-              />;
-            }}
+            render={this.renderStartValueField}
           />
         </div>
         <Typography
@@ -52,30 +89,13 @@ class SaveAttributeForm extends Component {
           Is this an important attribute?
           <Field
             name="isImportant"
-            render={({ field }) => {
-              return <Checkbox
-                {...field}
-                checked={formik.values.isImportant}
-                value=""
-              />;
-            }}
+            render={this.renderIsImportantField}
           />
         </Typography>
         <Field
           name="description"
           required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              type="text"
-              label="Description"
-              fullWidth
-              multiline
-              rows={3}
-              value={formik.values.description}
-              {...hasError(formik, 'description')}
-            />;
-          }}
+          render={this.renderDescriptionField}
         />
       </Form>
     );

@@ -17,8 +17,8 @@ class PublicStoryStore {
 }
 
 export const publicStoryStorePropTypes = PropTypes.shape({
-  stories: PropTypes.arrayOf(PropTypes.shape(StoryModel)),
-  collections: PropTypes.arrayOf(PropTypes.shape(CollectionModel)),
+  stories: PropTypes.arrayOf(PropTypes.instanceOf(StoryModel)),
+  collections: PropTypes.arrayOf(PropTypes.instanceOf(CollectionModel)),
 
   setStories: PropTypes.func,
   setCollections: PropTypes.func,

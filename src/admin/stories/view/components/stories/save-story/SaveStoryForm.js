@@ -23,8 +23,82 @@ class SaveStoryForm extends Component {
     this.props.formik.setFieldValue('coverPic', base64File);
   };
 
-  render() {
+  renderTagsField = ({ field }) => {
     const { formik, classes } = this.props;
+    return (
+      <Select
+        className={classes.tags}
+        formikField={field}
+        label="Tags"
+        items={this.tags}
+        multiple={true}
+        {...hasError(formik, 'tags')}
+      />
+    );
+  };
+
+  renderCollectionField = ({ field }) => {
+    const { formik, classes } = this.props;
+    return (
+      <Select
+        className={classes.fromCollection}
+        formikField={field}
+        label="Collection"
+        fullWidth
+        items={this.getCollections()}
+        {...hasError(formik, 'fromCollection')}
+      />
+    );
+  };
+
+  renderNameField = ({ field }) => {
+    const { formik, classes } = this.props;
+    return (
+      <TextField
+        {...field}
+        label="Name"
+        fullWidth
+        className={classes.name}
+        value={formik.values.name}
+        {...hasError(formik, 'name')}
+      />
+    );
+  };
+
+  renderShortDescriptionField = ({ field }) => {
+    const { formik } = this.props;
+    return (
+      <TextField
+        {...field}
+        type="text"
+        label="Short description"
+        fullWidth
+        multiline
+        rows={2}
+        value={formik.values.shortDescription}
+        {...hasError(formik, 'shortDescription')}
+      />
+    );
+  };
+
+  renderLongDescriptionField = ({ field }) => {
+    const { formik } = this.props;
+    return (
+      <TextField
+        {...field}
+        type="text"
+        label="Long description"
+        fullWidth
+        multiline
+        rows={5}
+        value={formik.values.longDescription}
+        {...hasError(formik, 'longDescription')}
+      />
+    );
+  };
+
+  render() {
+    const { classes } = this.props;
 
     return (
       <Form noValidate>
@@ -32,80 +106,27 @@ class SaveStoryForm extends Component {
           <Field
             name="tags"
             required
-            render={({ field }) => {
-              return (
-                <Select
-                  className={classes.tags}
-                  formikField={field}
-                  label="Tags"
-                  items={this.tags}
-                  multiple={true}
-                  {...hasError(formik, 'tags')}
-                />
-              );
-            }}
+            render={this.renderTagsField}
           />
           <Field
             name="fromCollection"
-            render={({ field }) => {
-              return (
-                <Select
-                  className={classes.fromCollection}
-                  formikField={field}
-                  label="Collection"
-                  fullWidth
-                  items={this.getCollections()}
-                  {...hasError(formik, 'fromCollection')}
-                />
-              );
-            }}
+            render={this.renderCollectionField}
           />
         </div>
         <Field
           name="name"
           required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              label="Name"
-              fullWidth
-              className={classes.name}
-              value={formik.values.name}
-              {...hasError(formik, 'name')}
-            />;
-          }}
+          render={this.renderNameField}
         />
         <Field
           name="shortDescription"
           required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              type="text"
-              label="Short description"
-              fullWidth
-              multiline
-              rows={2}
-              value={formik.values.shortDescription}
-              {...hasError(formik, 'shortDescription')}
-            />;
-          }}
+          render={this.renderShortDescriptionField}
         />
         <Field
           name="longDescription"
           required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              type="text"
-              label="Long description"
-              fullWidth
-              multiline
-              rows={5}
-              value={formik.values.longDescription}
-              {...hasError(formik, 'longDescription')}
-            />;
-          }}
+          render={this.renderLongDescriptionField}
         />
 
         <FileSelect
@@ -121,7 +142,7 @@ class SaveStoryForm extends Component {
 SaveStoryForm.propTypes = {
   classes: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
-  collections: PropTypes.arrayOf(PropTypes.shape(CollectionModel)),
+  collections: PropTypes.arrayOf(PropTypes.instanceOf(CollectionModel)),
 };
 
 export default withStyles(styles)(SaveStoryForm);

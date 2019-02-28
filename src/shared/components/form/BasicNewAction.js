@@ -18,8 +18,8 @@ class BasicNewAction extends Component {
   };
 
   render() {
-    const ModalComponent = this.props.modalComponent;
-    const { tooltip, innerProps } = this.props;
+    const { tooltip, innerProps, modalComponent: ModalComponent } = this.props;
+    const { modalOpen } = this.state;
     return (
       <Fragment>
         <Tooltip title={tooltip}>
@@ -31,7 +31,7 @@ class BasicNewAction extends Component {
         </Tooltip>
 
         <ModalComponent
-          open={this.state.modalOpen}
+          open={modalOpen}
           onClose={this.onHideModal}
           {...(innerProps || {})}
         />

@@ -98,6 +98,7 @@ class SequenceTabContainer extends Component {
 
   render() {
     const { storyViewStore: { sequencesInOrder }, story } = this.props;
+    const { open, message, variant } = this.state;
 
     return (
       <Fragment>
@@ -110,10 +111,10 @@ class SequenceTabContainer extends Component {
           onMoveSeqDown={this.onMoveSeqDown}
         />
         <Snackbar
-          open={this.state.open}
+          open={open}
           onClose={this.onChangeState({ open: false })}
-          message={this.state.message}
-          variant={this.state.variant}
+          message={message}
+          variant={variant}
         />
       </Fragment>
     );

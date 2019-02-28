@@ -11,7 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
-import { styles } from './Styles';
+import { styles } from './Styles.css';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { appStorePropTypes } from '../../store/AppStore';
@@ -57,7 +57,7 @@ class Drawer extends Component {
   };
 
   render() {
-    const { classes, theme, open } = this.props;
+    const { classes, appStore, theme, open, onHandleDrawerClose } = this.props;
 
     return (
       <Fragment>
@@ -71,7 +71,7 @@ class Drawer extends Component {
           }}
         >
           <div className={classes.drawerHeader}>
-            <IconButton onClick={this.props.onHandleDrawerClose}>
+            <IconButton onClick={onHandleDrawerClose}>
               {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
             </IconButton>
           </div>
@@ -82,7 +82,7 @@ class Drawer extends Component {
           <Divider />
           <List>
             {adminMenu
-              .filter(item => item.condition(this.props.appStore))
+              .filter(item => item.condition(appStore))
               .map(this.renderItem)}
           </List>
         </UIDrawer>

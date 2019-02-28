@@ -97,75 +97,83 @@ class SaveSequenceModal extends Component {
     this.props.onClose();
   };
 
+  onSubmit = async (values, { setSubmitting, resetForm }) => {
+    const { sequence } = this.props;
+    try {
+      let seq = {};
+      if (values._id) {
+        // Don't send the scenePic on request if it hasn't been changed.
+        if (values.scenePic === sequence.scenePic) {
+          delete values.scenePic;
+        }
+        seq = await this.updateSequence(values);
+      } else {
+        seq = await this.saveSequence(values);
+      }
+
+      if (values.isStartSeq) {
+        await this.updateStoryStartSeq(seq);
+      }
+
+      this.onClose(resetForm)();
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  validate = values => {
+    const model = new SequenceModel(values);
+    return model.checkErrors();
+  };
+
+  renderForm = formik => {
+    const { classes, open } = this.props;
+    return (
+      <Dialog
+        open={open}
+        onClose={this.onClose(formik.resetForm)}
+        classes={{ paper: classes.dialogSize }}
+      >
+        <DialogTitle
+          onClose={this.onClose(formik.resetForm)}
+        >
+          {this.renderTitle()}
+        </DialogTitle>
+        <DialogContent>
+          <SaveSequenceForm
+            formik={formik}
+            isStartSeq={this.props.isStartSeq}
+            getSequence={this.getSequence}
+          />
+        </DialogContent>
+        <DialogActions>
+          <BasicFormActions
+            formik={formik}
+            onClose={this.onClose(formik.resetForm)}
+          />
+        </DialogActions>
+      </Dialog>
+    );
+  };
+
   render() {
-    const { open, classes, sequence } = this.props;
+    const { open, message, variant } = this.state;
 
     return (
       <Fragment>
         <Formik
           initialValues={this.getInitialValues()}
           validateOnChange={false}
-          onSubmit={async (values, { setSubmitting, resetForm }) => {
-            try {
-              let seq = {};
-              if (values._id) {
-                // Don't send the scenePic on request if it hasn't been changed.
-                if (values.scenePic === sequence.scenePic) {
-                  delete values.scenePic;
-                }
-                seq = await this.updateSequence(values);
-              } else {
-                seq = await this.saveSequence(values);
-              }
-
-              if (values.isStartSeq) {
-                await this.updateStoryStartSeq(seq);
-              }
-
-              this.onClose(resetForm)();
-            } finally {
-              setSubmitting(false);
-            }
-          }}
-          validate={values => {
-            const model = new SequenceModel(values);
-            return model.checkErrors();
-          }}
+          onSubmit={this.onSubmit}
+          validate={this.validate}
         >
-          {formik => {
-            return (
-              <Dialog
-                open={open}
-                onClose={this.onClose(formik.resetForm)}
-                classes={{ paper: classes.dialogSize }}
-              >
-                <DialogTitle
-                  onClose={this.onClose(formik.resetForm)}
-                >
-                  {this.renderTitle()}
-                </DialogTitle>
-                <DialogContent>
-                  <SaveSequenceForm
-                    formik={formik}
-                    isStartSeq={this.props.isStartSeq}
-                    getSequence={this.getSequence}
-                  />
-                </DialogContent>
-                <DialogActions>
-                  <BasicFormActions
-                    formik={formik}
-                    onClose={this.onClose(formik.resetForm)}
-                  />
-                </DialogActions>
-              </Dialog>
-            );
-          }}
+          {this.renderForm}
         </Formik>
         <Snackbar
-          open={this.state.open}
+          open={open}
           onClose={this.onChangeState({ open: false })}
-          message={this.state.message}
-          variant={this.state.variant}
+          message={message}
+          variant={variant}
         />
       </Fragment>
     );

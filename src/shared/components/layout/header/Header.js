@@ -8,12 +8,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { styles } from '../Styles';
+import { styles } from '../Styles.css';
 import Authentication from './Authentication';
 
 class Header extends Component {
   render() {
-    const { classes, drawerOpen } = this.props;
+    const { classes, drawerOpen, onHandleDrawerOpened } = this.props;
 
     return (
       <Fragment>
@@ -28,7 +28,7 @@ class Header extends Component {
             <IconButton
               color="inherit"
               aria-label="Open drawer"
-              onClick={this.props.onHandleDrawerOpened}
+              onClick={onHandleDrawerOpened}
               className={classNames(classes.menuButton, drawerOpen && classes.hide)}
             >
               <MenuIcon />

@@ -32,12 +32,14 @@ class CollectionsTableCmp extends Component {
   };
 
   renderName = row => {
+    const { classes } = this.props;
+    const { selectedCollection } = this.state;
     return (
       <span
-        className={this.props.classes.clickableText}
+        className={classes.clickableText}
         onClick={this.onChangeCollection(row._id)}
       >
-        {this.state.selectedCollection === row._id && <SelectedIcon/>}
+        {selectedCollection === row._id && <SelectedIcon/>}
         {row.name}
       </span>
     );
@@ -45,8 +47,9 @@ class CollectionsTableCmp extends Component {
 
   getActions = (row, index) => {
     if (!index) return '';
+    const { classes } = this.props;
     return (
-      <div key={row._id} className={this.props.classes.actionsContainer}>
+      <div key={row._id} className={classes.actionsContainer}>
         <BasicEditAction
           resourceName="collection"
           resource={row}
@@ -96,7 +99,7 @@ class CollectionsTableCmp extends Component {
 
 CollectionsTableCmp.propTypes = {
   classes: PropTypes.object,
-  collections: PropTypes.arrayOf(PropTypes.shape(CollectionModel)),
+  collections: PropTypes.arrayOf(PropTypes.instanceOf(CollectionModel)),
   onChangeCollection: PropTypes.func.isRequired,
   onDeleteCollection: PropTypes.func.isRequired,
 

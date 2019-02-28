@@ -30,7 +30,7 @@ class LandingCmp extends Component {
 }
 
 LandingCmp.propTypes = {
-  stories: PropTypes.arrayOf(PropTypes.shape(StoryModel)),
+  stories: PropTypes.arrayOf(PropTypes.instanceOf(StoryModel)),
 };
 
 export default LandingCmp;

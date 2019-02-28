@@ -7,77 +7,100 @@ import TextField from '@material-ui/core/TextField';
 import { hasError } from '../form/helpers';
 
 class RegisterForm extends Component {
-  render() {
+  renderFirstNameField = ({ field }) => {
     const { formik } = this.props;
+    return (
+      <TextField
+        {...field}
+        label="First name"
+        fullWidth
+        value={formik.values.firstName}
+        {...hasError(formik, 'firstName')}
+      />
+    );
+  };
 
+  renderLastNameField = ({ field }) => {
+    const { formik } = this.props;
+    return (
+      <TextField
+        {...field}
+        label="Last name"
+        fullWidth
+        value={formik.values.lastName}
+        {...hasError(formik, 'lastName')}
+      />
+    );
+  };
+
+  renderEmailField = ({ field }) => {
+    const { formik } = this.props;
+    return (
+      <TextField
+        {...field}
+        label="Email"
+        fullWidth
+        value={formik.values.email}
+        {...hasError(formik, 'email')}
+      />
+    );
+  };
+
+  renderPasswordField = ({ field }) => {
+    const { formik } = this.props;
+    return (
+      <TextField
+        {...field}
+        type="password"
+        label="Password"
+        fullWidth
+        value={formik.values.password}
+        {...hasError(formik, 'password')}
+      />
+    );
+  };
+
+  renderRepeatPasswordField = ({ field }) => {
+    const { formik } = this.props;
+    return (
+      <TextField
+        {...field}
+        type="password"
+        label="Repeat password"
+        fullWidth
+        value={formik.values.repeatPassword}
+        {...hasError(formik, 'repeatPassword')}
+      />
+    );
+  };
+
+  render() {
     return (
       <Form noValidate>
         <Field
           name="firstName"
           required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              label="First name"
-              fullWidth
-              value={formik.values.firstName}
-              {...hasError(formik, 'firstName')}
-            />;
-          }}
+          render={this.renderFirstNameField}
         />
         <Field
           name="lastName"
           required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              label="Last name"
-              fullWidth
-              value={formik.values.lastName}
-              {...hasError(formik, 'lastName')}
-            />;
-          }}
+          render={this.renderLastNameField}
         />
         <Field
           name="email"
           required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              label="Email"
-              fullWidth
-              value={formik.values.email}
-              {...hasError(formik, 'email')}
-            />;
-          }}
+          render={this.renderEmailField}
         />
         <Field
           name="password"
           required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              type="password"
-              label="Password"
-              fullWidth
-              value={formik.values.password}
-              {...hasError(formik, 'password')}
-            />;
-          }}
+          render={this.renderPasswordField}
         />
         <Field
           name="repeatPassword"
           required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              type="password"
-              label="Repeat password"
-              fullWidth
-              value={formik.values.repeatPassword}
-              {...hasError(formik, 'repeatPassword')}
-            />;
-          }}
+          render={this.renderRepeatPasswordField}
         />
       </Form>
     );

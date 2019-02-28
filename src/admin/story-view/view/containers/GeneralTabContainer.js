@@ -30,7 +30,7 @@ class GeneralTabContainer extends Component {
 }
 
 GeneralTabContainer.propTypes = {
-  story: PropTypes.shape(StoryModel).isRequired,
+  story: PropTypes.instanceOf(StoryModel).isRequired,
 };
 
 export default GeneralTabContainer;

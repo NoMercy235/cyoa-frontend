@@ -4,13 +4,13 @@ import Button from '@material-ui/core/Button';
 
 class BasicFormActions extends Component {
   render() {
-    const { formik } = this.props;
+    const { formik, onClose } = this.props;
 
     return (
       <Fragment>
         <Button
           color="secondary"
-          onClick={this.props.onClose}
+          onClick={onClose}
           disabled={formik.isSubmitting}
         >
           Cancel

@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Exit from '@material-ui/icons/ExitToAppRounded';
-import { styles } from '../Styles';
+import { styles } from '../Styles.css';
 import Button from '@material-ui/core/Button';
 import AuthenticationModal from '../../authentication/AuthenticationModal';
 import { inject, observer } from 'mobx-react';
@@ -31,8 +31,8 @@ class Authentication extends Component {
     history.replace('/');
   };
 
-  renderLogin = (props) => {
-    const { drawerOpen, classes } = props;
+  renderLogin = () => {
+    const { drawerOpen, classes } = this.props;
     return (
       <Button
         className={classNames(!drawerOpen && classes.appLoginButton)}
@@ -44,8 +44,8 @@ class Authentication extends Component {
     );
   };
 
-  renderLogout = (props) => {
-    const { drawerOpen, classes, appStore } = props;
+  renderLogout = () => {
+    const { drawerOpen, classes, appStore } = this.props;
     const Logout = withRouter(({ history }) => (
       <Fragment>
         {appStore.user.email}
@@ -63,6 +63,7 @@ class Authentication extends Component {
 
   render() {
     const { appStore } = this.props;
+    const { modalOpen, snackbarOpen } = this.state;
 
     return (
       <Fragment>
@@ -71,11 +72,11 @@ class Authentication extends Component {
           : this.renderLogin(this.props)
         }
         <AuthenticationModal
-          open={this.state.modalOpen}
+          open={modalOpen}
           onClose={this.onChangeState({ modalOpen: false })}
         />
         <Snackbar
-          open={this.state.snackbarOpen}
+          open={snackbarOpen}
           onClose={this.onChangeState({ snackbarOpen: false })}
           message="Logout successfully!"
           variant="success"

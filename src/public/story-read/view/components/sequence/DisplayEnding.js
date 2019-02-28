@@ -24,7 +24,7 @@ class DisplayEnding extends Component {
 }
 
 DisplayEnding.propTypes = {
-  sequence: PropTypes.shape(SequenceModel).isRequired,
+  sequence: PropTypes.instanceOf(SequenceModel).isRequired,
   onHandleClick: PropTypes.func.isRequired,
 };
 

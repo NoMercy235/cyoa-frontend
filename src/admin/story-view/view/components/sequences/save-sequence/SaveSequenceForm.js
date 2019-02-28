@@ -54,36 +54,85 @@ class SaveSequenceForm extends Component {
     );
   };
 
+  renderNameField = ({ field }) => {
+    const { formik } = this.props;
+    return (
+      <TextField
+        {...field}
+        label="Name"
+        fullWidth
+        value={formik.values.name}
+        {...hasError(formik, 'name')}
+      />
+    );
+  };
+
+  renderAuthorNoteField = ({ field }) => {
+    const { formik } = this.props;
+    return (
+      <TextField
+        {...field}
+        label="Author's note"
+        fullWidth
+        value={formik.values.authorNote}
+        {...hasError(formik, 'authorNote')}
+      />
+    );
+  };
+
+  renderIsStartSeqField = ({ field }) => {
+    const { formik, isStartSeq } = this.props;
+    return (
+      <Checkbox
+        {...field}
+        disabled={isStartSeq}
+        checked={formik.values.isStartSeq}
+        value=""
+      />
+    );
+  };
+
+  renderIsEndingField = ({ field }) => {
+    const { formik } = this.props;
+    return (
+      <Checkbox
+        {...field}
+        checked={formik.values.isEnding}
+        value=""
+      />
+    );
+  };
+
+  renderContentField = ({ field }) => {
+    const { formik } = this.props;
+    return (
+      <TextField
+        {...field}
+        type="text"
+        label="Content"
+        fullWidth
+        multiline
+        rows={10}
+        value={formik.values.content}
+        {...hasError(formik, 'content')}
+      />
+    );
+  };
+
   render() {
-    const { formik, classes } = this.props;
+    const { classes } = this.props;
 
     return (
       <Form noValidate>
         <Field
           name="name"
           required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              label="Name"
-              fullWidth
-              value={formik.values.name}
-              {...hasError(formik, 'name')}
-            />;
-          }}
+          render={this.renderNameField}
         />
         <Field
           name="authorNote"
           required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              label="Author's note"
-              fullWidth
-              value={formik.values.authorNote}
-              {...hasError(formik, 'authorNote')}
-            />;
-          }}
+          render={this.renderAuthorNoteField}
         />
         <Typography
           className={classes.isStartSeqContainer}
@@ -94,14 +143,7 @@ class SaveSequenceForm extends Component {
           Start the story with this sequence?
           <Field
             name="isStartSeq"
-            render={({ field }) => {
-              return <Checkbox
-                {...field}
-                disabled={this.props.isStartSeq}
-                checked={formik.values.isStartSeq}
-                value=""
-              />;
-            }}
+            render={this.renderIsStartSeqField}
           />
         </Typography>
         <Typography
@@ -113,30 +155,13 @@ class SaveSequenceForm extends Component {
           Is this an ending sequence?
           <Field
             name="isEnding"
-            render={({ field }) => {
-              return <Checkbox
-                {...field}
-                checked={formik.values.isEnding}
-                value=""
-              />;
-            }}
+            render={this.renderIsEndingField}
           />
         </Typography>
         <Field
           name="content"
           required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              type="text"
-              label="Content"
-              fullWidth
-              multiline
-              rows={10}
-              value={formik.values.content}
-              {...hasError(formik, 'content')}
-            />;
-          }}
+          render={this.renderContentField}
         />
 
         {this.state.renderViewImage

@@ -66,8 +66,61 @@ class SaveStoryModal extends Component {
     this.props.onClose();
   };
 
+  onSubmit = async (values, { setSubmitting, resetForm }) => {
+    values.tagsName = TagModel.get()
+      .filter(
+        tt => values.tags.find(t => tt._id === t)
+      )
+      .map(tt => tt.name);
+    try {
+      if (values._id) {
+        await this.updateStory(values);
+      } else {
+        await this.saveStory(values);
+      }
+      this.onClose(resetForm)();
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  validate = values => {
+    const model = new StoryModel(values);
+    return model.checkErrors();
+  };
+
+  renderForm = formik => {
+    const { classes, storyStore, open } = this.props;
+    return (
+      <Dialog
+        open={open}
+        onClose={this.onClose(formik.resetForm)}
+        classes={{ paper: classes.dialogSize }}
+      >
+        <DialogTitle
+          onClose={this.onClose(formik.resetForm)}
+        >
+          {this.renderTitle()}
+        </DialogTitle>
+        <DialogContent>
+          <SaveStoryForm
+            formik={formik}
+            onClose={this.onClose(formik.resetForm)}
+            collections={storyStore.collections}
+          />
+        </DialogContent>
+        <DialogActions>
+          <BasicFormActions
+            formik={formik}
+            onClose={this.onClose(formik.resetForm)}
+          />
+        </DialogActions>
+      </Dialog>
+    );
+  };
+
   render() {
-    const { open, classes, storyStore } = this.props;
+    const { open, message, variant } = this.state;
 
     return (
       <Fragment>
@@ -75,62 +128,16 @@ class SaveStoryModal extends Component {
           enableReinitialize={true}
           initialValues={this.getInitialValues()}
           validateOnChange={false}
-          onSubmit={async (values, { setSubmitting, resetForm }) => {
-            values.tagsName = TagModel.get()
-              .filter(
-                tt => values.tags.find(t => tt._id === t)
-              )
-              .map(tt => tt.name);
-            try {
-              if (values._id) {
-                await this.updateStory(values);
-              } else {
-                await this.saveStory(values);
-              }
-              this.onClose(resetForm)();
-            } finally {
-              setSubmitting(false);
-            }
-          }}
-          validate={values => {
-            const model = new StoryModel(values);
-            return model.checkErrors();
-          }}
+          onSubmit={this.onSubmit}
+          validate={this.validate}
         >
-          {formik => {
-            return (
-              <Dialog
-                open={open}
-                onClose={this.onClose(formik.resetForm)}
-                classes={{ paper: classes.dialogSize }}
-              >
-                <DialogTitle
-                  onClose={this.onClose(formik.resetForm)}
-                >
-                  {this.renderTitle()}
-                </DialogTitle>
-                <DialogContent>
-                  <SaveStoryForm
-                    formik={formik}
-                    onClose={this.onClose(formik.resetForm)}
-                    collections={storyStore.collections}
-                  />
-                </DialogContent>
-                <DialogActions>
-                  <BasicFormActions
-                    formik={formik}
-                    onClose={this.onClose(formik.resetForm)}
-                  />
-                </DialogActions>
-              </Dialog>
-            );
-          }}
+          {this.renderForm}
         </Formik>
         <Snackbar
-          open={this.state.open}
+          open={open}
           onClose={this.onChangeState({ open: false })}
-          message={this.state.message}
-          variant={this.state.variant}
+          message={message}
+          variant={variant}
         />
       </Fragment>
     );
@@ -139,7 +146,7 @@ class SaveStoryModal extends Component {
 
 SaveStoryModal.propTypes = {
   classes: PropTypes.object,
-  story: PropTypes.shape(StoryModel),
+  story: PropTypes.instanceOf(StoryModel),
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   storyStore: storyStorePropTypes,

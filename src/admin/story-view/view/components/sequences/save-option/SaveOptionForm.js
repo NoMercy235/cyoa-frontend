@@ -32,70 +32,83 @@ class SaveOptionForm extends Component {
     arrayHelpers.remove(index);
   };
 
+  renderActionField = ({ field }) => {
+    const { formik } = this.props;
+    return (
+      <TextField
+        {...field}
+        label="Action"
+        fullWidth
+        value={formik.values.action}
+        {...hasError(formik, 'action')}
+      />
+    );
+  };
+
+  renderNextSeqField = ({ field }) => {
+    const { formik, classes } = this.props;
+    return (
+      <Select
+        className={classes.nextSeq}
+        formikField={field}
+        label="Leads to"
+        fullWidth
+        items={this.getSequences()}
+        {...hasError(formik, 'nextSeq')}
+      />
+    );
+  };
+
+  renderConsequences = (arrayHelpers) => {
+    const { classes, formik, attributes } = this.props;
+    return (
+      <Fragment>
+        <Typography
+          className={classes.consequenceHeader}
+          variant="h6"
+          color="inherit"
+          noWrap
+        >
+          <span>Add consequences</span>
+          <Tooltip title="New consequence">
+            <IconButton
+              onClick={this.onAddConsequence(arrayHelpers)}
+            >
+              <AddIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Typography>
+        {formik.values.consequences.map((consequence, index) => (
+          <ConsequenceForm
+            key={index}
+            formik={formik}
+            index={index}
+            attributes={attributes}
+            onRemoveConsequence={this.onRemoveConsequence(arrayHelpers)}
+          />
+        ))}
+      </Fragment>
+    );
+  };
+
   render() {
-    const { formik, classes, attributes } = this.props;
+    const { classes } = this.props;
 
     return (
       <Form noValidate className={classes.form}>
         <Field
           name="action"
           required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              label="Action"
-              fullWidth
-              value={formik.values.action}
-              {...hasError(formik, 'action')}
-            />;
-          }}
+          render={this.renderActionField}
         />
         <Field
           name="nextSeq"
           required
-          render={({ field }) => {
-            return (
-              <Select
-                className={classes.nextSeq}
-                formikField={field}
-                label="Leads to"
-                fullWidth
-                items={this.getSequences()}
-                {...hasError(formik, 'nextSeq')}
-              />
-            );
-          }}
+          render={this.renderNextSeqField}
         />
         <FieldArray
           name="consequences"
-          render={arrayHelpers => (
-            <Fragment>
-              <Typography
-                className={classes.consequenceHeader}
-                variant="h6"
-                color="inherit"
-                noWrap
-              >
-                <span>Add consequences</span>
-                <Tooltip title="New consequence">
-                  <IconButton
-                    onClick={this.onAddConsequence(arrayHelpers)}
-                  >
-                    <AddIcon fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-              </Typography>
-              {formik.values.consequences.map((consequence, index) => (
-                <ConsequenceForm
-                  key={index}
-                  formik={formik}
-                  index={index}
-                  attributes={attributes}
-                  onRemoveConsequence={this.onRemoveConsequence(arrayHelpers)}
-                />
-              ))}
-            </Fragment>
-          )}
+          render={this.renderConsequences}
         />
       </Form>
     );

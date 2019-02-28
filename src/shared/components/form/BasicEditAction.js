@@ -26,9 +26,12 @@ class BasicEditAction extends Component {
   };
 
   render() {
-    const ModalComponent = this.props.modalComponent;
+    const { modalComponent, resourceName, tooltip, innerProps } = this.props;
+    const { resource, modalOpen } = this.state;
+
+    const ModalComponent = modalComponent;
     const resourceProp = {
-      [this.props.resourceName]: this.state.resource,
+      [resourceName]: resource,
     };
 
     return (
@@ -36,15 +39,15 @@ class BasicEditAction extends Component {
         <IconButton
           onClick={this.onShowModal}
         >
-          <Tooltip title={this.props.tooltip || 'Edit'}>
+          <Tooltip title={tooltip || 'Edit'}>
             <EditIcon fontSize="small" />
           </Tooltip>
         </IconButton>
         <ModalComponent
-          open={this.state.modalOpen}
+          open={modalOpen}
           onClose={this.onHideModal}
           {...resourceProp}
-          {...this.props.innerProps}
+          {...innerProps}
         />
       </Fragment>
     );

@@ -133,7 +133,7 @@ class SequenceTableCmp extends Component {
 SequenceTableCmp.propTypes = {
   classes: PropTypes.object,
   story: PropTypes.instanceOf(StoryModel),
-  sequences: PropTypes.arrayOf(PropTypes.shape(SequenceModel)),
+  sequences: PropTypes.arrayOf(PropTypes.instanceOf(SequenceModel)),
   onDeleteSequence: PropTypes.func.isRequired,
   onDeleteOption: PropTypes.func.isRequired,
   onMoveSeqUp: PropTypes.func.isRequired,

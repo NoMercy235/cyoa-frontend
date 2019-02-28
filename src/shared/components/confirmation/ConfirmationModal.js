@@ -11,16 +11,16 @@ import { styles } from './ConfirmationModal.css';
 
 class ConfirmationModal extends Component {
   render() {
-    const { title, description } = this.props;
+    const { classes, title, description, open, onClose, onAccept } = this.props;
 
     return (
       <Dialog
-        open={this.props.open}
-        onClose={this.props.onClose}
-        classes={{ paper: this.props.classes.dialogSize }}
+        open={open}
+        onClose={onClose}
+        classes={{ paper: classes.dialogSize }}
       >
         <DialogTitle
-          onClose={this.props.onClose}
+          onClose={onClose}
         >
           {title}
         </DialogTitle>
@@ -30,13 +30,13 @@ class ConfirmationModal extends Component {
         <DialogActions>
           <Button
             color="secondary"
-            onClick={this.props.onClose}
+            onClick={onClose}
           >
             No
           </Button>
           <Button
             type="submit"
-            onClick={this.props.onAccept}
+            onClick={onAccept}
           >
             Yes
           </Button>

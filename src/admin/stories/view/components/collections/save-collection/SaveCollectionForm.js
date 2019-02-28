@@ -7,40 +7,48 @@ import { styles } from './SaveCollection.css';
 import { hasError } from '../../../../../../shared/components/form/helpers';
 
 class SaveCollectionForm extends Component {
-  render() {
+  renderNameField = ({ field }) => {
     const { formik, classes } = this.props;
+    return (
+      <TextField
+        {...field}
+        label="Name"
+        fullWidth
+        className={classes.name}
+        value={formik.values.name}
+        {...hasError(formik, 'name')}
+      />
+    );
+  };
 
+  renderDescriptionField = ({ field }) => {
+    const { formik } = this.props;
+    return (
+      <TextField
+        {...field}
+        type="text"
+        label="Description"
+        fullWidth
+        multiline
+        rows={3}
+        value={formik.values.description}
+        {...hasError(formik, 'description')}
+      />
+    );
+  };
+
+  render() {
     return (
       <Form noValidate>
         <Field
           name="name"
           required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              label="Name"
-              fullWidth
-              className={classes.name}
-              value={formik.values.name}
-              {...hasError(formik, 'name')}
-            />;
-          }}
+          render={this.renderNameField}
         />
         <Field
           name="description"
           required
-          render={({ field }) => {
-            return <TextField
-              {...field}
-              type="text"
-              label="Description"
-              fullWidth
-              multiline
-              rows={3}
-              value={formik.values.description}
-              {...hasError(formik, 'description')}
-            />;
-          }}
+          render={this.renderDescriptionField}
         />
       </Form>
     );

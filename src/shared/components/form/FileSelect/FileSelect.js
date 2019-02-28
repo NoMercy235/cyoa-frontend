@@ -61,6 +61,7 @@ class FileSelect extends React.Component {
   render() {
     const { className } = this.props;
     const label = this.state.file.name || this.props.label;
+    const { open, message, variant, base64Img } = this.state;
 
     return (
       <div className={styles.container}>
@@ -83,16 +84,16 @@ class FileSelect extends React.Component {
         <div>
           <img
             className={styles.preview}
-            src={this.state.base64Img}
+            src={base64Img}
             alt=""
           />
         </div>
 
         <Snackbar
-          open={this.state.open}
+          open={open}
           onClose={this.onChangeState({ open: false })}
-          message={this.state.message}
-          variant={this.state.variant}
+          message={message}
+          variant={variant}
         />
       </div>
     );
