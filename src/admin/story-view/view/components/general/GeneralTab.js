@@ -4,6 +4,7 @@ import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import styles from './GeneralTab.module.scss';
 import Typography from '@material-ui/core/Typography';
 import notFoundImg from '../../../../../assets/notfound.png';
+import { parseContent } from '../../../../../shared/utilities';
 
 class GeneralTab extends Component {
   render() {
@@ -22,12 +23,9 @@ class GeneralTab extends Component {
             className={styles.coverPic}
             src={story.coverPic || notFoundImg}
           />
-          <Typography
-            variant="h6"
-            color="inherit"
-          >
-            {story.longDescription}
-          </Typography>
+          <div>
+            {parseContent(story.longDescription)}
+          </div>
         </div>
       </Fragment>
     );
