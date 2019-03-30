@@ -14,7 +14,6 @@ import { observer } from 'mobx-react';
 import { renderSequenceTableTitle } from './SequenceTableTitle';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import BasicReorderAction from '../../../../../../shared/components/form/BasicReorderAction';
-import NoIcon from '@material-ui/icons/Close';
 import YesIcon from '@material-ui/icons/Check';
 import { parseContent } from '../../../../../../shared/utilities';
 
@@ -86,7 +85,11 @@ class SequenceTableCmp extends Component {
   isStartSeq = seq => this.props.story.startSeq === seq._id;
 
   renderIsStartSequence = seq => {
-    return this.isStartSeq(seq) ? <YesIcon/> : <NoIcon/>;
+    return this.isStartSeq(seq) ? <YesIcon color="primary"/> : null;
+  };
+
+  renderIsEndingSequence = seq => {
+    return seq.isEnding ? <YesIcon color="primary"/> : null;
   };
 
   render() {
@@ -99,6 +102,7 @@ class SequenceTableCmp extends Component {
         s.name,
         s.authorNote,
         this.renderIsStartSequence(s),
+        this.renderIsEndingSequence(s),
         this.getActions(s, i)];
     });
 
