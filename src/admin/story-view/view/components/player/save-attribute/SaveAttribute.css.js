@@ -13,8 +13,4 @@ export const styles = theme => ({
   startValue: {
     flex: '1 1',
   },
-  isImportantContainer: {
-    display: 'flex',
-    alignItems: 'center',
-  },
 });

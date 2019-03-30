@@ -5,8 +5,6 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core';
 import { styles } from './SaveAttribute.css';
 import { hasError } from '../../../../../../shared/components/form/helpers';
-import Checkbox from '@material-ui/core/Checkbox';
-import Typography from '@material-ui/core/Typography';
 
 class SaveAttributeForm extends Component {
   renderNameField = ({ field }) => {
@@ -32,17 +30,6 @@ class SaveAttributeForm extends Component {
         className={classes.startValue}
         value={formik.values.startValue}
         {...hasError(formik, 'startValue')}
-      />
-    );
-  };
-
-  renderIsImportantField = ({ field }) => {
-    const { formik } = this.props;
-    return (
-      <Checkbox
-        {...field}
-        checked={formik.values.isImportant}
-        value=""
       />
     );
   };
@@ -80,18 +67,6 @@ class SaveAttributeForm extends Component {
             render={this.renderStartValueField}
           />
         </div>
-        <Typography
-          className={classes.isImportantContainer}
-          variant="inherit"
-          color="inherit"
-          noWrap
-        >
-          Is this an important attribute?
-          <Field
-            name="isImportant"
-            render={this.renderIsImportantField}
-          />
-        </Typography>
         <Field
           name="description"
           required

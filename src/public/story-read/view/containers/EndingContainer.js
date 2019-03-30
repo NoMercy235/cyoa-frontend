@@ -30,7 +30,8 @@ class EndingContainer extends Component {
 EndingContainer.propTypes = {
   story: PropTypes.instanceOf(StoryModel).isRequired,
   player: PropTypes.instanceOf(PlayerModel).isRequired,
-  isDead: PropTypes.bool.isRequired,
+  // This one is deprecated. Probably will remove in the future
+  isDead: PropTypes.bool,
   hasWon: PropTypes.bool.isRequired,
 };
 

@@ -8,14 +8,13 @@ import { PlayerModel } from '../../../../../infrastructure/models/PlayerModel';
 import Typography from '@material-ui/core/Typography';
 
 class OptionChoice extends Component {
-  onOptionClick = hasInsufficient => () => {
-    if (hasInsufficient.length) return;
+  onOptionClick = () => {
     this.props.onOptionClick(this.props.option);
   };
 
   hasInsufficient = () => {
     const { option, player } = this.props;
-    return option.consequences
+    const needed = option.consequences
       .map(c => {
         const playerAttr = player.attributes.find(a => {
           return a.name === c.attribute;
@@ -29,13 +28,11 @@ class OptionChoice extends Component {
       .filter(c => {
         return c && c.needed < 0;
       });
+    return !!needed.length;
   };
 
-  renderLabel = hasInsufficient => {
+  renderLabel = () => {
     let label = this.props.option.action;
-    if (hasInsufficient.length) {
-      label += this.renderRequired(hasInsufficient);
-    }
 
     return (
       <Typography
@@ -47,23 +44,16 @@ class OptionChoice extends Component {
     );
   };
 
-  renderRequired = hasInsufficient => {
-    return ' - required:' + hasInsufficient.map(resource => {
-      return `${resource.attribute} ${-resource.needed}`;
-    }).join(', ');
-
-  };
-
   render() {
-    const hasInsufficient = this.hasInsufficient();
+    if(this.hasInsufficient()) return null;
+
     return (
       <Chip
         icon={<FaceIcon />}
-        label={this.renderLabel(hasInsufficient)}
-        onClick={this.onOptionClick(hasInsufficient)}
+        label={this.renderLabel()}
+        onClick={this.onOptionClick}
         className={styles.option}
-        color={hasInsufficient.length ? 'default' : 'primary'}
-        clickable={!hasInsufficient.length}
+        color="primary"
       />
     );
   }

@@ -28,14 +28,6 @@ class StoryContent extends Component {
       });
   };
 
-  checkPlayerIsDead = player => {
-    const isDead = player.attributes.filter(attr => {
-      return attr.isImportant && attr.value <= 0;
-    });
-
-    return !!isDead.length;
-  };
-
   onOptionClick = async option => {
     if (!option) {
       this.setState({ hasWon: true });
@@ -79,13 +71,11 @@ class StoryContent extends Component {
     const { player, seqId } = this.state;
 
     if (!player) return '';
-    const isDead = this.checkPlayerIsDead(player);
     const hasWon = this.state.hasWon;
-    if (isDead || hasWon) {
+    if (hasWon) {
       return <EndingContainer
         story={story}
         player={player}
-        isDead={isDead}
         hasWon={hasWon}
       />;
     }
