@@ -15,7 +15,7 @@ class DisplayEnding extends Component {
       <div className={styles.endingContainer}>
         <Chip
           icon={<FaceIcon />}
-          label=" This end."
+          label=" The end."
           onClick={this.onHandleClick}
         />
       </div>
