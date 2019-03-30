@@ -127,7 +127,7 @@ class SaveSequenceModal extends Component {
   };
 
   renderForm = formik => {
-    const { classes, open } = this.props;
+    const { classes, open, isStartSeq } = this.props;
     return (
       <Dialog
         open={open}
@@ -142,7 +142,7 @@ class SaveSequenceModal extends Component {
         <DialogContent>
           <SaveSequenceForm
             formik={formik}
-            isStartSeq={this.props.isStartSeq}
+            isStartSeq={isStartSeq}
             getSequence={this.getSequence}
           />
         </DialogContent>
