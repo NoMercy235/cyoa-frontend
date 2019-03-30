@@ -16,6 +16,7 @@ import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import BasicReorderAction from '../../../../../../shared/components/form/BasicReorderAction';
 import NoIcon from '@material-ui/icons/Close';
 import YesIcon from '@material-ui/icons/Check';
+import { parseContent } from '../../../../../../shared/utilities';
 
 @observer
 class SequenceTableCmp extends Component {
@@ -63,14 +64,18 @@ class SequenceTableCmp extends Component {
   };
 
   renderOptionsTable = (rowData) => {
-    const { classes, onDeleteOption } = this.props;
+    const { classes, onDeleteOption, sequences } = this.props;
     const colSpan = SequenceModel.getTableColumns().length;
+    const rowSeqId = rowData[0];
+
+    const sequence = sequences.find(s => s._id === rowSeqId);
 
     return (
       <tr>
         <td colSpan={colSpan} className={classes.optionsTableContainer}>
+          {parseContent(sequence.content)}
           <OptionTableCmp
-            sequenceId={rowData[0]}
+            sequenceId={rowSeqId}
             onDeleteOption={onDeleteOption}
           />
         </td>

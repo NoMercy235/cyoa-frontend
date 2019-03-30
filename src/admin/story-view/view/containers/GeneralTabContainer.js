@@ -10,7 +10,6 @@ import Card from '@material-ui/core/Card';
 import PublishBtn from '../components/general/PublishBtn';
 import { renderGeneralTitle } from '../components/general/GeneralTitle';
 
-
 class GeneralTabContainer extends Component {
   render() {
     const { story } = this.props;
