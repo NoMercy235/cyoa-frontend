@@ -34,15 +34,22 @@ class Select extends Component {
     this.props.formikField.onChange(e);
   };
 
+  onClear = () => {
+    const { formikField, multiple } = this.props;
+    const value = multiple ? [] : '';
+    this.handleChange({ target: { value, name: formikField.name }});
+  };
+
   render() {
-    const { className, label, items, formikField, helperText, classes } = this.props;
+    const { className, label, items, formikField, helperText, classes, multiple } = this.props;
+    const { selected } = this.state;
 
     return (
       <FormControl className={className}>
         <InputLabel htmlFor="select-multiple-checkbox">{label}</InputLabel>
         <MuiSelect
-          multiple={this.props.multiple}
-          value={this.state.selected}
+          multiple={multiple}
+          value={selected}
           onChange={this.handleChange}
           input={
             <Input
@@ -52,15 +59,15 @@ class Select extends Component {
             />
           }
           IconComponent={
-            Utils.safeAccess(this.state.selected, 'length')
-              ? () => <ClearSelectIcon onClick={() => this.handleChange({ target: { value: [], name: 'fromCollection' }})} />
+            Utils.safeAccess(selected, 'length')
+              ? () => <ClearSelectIcon onClick={this.onClear} />
               : ArrowDropDownIcon
           }
-          renderValue={selected => {
-            if (!Array.isArray(selected)) {
-              return items.find(t => t._id === selected).name;
+          renderValue={selectedItems => {
+            if (!Array.isArray(selectedItems)) {
+              return items.find(t => t._id === selectedItems).name;
             }
-            return selected
+            return selectedItems
               .map(s => {
                 return items.find(t => t._id === s);
               })
@@ -72,8 +79,8 @@ class Select extends Component {
           {items.map(item => {
             return (
               <MenuItem key={item._id} value={item._id}>
-                {this.props.multiple && <Checkbox
-                  checked={!!this.state.selected.find(t => t === item._id)}
+                {multiple && <Checkbox
+                  checked={!!selected.find(t => t === item._id)}
                 />}
                 <ListItemText primary={item.name} />
               </MenuItem>
