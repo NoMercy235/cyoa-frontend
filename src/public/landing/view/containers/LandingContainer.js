@@ -4,6 +4,8 @@ import { publicStoryService } from '../../../../infrastructure/services/StorySer
 import { inject, observer } from 'mobx-react';
 import { publicStoryStorePropTypes } from '../../stores/PublicStoryStore';
 import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
+import classes from './LandingContainer.module.scss';
+import StoryFilters from '../components/story-filters/StoryFilters';
 
 @inject('publicStoryStore')
 @observer
@@ -22,9 +24,12 @@ class LandingContainer extends Component {
     return (
       <Fragment>
         <Breadcrumb/>
-        <LandingCmp
-          stories={publicStoryStore.stories}
-        />
+        <div className={classes.container}>
+          <StoryFilters/>
+          <LandingCmp
+            stories={publicStoryStore.stories}
+          />
+        </div>
       </Fragment>
     );
   }

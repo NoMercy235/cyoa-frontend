@@ -87,11 +87,13 @@ class Select extends Component {
             );
           })}
         </MuiSelect>
-        <FormHelperText
-          className={classes.helperText}
-        >
-          {helperText}
-        </FormHelperText>
+        {helperText && (
+          <FormHelperText
+            className={classes.helperText}
+          >
+            {helperText}
+          </FormHelperText>
+        )}
       </FormControl>
     );
   }
