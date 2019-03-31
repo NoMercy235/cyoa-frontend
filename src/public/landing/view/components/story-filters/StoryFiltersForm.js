@@ -13,6 +13,12 @@ import Button from '@material-ui/core/Button';
 class StoryFiltersForm extends Component {
   tags = TagModel.get();
 
+  resetFilters = () => {
+    const { formik } = this.props;
+    formik.resetForm();
+    formik.submitForm();
+  };
+
   renderTagsField = ({ field }) => {
     return (
       <Select
@@ -91,6 +97,17 @@ class StoryFiltersForm extends Component {
               disabled={formik.isSubmitting}
             >
               Search
+            </Button>
+          </ListItem>
+          <ListItem>
+            <Button
+              color="secondary"
+              variant="outlined"
+              fullWidth={true}
+              disabled={formik.isSubmitting}
+              onClick={this.resetFilters}
+            >
+              Reset filters
             </Button>
           </ListItem>
         </List>
