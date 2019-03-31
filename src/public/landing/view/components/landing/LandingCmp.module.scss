@@ -1,5 +1,6 @@
 .storiesContainer {
   flex: 3 3;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

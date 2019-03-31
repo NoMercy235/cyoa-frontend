@@ -4,6 +4,9 @@ export const styles = theme => ({
   actions: {
     display: 'flex',
   },
+  card: {
+    overflow: 'visible',
+  },
   expand: {
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
