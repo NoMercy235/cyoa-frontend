@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as PropTypes from 'prop-types';
 import classes from './StoryFilters.module.scss';
 import Paper from '@material-ui/core/Paper';
 import { Formik } from 'formik';
@@ -9,13 +10,12 @@ class StoryFilters extends Component {
     return {
       tags: [],
       titleOrDescription: '',
-      author: '',
+      authorShort: '',
     };
   };
 
   onSubmit = async (values, { setSubmitting }) => {
-    // TODO: send the filters
-    console.log(values);
+    await this.props.onSearch(values);
     setSubmitting(false);
   };
 
@@ -39,6 +39,7 @@ class StoryFilters extends Component {
 }
 
 StoryFilters.propTypes = {
+  onSearch: PropTypes.func.isRequired,
 };
 
 export default StoryFilters;

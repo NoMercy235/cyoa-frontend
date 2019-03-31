@@ -44,7 +44,7 @@ class StoryFiltersForm extends Component {
         {...field}
         label="Author"
         fullWidth
-        value={formik.values.author}
+        value={formik.values.authorShort}
       />
     );
   };
@@ -77,7 +77,7 @@ class StoryFiltersForm extends Component {
           </ListItem>
           <ListItem>
             <Field
-              name="author"
+              name="authorShort"
               required
               render={this.renderAuthorField}
             />

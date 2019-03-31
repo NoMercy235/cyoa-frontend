@@ -6,13 +6,33 @@ import { publicStoryStorePropTypes } from '../../stores/PublicStoryStore';
 import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
 import classes from './LandingContainer.module.scss';
 import StoryFilters from '../components/story-filters/StoryFilters';
+import { BaseService } from '../../../../infrastructure/services/BaseService';
 
 @inject('publicStoryStore')
 @observer
 class LandingContainer extends Component {
-  getStories = async () => {
-    const stories = await publicStoryService.list();
+  getStories = async filters => {
+    const stories = await publicStoryService.list(filters);
     this.props.publicStoryStore.setStories(stories);
+  };
+
+  onSearch = async values => {
+    const parsedValues = {
+      name: values.titleOrDescription,
+      description: values.titleOrDescription,
+      authorShort: values.authorShort,
+      tags: values.tags,
+    };
+    let filters = {};
+
+    Object.keys(parsedValues).forEach(key => {
+      if (Array.isArray(parsedValues[key])) {
+        filters[key] = { op: 'in', value: parsedValues[key] };
+      } else {
+        filters[key] = { op: 'ilike', value: parsedValues[key] };
+      }
+    });
+    await this.getStories(BaseService.withOrFilters(filters));
   };
 
   componentDidMount () {
@@ -25,7 +45,9 @@ class LandingContainer extends Component {
       <Fragment>
         <Breadcrumb/>
         <div className={classes.container}>
-          <StoryFilters/>
+          <StoryFilters
+            onSearch={this.onSearch}
+          />
           <LandingCmp
             stories={publicStoryStore.stories}
           />

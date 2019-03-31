@@ -73,9 +73,13 @@ export class BaseService {
     let query = '';
 
     Object.keys(filters).forEach(key => {
+      if (BaseService.isSpecialField(key)) {
+        query += encodeURIComponent(`filter[${key}]`) + `=${filters[key]}&`;
+        return;
+      }
       const a = encodeURIComponent(`filter[${key}][op]`) + `=${filters[key].op}`;
       const b = encodeURIComponent(`filter[${key}][value]`) + `=${filters[key].value}`;
-      const options = filters[key].options ? JSON.stringify(filters[key].options) : {};
+      const options = JSON.stringify(filters[key].options || {});
       const c = encodeURIComponent(`filter[${key}][options]`) + `=${options}`;
       query += [a, b, c, ''].join('&');
     });
@@ -132,5 +136,13 @@ export class BaseService {
 
   static onSuccess(response) {
     return response.data;
+  }
+
+  static withOrFilters(filters) {
+    return Object.assign({}, filters, { $or: true });
+  }
+
+  static isSpecialField(field) {
+    return /^[$|_]/.test(field);
   }
 }
