@@ -75,6 +75,10 @@ class StoryContainer extends Component {
     this.fetchStories(this.getStoryFilter(''));
   }
 
+  componentWillUnmount () {
+    this.props.storyStore.reset();
+  }
+
   render() {
     const { stories, collections } = this.props.storyStore;
 

@@ -59,6 +59,12 @@ class StoryStore {
     this.selectedCollection.set(value);
   }
 
+  @action reset() {
+    this.collections = [];
+    this.stories = [];
+    this.selectedCollection = observable.box('');
+  }
+
   @computed get getSelectedCollection() {
     return this.selectedCollection.get();
   }
