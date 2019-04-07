@@ -76,7 +76,7 @@ class DisplaySequence extends Component {
         </CardContent>
         <CardActions disableActionSpacing>
           <div className={styles.optionContainer}>
-            {sequence.options.map(o => (
+            {!sequence.isEnding && sequence.options.map(o => (
               <OptionChoice
                 key={o._id}
                 option={o}
