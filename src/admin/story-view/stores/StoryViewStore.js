@@ -94,7 +94,7 @@ class StoryViewStore {
   @action reset() {
     this.attributes = [];
     this.sequences = [];
-    this.story = null;
+    this.currentStory = null;
   }
 
   @computed get sequencesInOrder() {
