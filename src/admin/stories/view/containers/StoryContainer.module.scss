@@ -1,6 +1,7 @@
 .tableContainer {
   width: 100%;
   display: flex;
+  overflow: auto;
 
   @media screen and (max-width:1070px) {
     flex-direction: column;
@@ -28,4 +29,5 @@
   flex-direction: column;
   align-items: flex-start;
   flex: 2 2;
+  height: 100%;
 }

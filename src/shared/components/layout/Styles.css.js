@@ -47,6 +47,10 @@ export const styles = theme => ({
     justifyContent: 'flex-end',
   },
   content: {
+    display: 'flex',
+    flexDirection: 'column',
+    maxHeight: '100vh',
+    overflow: 'auto',
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
     transition: theme.transitions.create('margin', {

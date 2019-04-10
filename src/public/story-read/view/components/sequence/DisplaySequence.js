@@ -68,7 +68,7 @@ class DisplaySequence extends Component {
     const { onOptionClick, player } = this.props;
 
     return (
-      <Card>
+      <Card className={styles.card}>
         <CardHeader title={this.renderTitle()}/>
         <CardContent>
           {this.renderPicture()}

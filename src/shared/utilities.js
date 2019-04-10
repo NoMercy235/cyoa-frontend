@@ -7,6 +7,7 @@ export const parseContent = (content, options = {}) => {
     return (
       <Typography
         key={i}
+        className={options.className || ''}
         variant={options.variant || 'h6'}
       >
         {line}
