@@ -12,16 +12,23 @@ import { ADMIN_ROUTE, LANDING_ROUTE } from '../../constants/routes';
 @inject('appStore')
 @observer
 class IndexRoute extends Component {
+  state = {
+    canRender: false,
+  };
+
   async getTags() {
     const tags = await tagService.list();
     localStorage.setItem('tags', JSON.stringify(tags));
   }
 
-  componentDidMount () {
-    this.getTags();
+  async componentDidMount () {
+    await this.getTags();
+    this.setState({ canRender: true });
   }
 
   render() {
+    if (!this.state.canRender) return null;
+
     return (
       <Switch>
         <Route path={LANDING_ROUTE} component={PublicRoute} />
