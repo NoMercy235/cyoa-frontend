@@ -1,10 +1,14 @@
 import { BaseService } from './BaseService';
 import { ChapterModel } from '../models/ChapterModel';
 
+const defaultFilters = {
+  parentChapter: { op: 'equals', value: '', options: { allowEmpty: true } },
+};
+
 class ChapterService extends BaseService {
   endpoint = 'api/chapter';
 
-  list = filters => {
+  list = (filters = defaultFilters) => {
     return super.list(filters).then(chapters => {
       return chapters.map(c => new ChapterModel(c));
     });

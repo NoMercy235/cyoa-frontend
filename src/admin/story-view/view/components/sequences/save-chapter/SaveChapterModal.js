@@ -33,26 +33,29 @@ class SaveChapterModal extends Component {
     return this.props.chapter ? 'Edit chapter' : 'Create chapter';
   }
 
+  refreshChapters = async () => {
+    const newChapters = await chapterService.list();
+    this.props.storyViewStore.setChapters(newChapters);
+  };
+
   saveChapter = async values => {
-    const chapter = await withSnackbar.call(
+    await withSnackbar.call(
       this,
       chapterService.save,
       [ChapterModel.forApi(values)],
       'Chapter saved!',
     );
-    console.log(chapter);
-    this.props.storyViewStore.addChapter(chapter);
+    await this.refreshChapters();
   };
 
   updateChapter = async values => {
-    const chapter = await withSnackbar.call(
+    await withSnackbar.call(
       this,
       chapterService.update,
       [values._id, ChapterModel.forApi(values)],
       'Chapter updated!',
     );
-    console.log(chapter);
-    this.props.storyViewStore.updateChapter(values._id, chapter);
+    await this.refreshChapters();
   };
 
   getInitialValues = () => {

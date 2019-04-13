@@ -16,10 +16,7 @@ import { chapterService } from '../../../../../../infrastructure/services/Chapte
 @observer
 class ChapterListCmp extends Component {
   getChapters = async () => {
-    const filters = {
-      parentChapter: { op: 'equals', value: '', options: { allowEmpty: true } },
-    };
-    const chapters = await chapterService.list(filters);
+    const chapters = await chapterService.list();
     this.props.storyViewStore.setChapters(chapters);
   };
 
