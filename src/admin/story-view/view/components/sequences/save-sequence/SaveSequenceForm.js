@@ -76,15 +76,15 @@ class SaveSequenceForm extends Component {
     );
   };
 
-  renderAuthorNoteField = ({ field }) => {
+  renderNameField = ({ field }) => {
     const { formik } = this.props;
     return (
       <TextField
         {...field}
-        label="Author's note"
+        label="Name"
         fullWidth
-        value={formik.values.authorNote}
-        {...hasError(formik, 'authorNote')}
+        value={formik.values.name}
+        {...hasError(formik, 'name')}
       />
     );
   };
@@ -139,9 +139,9 @@ class SaveSequenceForm extends Component {
           render={this.renderChapterField}
         />
         <Field
-          name="authorNote"
+          name="name"
           required
-          render={this.renderAuthorNoteField}
+          render={this.renderNameField}
         />
         <Typography
           className={classes.isStartSeqContainer}

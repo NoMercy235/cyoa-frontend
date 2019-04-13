@@ -5,7 +5,7 @@ import { ERRORS } from '../../shared/constants/errors';
 export class SequenceModel extends BaseModel {
   _id = '';
   chapter = '';
-  authorNote = '';
+  name = '';
   scenePic = '';
   hasScenePic = false;
   content = '';
@@ -19,8 +19,8 @@ export class SequenceModel extends BaseModel {
 
   checkErrors() {
     let errors = {};
-    if (!this.authorNote) {
-      errors.authorNote = ERRORS.fieldRequired;
+    if (!this.name) {
+      errors.name = ERRORS.fieldRequired;
     }
     if (!this.content) {
       errors.content = ERRORS.fieldRequired;
@@ -30,7 +30,7 @@ export class SequenceModel extends BaseModel {
 
   static forApi(sequence) {
     return {
-      authorNote: sequence.authorNote,
+      name: sequence.name,
       scenePic: sequence.scenePic,
       content: sequence.content,
       isEnding: sequence.isEnding,
@@ -41,7 +41,7 @@ export class SequenceModel extends BaseModel {
   static getTableColumns() {
     return [
       { name: 'Id', options: { display: 'excluded' } },
-      { name: 'Author\'s note' },
+      { name: 'Name' },
       { name: 'Start' },
       { name: 'End' },
       {

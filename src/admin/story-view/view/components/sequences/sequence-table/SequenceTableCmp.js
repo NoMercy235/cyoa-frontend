@@ -108,7 +108,7 @@ class SequenceTableCmp extends Component {
     const data = sequences.map((s, i) => {
       return [
         s._id,
-        s.authorNote,
+        s.name,
         this.renderIsStartSequence(s),
         this.renderIsEndingSequence(s),
         this.getActions(s, i)];

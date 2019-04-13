@@ -11,6 +11,7 @@ function getDescription () {
       <span>The sequences have the following structure:</span>
       <ul>
         <li><b>chapter</b> Use this to manage your sequences easier</li>
+        <li><b>name</b> A note for the author to find the sequence easier. The user will not see it</li>
         <li><b>isStartSeq</b> This sequence will be used for the start of the story</li>
         <li><b>isEnding</b> The sequence has no other follow up.</li>
         <li><b>content</b> The part of the story that unfolds in the particular sequence</li>

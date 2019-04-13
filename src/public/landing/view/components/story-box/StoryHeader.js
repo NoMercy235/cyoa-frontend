@@ -26,12 +26,6 @@ class StoryHeader extends Component {
 
   renderSubheader = () => {
     const { story } = this.props;
-    // return [
-    //   `By <b>${story.authorShort}</b>`,
-    //   `on ${story.createdAtShort}.`,
-    //   `Tags: ${(story.tagsName || []).join(', ')}`,
-    // ].filter(v => v).join('');
-
     const tags = (story.tagsName || []).join(', ');
 
     return (
