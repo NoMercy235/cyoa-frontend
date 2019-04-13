@@ -10,7 +10,7 @@ function getDescription () {
     <Fragment>
       <span>The sequences have the following structure:</span>
       <ul>
-        <li><b>name</b> Just for identification purposes</li>
+        <li><b>chapter</b> Use this to manage your sequences easier</li>
         <li><b>isStartSeq</b> This sequence will be used for the start of the story</li>
         <li><b>isEnding</b> The sequence has no other follow up.</li>
         <li><b>content</b> The part of the story that unfolds in the particular sequence</li>
