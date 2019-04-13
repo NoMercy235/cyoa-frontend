@@ -10,16 +10,18 @@ export function withModal(InnerComponent, Modal = ConfirmationModal) {
       isOpen: false,
     };
 
-    onAccept = () => {
-      this.onHideModal();
+    onAccept = (e) => {
+      this.onHideModal(e);
       this.props.onClick();
     };
 
-    onShowModal = () => {
+    onShowModal = (e) => {
+      e.stopPropagation();
       this.setState({ isOpen: true });
     };
 
-    onHideModal = () => {
+    onHideModal = (e) => {
+      e.stopPropagation();
       this.setState({ isOpen: false });
     };
 
