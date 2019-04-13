@@ -121,8 +121,9 @@ class SequenceTabContainer extends Component {
   // End of the moving logic
 
   getChapters = async () => {
+    const { storyViewStore } = this.props;
     const chapters = await chapterService.list();
-    this.props.storyViewStore.setChapters(chapters);
+    storyViewStore.setChapters(chapters);
   };
 
   onDeleteChapter = async (chapterId) => {
@@ -136,6 +137,9 @@ class SequenceTabContainer extends Component {
   };
 
   componentDidMount () {
+    const { story } = this.props;
+    const params = { ':story': story._id };
+    chapterService.setNextRouteParams(params);
     this.getSequences();
     this.getChapters();
   }

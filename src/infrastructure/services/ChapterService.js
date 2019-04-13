@@ -6,7 +6,7 @@ const defaultFilters = {
 };
 
 class ChapterService extends BaseService {
-  endpoint = 'api/chapter';
+  endpoint = 'api/chapter/:story';
 
   list = (filters = defaultFilters) => {
     return super.list(filters).then(chapters => {

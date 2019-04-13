@@ -120,6 +120,8 @@ class SaveChapterModal extends Component {
 
   componentDidMount () {
     this.mounted = true;
+    const params = { ':story': this.props.storyViewStore.currentStory._id };
+    chapterService.setNextRouteParams(params);
   }
 
   componentWillUnmount () {

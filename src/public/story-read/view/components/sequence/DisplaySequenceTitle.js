@@ -6,8 +6,18 @@ import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
 import ToysIcon from '@material-ui/icons/Toys';
 import styles from './DisplaySequence.module.scss';
+import { ChapterModel } from '../../../../../infrastructure/models/ChapterModel';
 
 class DisplaySequenceTitle extends Component {
+  renderChapterName = () => {
+    const { sequence, chapters } = this.props;
+    if (!sequence.chapter) return null;
+    const chapter = chapters.find(c => c._id === sequence.chapter);
+    return (
+      <span>{chapter.name}&nbsp;-&nbsp;</span>
+    );
+  };
+
   renderAttribute = (attr, index) => {
     const text = (
       <Fragment>
@@ -37,7 +47,7 @@ class DisplaySequenceTitle extends Component {
 
     return (
       <Fragment>
-        <span>{sequence.name}&nbsp;-&nbsp;</span>
+        {this.renderChapterName()}
         {player.attributes.map(this.renderAttribute)}
       </Fragment>
     );
@@ -45,6 +55,7 @@ class DisplaySequenceTitle extends Component {
 }
 
 DisplaySequenceTitle.propTypes = {
+  chapters: PropTypes.arrayOf(PropTypes.instanceOf(ChapterModel)).isRequired,
   player: PropTypes.instanceOf(PlayerModel).isRequired,
   sequence: PropTypes.instanceOf(SequenceModel).isRequired,
 };

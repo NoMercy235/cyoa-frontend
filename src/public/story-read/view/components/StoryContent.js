@@ -6,6 +6,7 @@ import { playerService } from '../../../../infrastructure/services/PlayerService
 import { inject } from 'mobx-react';
 import { appStorePropTypes } from '../../../../shared/store/AppStore';
 import EndingContainer from '../containers/EndingContainer';
+import { ChapterModel } from '../../../../infrastructure/models/ChapterModel';
 
 @inject('appStore')
 class StoryContent extends Component {
@@ -67,7 +68,7 @@ class StoryContent extends Component {
   }
 
   render() {
-    const { story } = this.props;
+    const { story, chapters } = this.props;
     const { player, seqId } = this.state;
 
     if (!player) return '';
@@ -84,6 +85,7 @@ class StoryContent extends Component {
       <Fragment>
         <DisplaySequence
           story={story}
+          chapters={chapters}
           seq={seqId}
           player={player}
           onOptionClick={this.onOptionClick}
@@ -95,6 +97,7 @@ class StoryContent extends Component {
 
 StoryContent.propTypes = {
   story: PropTypes.instanceOf(StoryModel).isRequired,
+  chapters: PropTypes.arrayOf(PropTypes.instanceOf(ChapterModel)).isRequired,
 
   appStore: appStorePropTypes,
 };

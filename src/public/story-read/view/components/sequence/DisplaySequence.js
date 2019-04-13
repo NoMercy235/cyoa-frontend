@@ -12,18 +12,20 @@ import DisplayEnding from './DisplayEnding';
 import { PlayerModel } from '../../../../../infrastructure/models/PlayerModel';
 import DisplaySequenceTitle from './DisplaySequenceTitle';
 import { parseContent } from '../../../../../shared/utilities';
+import { ChapterModel } from '../../../../../infrastructure/models/ChapterModel';
 
 class DisplaySequence extends Component {
   state = { sequence: null };
 
   renderTitle = () => {
     const { sequence } = this.state;
-    const { player } = this.props;
+    const { chapters, player } = this.props;
 
     return (
       <DisplaySequenceTitle
         player={player}
         sequence={sequence}
+        chapters={chapters}
       />
     );
   };
@@ -97,6 +99,7 @@ class DisplaySequence extends Component {
 
 DisplaySequence.propTypes = {
   story: PropTypes.instanceOf(StoryModel).isRequired,
+  chapters: PropTypes.arrayOf(PropTypes.instanceOf(ChapterModel)).isRequired,
   seq: PropTypes.string.isRequired,
   player: PropTypes.instanceOf(PlayerModel).isRequired,
   onOptionClick: PropTypes.func.isRequired,
