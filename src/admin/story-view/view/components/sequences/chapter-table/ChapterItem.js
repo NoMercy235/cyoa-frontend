@@ -11,6 +11,7 @@ import BookIcon from '@material-ui/icons/Book';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import DeleteRow from '../../../../../../shared/components/table/actions/DeleteRow';
+import Tooltip from '@material-ui/core/Tooltip';
 
 class ChapterItem extends Component {
   state = {
@@ -32,6 +33,15 @@ class ChapterItem extends Component {
     return this.state.open ? <ExpandLess /> : <ExpandMore />;
   };
 
+  renderName = () => {
+    const { chapter } = this.props;
+    return (
+      <Tooltip title={chapter.name}>
+        <span>{chapter.name}</span>
+      </Tooltip>
+    );
+  };
+
   render() {
     const { classes, chapter } = this.props;
 
@@ -44,8 +54,11 @@ class ChapterItem extends Component {
           <ListItemIcon>
             <BookIcon />
           </ListItemIcon>
-          <ListItemText inset primary={chapter.name}/>
-
+          <ListItemText
+            className={classes.chapterName}
+            inset
+            primary={this.renderName()}
+          />
           <DeleteRow
             title="Delete confirmation"
             description="Are you sure you want to delete this collection?"

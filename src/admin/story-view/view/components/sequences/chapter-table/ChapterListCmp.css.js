@@ -14,6 +14,12 @@ export const styles = theme => ({
       flex: '1 1',
     },
   },
+  chapterName: {
+    '& > span': {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    },
+  },
   chapterAddBtn: {
     float: 'right',
   },
