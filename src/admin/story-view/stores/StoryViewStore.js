@@ -7,6 +7,7 @@ import { StoryModel } from '../../../infrastructure/models/StoryModel';
 class StoryViewStore {
   @observable attributes = [];
   @observable sequences = [];
+  @observable chapters = [];
   @observable currentStory = null;
 
   @action setAttributes(attributes) {
@@ -91,6 +92,22 @@ class StoryViewStore {
     );
   }
 
+  @action setChapters(chapters) {
+    this.chapters = chapters;
+  }
+
+  @action addChapter(chapter) {
+    this.chapters.push(chapter);
+  }
+
+  @action updateChapter(id, newChapter) {
+    this.chapters = this.chapters
+      .map(c => {
+        if (c._id !== id) return c;
+        return newChapter;
+      });
+  }
+
   @action reset() {
     this.attributes = [];
     this.sequences = [];
@@ -126,6 +143,8 @@ export const storyViewStorePropTypes = PropTypes.shape({
   updateAttribute: PropTypes.func,
   removeAttribute: PropTypes.func,
 
+  setSequences: PropTypes.func,
+  addSequence: PropTypes.func,
   getSequenceById: PropTypes.func,
   getAttributeById: PropTypes.func,
   updateSequence: PropTypes.func,
@@ -138,6 +157,9 @@ export const storyViewStorePropTypes = PropTypes.shape({
 
   setCurrentStory: PropTypes.func,
   updateCurrentStory: PropTypes.func,
+
+  setChapters: PropTypes.func,
+  addChapter: PropTypes.func,
 
   reset: PropTypes.func,
 });
