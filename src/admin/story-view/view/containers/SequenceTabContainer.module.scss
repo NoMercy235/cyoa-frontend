@@ -1,6 +1,7 @@
 .tablesContainer {
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
 
   .chaptersList {
     flex: 1 1;

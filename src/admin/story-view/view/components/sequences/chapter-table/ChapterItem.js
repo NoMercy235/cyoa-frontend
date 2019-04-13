@@ -4,16 +4,15 @@ import { withStyles } from '@material-ui/core';
 import { styles as customStyles } from './ChapterListCmp.css';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
-import BookIcon from '@material-ui/icons/Book';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import DeleteRow from '../../../../../../shared/components/table/actions/DeleteRow';
 import Tooltip from '@material-ui/core/Tooltip';
 import SaveChapterModal from '../save-chapter/SaveChapterModal';
 import BasicEditAction from '../../../../../../shared/components/form/BasicEditAction';
+import SelectedIcon from '@material-ui/icons/KeyboardArrowRight';
 
 class ChapterItem extends Component {
   state = {
@@ -22,10 +21,21 @@ class ChapterItem extends Component {
 
   handleClick = () => {
     this.setState(state => ({ open: !state.open }));
+    this.props.onClick(this.props.chapter._id);
+  };
+
+  isDefaultChapter = () => {
+    return !this.props.chapter._id;
   };
 
   onDeleteRow = () => {
     this.props.onDeleteRow(this.props.chapter._id);
+  };
+
+  renderIsSelected = () => {
+    const { chapter, selectedChapterId } = this.props;
+    if (chapter._id !== selectedChapterId) return null;
+    return <SelectedIcon/>;
   };
 
   renderName = () => {
@@ -39,7 +49,7 @@ class ChapterItem extends Component {
 
   renderEditAction = () => {
     const { chapter } = this.props;
-    return (
+    return !this.isDefaultChapter() && (
       <BasicEditAction
         resourceName="chapter"
         resource={chapter}
@@ -50,7 +60,7 @@ class ChapterItem extends Component {
   };
 
   renderDeleteAction = () => {
-    return (
+    return !this.isDefaultChapter() && (
       <DeleteRow
         title="Delete confirmation"
         description="Are you sure you want to delete this chapter?"
@@ -67,18 +77,17 @@ class ChapterItem extends Component {
   };
 
   render() {
-    const { classes, chapter } = this.props;
+    const { classes, chapter, selectedChapterId } = this.props;
 
     return (
       <>
         <ListItem
+          className={classes.listItem}
           button
           onClick={this.handleClick}
           disableRipple={true}
         >
-          <ListItemIcon>
-            <BookIcon />
-          </ListItemIcon>
+          {this.renderIsSelected()}
           <ListItemText
             className={classes.chapterName}
             inset
@@ -99,7 +108,9 @@ class ChapterItem extends Component {
                 key={i}
                 chapter={c}
                 classes={classes}
+                selectedChapterId={selectedChapterId}
                 onDeleteRow={this.props.onDeleteRow}
+                onClick={this.props.onClick}
               />
             ))}
           </List>
@@ -112,7 +123,9 @@ class ChapterItem extends Component {
 ChapterItem.propTypes = {
   classes: PropTypes.object,
   chapter: PropTypes.object.isRequired,
+  selectedChapterId: PropTypes.string.isRequired,
   onDeleteRow: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default withStyles(customStyles)(ChapterItem);

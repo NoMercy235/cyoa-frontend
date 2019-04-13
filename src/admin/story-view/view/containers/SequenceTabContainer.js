@@ -17,6 +17,8 @@ import { withRouter } from 'react-router-dom';
 @observer
 class SequenceTabContainer extends Component {
   state = {
+    selectedChapterId: '',
+
     // snackbar
     open: false,
     variant: 'success',
@@ -27,11 +29,22 @@ class SequenceTabContainer extends Component {
     return () => this.setState(metadata);
   };
 
-  getSequences = async () => {
+  getSequences = async (chapterId = '') => {
     const params = { ':story': this.props.match.params.id };
     sequenceService.setNextRouteParams(params);
+
+    let filters = {};
+
+    this.setState({ selectedChapterId: chapterId });
+    if (chapterId) {
+      filters.chapter = {
+        op: 'equals',
+        value: chapterId,
+      };
+    }
+
     const sequences = await sequenceService.list(
-      {},
+      filters,
       { order: 'asc' },
     );
     this.props.storyViewStore.setSequences(sequences);
@@ -128,7 +141,7 @@ class SequenceTabContainer extends Component {
 
   render() {
     const { storyViewStore: { sequencesInOrder, chapters }, story } = this.props;
-    const { open, message, variant } = this.state;
+    const { selectedChapterId, open, message, variant } = this.state;
 
     return (
       <Fragment>
@@ -136,7 +149,9 @@ class SequenceTabContainer extends Component {
           <ChapterListCmp
             className={classes.chaptersList}
             chapters={chapters}
+            selectedChapterId={selectedChapterId}
             onDeleteChapter={this.onDeleteChapter}
+            onChapterClick={this.getSequences}
           />
           <SequenceTableCmp
             className={classes.sequencesTable}

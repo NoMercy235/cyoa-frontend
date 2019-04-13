@@ -14,7 +14,12 @@ import { ChapterModel } from '../../../../../../infrastructure/models/ChapterMod
 @observer
 class ChapterListCmp extends Component {
   render() {
-    const { classes, chapters, className } = this.props;
+    const { classes, chapters, selectedChapterId, className } = this.props;
+
+    const chaptersWithDefault = [
+      new ChapterModel({ _id: '', name: 'Default' }),
+      ...chapters,
+    ];
 
     return (
       <Paper elevation={2} className={className}>
@@ -36,11 +41,13 @@ class ChapterListCmp extends Component {
           component="nav"
           className={classes.root}
         >
-          {chapters.map((c, i) => (
+          {chaptersWithDefault.map((c, i) => (
             <ChapterItem
               key={i}
               chapter={c}
+              selectedChapterId={selectedChapterId}
               onDeleteRow={this.props.onDeleteChapter}
+              onClick={this.props.onChapterClick}
             />
           ))}
         </List>
@@ -53,7 +60,9 @@ ChapterListCmp.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object,
   chapters: PropTypes.arrayOf(PropTypes.instanceOf(ChapterModel)).isRequired,
+  selectedChapterId: PropTypes.string.isRequired,
   onDeleteChapter: PropTypes.func.isRequired,
+  onChapterClick: PropTypes.func.isRequired,
 };
 
 export default withStyles(customStyles)(ChapterListCmp);

@@ -14,6 +14,12 @@ export const styles = theme => ({
       flex: '1 1',
     },
   },
+  listItem: {
+    height: theme.spacing.unit * 7,
+    '& > div[class*="MuiListItemText-root"]': {
+      paddingLeft: 0,
+    },
+  },
   chapterName: {
     '& > span': {
       overflow: 'hidden',
