@@ -49,7 +49,8 @@ export class BaseService {
           // TODO: show some kind of an error? hold the request and prompt the user to authenticate?
           if (
             Utils.safeAccess(err, 'response.status') === 401 &&
-            !err.response.config.url.match(/auth\/authenticate$/) &&
+            // If the route is from the auth API, don't redirect
+            !err.response.config.url.match(/auth/) &&
             window.location.pathname !== '/'
           ) {
             window.location = '/?loginError=true';

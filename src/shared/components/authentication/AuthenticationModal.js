@@ -43,7 +43,6 @@ class AuthenticationModal extends Component {
 
   authenticate = response => {
     localStorage.setItem('jwt', response.token);
-    localStorage.setItem('user', JSON.stringify(response.user));
     this.props.appStore.setUser(
       new UserModel(response.user)
     );

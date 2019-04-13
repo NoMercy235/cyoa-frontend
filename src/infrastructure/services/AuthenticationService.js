@@ -18,6 +18,16 @@ class AuthenticationService extends BaseService {
       throw e;
     }
   }
+
+  async checkToken() {
+    try {
+      await this.client.get('auth/checkToken');
+    } catch (e) {
+      localStorage.removeItem('jwt');
+      localStorage.removeItem('user');
+      throw e;
+    }
+  }
 }
 
 export const authService = new AuthenticationService();
