@@ -24,6 +24,7 @@ class SaveChapterModal extends Component {
     variant: 'success',
     message: '',
   };
+  mounted = false;
 
   onChangeState = (metadata) => {
     return () => this.setState(metadata);
@@ -63,6 +64,7 @@ class SaveChapterModal extends Component {
   };
 
   onClose = (resetForm) => () => {
+    if (!this.mounted) return;
     resetForm(this.getInitialValues());
     this.props.onClose();
   };
@@ -115,6 +117,14 @@ class SaveChapterModal extends Component {
       </Dialog>
     );
   };
+
+  componentDidMount () {
+    this.mounted = true;
+  }
+
+  componentWillUnmount () {
+    this.mounted = false;
+  }
 
   render() {
     const { open, message, variant } = this.state;

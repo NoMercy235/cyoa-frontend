@@ -53,7 +53,7 @@ class ChapterItem extends Component {
     return (
       <DeleteRow
         title="Delete confirmation"
-        description="Are you sure you want to delete this collection?"
+        description="Are you sure you want to delete this chapter?"
         onClick={this.onDeleteRow}
       />
     );
@@ -87,7 +87,11 @@ class ChapterItem extends Component {
           {this.renderDeleteAction()}
           {this.renderExpand()}
         </ListItem>
-        <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+        <Collapse
+          in={!!chapter.subChapters.length && this.state.open}
+          timeout="auto"
+          unmountOnExit
+        >
           <List component="div" disablePadding className={classes.nested}>
             {chapter.subChapters.map((c, i) => (
               <ChapterItem
