@@ -23,6 +23,8 @@
   align-items: flex-start;
   flex: 1 1;
   height: 100%;
+  // Needed for the box-shadow of Paper components
+  padding: 2px;
 }
 
 .storiesContainer {
@@ -31,4 +33,6 @@
   align-items: flex-start;
   flex: 2 2;
   height: 100%;
+  // Needed for the box-shadow of Paper components
+  padding: 2px;
 }
