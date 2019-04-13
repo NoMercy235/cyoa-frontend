@@ -93,7 +93,7 @@ class SequenceTableCmp extends Component {
   };
 
   render() {
-    const { sequences, story } = this.props;
+    const { sequences, story, className } = this.props;
     const columns = SequenceModel.getTableColumns();
 
     const data = sequences.map((s, i) => {
@@ -130,6 +130,7 @@ class SequenceTableCmp extends Component {
 
     return (
       <TableCmp
+        className={className}
         title={renderSequenceTableTitle()}
         columns={columns}
         data={data}
@@ -141,6 +142,7 @@ class SequenceTableCmp extends Component {
 
 SequenceTableCmp.propTypes = {
   classes: PropTypes.object,
+  className: PropTypes.string,
   story: PropTypes.instanceOf(StoryModel),
   sequences: PropTypes.arrayOf(PropTypes.instanceOf(SequenceModel)),
   onDeleteSequence: PropTypes.func.isRequired,

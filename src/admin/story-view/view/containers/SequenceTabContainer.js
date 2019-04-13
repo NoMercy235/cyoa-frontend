@@ -8,6 +8,8 @@ import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
 import { sequenceService } from '../../../../infrastructure/services/SequenceService';
 import { withSnackbar } from '../../../../shared/components/form/helpers';
 import { optionService } from '../../../../infrastructure/services/OptionService';
+import ChapterListCmp from '../components/sequences/chapter-table/ChapterListCmp';
+import classes from './SequenceTabContainer.module.scss';
 
 @inject('storyViewStore')
 @observer
@@ -102,14 +104,18 @@ class SequenceTabContainer extends Component {
 
     return (
       <Fragment>
-        <SequenceTableCmp
-          story={story}
-          sequences={sequencesInOrder}
-          onDeleteSequence={this.onDeleteSequence}
-          onDeleteOption={this.onDeleteOption}
-          onMoveSeqUp={this.onMoveSeqUp}
-          onMoveSeqDown={this.onMoveSeqDown}
-        />
+        <div className={classes.tablesContainer}>
+          <ChapterListCmp className={classes.chaptersList}/>
+          <SequenceTableCmp
+            className={classes.sequencesTable}
+            story={story}
+            sequences={sequencesInOrder}
+            onDeleteSequence={this.onDeleteSequence}
+            onDeleteOption={this.onDeleteOption}
+            onMoveSeqUp={this.onMoveSeqUp}
+            onMoveSeqDown={this.onMoveSeqDown}
+          />
+        </div>
         <Snackbar
           open={open}
           onClose={this.onChangeState({ open: false })}

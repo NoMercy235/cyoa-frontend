@@ -18,12 +18,17 @@ class BasicNewAction extends Component {
   };
 
   render() {
-    const { tooltip, innerProps, modalComponent: ModalComponent } = this.props;
+    const {
+      className,
+      tooltip, innerProps,
+      modalComponent: ModalComponent,
+    } = this.props;
     const { modalOpen } = this.state;
     return (
       <Fragment>
         <Tooltip title={tooltip}>
           <IconButton
+            className={className}
             onClick={this.onShowModal}
           >
             <AddIcon fontSize="small" />
@@ -41,6 +46,7 @@ class BasicNewAction extends Component {
 }
 
 BasicNewAction.propTypes = {
+  className: PropTypes.string,
   tooltip: PropTypes.string.isRequired,
   modalComponent: PropTypes.func.isRequired,
   innerProps: PropTypes.object,

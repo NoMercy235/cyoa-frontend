@@ -4,7 +4,7 @@ import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import { styles as tableStyles } from './TableCmp.css';
 import MUIDataTable from 'mui-datatables';
-
+import classNames from 'classnames';
 
 class TableCmp extends Component {
   defaultOptions = {
@@ -24,10 +24,10 @@ class TableCmp extends Component {
 
   render() {
     const options = Object.assign({}, this.defaultOptions, this.props.options);
-    const { title, columns, data, classes } = this.props;
+    const { title, columns, data, classes, className } = this.props;
 
     return (
-      <Paper className={classes.root}>
+      <Paper className={classNames(classes.root, className)}>
         <MUIDataTable
           title={title}
           data={data}
@@ -41,6 +41,7 @@ class TableCmp extends Component {
 
 TableCmp.propTypes = {
   classes: PropTypes.object,
+  className: PropTypes.string,
   title: PropTypes.oneOfType([
     PropTypes.string, PropTypes.object,
   ]).isRequired,

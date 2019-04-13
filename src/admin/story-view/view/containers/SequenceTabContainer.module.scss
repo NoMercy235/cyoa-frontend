@@ -1,0 +1,14 @@
+.tablesContainer {
+  display: flex;
+  flex-direction: row;
+
+  .chaptersList {
+    flex: 1 1;
+    margin-top: 24px;
+    margin-right: 10px;
+  }
+
+  .sequencesTable {
+    flex: 3 3;
+  }
+}
