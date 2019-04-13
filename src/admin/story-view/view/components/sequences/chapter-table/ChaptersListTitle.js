@@ -9,7 +9,7 @@ function getDescription () {
   return (
     <Fragment>
       <p>You can group your sequences into chapters to manage them more easily.</p>
-      <p>A chapter can have any number of sub chapters, but the depth of sub chapters cannot go beyond 3.</p>
+      <p>A chapter can have any number of sub chapters, but the depth of sub chapters cannot go beyond 2.</p>
     </Fragment>
   );
 }
