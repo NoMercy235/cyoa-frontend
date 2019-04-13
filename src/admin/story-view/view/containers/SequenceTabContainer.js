@@ -11,6 +11,7 @@ import { optionService } from '../../../../infrastructure/services/OptionService
 import ChapterListCmp from '../components/sequences/chapter-table/ChapterListCmp';
 import classes from './SequenceTabContainer.module.scss';
 import { chapterService } from '../../../../infrastructure/services/ChapterService';
+import { withRouter } from 'react-router-dom';
 
 @inject('storyViewStore')
 @observer
@@ -24,6 +25,16 @@ class SequenceTabContainer extends Component {
 
   onChangeState = (metadata) => {
     return () => this.setState(metadata);
+  };
+
+  getSequences = async () => {
+    const params = { ':story': this.props.match.params.id };
+    sequenceService.setNextRouteParams(params);
+    const sequences = await sequenceService.list(
+      {},
+      { order: 'asc' },
+    );
+    this.props.storyViewStore.setSequences(sequences);
   };
 
   onDeleteSequence = async sequenceId => {
@@ -111,7 +122,7 @@ class SequenceTabContainer extends Component {
   };
 
   componentDidMount () {
-    this.props.getSequences();
+    this.getSequences();
     this.getChapters();
   }
 
@@ -150,9 +161,12 @@ class SequenceTabContainer extends Component {
 
 SequenceTabContainer.propTypes = {
   story: PropTypes.shape(StoryModel).isRequired,
-  getSequences: PropTypes.func.isRequired,
+
+  match: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 
   storyViewStore: storyViewStorePropTypes,
 };
 
-export default SequenceTabContainer;
+export default withRouter(SequenceTabContainer);

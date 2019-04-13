@@ -42,7 +42,6 @@ class StoryView extends Component {
         {currentTab === 2 && (
           <SequenceTabContainer
             story={story}
-            getSequences={this.props.getSequences}
           />
         )}
       </Fragment>
@@ -53,7 +52,7 @@ class StoryView extends Component {
 StoryView.propTypes = {
   story: PropTypes.instanceOf(StoryModel).isRequired,
   getAttributes: PropTypes.func.isRequired,
-  getSequences: PropTypes.func.isRequired,
+  // getSequences: PropTypes.func.isRequired,
 };
 
 export default StoryView;

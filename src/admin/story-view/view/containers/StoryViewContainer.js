@@ -6,7 +6,6 @@ import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
 import { attributeService } from '../../../../infrastructure/services/AttributeService';
-import { sequenceService } from '../../../../infrastructure/services/SequenceService';
 
 @inject('storyViewStore')
 @observer
@@ -23,20 +22,11 @@ class StoryViewContainer extends Component {
     this.props.storyViewStore.setAttributes(attributes);
   };
 
-  getSequences = async () => {
-    const params = { ':story': this.props.match.params.id };
-    sequenceService.setNextRouteParams(params);
-    const sequences = await sequenceService.list(
-      {},
-      { order: 'asc' },
-    );
-    this.props.storyViewStore.setSequences(sequences);
-  };
-
+  // Here we should load resources that are needed across multiple
+  // containers inside this one.
   componentDidMount () {
     this.getAttributes();
     this.fetchStory(this.props.match.params.id);
-    this.getSequences();
   }
 
   componentWillUnmount () {
@@ -55,7 +45,6 @@ class StoryViewContainer extends Component {
         <StoryView
           story={currentStory}
           getAttributes={this.getAttributes}
-          getSequences={this.getSequences}
         />
       </Fragment>
     );
