@@ -11,10 +11,12 @@ class BasicEditAction extends Component {
   };
 
   onShowModal = async () => {
-    const { getBeforeModal } = this.props;
+    const { getBeforeModal, onModalOpen } = this.props;
+
+    onModalOpen && await onModalOpen();
 
     let resource = this.props.resource;
-    if (this.props.getBeforeModal) {
+    if (getBeforeModal) {
       resource = await getBeforeModal(resource);
     }
 
@@ -61,6 +63,8 @@ BasicEditAction.propTypes = {
   tooltip: PropTypes.string,
   modalComponent: PropTypes.func.isRequired,
   getBeforeModal: PropTypes.func,
+  onModalOpen: PropTypes.func,
+  onModalClose: PropTypes.func,
 };
 
 export default BasicEditAction;

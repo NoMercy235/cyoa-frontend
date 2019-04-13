@@ -18,6 +18,7 @@ import BasicFormActions from '../../../../../../shared/components/form/BasicForm
 import { storyService } from '../../../../../../infrastructure/services/StoryService';
 import { withRouter } from 'react-router-dom';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
+import { ChapterModel } from '../../../../../../infrastructure/models/ChapterModel';
 
 @inject('storyViewStore')
 class SaveSequenceModal extends Component {
@@ -57,7 +58,9 @@ class SaveSequenceModal extends Component {
       [SequenceModel.forApi(values)],
       'Sequence saved!',
     );
-    this.props.storyViewStore.addSequence(sequence);
+    if (sequence.chapter === this.props.selectedChapterId) {
+      this.props.storyViewStore.addSequence(sequence);
+    }
     return sequence;
   };
 
@@ -84,11 +87,12 @@ class SaveSequenceModal extends Component {
   };
 
   getInitialValues = () => {
-    const resource = this.props.sequence || new SequenceModel();
+    const { sequence, selectedChapterId, isStartSeq } = this.props;
+    const resource = sequence || new SequenceModel({ chapter: selectedChapterId });
     // This was done because the isStartSeq property is not located on
     // the sequence, but on the story, thus it couldn't have been
     // loaded correctly while editing in any other way.
-    resource.isStartSeq = this.props.isStartSeq;
+    resource.isStartSeq = isStartSeq;
     return resource;
   };
 
@@ -127,7 +131,8 @@ class SaveSequenceModal extends Component {
   };
 
   renderForm = formik => {
-    const { classes, open, isStartSeq } = this.props;
+    const { classes, open, isStartSeq, chapters } = this.props;
+
     return (
       <Dialog
         open={open}
@@ -143,6 +148,7 @@ class SaveSequenceModal extends Component {
           <SaveSequenceForm
             formik={formik}
             isStartSeq={isStartSeq}
+            chapters={chapters}
             getSequence={this.getSequence}
           />
         </DialogContent>
@@ -185,6 +191,8 @@ SaveSequenceModal.propTypes = {
   match: PropTypes.object,
   classes: PropTypes.object,
   story: PropTypes.instanceOf(StoryModel).isRequired,
+  chapters: PropTypes.arrayOf(PropTypes.instanceOf(ChapterModel)).isRequired,
+  selectedChapterId: PropTypes.string.isRequired,
   isStartSeq: PropTypes.bool.isRequired,
   sequence: PropTypes.instanceOf(SequenceModel),
   open: PropTypes.bool.isRequired,

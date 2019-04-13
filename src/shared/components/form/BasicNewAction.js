@@ -9,7 +9,9 @@ class BasicNewAction extends Component {
     modalOpen: false,
   };
 
-  onShowModal = () => {
+  onShowModal = async () => {
+    const { onModalOpen } = this.props;
+    onModalOpen && await onModalOpen();
     this.setState({ modalOpen: true });
   };
 
@@ -50,6 +52,8 @@ BasicNewAction.propTypes = {
   tooltip: PropTypes.string.isRequired,
   modalComponent: PropTypes.func.isRequired,
   innerProps: PropTypes.object,
+  onModalOpen: PropTypes.func,
+  onModalClose: PropTypes.func,
 };
 
 export default BasicNewAction;

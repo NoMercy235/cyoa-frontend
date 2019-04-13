@@ -9,11 +9,19 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import FileSelect from '../../../../../../shared/components/form/FileSelect/FileSelect';
 import Button from '@material-ui/core/Button';
+import { ChapterModel } from '../../../../../../infrastructure/models/ChapterModel';
+import Select from '../../../../../../shared/components/form/Select/Select';
 
 class SaveSequenceForm extends Component {
   state = {
     renderViewImage: this.props.formik.values.hasScenePic,
     scenePic: '',
+  };
+
+  getChapters = () => {
+    return this.props.chapters.map(c => {
+      return { _id: c._id, name: c.name };
+    });
   };
 
   onFileUploaded = base64File => {
@@ -54,15 +62,16 @@ class SaveSequenceForm extends Component {
     );
   };
 
-  renderNameField = ({ field }) => {
-    const { formik } = this.props;
+  renderChapterField = ({ field }) => {
+    const { formik, classes } = this.props;
     return (
-      <TextField
-        {...field}
-        label="Name"
+      <Select
+        className={classes.chapterField}
+        formikField={field}
+        label="Chapter"
         fullWidth
-        value={formik.values.name}
-        {...hasError(formik, 'name')}
+        items={this.getChapters()}
+        {...hasError(formik, 'chapter')}
       />
     );
   };
@@ -125,9 +134,9 @@ class SaveSequenceForm extends Component {
     return (
       <Form noValidate>
         <Field
-          name="name"
+          name="chapter"
           required
-          render={this.renderNameField}
+          render={this.renderChapterField}
         />
         <Field
           name="authorNote"
@@ -177,6 +186,7 @@ SaveSequenceForm.propTypes = {
   classes: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
   isStartSeq: PropTypes.bool.isRequired,
+  chapters: PropTypes.arrayOf(PropTypes.instanceOf(ChapterModel)).isRequired,
   getSequence: PropTypes.func.isRequired,
 };
 

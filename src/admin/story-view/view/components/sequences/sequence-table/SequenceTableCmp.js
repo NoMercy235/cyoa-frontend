@@ -16,10 +16,12 @@ import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import BasicReorderAction from '../../../../../../shared/components/form/BasicReorderAction';
 import YesIcon from '@material-ui/icons/Check';
 import { parseContent } from '../../../../../../shared/utilities';
+import { chapterService } from '../../../../../../infrastructure/services/ChapterService';
 
 @observer
 class SequenceTableCmp extends Component {
   state = {
+    chapters: [],
     canReorder: true,
   };
 
@@ -36,8 +38,8 @@ class SequenceTableCmp extends Component {
   };
 
   getActions = (row, index) => {
-    const { classes, sequences, story } = this.props;
-    const { canReorder } = this.state;
+    const { classes, sequences, story, selectedChapterId } = this.props;
+    const { chapters, canReorder } = this.state;
 
     return (
       <div key={row._id} className={classes.actionsContainer}>
@@ -51,7 +53,8 @@ class SequenceTableCmp extends Component {
           resourceName="sequence"
           resource={row}
           modalComponent={SaveSequenceModal}
-          innerProps={{ story, isStartSeq: this.isStartSeq(row) }}
+          onModalOpen={this.getAllChapters}
+          innerProps={{ story, chapters, selectedChapterId, isStartSeq: this.isStartSeq(row) }}
         />
         <DeleteRow
           title="Delete confirmation"
@@ -92,14 +95,19 @@ class SequenceTableCmp extends Component {
     return seq.isEnding ? <YesIcon color="primary"/> : null;
   };
 
+  getAllChapters = async () => {
+    const chapters = await chapterService.list({});
+    this.setState({ chapters });
+  };
+
   render() {
-    const { sequences, story, className } = this.props;
+    const { sequences, story, selectedChapterId, className } = this.props;
+    const { chapters } = this.state;
     const columns = SequenceModel.getTableColumns();
 
     const data = sequences.map((s, i) => {
       return [
         s._id,
-        s.name,
         s.authorNote,
         this.renderIsStartSequence(s),
         this.renderIsEndingSequence(s),
@@ -122,7 +130,8 @@ class SequenceTableCmp extends Component {
           <BasicNewAction
             tooltip="New sequence"
             modalComponent={SaveSequenceModal}
-            innerProps={{ story, isStartSeq: false }}
+            innerProps={{ story, chapters, selectedChapterId, isStartSeq: false }}
+            onModalOpen={this.getAllChapters}
           />
         );
       },
@@ -145,6 +154,7 @@ SequenceTableCmp.propTypes = {
   className: PropTypes.string,
   story: PropTypes.instanceOf(StoryModel),
   sequences: PropTypes.arrayOf(PropTypes.instanceOf(SequenceModel)),
+  selectedChapterId: PropTypes.string.isRequired,
   onDeleteSequence: PropTypes.func.isRequired,
   onDeleteOption: PropTypes.func.isRequired,
   onMoveSeqUp: PropTypes.func.isRequired,

@@ -1,4 +1,4 @@
-import { observable, action, computed } from 'mobx';
+import { observable, action, computed, runInAction } from 'mobx';
 import * as PropTypes from 'prop-types';
 import { AttributeModel } from '../../../infrastructure/models/AttributeModel';
 import { SequenceModel } from '../../../infrastructure/models/SequenceModel';
@@ -39,11 +39,19 @@ class StoryViewStore {
   }
 
   @action updateSequence(id, newSequence) {
-    this.sequences = this.sequences
-      .map(s => {
-        if (s._id !== id) return s;
-        return newSequence;
-      });
+    // Similar to what we did for stories (when they were changing collections,
+    // we need to wait a little bit here as well when changing the chapter of a
+    // sequence in order to prevent the warning thrown by react when its trying to
+    // call setState on an unmounted component
+    setTimeout(() => runInAction(() => {
+      this.sequences = this.sequences
+        .map(s => {
+          if (s._id !== id) return s;
+          if (s.chapter !== newSequence.chapter) return null;
+          return newSequence;
+        })
+        .filter(s => s);
+    }), 100);
   }
 
   @action updateSequenceInPlace(id, metadata) {

@@ -36,12 +36,13 @@ class SequenceTabContainer extends Component {
     let filters = {};
 
     this.setState({ selectedChapterId: chapterId });
-    if (chapterId) {
-      filters.chapter = {
-        op: 'equals',
-        value: chapterId,
-      };
-    }
+    filters.chapter = {
+      op: 'equals',
+      value: chapterId,
+      options: {
+        allowEmpty: true,
+      },
+    };
 
     const sequences = await sequenceService.list(
       filters,
@@ -157,6 +158,7 @@ class SequenceTabContainer extends Component {
             className={classes.sequencesTable}
             story={story}
             sequences={sequencesInOrder}
+            selectedChapterId={selectedChapterId}
             onDeleteSequence={this.onDeleteSequence}
             onDeleteOption={this.onDeleteOption}
             onMoveSeqUp={this.onMoveSeqUp}
