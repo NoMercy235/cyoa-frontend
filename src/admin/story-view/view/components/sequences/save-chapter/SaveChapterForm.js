@@ -82,7 +82,7 @@ class SaveChapterForm extends Component {
 
 SaveChapterForm.propTypes = {
   classes: PropTypes.object.isRequired,
-  chapters: PropTypes.arrayOf(PropTypes.instanceOf(ChapterModel)),
+  chapters: PropTypes.arrayOf(PropTypes.instanceOf(ChapterModel)).isRequired,
   formik: PropTypes.object.isRequired,
 };
 

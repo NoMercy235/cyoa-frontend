@@ -10,6 +10,7 @@ import Collapse from '@material-ui/core/Collapse';
 import BookIcon from '@material-ui/icons/Book';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import DeleteRow from '../../../../../../shared/components/table/actions/DeleteRow';
 
 class ChapterItem extends Component {
   state = {
@@ -18,6 +19,10 @@ class ChapterItem extends Component {
 
   handleClick = () => {
     this.setState(state => ({ open: !state.open }));
+  };
+
+  onDeleteRow = () => {
+    this.props.onDeleteRow(this.props.chapter._id);
   };
 
   renderExpand = () => {
@@ -40,6 +45,12 @@ class ChapterItem extends Component {
             <BookIcon />
           </ListItemIcon>
           <ListItemText inset primary={chapter.name}/>
+
+          <DeleteRow
+            title="Delete confirmation"
+            description="Are you sure you want to delete this collection?"
+            onClick={this.onDeleteRow}
+          />
           {this.renderExpand()}
         </ListItem>
         <Collapse in={this.state.open} timeout="auto" unmountOnExit>
@@ -49,6 +60,7 @@ class ChapterItem extends Component {
                 key={i}
                 chapter={c}
                 classes={classes}
+                onDeleteRow={this.props.onDeleteRow}
               />
             ))}
           </List>
@@ -60,7 +72,8 @@ class ChapterItem extends Component {
 
 ChapterItem.propTypes = {
   classes: PropTypes.object,
-  chapter: PropTypes.object,
+  chapter: PropTypes.object.isRequired,
+  onDeleteRow: PropTypes.func.isRequired,
 };
 
 export default withStyles(customStyles)(ChapterItem);

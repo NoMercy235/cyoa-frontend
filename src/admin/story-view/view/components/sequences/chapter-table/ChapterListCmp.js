@@ -2,31 +2,19 @@ import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Paper, withStyles } from '@material-ui/core';
 import { styles as customStyles } from './ChapterListCmp.css';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import ChapterItem from './ChapterItem';
 import BasicNewAction from '../../../../../../shared/components/form/BasicNewAction';
 import { renderChaptersListTitle } from './ChaptersListTitle';
 import SaveChapterModal from '../save-chapter/SaveChapterModal';
-import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
-import { chapterService } from '../../../../../../infrastructure/services/ChapterService';
+import { ChapterModel } from '../../../../../../infrastructure/models/ChapterModel';
 
-@inject('storyViewStore')
 @observer
 class ChapterListCmp extends Component {
-  getChapters = async () => {
-    const chapters = await chapterService.list();
-    this.props.storyViewStore.setChapters(chapters);
-  };
-
-  componentDidMount () {
-    this.getChapters();
-  }
-
   render() {
-    const { classes, className } = this.props;
-    const { chapters } = this.props.storyViewStore;
+    const { classes, chapters, className } = this.props;
 
     return (
       <Paper elevation={2} className={className}>
@@ -48,7 +36,11 @@ class ChapterListCmp extends Component {
           className={classes.root}
         >
           {chapters.map((c, i) => (
-            <ChapterItem key={i} chapter={c}/>
+            <ChapterItem
+              key={i}
+              chapter={c}
+              onDeleteRow={this.props.onDeleteChapter}
+            />
           ))}
         </List>
       </Paper>
@@ -59,7 +51,8 @@ class ChapterListCmp extends Component {
 ChapterListCmp.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object,
-  storyViewStore: storyViewStorePropTypes,
+  chapters: PropTypes.arrayOf(PropTypes.instanceOf(ChapterModel)).isRequired,
+  onDeleteChapter: PropTypes.func.isRequired,
 };
 
 export default withStyles(customStyles)(ChapterListCmp);

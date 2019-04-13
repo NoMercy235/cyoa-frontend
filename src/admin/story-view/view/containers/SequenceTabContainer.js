@@ -10,6 +10,7 @@ import { withSnackbar } from '../../../../shared/components/form/helpers';
 import { optionService } from '../../../../infrastructure/services/OptionService';
 import ChapterListCmp from '../components/sequences/chapter-table/ChapterListCmp';
 import classes from './SequenceTabContainer.module.scss';
+import { chapterService } from '../../../../infrastructure/services/ChapterService';
 
 @inject('storyViewStore')
 @observer
@@ -94,18 +95,38 @@ class SequenceTabContainer extends Component {
   };
   // End of the moving logic
 
+  getChapters = async () => {
+    const chapters = await chapterService.list();
+    this.props.storyViewStore.setChapters(chapters);
+  };
+
+  onDeleteChapter = async (chapterId) => {
+    await chapterService.delete(chapterId);
+    await this.getChapters();
+    this.setState({
+      open: true,
+      variant: 'success',
+      message: 'Chapter deleted',
+    });
+  };
+
   componentDidMount () {
     this.props.getSequences();
+    this.getChapters();
   }
 
   render() {
-    const { storyViewStore: { sequencesInOrder }, story } = this.props;
+    const { storyViewStore: { sequencesInOrder, chapters }, story } = this.props;
     const { open, message, variant } = this.state;
 
     return (
       <Fragment>
         <div className={classes.tablesContainer}>
-          <ChapterListCmp className={classes.chaptersList}/>
+          <ChapterListCmp
+            className={classes.chaptersList}
+            chapters={chapters}
+            onDeleteChapter={this.onDeleteChapter}
+          />
           <SequenceTableCmp
             className={classes.sequencesTable}
             story={story}
