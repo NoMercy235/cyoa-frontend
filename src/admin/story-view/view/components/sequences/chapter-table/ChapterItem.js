@@ -74,6 +74,7 @@ class ChapterItem extends Component {
         <ListItem
           button
           onClick={this.handleClick}
+          disableRipple={true}
         >
           <ListItemIcon>
             <BookIcon />

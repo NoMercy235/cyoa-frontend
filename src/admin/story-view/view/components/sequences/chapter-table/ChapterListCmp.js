@@ -32,6 +32,7 @@ class ChapterListCmp extends Component {
           />
         </Typography>
         <List
+          dense={true}
           component="nav"
           className={classes.root}
         >
