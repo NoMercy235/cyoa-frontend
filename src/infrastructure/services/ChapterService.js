@@ -10,7 +10,13 @@ class ChapterService extends BaseService {
 
   list = (filters = defaultFilters) => {
     return super.list(filters).then(chapters => {
-      return chapters.map(c => new ChapterModel(c));
+      return chapters.map(c => {
+        const chapter = new ChapterModel(c);
+        chapter.subChapters = chapter.subChapters.map(subChapter => {
+          return new ChapterModel(subChapter);
+        });
+        return chapter;
+      });
     });
   };
 

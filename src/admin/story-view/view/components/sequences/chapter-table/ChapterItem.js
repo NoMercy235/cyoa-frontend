@@ -12,6 +12,8 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import DeleteRow from '../../../../../../shared/components/table/actions/DeleteRow';
 import Tooltip from '@material-ui/core/Tooltip';
+import SaveChapterModal from '../save-chapter/SaveChapterModal';
+import BasicEditAction from '../../../../../../shared/components/form/BasicEditAction';
 
 class ChapterItem extends Component {
   state = {
@@ -26,13 +28,6 @@ class ChapterItem extends Component {
     this.props.onDeleteRow(this.props.chapter._id);
   };
 
-  renderExpand = () => {
-    const { chapter } = this.props;
-    if (!chapter.subChapters.length) return null;
-
-    return this.state.open ? <ExpandLess /> : <ExpandMore />;
-  };
-
   renderName = () => {
     const { chapter } = this.props;
     return (
@@ -40,6 +35,35 @@ class ChapterItem extends Component {
         <span>{chapter.name}</span>
       </Tooltip>
     );
+  };
+
+  renderEditAction = () => {
+    const { chapter } = this.props;
+    return (
+      <BasicEditAction
+        resourceName="chapter"
+        resource={chapter}
+        modalComponent={SaveChapterModal}
+        innerProps={{ chapter }}
+      />
+    );
+  };
+
+  renderDeleteAction = () => {
+    return (
+      <DeleteRow
+        title="Delete confirmation"
+        description="Are you sure you want to delete this collection?"
+        onClick={this.onDeleteRow}
+      />
+    );
+  };
+
+  renderExpand = () => {
+    const { chapter } = this.props;
+    if (!chapter.subChapters.length) return null;
+
+    return this.state.open ? <ExpandLess /> : <ExpandMore />;
   };
 
   render() {
@@ -59,11 +83,8 @@ class ChapterItem extends Component {
             inset
             primary={this.renderName()}
           />
-          <DeleteRow
-            title="Delete confirmation"
-            description="Are you sure you want to delete this collection?"
-            onClick={this.onDeleteRow}
-          />
+          {this.renderEditAction()}
+          {this.renderDeleteAction()}
           {this.renderExpand()}
         </ListItem>
         <Collapse in={this.state.open} timeout="auto" unmountOnExit>

@@ -31,11 +31,17 @@ export class ChapterModel extends BaseModel {
     return errors;
   }
 
-  static forApi(chapter) {
-    return {
+  static forApi(chapter, extra = []) {
+    let result = {
       name: chapter.name,
       description: chapter.description,
       parentChapter: chapter.parentChapter,
     };
+
+    extra.forEach(key => {
+      result[key] = chapter[key];
+    });
+
+    return result;
   }
 }

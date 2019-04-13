@@ -52,7 +52,7 @@ class SaveChapterModal extends Component {
     await withSnackbar.call(
       this,
       chapterService.update,
-      [values._id, ChapterModel.forApi(values)],
+      [values._id, ChapterModel.forApi(values, ['_id'])],
       'Chapter updated!',
     );
     await this.refreshChapters();
