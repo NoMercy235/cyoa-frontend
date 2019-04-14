@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import * as PropTypes from 'prop-types';
 import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
 import StoryContent from '../components/StoryContent';
-import { chapterService } from '../../../../infrastructure/services/ChapterService';
+import { publicChapterService } from '../../../../infrastructure/services/ChapterService';
 
 class ReadStoryContainer extends Component {
   state = { canRender: false, story: null, chapters: [] };
@@ -18,8 +18,8 @@ class ReadStoryContainer extends Component {
 
   getChapters = async () => {
     const params = { ':story': this.props.match.params.storyId };
-    chapterService.setNextRouteParams(params);
-    const chapters = await chapterService.list({});
+    publicChapterService.setNextRouteParams(params);
+    const chapters = await publicChapterService.list({});
     this.setState({ chapters, canRender: true });
   };
 

@@ -29,4 +29,22 @@ class ChapterService extends BaseService {
   };
 }
 
+
+class PublicChapterService extends BaseService {
+  endpoint = 'public/chapter/:story';
+
+  list = (filters = defaultFilters) => {
+    return super.list(filters).then(chapters => {
+      return chapters.map(c => {
+        const chapter = new ChapterModel(c);
+        chapter.subChapters = chapter.subChapters.map(subChapter => {
+          return new ChapterModel(subChapter);
+        });
+        return chapter;
+      });
+    });
+  };
+}
+
 export const chapterService = new ChapterService();
+export const publicChapterService = new PublicChapterService();
