@@ -14,9 +14,11 @@ import { observer } from 'mobx-react';
 import { renderSequenceTableTitle } from './SequenceTableTitle';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import BasicReorderAction from '../../../../../../shared/components/form/BasicReorderAction';
-import YesIcon from '@material-ui/icons/Check';
+import ForwardIcon from '@material-ui/icons/Forward';
+import BlockIcon from '@material-ui/icons/Block';
 import { parseContent } from '../../../../../../shared/utilities';
 import { chapterService } from '../../../../../../infrastructure/services/ChapterService';
+import Tooltip from '@material-ui/core/Tooltip';
 
 @observer
 class SequenceTableCmp extends Component {
@@ -87,12 +89,22 @@ class SequenceTableCmp extends Component {
 
   isStartSeq = seq => this.props.story.startSeq === seq._id;
 
-  renderIsStartSequence = seq => {
-    return this.isStartSeq(seq) ? <YesIcon color="primary"/> : null;
-  };
-
-  renderIsEndingSequence = seq => {
-    return seq.isEnding ? <YesIcon color="primary"/> : null;
+  renderType = seq => {
+    if (this.isStartSeq(seq)) {
+      return (
+        <Tooltip title="Starting sequence">
+          <ForwardIcon color="primary"/>
+        </Tooltip>
+      );
+    } else if (seq.isEnding) {
+      return (
+        <Tooltip title="Ending sequence">
+          <BlockIcon color="secondary"/>
+        </Tooltip>
+      );
+    } else {
+      return null;
+    }
   };
 
   getAllChapters = async () => {
@@ -109,8 +121,7 @@ class SequenceTableCmp extends Component {
       return [
         s._id,
         s.name,
-        this.renderIsStartSequence(s),
-        this.renderIsEndingSequence(s),
+        this.renderType(s),
         this.getActions(s, i)];
     });
 

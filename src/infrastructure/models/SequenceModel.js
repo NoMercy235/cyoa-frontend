@@ -42,8 +42,7 @@ export class SequenceModel extends BaseModel {
     return [
       { name: 'Id', options: { display: 'excluded' } },
       { name: 'Name' },
-      { name: 'Start' },
-      { name: 'End' },
+      { name: 'Type' },
       {
         name: '',
         options: { filter: false, sort: false },
