@@ -6,6 +6,7 @@ export const styles = theme => ({
     display: 'flex',
   },
   appBar: {
+    zIndex: 1101, // Fix for header displaying under page elements
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
