@@ -19,13 +19,14 @@ class DisplaySequence extends Component {
 
   renderTitle = () => {
     const { sequence } = this.state;
-    const { chapters, player } = this.props;
+    const { chapters, player, story } = this.props;
 
     return (
       <DisplaySequenceTitle
         player={player}
         sequence={sequence}
         chapters={chapters}
+        story={story}
       />
     );
   };

@@ -7,14 +7,16 @@ import Avatar from '@material-ui/core/Avatar';
 import ToysIcon from '@material-ui/icons/Toys';
 import styles from './DisplaySequence.module.scss';
 import { ChapterModel } from '../../../../../infrastructure/models/ChapterModel';
+import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 
 class DisplaySequenceTitle extends Component {
   renderChapterName = () => {
-    const { sequence, chapters } = this.props;
-    if (!sequence.chapter) return null;
-    const chapter = chapters.find(c => c._id === sequence.chapter);
+    const { sequence, chapters, story } = this.props;
+    const displayName = sequence.chapter
+      ? chapters.find(c => c._id === sequence.chapter).name
+      : story.name;
     return (
-      <span>{chapter.name}&nbsp;-&nbsp;</span>
+      <span>{displayName}&nbsp;-&nbsp;</span>
     );
   };
 
@@ -58,6 +60,7 @@ DisplaySequenceTitle.propTypes = {
   chapters: PropTypes.arrayOf(PropTypes.instanceOf(ChapterModel)).isRequired,
   player: PropTypes.instanceOf(PlayerModel).isRequired,
   sequence: PropTypes.instanceOf(SequenceModel).isRequired,
+  story: PropTypes.instanceOf(StoryModel).isRequired,
 };
 
 export default DisplaySequenceTitle;
