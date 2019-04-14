@@ -40,6 +40,10 @@ class Select extends Component {
     this.handleChange({ target: { value, name: formikField.name }});
   };
 
+  static getDerivedStateFromProps(nextProps){
+    return { selected: nextProps.formikField.value};
+  }
+
   render() {
     const { className, label, items, formikField, helperText, classes, multiple } = this.props;
     const { selected } = this.state;
