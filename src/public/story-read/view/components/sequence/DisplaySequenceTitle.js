@@ -16,7 +16,9 @@ class DisplaySequenceTitle extends Component {
       ? chapters.find(c => c._id === sequence.chapter).name
       : story.name;
     return (
-      <span>{displayName}&nbsp;-&nbsp;</span>
+      <span className={styles.displayName}>
+        {displayName}
+      </span>
     );
   };
 
@@ -48,10 +50,12 @@ class DisplaySequenceTitle extends Component {
     if (!sequence) return '';
 
     return (
-      <Fragment>
+      <div className={styles.titleContainer}>
         {this.renderChapterName()}
-        {player.attributes.map(this.renderAttribute)}
-      </Fragment>
+        <div className={styles.attributesContainer}>
+          {player.attributes.map(this.renderAttribute)}
+        </div>
+      </div>
     );
   }
 }

@@ -52,9 +52,7 @@ class StoryBox extends Component {
               className={classes.coverPic}
               src={coverPic || notFoundImg}
             />
-            <CardContent>
-              {parseContent(story.longDescription)}
-            </CardContent>
+            {parseContent(story.longDescription)}
           </div>
         </Collapse>
       </Card>

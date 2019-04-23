@@ -4,6 +4,7 @@ const openedDrawerAppMargin = 24;
 export const styles = theme => ({
   root: {
     display: 'flex',
+    height: '100%',
   },
   appBar: {
     zIndex: 1101, // Fix for header displaying under page elements

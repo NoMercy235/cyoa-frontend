@@ -21,13 +21,14 @@ export const styles = theme => ({
     backgroundColor: red[500],
   },
   coverPic: {
+    float: 'left',
     maxWidth: 300,
     maxHeight: 300,
-    margin: 10,
+    marginRight: theme.spacing.unit * 2,
     borderRadius: '15%',
   },
   expandedContainer: {
-    display: 'flex',
+    padding: theme.spacing.unit,
   },
   readStoryLabel: {
     marginRight: theme.spacing.unit,

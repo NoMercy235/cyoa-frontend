@@ -18,11 +18,27 @@
 }
 
 .scenePic {
-  max-width: 50vw;
+  max-width: 100%;
   border-radius: 25px;
   padding-right: 10px;
 }
 
 div.card {
   overflow: auto;
+}
+
+.titleContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .displayName {
+    text-align: center;
+  }
+
+  .attributesContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
 }
