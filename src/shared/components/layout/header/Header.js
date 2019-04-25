@@ -8,11 +8,20 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { styles } from '../Styles.css';
-import Authentication from './Authentication';
+import { inject, observer } from 'mobx-react';
+import { appStorePropTypes } from '../../../store/AppStore';
 
+@inject('appStore')
+@observer
 class Header extends Component {
   render() {
-    const { classes, onHandleDrawerOpened } = this.props;
+    const {
+      classes,
+      onHandleDrawerOpened,
+      appStore: {
+        HeaderCmp,
+      },
+    } = this.props;
 
     return (
       <Fragment>
@@ -38,7 +47,7 @@ class Header extends Component {
             >
               Choose your own adventure!
             </Typography>
-            <Authentication />
+            {HeaderCmp && <HeaderCmp />}
           </Toolbar>
         </AppBar>
       </Fragment>
@@ -49,6 +58,7 @@ class Header extends Component {
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
   onHandleDrawerOpened: PropTypes.func.isRequired,
+  appStore: appStorePropTypes,
 };
 
 export default withStyles(styles)(Header);

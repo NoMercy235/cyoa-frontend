@@ -7,6 +7,7 @@ const makeRandomId = function () {
 };
 
 class AppStore {
+  @observable HeaderCmp;
   @observable user;
   localId = '';
 
@@ -25,6 +26,14 @@ class AppStore {
 
   @action setUser(user) {
     this.user = user;
+  }
+
+  @action loadHeader(cmp) {
+    this.HeaderCmp = cmp;
+  }
+
+  @action unloadHeader() {
+    this.HeaderCmp = null;
   }
 
   @computed get isLoggedIn() {

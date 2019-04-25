@@ -28,11 +28,24 @@ class StoryService extends BaseService {
 
 class PublicStoryService extends BaseService {
   endpoint = 'public/story';
+  quickEndpoint = 'public/story/quick';
 
   list = (filters = {}) => {
     return super.list(filters).then(stories => {
       return stories.map(s => new StoryModel(s));
     });
+  };
+
+  quickList = async (value) => {
+    const quickSearch = `quickSearch=${value}`;
+    const url = `${this.quickEndpoint}?${quickSearch}`;
+
+    return await this.client
+      .get(url)
+      .then(BaseService.onSuccess)
+      .then(stories => {
+        return stories.map(s => new StoryModel(s));
+      });
   };
 
   get = (id, options) => {

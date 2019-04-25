@@ -3,8 +3,14 @@
   overflow: auto;
   display: flex;
   flex-direction: column;
+  padding: 2px;
 
   div:not(:last-of-type) {
     margin-bottom: 10px;
   }
+}
+
+.filtersContainer {
+  margin: 10px 2px;
+  padding: 10px;
 }

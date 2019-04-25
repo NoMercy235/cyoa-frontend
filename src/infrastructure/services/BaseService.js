@@ -73,23 +73,8 @@ export class BaseService {
   list(filters = {}, sort = {}) {
     let query = '';
 
-    Object.keys(filters).forEach(key => {
-      if (BaseService.isSpecialField(key)) {
-        query += encodeURIComponent(`filter[${key}]`) + `=${filters[key]}&`;
-        return;
-      }
-      const a = encodeURIComponent(`filter[${key}][op]`) + `=${filters[key].op}`;
-      const b = encodeURIComponent(`filter[${key}][value]`) + `=${filters[key].value}`;
-      const options = JSON.stringify(filters[key].options || {});
-      const c = encodeURIComponent(`filter[${key}][options]`) + `=${options}`;
-      query += [a, b, c, ''].join('&');
-    });
-
-    Object.keys(sort).forEach(key => {
-      const a = encodeURIComponent('sort[field]') + `=${key}`;
-      const b = encodeURIComponent('sort[order]') + `=${sort[key]}`;
-      query += [a, b, ''].join('&');
-    });
+    query += BaseService.parseFilters(filters);
+    query += BaseService.parseSort(sort);
 
     let url = this.withRouteParams(this.endpoint + '?' + query);
     return this.client.get(url).then(BaseService.onSuccess);
@@ -145,5 +130,31 @@ export class BaseService {
 
   static isSpecialField(field) {
     return /^[$|_]/.test(field);
+  }
+
+  static parseFilters (filters) {
+    let result = '';
+    Object.keys(filters).forEach(key => {
+      if (BaseService.isSpecialField(key)) {
+        result += encodeURIComponent(`filter[${key}]`) + `=${filters[key]}&`;
+        return;
+      }
+      const a = encodeURIComponent(`filter[${key}][op]`) + `=${filters[key].op}`;
+      const b = encodeURIComponent(`filter[${key}][value]`) + `=${filters[key].value}`;
+      const options = JSON.stringify(filters[key].options || {});
+      const c = encodeURIComponent(`filter[${key}][options]`) + `=${options}`;
+      result += [a, b, c, ''].join('&');
+    });
+    return result;
+  }
+
+  static parseSort (sort) {
+    let result = '';
+    Object.keys(sort).forEach(key => {
+      const a = encodeURIComponent('sort[field]') + `=${key}`;
+      const b = encodeURIComponent('sort[order]') + `=${sort[key]}`;
+      result += [a, b, ''].join('&');
+    });
+    return result;
   }
 }

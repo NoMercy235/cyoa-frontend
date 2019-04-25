@@ -4,11 +4,11 @@ import { publicStoryService } from '../../../../infrastructure/services/StorySer
 import { inject, observer } from 'mobx-react';
 import { publicStoryStorePropTypes } from '../../stores/PublicStoryStore';
 import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
-import classes from './LandingContainer.module.scss';
-import StoryFilters from '../components/story-filters/StoryFilters';
 import { BaseService } from '../../../../infrastructure/services/BaseService';
+import { appStorePropTypes } from '../../../../shared/store/AppStore';
+import FiltersContainer from './FiltersContainer';
 
-@inject('publicStoryStore')
+@inject('publicStoryStore', 'appStore')
 @observer
 class LandingContainer extends Component {
   getStories = async filters => {
@@ -37,21 +37,21 @@ class LandingContainer extends Component {
 
   componentDidMount () {
     this.getStories();
+    this.props.appStore.loadHeader(FiltersContainer);
+  }
+
+  componentWillUnmount () {
+    this.props.appStore.unloadHeader(FiltersContainer);
   }
 
   render() {
-    const { publicStoryStore } = this.props;
+    const { publicStoryStore: { stories } } = this.props;
     return (
       <Fragment>
         <Breadcrumb/>
-        <div className={classes.container}>
-          <StoryFilters
-            onSearch={this.onSearch}
-          />
-          <LandingCmp
-            stories={publicStoryStore.stories}
-          />
-        </div>
+        <LandingCmp
+          stories={stories}
+        />
       </Fragment>
     );
   }
@@ -59,6 +59,7 @@ class LandingContainer extends Component {
 
 LandingContainer.propTypes = {
   publicStoryStore: publicStoryStorePropTypes,
+  appStore: appStorePropTypes,
 };
 
 export default LandingContainer;
