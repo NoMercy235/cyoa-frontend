@@ -20,7 +20,7 @@ class AdvancedFiltersCmp extends Component {
         anchor="top"
         open={open}
         onClose={onHandleDrawerClose}
-        classes={{ paper: classes.drawer }}
+        classes={{ paper: classes.advancedFiltersDrawer }}
       >
         <StoryFilters
           initialValues={currentAdvancedFilters}

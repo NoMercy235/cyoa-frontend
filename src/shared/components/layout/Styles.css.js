@@ -24,14 +24,14 @@ export const styles = theme => ({
     marginLeft: 12,
     marginRight: 20,
   },
-  drawer: {
+  sideMenu: {
     width: drawerWidth,
     flexShrink: 0,
     [`@media (max-width: ${SCREEN_MAX_WIDTH_SM}px)`]: {
       width: '100%',
     },
   },
-  drawerHeader: {
+  sideMenuHeader: {
     display: 'flex',
     alignItems: 'center',
     padding: '0 8px',

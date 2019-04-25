@@ -1,4 +1,5 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import { SCREEN_MIN_WIDTH_LG } from '../../../../../shared/constants/global';
 
 export const styles = theme => ({
   search: {
@@ -44,5 +45,11 @@ export const styles = theme => ({
   },
   advancedFilters: {
     cursor: 'pointer',
+  },
+  advancedFiltersDrawer: {
+    [`@media (min-width: ${SCREEN_MIN_WIDTH_LG}px)`]: {
+      width: '50%',
+      left: '25%',
+    },
   },
 });

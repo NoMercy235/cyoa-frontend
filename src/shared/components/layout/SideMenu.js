@@ -63,9 +63,9 @@ class SideMenu extends Component {
         <Drawer
           open={open}
           onClose={onHandleDrawerClose}
-          classes={{ paper: classes.drawer }}
+          classes={{ paper: classes.sideMenu }}
         >
-          <div className={classes.drawerHeader}>
+          <div className={classes.sideMenuHeader}>
             <IconButton onClick={onHandleDrawerClose}>
               <ChevronLeftIcon />
             </IconButton>
