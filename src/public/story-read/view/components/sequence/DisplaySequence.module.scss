@@ -1,16 +1,14 @@
-.optionContainer {
-  display: flex;
-  flex-direction: column;
-}
-
 .endingContainer {
   padding: 10px;
 }
 
-.option {
-  margin: 5px 0 5px 0;
-  justify-content: flex-start !important;
-  padding: 10px !important;
+.optionsContainer {
+  width: 100%;
+
+  .option:hover {
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.08);
+  }
 }
 
 .chip {

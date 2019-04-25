@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { OptionModel } from '../../../../../infrastructure/models/OptionModel';
-import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 import styles from './DisplaySequence.module.scss';
 import { PlayerModel } from '../../../../../infrastructure/models/PlayerModel';
-import Typography from '@material-ui/core/Typography';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 
 class OptionChoice extends Component {
   onOptionClick = () => {
-    this.props.onOptionClick(this.props.option);
+    const { option, onOptionClick } = this.props;
+    onOptionClick(option);
   };
 
+  // This is not needed for now, but it might be in the future
+  // so it will be left here
   hasInsufficient = () => {
     const { option, player } = this.props;
     const needed = option.consequences
@@ -31,30 +35,23 @@ class OptionChoice extends Component {
     return !!needed.length;
   };
 
-  renderLabel = () => {
-    let label = this.props.option.action;
-
-    return (
-      <Typography
-        variant="h6"
-        color="inherit"
-      >
-        {label}
-      </Typography>
-    );
-  };
-
   render() {
-    if(this.hasInsufficient()) return null;
+    const {
+      option: {
+        action: label,
+      },
+    } = this.props;
 
     return (
-      <Chip
-        icon={<FaceIcon />}
-        label={this.renderLabel()}
-        onClick={this.onOptionClick}
+      <ListItem
         className={styles.option}
-        color="primary"
-      />
+        onClick={this.onOptionClick}
+      >
+        <ListItemIcon>
+          <FaceIcon color="primary" fontSize="large" />
+        </ListItemIcon>
+        <ListItemText primary={label} />
+      </ListItem>
     );
   }
 }

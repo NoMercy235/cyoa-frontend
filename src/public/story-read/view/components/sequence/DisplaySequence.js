@@ -13,6 +13,7 @@ import { PlayerModel } from '../../../../../infrastructure/models/PlayerModel';
 import DisplaySequenceTitle from './DisplaySequenceTitle';
 import { parseContent } from '../../../../../shared/utilities';
 import { ChapterModel } from '../../../../../infrastructure/models/ChapterModel';
+import List from '@material-ui/core/List';
 
 class DisplaySequence extends Component {
   state = { sequence: null };
@@ -78,7 +79,7 @@ class DisplaySequence extends Component {
           {this.renderContent()}
         </CardContent>
         <CardActions disableActionSpacing>
-          <div className={styles.optionContainer}>
+          <List className={styles.optionsContainer}>
             {!sequence.isEnding && sequence.options.map(o => (
               <OptionChoice
                 key={o._id}
@@ -87,7 +88,7 @@ class DisplaySequence extends Component {
                 onOptionClick={onOptionClick}
               />
             ))}
-          </div>
+          </List>
         </CardActions>
         <DisplayEnding
           sequence={sequence}
