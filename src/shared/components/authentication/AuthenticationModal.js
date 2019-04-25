@@ -43,11 +43,14 @@ class AuthenticationModal extends Component {
   };
 
   authenticate = response => {
+    const { appStore, onSuccess, onClose } = this.props;
+
     localStorage.setItem('jwt', response.token);
-    this.props.appStore.setUser(
+    appStore.setUser(
       new UserModel(response.user)
     );
-    this.props.onClose();
+    onSuccess();
+    onClose();
   };
 
   login = async (values) => {
@@ -175,6 +178,7 @@ AuthenticationModal.propTypes = {
   classes: PropTypes.object,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func.isRequired,
   appStore: appStorePropTypes,
 };
 

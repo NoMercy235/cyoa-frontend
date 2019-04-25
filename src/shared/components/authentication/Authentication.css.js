@@ -8,4 +8,11 @@ export const styles = theme => ({
     fontWeight: 'bold',
     cursor: 'pointer',
   },
+  mainAuthArea: {
+    flex: 1,
+  },
+  userEmail: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
 });

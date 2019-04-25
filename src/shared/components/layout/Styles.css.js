@@ -1,6 +1,6 @@
 import { SCREEN_MAX_WIDTH_SM } from '../../constants/global';
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 
 export const styles = theme => ({
   root: {
@@ -16,9 +16,6 @@ export const styles = theme => ({
   },
   appTitle: {
     flexGrow: 1,
-  },
-  authButton: {
-    marginRight: theme.spacing.unit * 3,
   },
   menuButton: {
     marginLeft: 12,
@@ -36,7 +33,6 @@ export const styles = theme => ({
     alignItems: 'center',
     padding: '0 8px',
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
   },
   content: {
     display: 'flex',

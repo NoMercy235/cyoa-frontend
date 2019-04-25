@@ -10,12 +10,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
+import InfoIcon from '@material-ui/icons/Info';
 import { styles } from './Styles.css';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { appStorePropTypes } from '../../store/AppStore';
 import { ADMIN_STORIES_ROUTE } from '../../constants/routes';
 import ViewStoryIcon from '@material-ui/icons/Pageview';
+import Authentication from '../authentication/Authentication';
 
 const publicMenu = [
   {
@@ -32,7 +34,6 @@ const adminMenu = [
     label: 'My stories',
     route: ADMIN_STORIES_ROUTE,
     icon: <ViewStoryIcon />,
-    condition: (appStore) => appStore.isLoggedIn,
   },
 ];
 
@@ -55,8 +56,41 @@ class SideMenu extends Component {
     return <Item key={item.name} />;
   };
 
+  renderAuthenticationComponent = () => {
+    const { onHandleDrawerClose } = this.props;
+    return <Authentication onAuthSuccessful={onHandleDrawerClose}/>;
+  };
+
+  renderAuthentication = () => {
+    return (
+      <ListItem
+        button
+        component={this.renderAuthenticationComponent}
+      >
+        <ListItemIcon>
+          <HomeIcon/>
+        </ListItemIcon>
+      </ListItem>
+    );
+  };
+
+  renderAdminMenu = () => {
+    const { appStore: { isLoggedIn } } = this.props;
+    if (!isLoggedIn) {
+      return (
+        <ListItem>
+          <ListItemIcon>
+            <InfoIcon/>
+          </ListItemIcon>
+          <ListItemText primary="Log in to use additional features"/>
+        </ListItem>
+      );
+    }
+    return adminMenu.map(this.renderItem);
+  };
+
   render() {
-    const { classes, appStore, open, onHandleDrawerClose } = this.props;
+    const { classes, open, onHandleDrawerClose } = this.props;
 
     return (
       <Fragment>
@@ -66,6 +100,7 @@ class SideMenu extends Component {
           classes={{ paper: classes.sideMenu }}
         >
           <div className={classes.sideMenuHeader}>
+            {this.renderAuthentication()}
             <IconButton onClick={onHandleDrawerClose}>
               <ChevronLeftIcon />
             </IconButton>
@@ -76,9 +111,7 @@ class SideMenu extends Component {
           </List>
           <Divider />
           <List>
-            {adminMenu
-              .filter(item => item.condition(appStore))
-              .map(this.renderItem)}
+            {this.renderAdminMenu()}
           </List>
         </Drawer>
       </Fragment>
