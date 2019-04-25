@@ -21,7 +21,6 @@ class DisplaySequence extends Component {
   cardRef = React.createRef();
 
   scrollToCardTop = () => {
-    console.log(this.cardRef);
     this.cardRef.current.scrollTop = 0;
   };
 
