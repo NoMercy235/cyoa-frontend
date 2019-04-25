@@ -6,15 +6,18 @@ import { inject } from 'mobx-react';
 import { publicStoryStorePropTypes } from '../../stores/PublicStoryStore';
 import AdvancedFiltersCmp from '../components/story-filters/AdvancedFilters';
 
+const advancedFilterInitialValues = {
+  tags: [],
+  titleOrDescription: '',
+  authorShort: '',
+};
+
 @inject('publicStoryStore')
 class FiltersContainer extends Component {
   state = {
+    quickSearchValue: '',
     isAdvancedFiltersDrawerOpened: false,
-    currentAdvancedFilters: {
-      tags: [],
-      titleOrDescription: '',
-      authorShort: '',
-    },
+    currentAdvancedFilters: advancedFilterInitialValues,
   };
 
   setStories = stories => {
@@ -28,6 +31,10 @@ class FiltersContainer extends Component {
   };
 
   onQuickSearch = async ({ target: { value } }) => {
+    this.setState({
+      quickSearchValue: value,
+      currentAdvancedFilters: advancedFilterInitialValues,
+    });
     this.setStories(
       await publicStoryService.quickList(value),
     );
@@ -37,6 +44,7 @@ class FiltersContainer extends Component {
     this.setState({
       currentAdvancedFilters: { ...values },
       isAdvancedFiltersDrawerOpened: false,
+      quickSearchValue: '',
     });
 
     const parsedValues = {
@@ -65,6 +73,7 @@ class FiltersContainer extends Component {
 
   render() {
     const {
+      quickSearchValue,
       isAdvancedFiltersDrawerOpened,
       currentAdvancedFilters,
     } = this.state;
@@ -72,6 +81,7 @@ class FiltersContainer extends Component {
     return (
       <>
         <FiltersCmp
+          quickSearchValue={quickSearchValue}
           onQuickSearch={this.onQuickSearch}
           onOpenAdvancedFilters={this.onSwitchAdvancedFilters(true)}
         />

@@ -11,6 +11,7 @@ class FiltersCmp extends Component {
   render() {
     const {
       classes,
+      quickSearchValue,
       onQuickSearch,
       onOpenAdvancedFilters,
     } = this.props;
@@ -34,6 +35,7 @@ class FiltersCmp extends Component {
               root: classes.inputRoot,
               input: classes.inputInput,
             }}
+            value={quickSearchValue}
           />
         </div>
       </>
@@ -43,6 +45,7 @@ class FiltersCmp extends Component {
 
 FiltersCmp.propTypes = {
   classes: PropTypes.object.isRequired,
+  quickSearchValue: PropTypes.string.isRequired,
   onQuickSearch: PropTypes.func.isRequired,
   onOpenAdvancedFilters: PropTypes.func.isRequired,
 };
