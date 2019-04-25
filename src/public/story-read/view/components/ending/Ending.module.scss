@@ -1,7 +1,13 @@
-.actionsContainer {
-  display: flex;
+div.card {
+  overflow: auto;
+  scroll-behavior: smooth;
 
-  & > button:not(:last-of-type) {
-    margin-right: 10px;
+  .actionsContainer {
+    display: flex;
+
+    & > button:not(:last-of-type) {
+      margin-right: 10px;
+    }
   }
 }
+

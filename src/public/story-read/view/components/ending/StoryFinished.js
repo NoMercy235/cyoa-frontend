@@ -58,7 +58,7 @@ class StoryFinished extends Component {
 
   render() {
     return (
-      <Card>
+      <Card classes={{ root: styles.card }}>
         <CardHeader title={this.getTitle()}/>
         <CardContent>
           {this.getContentText()}

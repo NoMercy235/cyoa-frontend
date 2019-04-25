@@ -14,9 +14,16 @@ import DisplaySequenceTitle from './DisplaySequenceTitle';
 import { parseContent } from '../../../../../shared/utilities';
 import { ChapterModel } from '../../../../../infrastructure/models/ChapterModel';
 import List from '@material-ui/core/List';
+import RootRef from '@material-ui/core/RootRef';
 
 class DisplaySequence extends Component {
   state = { sequence: null };
+  cardRef = React.createRef();
+
+  scrollToCardTop = () => {
+    console.log(this.cardRef);
+    this.cardRef.current.scrollTop = 0;
+  };
 
   renderTitle = () => {
     const { sequence } = this.state;
@@ -56,9 +63,10 @@ class DisplaySequence extends Component {
     this.setState({ sequence });
   };
 
-  componentDidUpdate () {
+  async componentDidUpdate () {
     if (this.props.seq !== this.state.sequence._id) {
-      this.getSequence();
+      await this.getSequence();
+      this.scrollToCardTop();
     }
   }
 
@@ -72,29 +80,33 @@ class DisplaySequence extends Component {
     const { onOptionClick, player } = this.props;
 
     return (
-      <Card className={styles.card}>
-        <CardHeader title={this.renderTitle()}/>
-        <CardContent>
-          {this.renderPicture()}
-          {this.renderContent()}
-        </CardContent>
-        <CardActions disableActionSpacing>
-          <List className={styles.optionsContainer}>
-            {!sequence.isEnding && sequence.options.map(o => (
-              <OptionChoice
-                key={o._id}
-                option={o}
-                player={player}
-                onOptionClick={onOptionClick}
-              />
-            ))}
-          </List>
-        </CardActions>
-        <DisplayEnding
-          sequence={sequence}
-          onHandleClick={onOptionClick}
-        />
-      </Card>
+      <RootRef rootRef={this.cardRef}>
+        <Card classes={{ root: styles.card }}>
+          <CardHeader title={this.renderTitle()}/>
+          <CardContent>
+            {this.renderPicture()}
+            {this.renderContent()}
+          </CardContent>
+          <CardActions disableActionSpacing>
+            <List className={styles.optionsContainer}>
+              {!sequence.isEnding && sequence.options.map(o => (
+                <OptionChoice
+                  key={o._id}
+                  option={o}
+                  player={player}
+                  onOptionClick={onOptionClick}
+                />
+              ))}
+              {sequence.isEnding && (
+                <DisplayEnding
+                  sequence={sequence}
+                  onHandleClick={onOptionClick}
+                />
+              )}
+            </List>
+          </CardActions>
+        </Card>
+      </RootRef>
     );
   }
 }
