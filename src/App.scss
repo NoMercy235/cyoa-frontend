@@ -2,7 +2,7 @@
 @import '~axios-progress-bar/dist/nprogress.css';
 
 #nprogress .bar {
-  z-index: 1100 !important;
+  z-index: 999999 !important;
   background: red !important;
 }
 
