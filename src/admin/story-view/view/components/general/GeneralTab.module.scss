@@ -1,4 +1,7 @@
+@import "../../../../../variables.scss";
+
 .coverPic {
+  float: left;
   max-width: 100%;
   max-height: 300px;
   border-radius: 15%;
@@ -6,6 +9,10 @@
 }
 
 .longDescriptionContainer {
-  display: flex;
+  //display: flex;
   margin-top: 10px;
+
+  @media screen and (max-width: $SCREEN_MAX_WIDTH_SM) {
+    flex-direction: column;
+  }
 }

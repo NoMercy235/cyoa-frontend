@@ -23,9 +23,7 @@ class GeneralTab extends Component {
             className={styles.coverPic}
             src={story.coverPic || notFoundImg}
           />
-          <div>
-            {parseContent(story.longDescription)}
-          </div>
+          {parseContent(story.longDescription)}
         </div>
       </Fragment>
     );
