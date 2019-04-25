@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import MUIDrawer from '@material-ui/core/Drawer';
+import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -38,7 +38,7 @@ const adminMenu = [
 
 @inject('appStore')
 @observer
-class Drawer extends Component {
+class SideMenu extends Component {
   onItemClick = (item, history) => () => {
     history.push(item.route);
     this.props.onHandleDrawerClose();
@@ -60,7 +60,7 @@ class Drawer extends Component {
 
     return (
       <Fragment>
-        <MUIDrawer
+        <Drawer
           open={open}
           onClose={onHandleDrawerClose}
           classes={{ paper: classes.drawer }}
@@ -80,17 +80,17 @@ class Drawer extends Component {
               .filter(item => item.condition(appStore))
               .map(this.renderItem)}
           </List>
-        </MUIDrawer>
+        </Drawer>
       </Fragment>
     );
   }
 }
 
-Drawer.propTypes = {
+SideMenu.propTypes = {
   open: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   onHandleDrawerClose: PropTypes.func.isRequired,
   appStore: appStorePropTypes,
 };
 
-export default withStyles(styles)(Drawer);
+export default withStyles(styles)(SideMenu);

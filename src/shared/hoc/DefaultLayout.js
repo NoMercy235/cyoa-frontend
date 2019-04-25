@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Header from '../components/layout/header/Header';
-import Drawer from '../components/layout/Drawer';
+import Drawer from '../components/layout/SideMenu';
 import { styles } from '../components/layout/Styles.css';
 
 export function withDefaultLayout(InnerComponent) {

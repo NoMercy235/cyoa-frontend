@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { styles } from './Filters.css';
 import { withStyles } from '@material-ui/core';
 import * as PropTypes from 'prop-types';
-import MUIDrawer from '@material-ui/core/Drawer';
+import Drawer from '@material-ui/core/Drawer';
 import StoryFilters from './StoryFilters';
 
 class AdvancedFiltersCmp extends Component {
@@ -16,7 +16,7 @@ class AdvancedFiltersCmp extends Component {
     } = this.props;
 
     return (
-      <MUIDrawer
+      <Drawer
         anchor="top"
         open={open}
         onClose={onHandleDrawerClose}
@@ -26,7 +26,7 @@ class AdvancedFiltersCmp extends Component {
           initialValues={currentAdvancedFilters}
           onSearch={onAdvancedSearch}
         />
-      </MUIDrawer>
+      </Drawer>
     );
   }
 }
