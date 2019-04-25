@@ -15,7 +15,11 @@ class StoryFiltersForm extends Component {
 
   resetFilters = () => {
     const { formik } = this.props;
-    formik.resetForm();
+    formik.resetForm({
+      tags: [],
+      titleOrDescription: '',
+      authorShort: '',
+    });
     formik.submitForm();
   };
 

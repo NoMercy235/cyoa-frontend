@@ -1,12 +1,22 @@
 import React, { Component } from 'react';
-import FiltersCmp from '../components/landing/FiltersCmp';
+import FiltersCmp from '../components/story-filters/FiltersCmp';
 import { BaseService } from '../../../../infrastructure/services/BaseService';
 import { publicStoryService } from '../../../../infrastructure/services/StoryService';
 import { inject } from 'mobx-react';
 import { publicStoryStorePropTypes } from '../../stores/PublicStoryStore';
+import AdvancedFiltersCmp from '../components/story-filters/AdvancedFilters';
 
 @inject('publicStoryStore')
 class FiltersContainer extends Component {
+  state = {
+    isAdvancedFiltersDrawerOpened: false,
+    currentAdvancedFilters: {
+      tags: [],
+      titleOrDescription: '',
+      authorShort: '',
+    },
+  };
+
   setStories = stories => {
     this.props.publicStoryStore.setStories(stories);
   };
@@ -23,7 +33,12 @@ class FiltersContainer extends Component {
     );
   };
 
-  onSearch = async values => {
+  onAdvancedSearch = async values => {
+    this.setState({
+      currentAdvancedFilters: { ...values },
+      isAdvancedFiltersDrawerOpened: false,
+    });
+
     const parsedValues = {
       name: values.titleOrDescription,
       description: values.titleOrDescription,
@@ -42,11 +57,31 @@ class FiltersContainer extends Component {
     await this.getStories(BaseService.withOrFilters(filters));
   };
 
+  onSwitchAdvancedFilters = state => () => {
+    this.setState({
+      isAdvancedFiltersDrawerOpened: state,
+    });
+  };
+
   render() {
+    const {
+      isAdvancedFiltersDrawerOpened,
+      currentAdvancedFilters,
+    } = this.state;
+
     return (
-      <FiltersCmp
-        onChange={this.onQuickSearch}
-      />
+      <>
+        <FiltersCmp
+          onQuickSearch={this.onQuickSearch}
+          onOpenAdvancedFilters={this.onSwitchAdvancedFilters(true)}
+        />
+        <AdvancedFiltersCmp
+          open={isAdvancedFiltersDrawerOpened}
+          currentAdvancedFilters={currentAdvancedFilters}
+          onAdvancedSearch={this.onAdvancedSearch}
+          onHandleDrawerClose={this.onSwitchAdvancedFilters(false)}
+        />
+      </>
     );
   }
 }

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import UIDrawer from '@material-ui/core/Drawer';
+import MUIDrawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -60,7 +60,7 @@ class Drawer extends Component {
 
     return (
       <Fragment>
-        <UIDrawer
+        <MUIDrawer
           open={open}
           onClose={onHandleDrawerClose}
           classes={{ paper: classes.drawer }}
@@ -80,7 +80,7 @@ class Drawer extends Component {
               .filter(item => item.condition(appStore))
               .map(this.renderItem)}
           </List>
-        </UIDrawer>
+        </MUIDrawer>
       </Fragment>
     );
   }

@@ -42,4 +42,7 @@ export const styles = theme => ({
       },
     },
   },
+  advancedFilters: {
+    cursor: 'pointer',
+  },
 });

@@ -6,14 +6,6 @@ import { Formik } from 'formik';
 import StoryFiltersForm from './StoryFiltersForm';
 
 class StoryFilters extends Component {
-  getInitialValues = () => {
-    return {
-      tags: [],
-      titleOrDescription: '',
-      authorShort: '',
-    };
-  };
-
   onSubmit = async (values, { setSubmitting }) => {
     await this.props.onSearch(values);
     setSubmitting(false);
@@ -24,11 +16,13 @@ class StoryFilters extends Component {
   };
 
   render() {
+    const {initialValues} = this.props;
+
     return (
       <Paper className={classes.container}>
         <Formik
           enableReinitialize={true}
-          initialValues={this.getInitialValues()}
+          initialValues={initialValues}
           onSubmit={this.onSubmit}
         >
           {this.renderForm}
@@ -39,6 +33,11 @@ class StoryFilters extends Component {
 }
 
 StoryFilters.propTypes = {
+  initialValues: PropTypes.shape({
+    tags: PropTypes.array.isRequired,
+    titleOrDescription: PropTypes.string.isRequired,
+    authorShort: PropTypes.string.isRequired,
+  }).isRequired,
   onSearch: PropTypes.func.isRequired,
 };
 
