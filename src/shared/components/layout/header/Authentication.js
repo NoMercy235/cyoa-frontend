@@ -90,4 +90,4 @@ Authentication.propTypes = {
   appStore: appStorePropTypes,
 };
 
-export default withStyles(styles, { withTheme: true })(Authentication);
+export default withStyles(styles)(Authentication);

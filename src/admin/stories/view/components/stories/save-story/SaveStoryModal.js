@@ -16,6 +16,7 @@ import { withSnackbar } from '../../../../../../shared/components/form/helpers';
 import { storyService } from '../../../../../../infrastructure/services/StoryService';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 import { TagModel } from '../../../../../../infrastructure/models/TagModel';
+import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
 
 @inject('storyStore')
 class SaveStoryModal extends Component {
@@ -152,4 +153,7 @@ SaveStoryModal.propTypes = {
   storyStore: storyStorePropTypes,
 };
 
-export default withStyles(styles, { withTheme: true })(SaveStoryModal);
+export default withStyles(theme => ({
+  ...styles(theme),
+  ...dialogDefaultCss(theme),
+}))(SaveStoryModal);

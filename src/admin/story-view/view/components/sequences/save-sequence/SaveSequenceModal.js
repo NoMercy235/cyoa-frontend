@@ -19,6 +19,7 @@ import { storyService } from '../../../../../../infrastructure/services/StorySer
 import { withRouter } from 'react-router-dom';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import { ChapterModel } from '../../../../../../infrastructure/models/ChapterModel';
+import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
 
 @inject('storyViewStore')
 class SaveSequenceModal extends Component {
@@ -200,6 +201,9 @@ SaveSequenceModal.propTypes = {
   storyViewStore: storyViewStorePropTypes,
 };
 
-export default withStyles(styles, { withTheme: true })(
+export default withStyles(theme => ({
+  ...styles(theme),
+  ...dialogDefaultCss(theme),
+}))(
   withRouter(SaveSequenceModal),
 );

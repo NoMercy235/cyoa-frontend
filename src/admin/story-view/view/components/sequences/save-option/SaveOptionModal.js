@@ -16,6 +16,7 @@ import { OptionModel } from '../../../../../../infrastructure/models/OptionModel
 import SaveOptionForm from './SaveOptionForm';
 import { styles } from './SaveOption.css';
 import { ConsequenceModel } from '../../../../../../infrastructure/models/ConsequenceModel';
+import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
 
 @inject('storyViewStore')
 class SaveOptionModal extends Component {
@@ -160,4 +161,7 @@ SaveOptionModal.propTypes = {
   storyViewStore: storyViewStorePropTypes,
 };
 
-export default withStyles(styles, { withTheme: true })(SaveOptionModal);
+export default withStyles(theme => ({
+  ...styles(theme),
+  ...dialogDefaultCss(theme),
+}))(SaveOptionModal);

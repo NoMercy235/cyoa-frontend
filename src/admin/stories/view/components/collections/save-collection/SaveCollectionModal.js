@@ -7,7 +7,6 @@ import { DialogTitle } from '../../../../../../shared/components/dialog/Title';
 import { DialogContent } from '../../../../../../shared/components/dialog/Content';
 import { DialogActions } from '../../../../../../shared/components/dialog/Actions';
 import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
-import { styles } from './SaveCollection.css';
 import SaveCollectionForm from './SaveCollectionForm';
 import { collectionService } from '../../../../../../infrastructure/services/CollectionService';
 import { CollectionModel } from '../../../../../../infrastructure/models/CollectionModel';
@@ -15,6 +14,7 @@ import { inject } from 'mobx-react';
 import { storyStorePropTypes } from '../../../../stores/StoryStore';
 import { withSnackbar } from '../../../../../../shared/components/form/helpers';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
+import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
 
 @inject('storyStore')
 class SaveCollectionModal extends Component {
@@ -141,4 +141,4 @@ SaveCollectionModal.propTypes = {
   storyStore: storyStorePropTypes,
 };
 
-export default withStyles(styles, { withTheme: true })(SaveCollectionModal);
+export default withStyles(dialogDefaultCss)(SaveCollectionModal);

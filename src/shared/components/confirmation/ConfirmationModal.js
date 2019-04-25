@@ -7,7 +7,7 @@ import { DialogContent } from '../dialog/Content';
 import { DialogActions } from '../dialog/Actions';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core';
-import { styles } from './ConfirmationModal.css';
+import { dialogDefaultCss } from '../dialog/Dialog.css';
 
 class ConfirmationModal extends Component {
   render() {
@@ -60,4 +60,4 @@ ConfirmationModal.propTypes = {
   appStore: appStorePropTypes,
 };
 
-export default withStyles(styles, { withTheme: true })(ConfirmationModal);
+export default withStyles(dialogDefaultCss)(ConfirmationModal);

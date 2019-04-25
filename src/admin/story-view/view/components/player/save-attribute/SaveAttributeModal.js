@@ -15,6 +15,7 @@ import { AttributeModel } from '../../../../../../infrastructure/models/Attribut
 import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
 import SaveAttributeForm from './SaveAttributeForm';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
+import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
 
 @inject('storyViewStore')
 class SaveAttributeModal extends Component {
@@ -142,4 +143,7 @@ SaveAttributeModal.propTypes = {
   storyViewStore: storyViewStorePropTypes,
 };
 
-export default withStyles(styles, { withTheme: true })(SaveAttributeModal);
+export default withStyles(theme => ({
+  ...styles(theme),
+  ...dialogDefaultCss(theme),
+}))(SaveAttributeModal);

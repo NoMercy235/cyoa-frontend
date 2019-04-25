@@ -88,4 +88,4 @@ ConsequenceForm.propTypes = {
   onRemoveConsequence: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(ConsequenceForm);
+export default withStyles(styles)(ConsequenceForm);

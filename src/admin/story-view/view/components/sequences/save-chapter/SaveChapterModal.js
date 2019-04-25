@@ -15,6 +15,7 @@ import { ChapterModel } from '../../../../../../infrastructure/models/ChapterMod
 import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
 import { chapterService } from '../../../../../../infrastructure/services/ChapterService';
 import SaveChapterForm from './SaveChapterForm';
+import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
 
 @inject('storyViewStore')
 class SaveChapterModal extends Component {
@@ -160,4 +161,7 @@ SaveChapterModal.propTypes = {
   storyViewStore: storyViewStorePropTypes,
 };
 
-export default withStyles(styles, { withTheme: true })(SaveChapterModal);
+export default withStyles(theme => ({
+  ...styles(theme),
+  ...dialogDefaultCss(theme),
+}))(SaveChapterModal);

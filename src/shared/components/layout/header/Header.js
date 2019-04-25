@@ -48,8 +48,7 @@ class Header extends Component {
 
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
   onHandleDrawerOpened: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(Header);
+export default withStyles(styles)(Header);

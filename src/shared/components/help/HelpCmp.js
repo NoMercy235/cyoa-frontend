@@ -45,4 +45,4 @@ HelpCmp.propTypes = {
   ]).isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(HelpCmp);
+export default withStyles(styles)(HelpCmp);

@@ -7,8 +7,9 @@ import { DialogActions } from '../dialog/Actions';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core';
 import { styles } from './Help.css';
+import { dialogDefaultCss } from '../dialog/Dialog.css';
 
-class ConfirmationModal extends Component {
+class HelpModal extends Component {
   render() {
     const { classes, title, description, open, onClose } = this.props;
 
@@ -39,7 +40,7 @@ class ConfirmationModal extends Component {
   }
 }
 
-ConfirmationModal.propTypes = {
+HelpModal.propTypes = {
   classes: PropTypes.object,
   title: PropTypes.oneOfType([
     PropTypes.string, PropTypes.func, PropTypes.object,
@@ -51,4 +52,7 @@ ConfirmationModal.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(ConfirmationModal);
+export default withStyles(theme => ({
+  ...styles(theme),
+  ...dialogDefaultCss(theme),
+}))(HelpModal);

@@ -19,6 +19,7 @@ import { UserModel } from '../../../infrastructure/models/UserModel';
 import { AuthenticationModel } from '../../../infrastructure/models/AuthenticationModel';
 import Snackbar from '../snackbar/Snackbar';
 import { BaseModel } from '../../../infrastructure/models/BaseModel';
+import { dialogDefaultCss } from '../dialog/Dialog.css';
 
 @inject('appStore')
 class AuthenticationModal extends Component {
@@ -177,4 +178,7 @@ AuthenticationModal.propTypes = {
   appStore: appStorePropTypes,
 };
 
-export default withStyles(styles, { withTheme: true })(AuthenticationModal);
+export default withStyles(theme => ({
+  ...styles(theme),
+  ...dialogDefaultCss(theme),
+}))(AuthenticationModal);

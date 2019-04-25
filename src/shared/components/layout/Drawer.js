@@ -6,7 +6,6 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -57,7 +56,7 @@ class Drawer extends Component {
   };
 
   render() {
-    const { classes, appStore, theme, open, onHandleDrawerClose } = this.props;
+    const { classes, appStore, open, onHandleDrawerClose } = this.props;
 
     return (
       <Fragment>
@@ -68,7 +67,7 @@ class Drawer extends Component {
         >
           <div className={classes.drawerHeader}>
             <IconButton onClick={onHandleDrawerClose}>
-              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+              <ChevronLeftIcon />
             </IconButton>
           </div>
           <Divider />
@@ -90,9 +89,8 @@ class Drawer extends Component {
 Drawer.propTypes = {
   open: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
   onHandleDrawerClose: PropTypes.func.isRequired,
   appStore: appStorePropTypes,
 };
 
-export default withStyles(styles, { withTheme: true })(Drawer);
+export default withStyles(styles)(Drawer);
