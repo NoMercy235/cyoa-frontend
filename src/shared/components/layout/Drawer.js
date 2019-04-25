@@ -62,13 +62,9 @@ class Drawer extends Component {
     return (
       <Fragment>
         <UIDrawer
-          className={classes.drawer}
-          variant="persistent"
-          anchor="left"
           open={open}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
+          onClose={onHandleDrawerClose}
+          classes={{ paper: classes.drawer }}
         >
           <div className={classes.drawerHeader}>
             <IconButton onClick={onHandleDrawerClose}>

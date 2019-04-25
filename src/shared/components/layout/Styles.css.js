@@ -1,5 +1,6 @@
+import { SCREEN_MAX_WIDTH_SM } from '../../constants/global';
+
 const drawerWidth = 240;
-const openedDrawerAppMargin = 24;
 
 export const styles = theme => ({
   root: {
@@ -13,33 +14,22 @@ export const styles = theme => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
   appTitle: {
     flexGrow: 1,
   },
-  appLoginButton: {
-    marginRight: openedDrawerAppMargin,
+  authButton: {
+    marginRight: theme.spacing.unit * 3,
   },
   menuButton: {
     marginLeft: 12,
     marginRight: 20,
   },
-  hide: {
-    display: 'none',
-  },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-  },
-  drawerPaper: {
-    width: drawerWidth,
+    [`@media (max-width: ${SCREEN_MAX_WIDTH_SM}px)`]: {
+      width: '100%',
+    },
   },
   drawerHeader: {
     display: 'flex',
@@ -59,14 +49,6 @@ export const styles = theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: -drawerWidth,
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
   },
   modalContainer: {
     display: 'flex',

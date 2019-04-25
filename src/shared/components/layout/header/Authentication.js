@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import * as PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Exit from '@material-ui/icons/ExitToAppRounded';
 import { styles } from '../Styles.css';
@@ -32,10 +31,10 @@ class Authentication extends Component {
   };
 
   renderLogin = () => {
-    const { drawerOpen, classes } = this.props;
+    const { classes } = this.props;
     return (
       <Button
-        className={classNames(!drawerOpen && classes.appLoginButton)}
+        className={classes.authButton}
         onClick={this.onChangeState({ modalOpen: true })}
         color="inherit"
       >
@@ -45,12 +44,12 @@ class Authentication extends Component {
   };
 
   renderLogout = () => {
-    const { drawerOpen, classes, appStore } = this.props;
+    const { classes, appStore } = this.props;
     const Logout = withRouter(({ history }) => (
       <Fragment>
         {appStore.user.email}
         <Button
-          className={classNames(!drawerOpen && classes.appLoginButton)}
+          className={classes.authButton}
           onClick={this.onHandleLogout(history)}
           color="inherit"
         >
@@ -87,7 +86,6 @@ class Authentication extends Component {
 }
 
 Authentication.propTypes = {
-  drawerOpen: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   appStore: appStorePropTypes,
 };

@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import * as PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -13,23 +12,21 @@ import Authentication from './Authentication';
 
 class Header extends Component {
   render() {
-    const { classes, drawerOpen, onHandleDrawerOpened } = this.props;
+    const { classes, onHandleDrawerOpened } = this.props;
 
     return (
       <Fragment>
         <CssBaseline />
         <AppBar
           position="fixed"
-          className={classNames(classes.appBar, {
-            [classes.appBarShift]: drawerOpen,
-          })}
+          className={classes.appBar}
         >
-          <Toolbar disableGutters={!drawerOpen}>
+          <Toolbar disableGutters={true}>
             <IconButton
               color="inherit"
               aria-label="Open drawer"
               onClick={onHandleDrawerOpened}
-              className={classNames(classes.menuButton, drawerOpen && classes.hide)}
+              className={classes.menuButton}
             >
               <MenuIcon />
             </IconButton>
@@ -41,9 +38,7 @@ class Header extends Component {
             >
               Choose your own adventure!
             </Typography>
-            <Authentication
-              drawerOpen={drawerOpen}
-            />
+            <Authentication />
           </Toolbar>
         </AppBar>
       </Fragment>
@@ -52,7 +47,6 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  drawerOpen: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
   onHandleDrawerOpened: PropTypes.func.isRequired,

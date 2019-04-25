@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Header from '../components/layout/header/Header';
-import classNames from 'classnames';
 import Drawer from '../components/layout/Drawer';
 import { styles } from '../components/layout/Styles.css';
 
@@ -27,7 +26,6 @@ export function withDefaultLayout(InnerComponent) {
       return (
         <div className={classes.root}>
           <Header
-            drawerOpen={drawerOpen}
             onHandleDrawerOpened={this.handleDrawerOpen}
           />
           <Drawer
@@ -35,9 +33,7 @@ export function withDefaultLayout(InnerComponent) {
             onHandleDrawerClose={this.handleDrawerClose}
           />
           <main
-            className={classNames(classes.content, {
-              [classes.contentShift]: drawerOpen,
-            })}
+            className={classes.content}
           >
             <div className={classes.drawerHeader} />
             <InnerComponent {...this.props} />
