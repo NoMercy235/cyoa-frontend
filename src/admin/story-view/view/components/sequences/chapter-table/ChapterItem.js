@@ -13,6 +13,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import SaveChapterModal from '../save-chapter/SaveChapterModal';
 import BasicEditAction from '../../../../../../shared/components/form/BasicEditAction';
 import SelectedIcon from '@material-ui/icons/KeyboardArrowRight';
+import IconButton from '@material-ui/core/IconButton';
 
 class ChapterItem extends Component {
   state = {
@@ -20,7 +21,6 @@ class ChapterItem extends Component {
   };
 
   handleClick = () => {
-    this.setState(state => ({ open: !state.open }));
     this.props.onClick(this.props.chapter._id);
   };
 
@@ -69,11 +69,21 @@ class ChapterItem extends Component {
     );
   };
 
+  onExpandClick = e => {
+    this.setState(state => ({ open: !state.open }));
+    e.stopPropagation();
+  };
+
   renderExpand = () => {
     const { chapter } = this.props;
     if (!chapter.subChapters.length) return null;
 
-    return this.state.open ? <ExpandLess /> : <ExpandMore />;
+    const Expand = this.state.open ? ExpandLess : ExpandMore;
+    return (
+      <IconButton onClick={this.onExpandClick}>
+        <Expand />
+      </IconButton>
+    );
   };
 
   render() {
