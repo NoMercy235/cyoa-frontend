@@ -5,12 +5,15 @@ import { publicStoryService } from '../../../../infrastructure/services/StorySer
 import { inject } from 'mobx-react';
 import { publicStoryStorePropTypes } from '../../stores/PublicStoryStore';
 import AdvancedFiltersCmp from '../components/story-filters/AdvancedFilters';
+import { debounced } from '../../../../shared/utilities';
 
 const advancedFilterInitialValues = {
   tags: [],
   titleOrDescription: '',
   authorShort: '',
 };
+
+const debouncedQuickList = debounced(publicStoryService.quickList);
 
 @inject('publicStoryStore')
 class FiltersContainer extends Component {
@@ -37,9 +40,9 @@ class FiltersContainer extends Component {
       quickSearchValue: value,
       currentAdvancedFilters: advancedFilterInitialValues,
     });
-    this.setStories(
-      await publicStoryService.quickList(value),
-    );
+
+    const stories = await debouncedQuickList(value);
+    this.setStories(stories);
   };
 
   onAdvancedSearch = async values => {
