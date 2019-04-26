@@ -6,24 +6,52 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/FilterList';
 import Tooltip from '@material-ui/core/Tooltip';
+import Badge from '@material-ui/core/Badge';
+
+const withBadge = (Cmp, classes) => {
+  return (
+    <Badge
+      variant="dot"
+      color="secondary"
+      badgeContent="A"
+      className={classes.advancedFiltersBadge}
+    >
+      {Cmp}
+    </Badge>
+  );
+};
 
 class FiltersCmp extends Component {
-  render() {
+  renderFilterIcon = () => {
     const {
       classes,
-      quickSearchValue,
-      onQuickSearch,
       onOpenAdvancedFilters,
     } = this.props;
 
     return (
+      <Tooltip title="Advanced Filters">
+        <FilterIcon
+          className={classes.advancedFilters}
+          onClick={onOpenAdvancedFilters}
+        />
+      </Tooltip>
+    );
+  };
+
+  render() {
+    const {
+      classes,
+      hasAdvancedFilters,
+      quickSearchValue,
+      onQuickSearch,
+    } = this.props;
+
+    return (
       <>
-        <Tooltip title="Advanced Filters">
-          <FilterIcon
-            className={classes.advancedFilters}
-            onClick={onOpenAdvancedFilters}
-          />
-        </Tooltip>
+        {hasAdvancedFilters
+          ? withBadge(this.renderFilterIcon(), classes)
+          : this.renderFilterIcon()
+        }
         <div className={classes.search}>
           <div className={classes.searchIcon}>
             <SearchIcon />
@@ -45,6 +73,7 @@ class FiltersCmp extends Component {
 
 FiltersCmp.propTypes = {
   classes: PropTypes.object.isRequired,
+  hasAdvancedFilters: PropTypes.bool.isRequired,
   quickSearchValue: PropTypes.string.isRequired,
   onQuickSearch: PropTypes.func.isRequired,
   onOpenAdvancedFilters: PropTypes.func.isRequired,

@@ -15,6 +15,7 @@ const advancedFilterInitialValues = {
 @inject('publicStoryStore')
 class FiltersContainer extends Component {
   state = {
+    hasAdvancedFilters: false,
     quickSearchValue: '',
     isAdvancedFiltersDrawerOpened: false,
     currentAdvancedFilters: advancedFilterInitialValues,
@@ -32,6 +33,7 @@ class FiltersContainer extends Component {
 
   onQuickSearch = async ({ target: { value } }) => {
     this.setState({
+      hasAdvancedFilters: false,
       quickSearchValue: value,
       currentAdvancedFilters: advancedFilterInitialValues,
     });
@@ -42,6 +44,7 @@ class FiltersContainer extends Component {
 
   onAdvancedSearch = async values => {
     this.setState({
+      hasAdvancedFilters: true,
       currentAdvancedFilters: { ...values },
       isAdvancedFiltersDrawerOpened: false,
       quickSearchValue: '',
@@ -73,6 +76,7 @@ class FiltersContainer extends Component {
 
   render() {
     const {
+      hasAdvancedFilters,
       quickSearchValue,
       isAdvancedFiltersDrawerOpened,
       currentAdvancedFilters,
@@ -81,6 +85,7 @@ class FiltersContainer extends Component {
     return (
       <>
         <FiltersCmp
+          hasAdvancedFilters={hasAdvancedFilters}
           quickSearchValue={quickSearchValue}
           onQuickSearch={this.onQuickSearch}
           onOpenAdvancedFilters={this.onSwitchAdvancedFilters(true)}

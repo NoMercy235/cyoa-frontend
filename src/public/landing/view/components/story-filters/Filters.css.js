@@ -45,6 +45,15 @@ export const styles = theme => ({
   },
   advancedFilters: {
     cursor: 'pointer',
+    margin: `0 ${theme.spacing.unit}px`,
+  },
+  advancedFiltersBadge: {
+    '& > span': {
+      top: -theme.spacing.unit,
+      right: -theme.spacing.unit * 0.25,
+      height: theme.spacing.unit * 2,
+      width: theme.spacing.unit * 2,
+    },
   },
   advancedFiltersDrawer: {
     [`@media (min-width: ${SCREEN_MIN_WIDTH_LG}px)`]: {
