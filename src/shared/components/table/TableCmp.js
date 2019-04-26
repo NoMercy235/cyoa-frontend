@@ -17,6 +17,7 @@ class TableCmp extends Component {
     // TODO: this should be set to true when the pagination is complete
     pagination: false,
     serverSide: true,
+    responsive: 'scroll',
     onTableChange: (action, tableState) => {
       console.log('table has changed', action, tableState);
     },

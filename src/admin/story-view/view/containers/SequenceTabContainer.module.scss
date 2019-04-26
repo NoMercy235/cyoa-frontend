@@ -1,16 +1,33 @@
+@import "../../../../variables.scss";
+
 .tablesContainer {
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
 
   .chaptersList {
     flex: 1 1;
     margin-top: 24px;
-    margin-right: 10px;
-    overflow: hidden;
+    overflow: auto;
   }
 
   .sequencesTable {
     flex: 3 3;
+    overflow: hidden;
+
+    & > div {
+      height: 100%;
+    }
+  }
+
+  @media screen and (max-width:1070px) {
+    flex-direction: column;
+  }
+
+  @media screen and (min-width:1071px) {
+    flex-direction: row;
+    align-items: flex-start;
+
+    .chaptersList {
+      margin-right: 10px;
+    }
   }
 }
