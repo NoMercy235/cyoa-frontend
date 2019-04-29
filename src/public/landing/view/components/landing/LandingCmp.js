@@ -4,15 +4,19 @@ import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import StoryBox from '../story-box/StoryBox';
 import styles from './LandingCmp.module.scss';
+import NoResultsFound from '../../../../../shared/components/table/NoResultsFound';
 
 @observer
 class LandingCmp extends Component {
+  hasStories = () => !!this.props.stories.length;
+
   render() {
     const { stories } = this.props;
 
     return (
       <div className={styles.storiesContainer}>
-        {!!stories.length && stories.map(s => (
+        <NoResultsFound condition={!this.hasStories()}/>
+        {this.hasStories() && stories.map(s => (
           <StoryBox key={s._id} story={s}/>
         ))}
       </div>
