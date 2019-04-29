@@ -5,6 +5,17 @@ import { withStyles } from '@material-ui/core';
 import { styles as tableStyles } from './TableCmp.css';
 import MUIDataTable from 'mui-datatables';
 import classNames from 'classnames';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+
+const getMuiTheme = () => createMuiTheme({
+  overrides: {
+    MUIDataTable: {
+      responsiveScroll: {
+        maxHeight: 'auto',
+      },
+    },
+  },
+});
 
 class TableCmp extends Component {
   defaultOptions = {
@@ -29,12 +40,14 @@ class TableCmp extends Component {
 
     return (
       <Paper className={classNames(classes.root, className)}>
-        <MUIDataTable
-          title={title}
-          data={data}
-          columns={columns}
-          options={options}
-        />
+        <MuiThemeProvider theme={getMuiTheme()}>
+          <MUIDataTable
+            title={title}
+            data={data}
+            columns={columns}
+            options={options}
+          />
+        </MuiThemeProvider>
       </Paper>
     );
   }
