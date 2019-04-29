@@ -4,11 +4,12 @@ import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import ShareIcon from '@material-ui/icons/Share';
 import Popover from '@material-ui/core/Popover';
-import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
 
 const styles = theme => ({
   container: {
     margin: theme.spacing.unit * 2,
+    wordBreak: 'break-all',
   },
 });
 
@@ -27,6 +28,11 @@ class ShareButton extends Component {
     this.setState({
       anchorEl: null,
     });
+  };
+
+  onInputFocus = e => {
+    e.preventDefault();
+    e.target.select();
   };
 
   render() {
@@ -57,7 +63,13 @@ class ShareButton extends Component {
           }}
         >
           <div className={classes.container}>
-            <Typography>{text}</Typography>
+            <TextField
+              label="URL"
+              autoFocus={true}
+              readOnly={true}
+              value={text}
+              onFocus={this.onInputFocus}
+            />
           </div>
         </Popover>
       </Fragment>
