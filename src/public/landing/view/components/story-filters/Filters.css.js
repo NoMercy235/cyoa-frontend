@@ -24,6 +24,10 @@ export const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    [theme.breakpoints.down('sm')]: {
+      width: theme.spacing.unit * 4,
+      paddingLeft: theme.spacing.unit,
+    },
   },
   inputRoot: {
     color: 'inherit',
@@ -41,6 +45,9 @@ export const styles = theme => ({
       '&:focus': {
         width: 200,
       },
+    },
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: theme.spacing.unit * 5,
     },
   },
   advancedFilters: {
