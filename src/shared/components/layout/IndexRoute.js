@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { withDefaultLayout } from '../../hoc/DefaultLayout';
-import AdminRoute from '../../../admin/AdminRoute';
 import { inject, observer } from 'mobx-react';
 import { appStorePropTypes } from '../../store/AppStore';
 import withAuth from '../../hoc/AuthRoute';
@@ -11,6 +10,8 @@ import { ADMIN_ROUTE, LANDING_ROUTE } from '../../constants/routes';
 import { userService } from '../../../infrastructure/services/UserService';
 import { authService } from '../../../infrastructure/services/AuthenticationService';
 import Snackbar from '../snackbar/Snackbar';
+
+const LazyAdminRoute = React.lazy(() => import('../../../admin/AdminRoute'));
 
 @inject('appStore')
 @observer
@@ -57,6 +58,10 @@ class IndexRoute extends Component {
     return () => this.setState(metadata);
   };
 
+  renderFallback = () => {
+    return <div>Loading...</div>;
+  };
+
   render() {
     const { canRender, open, message, variant } = this.state;
 
@@ -64,11 +69,13 @@ class IndexRoute extends Component {
 
     return (
       <>
-        <Switch>
-          <Route path={LANDING_ROUTE} component={PublicRoute} />
-          <Route path={ADMIN_ROUTE} component={withAuth(AdminRoute)} />
-          <Redirect exact path='/' to={LANDING_ROUTE} />
-        </Switch>
+        <Suspense fallback={this.renderFallback()}>
+          <Switch>
+            <Route path={LANDING_ROUTE} component={PublicRoute} />
+            <Route path={ADMIN_ROUTE} component={withAuth(LazyAdminRoute)} />
+            <Redirect exact path='/' to={LANDING_ROUTE} />
+          </Switch>
+        </Suspense>
 
         <Snackbar
           open={open}
