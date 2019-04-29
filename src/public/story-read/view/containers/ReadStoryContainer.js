@@ -5,15 +5,21 @@ import * as PropTypes from 'prop-types';
 import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
 import StoryContent from '../components/StoryContent';
 import { publicChapterService } from '../../../../infrastructure/services/ChapterService';
+import { NOT_FOUND_ROUTE } from '../../../../shared/constants/routes';
 
 class ReadStoryContainer extends Component {
   state = { canRender: false, story: null, chapters: [] };
 
   getStory = async (storyId) => {
-    const options = { ignoreFields: 'coverPic' };
-    const story = await publicStoryService.get(storyId, options);
-    this.setState({ story });
-    this.getChapters(story);
+    try {
+      const options = { ignoreFields: 'coverPic' };
+      const story = await publicStoryService.get(storyId, options);
+      this.setState({ story });
+      this.getChapters(story);
+    } catch (e) {
+      const { history } = this.props;
+      history.replace(NOT_FOUND_ROUTE);
+    }
   };
 
   getChapters = async () => {
@@ -45,7 +51,9 @@ class ReadStoryContainer extends Component {
 }
 
 ReadStoryContainer.propTypes = {
-  match: PropTypes.object,
+  match: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default withRouter(ReadStoryContainer);

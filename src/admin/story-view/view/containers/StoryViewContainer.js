@@ -6,13 +6,20 @@ import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
 import { attributeService } from '../../../../infrastructure/services/AttributeService';
+import { NOT_FOUND_ROUTE } from '../../../../shared/constants/routes';
 
 @inject('storyViewStore')
 @observer
 class StoryViewContainer extends Component {
   async fetchStory(storyId) {
-    const story = (await storyService.get(storyId));
-    this.props.storyViewStore.setCurrentStory(story);
+    const { history, storyViewStore } = this.props;
+    try {
+      storyViewStore.setCurrentStory(
+        await storyService.get(storyId)
+      );
+    } catch (e) {
+      history.replace(NOT_FOUND_ROUTE);
+    }
   }
 
   getAttributes = async () => {

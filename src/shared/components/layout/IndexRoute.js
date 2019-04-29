@@ -6,10 +6,11 @@ import { appStorePropTypes } from '../../store/AppStore';
 import withAuth from '../../hoc/AuthRoute';
 import { tagService } from '../../../infrastructure/services/TagService';
 import PublicRoute from '../../../public/PublicRoute';
-import { ADMIN_ROUTE, LANDING_ROUTE } from '../../constants/routes';
+import { ADMIN_ROUTE, LANDING_ROUTE, NOT_FOUND_ROUTE } from '../../constants/routes';
 import { userService } from '../../../infrastructure/services/UserService';
 import { authService } from '../../../infrastructure/services/AuthenticationService';
 import Snackbar from '../snackbar/Snackbar';
+import NotFoundCmp from '../NotFoundCmp';
 
 const LazyAdminRoute = React.lazy(() => import('../../../admin/AdminRoute'));
 
@@ -73,6 +74,7 @@ class IndexRoute extends Component {
           <Switch>
             <Route path={LANDING_ROUTE} component={PublicRoute} />
             <Route path={ADMIN_ROUTE} component={withAuth(LazyAdminRoute)} />
+            <Route path={NOT_FOUND_ROUTE} component={NotFoundCmp} />
             <Redirect exact path='/' to={LANDING_ROUTE} />
           </Switch>
         </Suspense>
