@@ -49,7 +49,7 @@ class AuthenticationModal extends Component {
     appStore.setUser(
       new UserModel(response.user)
     );
-    onSuccess();
+    onSuccess && onSuccess();
     onClose();
   };
 
@@ -178,7 +178,7 @@ AuthenticationModal.propTypes = {
   classes: PropTypes.object,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  onSuccess: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func,
   appStore: appStorePropTypes,
 };
 

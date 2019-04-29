@@ -95,7 +95,7 @@ class Authentication extends Component {
 
 Authentication.propTypes = {
   classes: PropTypes.object.isRequired,
-  onAuthSuccessful: PropTypes.func.isRequired,
+  onAuthSuccessful: PropTypes.func,
   appStore: appStorePropTypes,
 };
 

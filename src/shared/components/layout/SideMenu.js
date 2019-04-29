@@ -56,16 +56,11 @@ class SideMenu extends Component {
     return <Item key={item.name} />;
   };
 
-  renderAuthenticationComponent = () => {
-    const { onHandleDrawerClose } = this.props;
-    return <Authentication onAuthSuccessful={onHandleDrawerClose}/>;
-  };
-
   renderAuthentication = () => {
     return (
       <ListItem
         button
-        component={this.renderAuthenticationComponent}
+        component={Authentication}
       >
         <ListItemIcon>
           <HomeIcon/>
