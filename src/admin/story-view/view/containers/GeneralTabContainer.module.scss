@@ -1,4 +1,8 @@
 div.container {
   margin-top: 24px;
   overflow: auto;
+
+  .content {
+    overflow: hidden;
+  }
 }

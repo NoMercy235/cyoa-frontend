@@ -17,7 +17,7 @@ class GeneralTabContainer extends Component {
     return (
       <Card className={styles.container}>
         <CardHeader title={renderGeneralTitle(story)}/>
-        <CardContent>
+        <CardContent className={styles.content}>
           <GeneralTab story={story}/>
         </CardContent>
         <CardActions disableActionSpacing>
