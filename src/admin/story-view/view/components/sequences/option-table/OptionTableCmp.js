@@ -85,7 +85,7 @@ class OptionTableCmp extends Component {
     const data = options.map(o => {
       return [
         o.action,
-        this.getNextSeqName(o),
+        o.nextSeq.name,
         this.getConsequences(o),
         this.getActions(o),
       ];

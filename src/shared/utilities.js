@@ -37,3 +37,9 @@ export const debounced = (fn, delay = 500) => {
     });
   };
 };
+
+export const noop = () => {};
+
+export const KeyCode = {
+  Backspace: 8,
+};

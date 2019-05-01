@@ -17,6 +17,11 @@ import SaveOptionForm from './SaveOptionForm';
 import { styles } from './SaveOption.css';
 import { ConsequenceModel } from '../../../../../../infrastructure/models/ConsequenceModel';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
+import classNames from 'classnames';
+import { debounced } from '../../../../../../shared/utilities';
+import { sequenceService } from '../../../../../../infrastructure/services/SequenceService';
+
+const debouncedSequenceList = debounced(sequenceService.list);
 
 @inject('storyViewStore')
 class SaveOptionModal extends Component {
@@ -25,6 +30,20 @@ class SaveOptionModal extends Component {
     open: false,
     variant: 'success',
     message: '',
+  };
+
+  onSearchRequest = async (searchQuery) => {
+    return (await debouncedSequenceList({
+      name: {
+        op: 'ilike',
+        value: searchQuery,
+        options: {
+          allowEmpty: true,
+        },
+      },
+    })).map(s => {
+      return { value: s._id, label: s.name };
+    });
   };
 
   onChangeState = (metadata) => {
@@ -70,8 +89,29 @@ class SaveOptionModal extends Component {
   };
 
   getInitialValues = () => {
-    return this.props.option ||
-      new OptionModel({ consequences: [new ConsequenceModel()] });
+    const { option, storyViewStore } = this.props;
+
+    if (option) {
+      // The nextSeq is populated on the list request, but it's not in the
+      // format expected by the Autocomplete component. Here we parse it to that format
+      return Object.assign(
+        {},
+        option,
+        {
+          nextSeq: {
+            value: option.nextSeq._id,
+            label: option.nextSeq.name,
+          },
+        },
+      );
+    }
+
+    // Here we don't need any parsing, because, by default, the nextSeq's value is an
+    // empty string and that's a valid value.
+    return new OptionModel({
+      story: storyViewStore.currentStory._id,
+      consequences: [new ConsequenceModel()],
+    });
   };
 
   onClose = (resetForm) => () => {
@@ -81,10 +121,16 @@ class SaveOptionModal extends Component {
 
   onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
+      // Change the nextSeq back to normal id which will be handled by the backend
+      const finalValues = Object.assign(
+        {},
+        values,
+        { nextSeq: values.nextSeq.value },
+      );
       if (values._id) {
-        await this.updateOption(values);
+        await this.updateOption(finalValues);
       } else {
-        await this.saveOption(values);
+        await this.saveOption(finalValues);
       }
       this.onClose(resetForm)();
     } finally {
@@ -99,11 +145,14 @@ class SaveOptionModal extends Component {
 
   renderForm = formik => {
     const { classes, storyViewStore, open } = this.props;
+
     return (
       <Dialog
         open={open}
         onClose={this.onClose(formik.resetForm)}
-        classes={{ paper: classes.dialogSize }}
+        classes={{
+          paper: classNames(classes.dialogSize, classes.saveOptionDialog),
+        }}
       >
         <DialogTitle
           onClose={this.onClose(formik.resetForm)}
@@ -114,8 +163,8 @@ class SaveOptionModal extends Component {
           <SaveOptionForm
             formik={formik}
             onClose={this.onClose(formik.resetForm)}
-            sequences={storyViewStore.sequences}
             attributes={storyViewStore.attributes}
+            onSearchRequest={this.onSearchRequest}
           />
         </DialogContent>
         <DialogActions>

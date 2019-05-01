@@ -4,8 +4,6 @@ import { Field, FieldArray, Form } from 'formik';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core';
 import { hasError } from '../../../../../../shared/components/form/helpers';
-import Select from '../../../../../../shared/components/form/Select/Select';
-import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
 import { styles } from './SaveOption.css';
 import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
@@ -13,14 +11,10 @@ import IconButton from '@material-ui/core/IconButton';
 import ConsequenceForm from './ConsequenceForm';
 import { ConsequenceModel } from '../../../../../../infrastructure/models/ConsequenceModel';
 import Tooltip from '@material-ui/core/Tooltip';
+import { AttributeModel } from '../../../../../../infrastructure/models/AttributeModel';
+import FormikAutocompleteContainer from '../../../../../../shared/components/form/Autocomplete/FormikAutocompleteContainer';
 
 class SaveOptionForm extends Component {
-  getSequences = () => {
-    return this.props.sequences.map(s => {
-      return { _id: s._id, name: s.name };
-    });
-  };
-
   onAddConsequence = arrayHelpers => () => {
     const consequence = new ConsequenceModel();
     arrayHelpers.push(consequence);
@@ -44,15 +38,14 @@ class SaveOptionForm extends Component {
   };
 
   renderNextSeqField = ({ field }) => {
-    const { formik, classes } = this.props;
+    const { formik, onSearchRequest } = this.props;
     return (
-      <Select
-        className={classes.nextSeq}
-        formikField={field}
+      <FormikAutocompleteContainer
+        formik={formik}
+        field={field}
         label="Leads to"
-        fullWidth
-        items={this.getSequences()}
-        {...hasError(formik, 'nextSeq')}
+        placeholder="Search for sequences"
+        onSearchRequest={onSearchRequest}
       />
     );
   };
@@ -116,7 +109,9 @@ class SaveOptionForm extends Component {
 SaveOptionForm.propTypes = {
   classes: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
-  sequences: PropTypes.arrayOf(PropTypes.instanceOf(SequenceModel)).isRequired,
+  attributes: PropTypes.arrayOf(PropTypes.instanceOf(AttributeModel)).isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSearchRequest: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(SaveOptionForm);

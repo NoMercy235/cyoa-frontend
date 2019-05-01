@@ -49,6 +49,7 @@ export class OptionModel extends BaseModel {
 
   static forApi(option) {
     return {
+      story: option.story,
       action: option.action,
       sequence: option.sequence,
       nextSeq: option.nextSeq,

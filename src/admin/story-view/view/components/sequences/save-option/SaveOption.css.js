@@ -1,4 +1,7 @@
 export const styles = theme => ({
+  saveOptionDialog: {
+    minHeight: '60vh',
+  },
   form: {
     display: 'flex',
     flexDirection: 'column',
