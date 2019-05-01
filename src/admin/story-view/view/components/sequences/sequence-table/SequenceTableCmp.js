@@ -79,7 +79,7 @@ class SequenceTableCmp extends Component {
         <td colSpan={colSpan} className={classes.optionsTableContainer}>
           {parseContent(sequence.content)}
           {!sequence.isEnding && <OptionTableCmp
-            sequenceId={rowSeqId}
+            sequence={sequence}
             onDeleteOption={onDeleteOption}
           />}
         </td>

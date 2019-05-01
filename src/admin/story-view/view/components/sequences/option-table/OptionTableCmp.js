@@ -9,21 +9,14 @@ import { inject, observer } from 'mobx-react';
 import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
 import BasicNewAction from '../../../../../../shared/components/form/BasicNewAction';
 import SaveOptionModal from '../save-option/SaveOptionModal';
-import { Utils } from '@nomercy235/utils';
 import BasicEditAction from '../../../../../../shared/components/form/BasicEditAction';
 import DeleteRow from '../../../../../../shared/components/table/actions/DeleteRow';
 import { renderOptionTableTitle } from './OptionTableTitle';
+import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
 
 @inject('storyViewStore')
 @observer
 class OptionTableCmp extends Component {
-  getNextSeqName(option) {
-    return Utils.safeAccess(
-      this.props.storyViewStore.getSequenceById(option.nextSeq),
-      'name'
-    );
-  }
-
   getConsequences(option) {
     return option.consequences
       .filter(c => c.attribute)
@@ -34,15 +27,16 @@ class OptionTableCmp extends Component {
       );
   }
 
-  getOptions = async sequenceId => {
-    const params = { ':sequence': sequenceId };
+  getOptions = async () => {
+    const { sequence: { _id: id } } = this.props;
+    const params = { ':sequence': id };
     optionService.setNextRouteParams(params);
     const options = await optionService.list();
-    this.props.storyViewStore.setOptionsToSequence(sequenceId, options);
+    this.props.storyViewStore.setOptionsToSequence(id, options);
   };
 
   onDeleteOption = id => () => {
-    this.props.onDeleteOption(this.props.sequenceId, id);
+    this.props.onDeleteOption(this.props.sequence._id, id);
   };
 
   getActions = row => {
@@ -56,13 +50,15 @@ class OptionTableCmp extends Component {
     // automatically.
     if (!(row instanceof OptionModel)) return '';
 
+    const { classes, sequence: { _id: seqId } } = this.props;
+
     return (
-      <div key={row._id} className={this.props.classes.actionsContainer}>
+      <div key={row._id} className={classes.actionsContainer}>
         <BasicEditAction
           resourceName="option"
           resource={row}
           modalComponent={SaveOptionModal}
-          innerProps={{ sequenceId: this.props.sequenceId }}
+          innerProps={{ sequenceId: seqId }}
         />
         <DeleteRow
           title="Delete confirmation"
@@ -74,15 +70,14 @@ class OptionTableCmp extends Component {
   };
 
   componentDidMount () {
-    this.getOptions(this.props.sequenceId);
+    this.getOptions();
   }
 
   render() {
-    const { sequenceId, storyViewStore } = this.props;
+    const { sequence } = this.props;
     const columns = OptionModel.getTableColumns();
-    const options = storyViewStore.getSequenceOptions(sequenceId);
 
-    const data = options.map(o => {
+    const data = sequence.options.map(o => {
       return [
         o.action,
         o.nextSeq.name,
@@ -103,7 +98,7 @@ class OptionTableCmp extends Component {
           <BasicNewAction
             tooltip="New option"
             modalComponent={SaveOptionModal}
-            innerProps={{ sequenceId }}
+            innerProps={{ sequenceId: sequence._id }}
           />
         );
       },
@@ -122,7 +117,7 @@ class OptionTableCmp extends Component {
 
 OptionTableCmp.propTypes = {
   classes: PropTypes.object,
-  sequenceId: PropTypes.string.isRequired,
+  sequence: PropTypes.instanceOf(SequenceModel).isRequired,
   onDeleteOption: PropTypes.func.isRequired,
 
   storyViewStore: storyViewStorePropTypes,
