@@ -2,21 +2,11 @@ import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
-import { styles as tableStyles } from './TableCmp.css';
+import { getMuiTheme, styles as tableStyles } from './TableCmp.css';
 import MUIDataTable from 'mui-datatables';
 import classNames from 'classnames';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 
-const getMuiTheme = () => createMuiTheme({
-  overrides: {
-    MUIDataTable: {
-      responsiveScroll: {
-        maxHeight: 'none',
-        overflowX: 'auto',
-      },
-    },
-  },
-});
 
 class TableCmp extends Component {
   defaultOptions = {
@@ -65,6 +55,4 @@ TableCmp.propTypes = {
   options: PropTypes.object,
 };
 
-export default withStyles(theme => ({
-  ...tableStyles(theme),
-}))(TableCmp);
+export default withStyles(tableStyles)(TableCmp);
