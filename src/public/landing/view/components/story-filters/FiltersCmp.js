@@ -7,6 +7,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/FilterList';
 import Tooltip from '@material-ui/core/Tooltip';
 import Badge from '@material-ui/core/Badge';
+import IconButton from '@material-ui/core/IconButton';
 
 const withBadge = (Cmp, classes) => {
   return (
@@ -24,16 +25,17 @@ const withBadge = (Cmp, classes) => {
 class FiltersCmp extends Component {
   renderFilterIcon = () => {
     const {
-      classes,
       onOpenAdvancedFilters,
     } = this.props;
 
     return (
       <Tooltip title="Advanced Filters">
-        <FilterIcon
-          className={classes.advancedFilters}
+        <IconButton
           onClick={onOpenAdvancedFilters}
-        />
+          color="inherit"
+        >
+          <FilterIcon />
+        </IconButton>
       </Tooltip>
     );
   };

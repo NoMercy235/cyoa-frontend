@@ -56,8 +56,8 @@ export const styles = theme => ({
   },
   advancedFiltersBadge: {
     '& > span': {
-      top: -theme.spacing.unit,
-      right: -theme.spacing.unit * 0.25,
+      top: theme.spacing.unit,
+      right: theme.spacing.unit * 0.5,
       height: theme.spacing.unit * 2,
       width: theme.spacing.unit * 2,
     },
