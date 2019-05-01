@@ -7,6 +7,7 @@ import { inject, observer } from 'mobx-react';
 import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
 import { withSnackbar } from '../../../../shared/components/form/helpers';
 import Snackbar from '../../../../shared/components/snackbar/Snackbar';
+import classes from './PlayerTabContainer.module.scss';
 
 @inject('storyViewStore')
 @observer
@@ -47,11 +48,13 @@ class PlayerTabContainer extends Component {
     const { open, message, variant } = this.state;
     return (
       <Fragment>
-        <AttributesTableCmp
-          attributes={attributes}
-          onSelectAttribute={this.onSelectAttribute}
-          onDeleteAttribute={this.onDeleteAttribute}
-        />
+        <div className={classes.tableContainer}>
+          <AttributesTableCmp
+            attributes={attributes}
+            onSelectAttribute={this.onSelectAttribute}
+            onDeleteAttribute={this.onDeleteAttribute}
+          />
+        </div>
         <Snackbar
           open={open}
           onClose={this.onChangeState({ open: false })}

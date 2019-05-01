@@ -11,7 +11,8 @@ const getMuiTheme = () => createMuiTheme({
   overrides: {
     MUIDataTable: {
       responsiveScroll: {
-        maxHeight: 'auto',
+        maxHeight: 'none',
+        overflowX: 'auto',
       },
     },
   },

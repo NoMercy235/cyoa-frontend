@@ -1,21 +1,16 @@
 @import "../../../../variables.scss";
 
 .tablesContainer {
+  padding: 24px 2px 2px 2px;
   display: flex;
 
   .chaptersList {
     flex: 1 1;
-    margin-top: 24px;
     overflow: auto;
   }
 
   .sequencesTable {
     flex: 3 3;
-    overflow: hidden;
-
-    & > div {
-      height: 100%;
-    }
   }
 
   @media screen and (max-width:1070px) {

@@ -5,10 +5,20 @@ const onHoverChange = theme => ({
 
 export const styles = theme => ({
   root: {
+    height: '100%',
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
     overflowY: 'auto',
-    overflowX: 'hidden',
+    overflowX: 'auto',
+    '& > div': {
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+    },
+  },
+  paper: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
   },
   clickableText: {
     flex: 1,
