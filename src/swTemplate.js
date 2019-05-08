@@ -19,6 +19,14 @@
     return;
   }
 
+  /* custom cache rules*/
+  workbox.routing.registerNavigationRoute(
+    '/index.html',
+    {
+      blacklist: [/^\/_/, /\/[^\/]+\.[^\/]+$/],
+    }
+  );
+
   workbox.core.setCacheNameDetails({
     prefix: 'cyoa',
     suffix: '1.0.0',
