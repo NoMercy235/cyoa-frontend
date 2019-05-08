@@ -17,19 +17,30 @@ import classNames from 'classnames';
 class Authentication extends Component {
   state = {
     modalOpen: false,
-    snackbarOpen: false,
   };
+  snackbarRef = React.createRef();
 
-  onChangeState = (metadata) => {
-    return () => this.setState(metadata);
+  onChangeState = (metadata) => () => {
+    this.setState(metadata);
   };
 
   onHandleLogout = (history) => () => {
     this.props.appStore.setUser(null);
-    this.onChangeState({ snackbarOpen: true })();
+    this.snackbarRef.current.showSnackbar({
+      variant: 'success',
+      message: 'Goodbye!',
+    });
     localStorage.removeItem('jwt');
-    localStorage.removeItem('user');
     history.replace('/');
+  };
+
+  onAuthSuccessful = () => {
+    const { onAuthSuccessful } = this.props;
+    this.snackbarRef.current.showSnackbar({
+      variant: 'success',
+      message: 'Welcome!',
+    });
+    onAuthSuccessful && onAuthSuccessful();
   };
 
   renderLogin = () => {
@@ -68,8 +79,8 @@ class Authentication extends Component {
   };
 
   render() {
-    const { appStore, onAuthSuccessful } = this.props;
-    const { modalOpen, snackbarOpen } = this.state;
+    const { appStore } = this.props;
+    const { modalOpen } = this.state;
 
     return (
       <Fragment>
@@ -79,15 +90,10 @@ class Authentication extends Component {
         }
         <AuthenticationModal
           open={modalOpen}
-          onSuccess={onAuthSuccessful}
+          onSuccess={this.onAuthSuccessful}
           onClose={this.onChangeState({ modalOpen: false })}
         />
-        <Snackbar
-          open={snackbarOpen}
-          onClose={this.onChangeState({ snackbarOpen: false })}
-          message="Logout successfully!"
-          variant="success"
-        />
+        <Snackbar innerRef={this.snackbarRef}/>
       </Fragment>
     );
   }

@@ -12,6 +12,7 @@ import { styles } from './Snackbar.css';
 import { withStyles } from '@material-ui/core';
 import SnackbarContent from '@material-ui/core/es/SnackbarContent/SnackbarContent';
 import * as ReactDOM from 'react-dom';
+import { BaseModel } from '../../../infrastructure/models/BaseModel';
 
 const variantIcon = {
   success: CheckCircleIcon,
@@ -21,18 +22,54 @@ const variantIcon = {
 };
 
 class Snackbar extends React.Component {
-  getOptions() {
-    return {
-      variant: this.props.variant || 'info',
-      vertical: this.props.vertical || 'top',
-      horizontal: this.props.horizontal || 'center',
-      autoHideDuration: this.props.autoHideDuration !== undefined || 2000,
-    };
-  }
+  static defaultProps = {
+    autoHideDuration: 2000,
+  };
+
+  state = {
+    // snackbar
+    open: false,
+    variant: 'success',
+    message: '',
+    vertical: 'top',
+    horizontal: 'center',
+  };
+
+  executeAndShowSnackbar = async (foo, options) => {
+    try {
+      const result = await foo.call();
+      this.showSnackbar(options);
+      return result;
+    } catch (e) {
+      this.setState({
+        open: true,
+        variant: 'error',
+        message: BaseModel.handleError(e),
+      });
+      throw e;
+    }
+  };
+
+  showSnackbar = options => {
+    this.setState({
+      open: true,
+      ...options,
+    });
+  };
+
+  onCloseSnackbar = () => {
+    this.setState({ open: false });
+  };
 
   render() {
-    const { variant, vertical, horizontal, autoHideDuration } = this.getOptions();
-    const { message, open, onClose, classes } = this.props;
+    const { classes, autoHideDuration } = this.props;
+    const {
+      message,
+      open,
+      variant,
+      vertical,
+      horizontal,
+    } = this.state;
 
     const Icon = variantIcon[variant];
 
@@ -40,7 +77,7 @@ class Snackbar extends React.Component {
       <MuiSnackbar
         anchorOrigin={{ vertical, horizontal }}
         open={open}
-        onClose={onClose}
+        onClose={this.onCloseSnackbar}
         autoHideDuration={autoHideDuration}
       >
         <SnackbarContent
@@ -58,7 +95,7 @@ class Snackbar extends React.Component {
               aria-label="Close"
               color="inherit"
               className={classes.close}
-              onClick={onClose}
+              onClick={this.onCloseSnackbar}
             >
               <CloseIcon className={classes.icon} />
             </IconButton>,
@@ -72,12 +109,6 @@ class Snackbar extends React.Component {
 
 Snackbar.propTypes = {
   classes: PropTypes.object,
-  message: PropTypes.string,
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  variant: PropTypes.oneOf(['info', 'success', 'warning', 'error']),
-  vertical: PropTypes.oneOf(['top', 'center', 'bottom']),
-  horizontal: PropTypes.oneOf(['left', 'center', 'right']),
   autoHideDuration: PropTypes.number,
 };
 

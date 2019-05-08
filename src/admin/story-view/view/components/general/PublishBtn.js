@@ -3,7 +3,6 @@ import * as PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import Button from '@material-ui/core/Button';
 import { storyService } from '../../../../../infrastructure/services/StoryService';
-import { withSnackbar } from '../../../../../shared/components/form/helpers';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import { storyViewStorePropTypes } from '../../../stores/StoryViewStore';
 import Snackbar from '../../../../../shared/components/snackbar/Snackbar';
@@ -14,24 +13,13 @@ const HOCButton = withModal(Button);
 @inject('storyViewStore')
 @observer
 class PublishBtn extends Component {
-  state = {
-    // snackbar
-    open: false,
-    variant: 'success',
-    message: '',
-  };
-
-  onChangeState = (metadata) => {
-    return () => this.setState(metadata);
-  };
+  snackbarRef = React.createRef();
 
   onChangePublishState = (state, message) => async () => {
     const { story } = this.props;
-    const dbStory = await withSnackbar.call(
-      this,
-      storyService.update,
-      [story._id, { published: state }],
-      message
+    const dbStory = await this.snackbarRef.current.executeAndShowSnackbar(
+      storyService.update.bind(null, story._id, { published: state }),
+      { variant: 'success', message }
     );
     this.props.storyViewStore.setCurrentStory(dbStory);
   };
@@ -95,17 +83,11 @@ class PublishBtn extends Component {
 
   render() {
     const { story } = this.props;
-    const { open, message, variant } = this.state;
 
     return (
       <Fragment>
         {story.published ? this.renderUnpublishButton() : this.renderPublishButton()}
-        <Snackbar
-          open={open}
-          onClose={this.onChangeState({ open: false })}
-          message={message}
-          variant={variant}
-        />
+        <Snackbar innerRef={this.snackbarRef}/>
       </Fragment>
     );
   }

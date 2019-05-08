@@ -9,7 +9,6 @@ import { DialogActions } from '../../../../../../shared/components/dialog/Action
 import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
 import { styles } from './SaveSequence.css';
 import { inject } from 'mobx-react';
-import { withSnackbar } from '../../../../../../shared/components/form/helpers';
 import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
 import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
 import { sequenceService } from '../../../../../../infrastructure/services/SequenceService';
@@ -23,12 +22,7 @@ import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dia
 
 @inject('storyViewStore')
 class SaveSequenceModal extends Component {
-  state = {
-    // snackbar
-    open: false,
-    variant: 'success',
-    message: '',
-  };
+  snackbarRef = React.createRef();
 
   getSequence = async () => {
     const params = { ':story': this.props.story._id };
@@ -36,27 +30,22 @@ class SaveSequenceModal extends Component {
     return await sequenceService.get(this.props.sequence._id);
   };
 
-  onChangeState = (metadata) => {
-    return () => this.setState(metadata);
-  };
-
   renderTitle() {
     return this.props.sequence ? 'Edit sequence' : 'Create sequence';
   }
 
-  sendRequest = async (values, method, args, message) => {
+  sendRequest = async (method, message) => {
     const params = { ':story': this.props.story._id };
     sequenceService.setNextRouteParams(params);
-    return await withSnackbar.call(
-      this, method, args, message,
+    return await this.snackbarRef.current.executeAndShowSnackbar(
+      method,
+      { variant: 'success', message },
     );
   };
 
   saveSequence = async values => {
     const sequence = await this.sendRequest(
-      values,
-      sequenceService.save,
-      [SequenceModel.forApi(values)],
+      sequenceService.save.bind(null, SequenceModel.forApi(values)),
       'Sequence saved!',
     );
     if (sequence.chapter === this.props.selectedChapterId) {
@@ -67,9 +56,7 @@ class SaveSequenceModal extends Component {
 
   updateSequence = async values => {
     const sequence = await this.sendRequest(
-      values,
-      sequenceService.update,
-      [values._id, SequenceModel.forApi(values)],
+      sequenceService.update.bind(null, values._id, SequenceModel.forApi(values)),
       'Sequence updated!',
     );
     this.props.storyViewStore.updateSequence(values._id, sequence);
@@ -77,12 +64,13 @@ class SaveSequenceModal extends Component {
   };
 
   updateStoryStartSeq = async seq => {
-    storyService.update(this.props.match.params.id, { startSeq: seq._id });
+    const { storyViewStore, match } = this.props;
+    storyService.update(match.params.id, { startSeq: seq._id });
     // This does trigger the render function a second time (after the
     // update or addition of a new sequence) but it shouldn't affect
     // performance as there are not many things rendered and this
     // method should not be called often.
-    this.props.storyViewStore.updateCurrentStory(
+    storyViewStore.updateCurrentStory(
       { startSeq: seq._id }
     );
   };
@@ -164,8 +152,6 @@ class SaveSequenceModal extends Component {
   };
 
   render() {
-    const { open, message, variant } = this.state;
-
     return (
       <Fragment>
         <Formik
@@ -177,12 +163,7 @@ class SaveSequenceModal extends Component {
         >
           {this.renderForm}
         </Formik>
-        <Snackbar
-          open={open}
-          onClose={this.onChangeState({ open: false })}
-          message={message}
-          variant={variant}
-        />
+        <Snackbar innerRef={this.snackbarRef}/>
       </Fragment>
     );
   }

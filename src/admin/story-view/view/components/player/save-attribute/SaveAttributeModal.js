@@ -9,7 +9,6 @@ import { DialogActions } from '../../../../../../shared/components/dialog/Action
 import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
 import { styles } from './SaveAttribute.css';
 import { inject } from 'mobx-react';
-import { withSnackbar } from '../../../../../../shared/components/form/helpers';
 import { attributeService } from '../../../../../../infrastructure/services/AttributeService';
 import { AttributeModel } from '../../../../../../infrastructure/models/AttributeModel';
 import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
@@ -19,37 +18,24 @@ import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dia
 
 @inject('storyViewStore')
 class SaveAttributeModal extends Component {
-  state = {
-    // snackbar
-    open: false,
-    variant: 'success',
-    message: '',
-  };
-
-  onChangeState = (metadata) => {
-    return () => this.setState(metadata);
-  };
+  snackbarRef = React.createRef();
 
   renderTitle() {
     return this.props.attribute ? 'Edit attribute' : 'Create attribute';
   }
 
   saveAttribute = async values => {
-    const attribute = await withSnackbar.call(
-      this,
-      attributeService.save,
-      [AttributeModel.forApi(values)],
-      'Attribute saved!',
+    const attribute = await this.snackbarRef.current.executeAndShowSnackbar(
+      attributeService.save.bind(null, AttributeModel.forApi(values)),
+      { variant: 'success', message: 'Attribute saved!' },
     );
     this.props.storyViewStore.addAttribute(attribute);
   };
 
   updateAttribute = async values => {
-    const attribute = await withSnackbar.call(
-      this,
-      attributeService.update,
-      [values._id, AttributeModel.forApi(values)],
-      'Attribute updated!',
+    const attribute = await this.snackbarRef.current.executeAndShowSnackbar(
+      attributeService.update.bind(null, values._id, AttributeModel.forApi(values)),
+      { variant: 'success', message: 'Attribute updated!' },
     );
     this.props.storyViewStore.updateAttribute(values._id, attribute);
   };
@@ -111,8 +97,6 @@ class SaveAttributeModal extends Component {
   };
 
   render() {
-    const { open, message, variant } = this.state;
-
     return (
       <Fragment>
         <Formik
@@ -124,12 +108,7 @@ class SaveAttributeModal extends Component {
         >
           {this.renderForm}
         </Formik>
-        <Snackbar
-          open={open}
-          onClose={this.onChangeState({ open: false })}
-          message={message}
-          variant={variant}
-        />
+        <Snackbar innerRef={this.snackbarRef}/>
       </Fragment>
     );
   }

@@ -19,12 +19,8 @@ const LazyAdminRoute = React.lazy(() => import('../../../admin/AdminRoute'));
 class IndexRoute extends Component {
   state = {
     canRender: false,
-
-    // snackbar
-    open: false,
-    variant: 'error',
-    message: '',
   };
+  snackbarRef = React.createRef();
 
   getTags = async () => {
     const tags = await tagService.list();
@@ -40,10 +36,10 @@ class IndexRoute extends Component {
       const user = await userService.getUserWithToken();
       this.props.appStore.setUser(user);
     } catch (e) {
-      this.onChangeState({
-        open: true,
+      this.snackbarRef.current.showSnackbar({
+        variant: 'error',
         message: 'Token has expired. Please relog.',
-      })();
+      });
     }
   };
 
@@ -55,16 +51,12 @@ class IndexRoute extends Component {
     this.setState({ canRender: true });
   }
 
-  onChangeState = (metadata) => {
-    return () => this.setState(metadata);
-  };
-
   renderFallback = () => {
     return <div>Loading...</div>;
   };
 
   render() {
-    const { canRender, open, message, variant } = this.state;
+    const { canRender } = this.state;
 
     if (!canRender) return null;
 
@@ -79,12 +71,7 @@ class IndexRoute extends Component {
           </Switch>
         </Suspense>
 
-        <Snackbar
-          open={open}
-          onClose={this.onChangeState({ open: false })}
-          message={message}
-          variant={variant}
-        />
+        <Snackbar innerRef={this.snackbarRef}/>
       </>
     );
   }

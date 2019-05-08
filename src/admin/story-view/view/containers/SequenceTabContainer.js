@@ -6,7 +6,6 @@ import { inject, observer } from 'mobx-react';
 import SequenceTableCmp from '../components/sequences/sequence-table/SequenceTableCmp';
 import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
 import { sequenceService } from '../../../../infrastructure/services/SequenceService';
-import { withSnackbar } from '../../../../shared/components/form/helpers';
 import { optionService } from '../../../../infrastructure/services/OptionService';
 import ChapterListCmp from '../components/sequences/chapter-table/ChapterListCmp';
 import classes from './SequenceTabContainer.module.scss';
@@ -18,16 +17,8 @@ import { withRouter } from 'react-router-dom';
 class SequenceTabContainer extends Component {
   state = {
     selectedChapterId: '',
-
-    // snackbar
-    open: false,
-    variant: 'success',
-    message: '',
   };
-
-  onChangeState = (metadata) => {
-    return () => this.setState(metadata);
-  };
+  snackbarRef = React.createRef();
 
   getSequences = async (chapterId = '') => {
     const params = { ':story': this.props.match.params.id };
@@ -54,11 +45,9 @@ class SequenceTabContainer extends Component {
   onDeleteSequence = async sequenceId => {
     const params = { ':story': this.props.story._id };
     sequenceService.setNextRouteParams(params);
-    await withSnackbar.call(
-      this,
-      sequenceService.delete,
-      [sequenceId],
-      'Sequence deleted'
+    await this.snackbarRef.current.executeAndShowSnackbar(
+      sequenceService.delete.bind(null, sequenceId),
+      { variant: 'success', message: 'Sequence deleted!' },
     );
     this.props.storyViewStore.removeSequence(sequenceId);
   };
@@ -66,11 +55,9 @@ class SequenceTabContainer extends Component {
   onDeleteOption = async (sequenceId, optionId) => {
     const params = { ':sequence': sequenceId };
     optionService.setNextRouteParams(params);
-    await withSnackbar.call(
-      this,
-      optionService.delete,
-      [optionId],
-      'Option deleted'
+    await this.snackbarRef.current.executeAndShowSnackbar(
+      optionService.delete.bind(null, optionId),
+      { variant: 'success', message: 'Option deleted!' },
     );
     this.props.storyViewStore.removeOptionFromSequence(sequenceId, optionId);
   };
@@ -90,8 +77,7 @@ class SequenceTabContainer extends Component {
     await Promise.all(dbSequences.map(dbSeq => {
       return this.props.storyViewStore.updateSequenceInPlace(dbSeq._id, { order: dbSeq.order });
     }));
-    this.setState({
-      open: true,
+    this.snackbarRef.current.showSnackbar({
       variant: 'success',
       message: 'Order has been updated',
     });
@@ -129,10 +115,9 @@ class SequenceTabContainer extends Component {
   onDeleteChapter = async (chapterId) => {
     await chapterService.delete(chapterId);
     await this.getChapters();
-    this.setState({
-      open: true,
+    this.snackbarRef.current.showSnackbar({
       variant: 'success',
-      message: 'Chapter deleted',
+      message: 'Chapter deleted!',
     });
   };
 
@@ -146,7 +131,7 @@ class SequenceTabContainer extends Component {
 
   render() {
     const { storyViewStore: { sequencesInOrder, chapters }, story } = this.props;
-    const { selectedChapterId, open, message, variant } = this.state;
+    const { selectedChapterId } = this.state;
 
     return (
       <Fragment>
@@ -169,12 +154,7 @@ class SequenceTabContainer extends Component {
             onMoveSeqDown={this.onMoveSeqDown}
           />
         </div>
-        <Snackbar
-          open={open}
-          onClose={this.onChangeState({ open: false })}
-          message={message}
-          variant={variant}
-        />
+        <Snackbar innerRef={this.snackbarRef}/>
       </Fragment>
     );
   }

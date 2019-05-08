@@ -7,22 +7,12 @@ import { inject, observer } from 'mobx-react';
 import { storyStorePropTypes } from '../../stores/StoryStore';
 import { collectionService } from '../../../../infrastructure/services/CollectionService';
 import Snackbar from '../../../../shared/components/snackbar/Snackbar';
-import { withSnackbar } from '../../../../shared/components/form/helpers';
 import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
 
 @inject('storyStore')
 @observer
 class StoryContainer extends Component {
-  state = {
-    // snackbar
-    open: false,
-    variant: 'success',
-    message: '',
-  };
-
-  onChangeState = (metadata) => {
-    return () => this.setState(metadata);
-  };
+  snackbarRef = React.createRef();
 
   async fetchStories(filters) {
     const stories = (await storyService.list(filters));
@@ -51,21 +41,17 @@ class StoryContainer extends Component {
   };
 
   onDeleteCollection = async (colId) => {
-    await withSnackbar.call(
-      this,
-      collectionService.delete,
-      [colId],
-      'Collection deleted'
+    await this.snackbarRef.current.executeAndShowSnackbar(
+      collectionService.delete.bind(this, colId),
+      { variant: 'success', message: 'Collection deleted!' },
     );
     this.props.storyStore.removeCollection(colId);
   };
 
   onDeleteStory = async storyId => {
-    await withSnackbar.call(
-      this,
-      storyService.delete,
-      [storyId],
-      'Story deleted'
+    await this.snackbarRef.current.executeAndShowSnackbar(
+      storyService.delete.bind(null, storyId),
+      { variant: 'success', message: 'Story deleted!' },
     );
     this.props.storyStore.removeStory(storyId);
   };
@@ -100,12 +86,7 @@ class StoryContainer extends Component {
             />
           </div>
         </div>
-        <Snackbar
-          open={this.state.open}
-          onClose={this.onChangeState({ open: false })}
-          message={this.state.message}
-          variant={this.state.variant}
-        />
+        <Snackbar innerRef={this.snackbarRef}/>
       </Fragment>
     );
   }

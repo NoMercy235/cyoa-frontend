@@ -18,23 +18,18 @@ class FileSelect extends React.Component {
   state = {
     file: '',
     base64Img: this.props.initialPreview || '',
-
-    // snackbar
-    open: false,
-    variant: 'success',
-    message: '',
   };
+  snackbarRef = React.createRef();
 
   isImg = file => /^image/.test(file.type);
 
   checkFile = file => {
     if (file.size <= 10e5) return;
 
-    this.onChangeState({
-      open: true,
+    this.snackbarRef.current.showSnackbar({
       variant: 'error',
       message: ERRORS.fileTooLarge,
-    })();
+    });
     throw ERRORS.fileTooLarge;
   };
 
@@ -48,20 +43,16 @@ class FileSelect extends React.Component {
     this.props.onFileUploaded(base64);
 
     if (this.isImg(file)) {
-      this.onChangeState({ base64Img: base64 })();
+      this.setState({ base64Img: base64 });
     }
 
-    this.onChangeState({ file })();
-  };
-
-  onChangeState = (metadata) => {
-    return () => this.setState(metadata);
+    this.setState({ file });
   };
 
   render() {
     const { className } = this.props;
     const label = this.state.file.name || this.props.label;
-    const { open, message, variant, base64Img } = this.state;
+    const { base64Img } = this.state;
 
     return (
       <div className={styles.container}>
@@ -89,12 +80,7 @@ class FileSelect extends React.Component {
           />
         </div>
 
-        <Snackbar
-          open={open}
-          onClose={this.onChangeState({ open: false })}
-          message={message}
-          variant={variant}
-        />
+        <Snackbar innerRef={this.snackbarRef}/>
       </div>
     );
   }

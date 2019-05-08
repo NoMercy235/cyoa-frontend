@@ -8,7 +8,6 @@ import { DialogContent } from '../../../../../../shared/components/dialog/Conten
 import { DialogActions } from '../../../../../../shared/components/dialog/Actions';
 import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
 import { inject } from 'mobx-react';
-import { withSnackbar } from '../../../../../../shared/components/form/helpers';
 import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 import { optionService } from '../../../../../../infrastructure/services/OptionService';
@@ -25,12 +24,7 @@ const debouncedSequenceList = debounced(sequenceService.list);
 
 @inject('storyViewStore')
 class SaveOptionModal extends Component {
-  state = {
-    // snackbar
-    open: false,
-    variant: 'success',
-    message: '',
-  };
+  snackbarRef = React.createRef();
 
   onSearchRequest = async (searchQuery) => {
     return (await debouncedSequenceList({
@@ -46,10 +40,6 @@ class SaveOptionModal extends Component {
     });
   };
 
-  onChangeState = (metadata) => {
-    return () => this.setState(metadata);
-  };
-
   renderTitle() {
     return this.props.option ? 'Edit option' : 'Create option';
   }
@@ -61,11 +51,9 @@ class SaveOptionModal extends Component {
 
   saveOption = async values => {
     this.setParams();
-    const option = await withSnackbar.call(
-      this,
-      optionService.save,
-      [OptionModel.forApi(values)],
-      'Option saved!',
+    const option = await this.snackbarRef.current.executeAndShowSnackbar(
+      optionService.save.bind(null, OptionModel.forApi(values)),
+      { variant: 'success', message: 'Option saved!' }
     );
     this.props.storyViewStore.addOptionToSequence(
       this.props.sequenceId,
@@ -75,11 +63,9 @@ class SaveOptionModal extends Component {
 
   updateOption = async values => {
     this.setParams();
-    const option = await withSnackbar.call(
-      this,
-      optionService.update,
-      [values._id, OptionModel.forApi(values)],
-      'Option updated!',
+    const option = await this.snackbarRef.current.executeAndShowSnackbar(
+      optionService.update.bind(null, values._id, OptionModel.forApi(values)),
+      { variant: 'success', message: 'Option updated!' }
     );
     this.props.storyViewStore.updateOption(
       this.props.sequenceId,
@@ -178,8 +164,6 @@ class SaveOptionModal extends Component {
   };
 
   render() {
-    const { open, message, variant } = this.state;
-
     return (
       <Fragment>
         <Formik
@@ -190,12 +174,7 @@ class SaveOptionModal extends Component {
         >
           {this.renderForm}
         </Formik>
-        <Snackbar
-          open={open}
-          onClose={this.onChangeState({ open: false })}
-          message={message}
-          variant={variant}
-        />
+        <Snackbar innerRef={this.snackbarRef}/>
       </Fragment>
     );
   }

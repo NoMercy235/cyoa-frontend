@@ -12,43 +12,29 @@ import { collectionService } from '../../../../../../infrastructure/services/Col
 import { CollectionModel } from '../../../../../../infrastructure/models/CollectionModel';
 import { inject } from 'mobx-react';
 import { storyStorePropTypes } from '../../../../stores/StoryStore';
-import { withSnackbar } from '../../../../../../shared/components/form/helpers';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
 
 @inject('storyStore')
 class SaveCollectionModal extends Component {
-  state = {
-    // snackbar
-    open: false,
-    variant: 'success',
-    message: '',
-  };
-
-  onChangeState = (metadata) => {
-    return () => this.setState(metadata);
-  };
+  snackbarRef = React.createRef();
 
   renderTitle() {
     return this.props.collection ? 'Edit collection' : 'Create collection';
   }
 
   saveCollection = async values => {
-    const collection = await withSnackbar.call(
-      this,
-      collectionService.save,
-      [CollectionModel.forApi(values)],
-      'Collection saved!',
+    const collection = await this.snackbarRef.current.executeAndShowSnackbar(
+      collectionService.save.bind(null, CollectionModel.forApi(values)),
+      { variant: 'success', message: 'Collection saved!' },
     );
     this.props.storyStore.addCollection(collection);
   };
 
   updateCollection = async values => {
-    const collection = await withSnackbar.call(
-      this,
-      collectionService.update,
-      [values._id, CollectionModel.forApi(values)],
-      'Collection updated!',
+    const collection = await this.snackbarRef.current.executeAndShowSnackbar(
+      collectionService.update.bind(null, values._id, CollectionModel.forApi(values)),
+      { variant: 'success', message: 'Collection updated!' },
     );
     this.props.storyStore.updateCollection(values._id, collection);
   };
@@ -110,8 +96,6 @@ class SaveCollectionModal extends Component {
   };
 
   render() {
-    const { open, message, variant } = this.state;
-
     return (
       <Fragment>
         <Formik
@@ -122,12 +106,7 @@ class SaveCollectionModal extends Component {
         >
           {this.renderForm}
         </Formik>
-        <Snackbar
-          open={open}
-          onClose={this.onChangeState({ open: false })}
-          message={message}
-          variant={variant}
-        />
+        <Snackbar innerRef={this.snackbarRef}/>
       </Fragment>
     );
   }

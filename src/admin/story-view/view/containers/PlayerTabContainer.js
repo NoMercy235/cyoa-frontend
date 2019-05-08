@@ -5,23 +5,13 @@ import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
 import { inject, observer } from 'mobx-react';
 import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
-import { withSnackbar } from '../../../../shared/components/form/helpers';
 import Snackbar from '../../../../shared/components/snackbar/Snackbar';
 import classes from './PlayerTabContainer.module.scss';
 
 @inject('storyViewStore')
 @observer
 class PlayerTabContainer extends Component {
-  state = {
-    // snackbar
-    open: false,
-    variant: 'success',
-    message: '',
-  };
-
-  onChangeState = (metadata) => {
-    return () => this.setState(metadata);
-  };
+  snackbarRef = React.createRef();
 
   onSelectAttribute = id => {
     console.log('Selected: ', id);
@@ -30,11 +20,9 @@ class PlayerTabContainer extends Component {
   onDeleteAttribute = async attributeId => {
     const params = { ':story': this.props.story._id };
     attributeService.setNextRouteParams(params);
-    await withSnackbar.call(
-      this,
-      attributeService.delete,
-      [attributeId],
-      'Attribute deleted'
+    await this.snackbarRef.current.executeAndShowSnackbar(
+      attributeService.delete.bind(null, attributeId),
+      { variant: 'success', message: 'Attribute deleted!' },
     );
     this.props.storyViewStore.removeAttribute(attributeId);
   };
@@ -45,7 +33,6 @@ class PlayerTabContainer extends Component {
 
   render() {
     const { attributes } = this.props.storyViewStore;
-    const { open, message, variant } = this.state;
     return (
       <Fragment>
         <div className={classes.tableContainer}>
@@ -55,12 +42,7 @@ class PlayerTabContainer extends Component {
             onDeleteAttribute={this.onDeleteAttribute}
           />
         </div>
-        <Snackbar
-          open={open}
-          onClose={this.onChangeState({ open: false })}
-          message={message}
-          variant={variant}
-        />
+        <Snackbar innerRef={this.snackbarRef}/>
       </Fragment>
     );
   }

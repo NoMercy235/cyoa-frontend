@@ -12,7 +12,6 @@ import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
 import { styles } from './SaveStory.css';
 import SaveStoryForm from './SaveStoryForm';
 import { storyStorePropTypes } from '../../../../stores/StoryStore';
-import { withSnackbar } from '../../../../../../shared/components/form/helpers';
 import { storyService } from '../../../../../../infrastructure/services/StoryService';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 import { TagModel } from '../../../../../../infrastructure/models/TagModel';
@@ -20,39 +19,27 @@ import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dia
 
 @inject('storyStore')
 class SaveStoryModal extends Component {
-  state = {
-    // snackbar
-    open: false,
-    variant: 'success',
-    message: '',
-  };
-
-  onChangeState = (metadata) => {
-    return () => this.setState(metadata);
-  };
+  snackbarRef = React.createRef();
 
   renderTitle() {
     return this.props.story ? 'Edit story' : 'Create story';
   }
 
   saveStory = async values => {
-    const story = await withSnackbar.call(
-      this,
-      storyService.save,
-      [StoryModel.forApi(values)],
-      'Story saved!',
+    const { storyStore } = this.props;
+    const story = await this.snackbarRef.current.executeAndShowSnackbar(
+      storyService.save.bind(null, StoryModel.forApi(values)),
+      { variant: 'success', message: 'Story saved!' },
     );
-    if (story.fromCollection === this.props.storyStore.getSelectedCollection) {
-      this.props.storyStore.addStory(story);
+    if (story.fromCollection === storyStore.getSelectedCollection) {
+      storyStore.addStory(story);
     }
   };
 
   updateStory = async values => {
-    const story = await withSnackbar.call(
-      this,
-      storyService.update,
-      [values._id, StoryModel.forApi(values)],
-      'Story updated!',
+    const story = await this.snackbarRef.current.executeAndShowSnackbar(
+      storyService.update.bind(null, values._id, StoryModel.forApi(values)),
+      { variant: 'success', message: 'Story updated!' },
     );
     this.props.storyStore.updateStory(values._id, story);
   };
@@ -121,8 +108,6 @@ class SaveStoryModal extends Component {
   };
 
   render() {
-    const { open, message, variant } = this.state;
-
     return (
       <Fragment>
         <Formik
@@ -134,12 +119,7 @@ class SaveStoryModal extends Component {
         >
           {this.renderForm}
         </Formik>
-        <Snackbar
-          open={open}
-          onClose={this.onChangeState({ open: false })}
-          message={message}
-          variant={variant}
-        />
+        <Snackbar innerRef={this.snackbarRef}/>
       </Fragment>
     );
   }

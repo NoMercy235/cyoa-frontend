@@ -17,29 +17,12 @@ import { authService } from '../../../infrastructure/services/AuthenticationServ
 import { inject } from 'mobx-react';
 import { UserModel } from '../../../infrastructure/models/UserModel';
 import { AuthenticationModel } from '../../../infrastructure/models/AuthenticationModel';
-import Snackbar from '../snackbar/Snackbar';
-import { BaseModel } from '../../../infrastructure/models/BaseModel';
 import { dialogDefaultCss } from '../dialog/Dialog.css';
 
 @inject('appStore')
 class AuthenticationModal extends Component {
   state = {
     isLoggingIn: true,
-
-    // snackbar
-    open: false,
-    variant: 'success',
-    message: '',
-  };
-
-  onChangeState = (metadata) => {
-    return () => this.setState(metadata);
-  };
-
-  getSnackbarText = () => {
-    return this.state.isLoggingIn
-      ? 'Login successful!'
-      : 'Register successful!';
   };
 
   authenticate = response => {
@@ -77,7 +60,7 @@ class AuthenticationModal extends Component {
 
   onHelperTextClick = (formik, metadata) => () => {
     formik.resetForm();
-    this.onChangeState(metadata)();
+    this.setState(metadata);
   };
 
   renderHelperText(formik) {
@@ -95,19 +78,8 @@ class AuthenticationModal extends Component {
   onSubmit = async (values, { setSubmitting }) => {
     try {
       this.state.isLoggingIn
-        ? await this.login(values)
-        : await this.register(values);
-      this.onChangeState({
-        variant: 'success',
-        open: true,
-        message: this.getSnackbarText(),
-      })();
-    } catch (e) {
-      this.onChangeState({
-        variant: 'error',
-        open: true,
-        message: BaseModel.handleError(e),
-      })();
+        ? this.login(values)
+        : this.register(values);
     } finally {
       setSubmitting(false);
     }
@@ -151,8 +123,6 @@ class AuthenticationModal extends Component {
   };
 
   render() {
-    const { open, message, variant } = this.state;
-
     return (
       <Fragment>
         <Formik
@@ -163,12 +133,6 @@ class AuthenticationModal extends Component {
         >
           {this.renderForm}
         </Formik>
-        <Snackbar
-          open={open}
-          onClose={this.onChangeState({ open: false })}
-          message={message}
-          variant={variant}
-        />
       </Fragment>
     );
   }

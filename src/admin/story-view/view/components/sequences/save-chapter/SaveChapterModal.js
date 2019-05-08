@@ -9,7 +9,6 @@ import { DialogActions } from '../../../../../../shared/components/dialog/Action
 import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
 import { styles } from './SaveChapter.css';
 import { inject } from 'mobx-react';
-import { withSnackbar } from '../../../../../../shared/components/form/helpers';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 import { ChapterModel } from '../../../../../../infrastructure/models/ChapterModel';
 import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
@@ -19,17 +18,8 @@ import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dia
 
 @inject('storyViewStore')
 class SaveChapterModal extends Component {
-  state = {
-    // snackbar
-    open: false,
-    variant: 'success',
-    message: '',
-  };
   mounted = false;
-
-  onChangeState = (metadata) => {
-    return () => this.setState(metadata);
-  };
+  snackbarRef = React.createRef();
 
   renderTitle() {
     return this.props.chapter ? 'Edit chapter' : 'Create chapter';
@@ -41,21 +31,21 @@ class SaveChapterModal extends Component {
   };
 
   saveChapter = async values => {
-    await withSnackbar.call(
-      this,
-      chapterService.save,
-      [ChapterModel.forApi(values)],
-      'Chapter saved!',
+    await this.snackbarRef.current.executeAndShowSnackbar(
+      chapterService.save.bind(null, ChapterModel.forApi(values)),
+      { variant: 'success', message: 'Chapter saved!' },
     );
     await this.refreshChapters();
   };
 
   updateChapter = async values => {
-    await withSnackbar.call(
-      this,
-      chapterService.update,
-      [values._id, ChapterModel.forApi(values, ['_id'])],
-      'Chapter updated!',
+    await this.snackbarRef.current.executeAndShowSnackbar(
+      chapterService.update.bind(
+        null,
+        values._id,
+        ChapterModel.forApi(values, ['_id'])
+      ),
+      { variant: 'success', message: 'Chapter updated!' },
     );
     await this.refreshChapters();
   };
@@ -130,8 +120,6 @@ class SaveChapterModal extends Component {
   }
 
   render() {
-    const { open, message, variant } = this.state;
-
     return (
       <Fragment>
         <Formik
@@ -142,12 +130,7 @@ class SaveChapterModal extends Component {
         >
           {this.renderForm}
         </Formik>
-        <Snackbar
-          open={open}
-          onClose={this.onChangeState({ open: false })}
-          message={message}
-          variant={variant}
-        />
+        <Snackbar innerRef={this.snackbarRef}/>
       </Fragment>
     );
   }
