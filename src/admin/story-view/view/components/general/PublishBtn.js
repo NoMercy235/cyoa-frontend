@@ -18,7 +18,8 @@ class PublishBtn extends Component {
   onChangePublishState = (state, message) => async () => {
     const { story } = this.props;
     const dbStory = await this.snackbarRef.current.executeAndShowSnackbar(
-      storyService.update.bind(null, story._id, { published: state }),
+      storyService.update,
+      [story._id, { published: state }],
       { variant: 'success', message }
     );
     this.props.storyViewStore.setCurrentStory(dbStory);

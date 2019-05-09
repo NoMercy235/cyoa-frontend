@@ -46,7 +46,8 @@ class SequenceTabContainer extends Component {
     const params = { ':story': this.props.story._id };
     sequenceService.setNextRouteParams(params);
     await this.snackbarRef.current.executeAndShowSnackbar(
-      sequenceService.delete.bind(null, sequenceId),
+      sequenceService.delete,
+      [sequenceId],
       { variant: 'success', message: 'Sequence deleted!' },
     );
     this.props.storyViewStore.removeSequence(sequenceId);
@@ -56,7 +57,8 @@ class SequenceTabContainer extends Component {
     const params = { ':sequence': sequenceId };
     optionService.setNextRouteParams(params);
     await this.snackbarRef.current.executeAndShowSnackbar(
-      optionService.delete.bind(null, optionId),
+      optionService.delete,
+      [optionId],
       { variant: 'success', message: 'Option deleted!' },
     );
     this.props.storyViewStore.removeOptionFromSequence(sequenceId, optionId);
@@ -116,7 +118,8 @@ class SequenceTabContainer extends Component {
     const { selectedChapterId } = this.state;
 
     await this.snackbarRef.current.executeAndShowSnackbar(
-      chapterService.delete.bind(null, chapterId),
+      chapterService.delete,
+      [chapterId],
       { variant: 'success', message: 'Chapter deleted!' },
     );
 

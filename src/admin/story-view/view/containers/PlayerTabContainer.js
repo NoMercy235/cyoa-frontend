@@ -21,7 +21,8 @@ class PlayerTabContainer extends Component {
     const params = { ':story': this.props.story._id };
     attributeService.setNextRouteParams(params);
     await this.snackbarRef.current.executeAndShowSnackbar(
-      attributeService.delete.bind(null, attributeId),
+      attributeService.delete,
+      [attributeId],
       { variant: 'success', message: 'Attribute deleted!' },
     );
     this.props.storyViewStore.removeAttribute(attributeId);

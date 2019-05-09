@@ -25,7 +25,8 @@ class SaveCollectionModal extends Component {
 
   saveCollection = async values => {
     const collection = await this.snackbarRef.current.executeAndShowSnackbar(
-      collectionService.save.bind(null, CollectionModel.forApi(values)),
+      collectionService.save,
+      [CollectionModel.forApi(values)],
       { variant: 'success', message: 'Collection saved!' },
     );
     this.props.storyStore.addCollection(collection);
@@ -33,7 +34,8 @@ class SaveCollectionModal extends Component {
 
   updateCollection = async values => {
     const collection = await this.snackbarRef.current.executeAndShowSnackbar(
-      collectionService.update.bind(null, values._id, CollectionModel.forApi(values)),
+      collectionService.update,
+      [values._id, CollectionModel.forApi(values)],
       { variant: 'success', message: 'Collection updated!' },
     );
     this.props.storyStore.updateCollection(values._id, collection);

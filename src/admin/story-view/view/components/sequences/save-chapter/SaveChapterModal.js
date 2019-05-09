@@ -32,7 +32,8 @@ class SaveChapterModal extends Component {
 
   saveChapter = async values => {
     await this.snackbarRef.current.executeAndShowSnackbar(
-      chapterService.save.bind(null, ChapterModel.forApi(values)),
+      chapterService.save,
+      [ChapterModel.forApi(values)],
       { variant: 'success', message: 'Chapter saved!' },
     );
     await this.refreshChapters();
@@ -40,11 +41,8 @@ class SaveChapterModal extends Component {
 
   updateChapter = async values => {
     await this.snackbarRef.current.executeAndShowSnackbar(
-      chapterService.update.bind(
-        null,
-        values._id,
-        ChapterModel.forApi(values, ['_id'])
-      ),
+      chapterService.update,
+      [values._id, ChapterModel.forApi(values, ['_id'])],
       { variant: 'success', message: 'Chapter updated!' },
     );
     await this.refreshChapters();

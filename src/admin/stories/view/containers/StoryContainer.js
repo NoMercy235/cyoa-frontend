@@ -42,7 +42,8 @@ class StoryContainer extends Component {
 
   onDeleteCollection = async (colId) => {
     await this.snackbarRef.current.executeAndShowSnackbar(
-      collectionService.delete.bind(null, colId),
+      collectionService.delete,
+      [colId],
       { variant: 'success', message: 'Collection deleted!' },
     );
     this.props.storyStore.removeCollection(colId);
@@ -50,7 +51,8 @@ class StoryContainer extends Component {
 
   onDeleteStory = async storyId => {
     await this.snackbarRef.current.executeAndShowSnackbar(
-      storyService.delete.bind(null, storyId),
+      storyService.delete,
+      [storyId],
       { variant: 'success', message: 'Story deleted!' },
     );
     this.props.storyStore.removeStory(storyId);

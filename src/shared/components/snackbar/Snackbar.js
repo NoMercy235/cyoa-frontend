@@ -35,9 +35,9 @@ class Snackbar extends React.Component {
     horizontal: 'center',
   };
 
-  executeAndShowSnackbar = async (foo, options) => {
+  executeAndShowSnackbar = async (foo, args, options) => {
     try {
-      const result = await foo.call();
+      const result = await foo(...args);
       this.showSnackbar(options);
       return result;
     } catch (e) {

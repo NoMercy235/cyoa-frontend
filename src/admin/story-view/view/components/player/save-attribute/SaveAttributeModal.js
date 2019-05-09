@@ -26,7 +26,8 @@ class SaveAttributeModal extends Component {
 
   saveAttribute = async values => {
     const attribute = await this.snackbarRef.current.executeAndShowSnackbar(
-      attributeService.save.bind(null, AttributeModel.forApi(values)),
+      attributeService.save,
+      [AttributeModel.forApi(values)],
       { variant: 'success', message: 'Attribute saved!' },
     );
     this.props.storyViewStore.addAttribute(attribute);
@@ -34,7 +35,8 @@ class SaveAttributeModal extends Component {
 
   updateAttribute = async values => {
     const attribute = await this.snackbarRef.current.executeAndShowSnackbar(
-      attributeService.update.bind(null, values._id, AttributeModel.forApi(values)),
+      attributeService.update,
+      [values._id, AttributeModel.forApi(values)],
       { variant: 'success', message: 'Attribute updated!' },
     );
     this.props.storyViewStore.updateAttribute(values._id, attribute);

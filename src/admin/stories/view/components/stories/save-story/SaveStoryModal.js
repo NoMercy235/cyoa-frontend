@@ -28,7 +28,8 @@ class SaveStoryModal extends Component {
   saveStory = async values => {
     const { storyStore } = this.props;
     const story = await this.snackbarRef.current.executeAndShowSnackbar(
-      storyService.save.bind(null, StoryModel.forApi(values)),
+      storyService.save,
+      [StoryModel.forApi(values)],
       { variant: 'success', message: 'Story saved!' },
     );
     if (story.fromCollection === storyStore.getSelectedCollection) {
@@ -38,7 +39,8 @@ class SaveStoryModal extends Component {
 
   updateStory = async values => {
     const story = await this.snackbarRef.current.executeAndShowSnackbar(
-      storyService.update.bind(null, values._id, StoryModel.forApi(values)),
+      storyService.update,
+      [values._id, StoryModel.forApi(values)],
       { variant: 'success', message: 'Story updated!' },
     );
     this.props.storyStore.updateStory(values._id, story);

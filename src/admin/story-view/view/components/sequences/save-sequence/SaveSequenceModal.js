@@ -34,18 +34,20 @@ class SaveSequenceModal extends Component {
     return this.props.sequence ? 'Edit sequence' : 'Create sequence';
   }
 
-  sendRequest = async (method, message) => {
+  sendRequest = async (method, args, message) => {
     const params = { ':story': this.props.story._id };
     sequenceService.setNextRouteParams(params);
     return await this.snackbarRef.current.executeAndShowSnackbar(
       method,
+      args,
       { variant: 'success', message },
     );
   };
 
   saveSequence = async values => {
     const sequence = await this.sendRequest(
-      sequenceService.save.bind(null, SequenceModel.forApi(values)),
+      sequenceService.save,
+      [SequenceModel.forApi(values)],
       'Sequence saved!',
     );
     if (sequence.chapter === this.props.selectedChapterId) {
@@ -56,7 +58,8 @@ class SaveSequenceModal extends Component {
 
   updateSequence = async values => {
     const sequence = await this.sendRequest(
-      sequenceService.update.bind(null, values._id, SequenceModel.forApi(values)),
+      sequenceService.update,
+      [values._id, SequenceModel.forApi(values)],
       'Sequence updated!',
     );
     this.props.storyViewStore.updateSequence(values._id, sequence);

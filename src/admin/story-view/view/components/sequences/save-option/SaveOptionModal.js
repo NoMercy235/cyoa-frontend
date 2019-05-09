@@ -52,7 +52,8 @@ class SaveOptionModal extends Component {
   saveOption = async values => {
     this.setParams();
     const option = await this.snackbarRef.current.executeAndShowSnackbar(
-      optionService.save.bind(null, OptionModel.forApi(values)),
+      optionService.save,
+      [OptionModel.forApi(values)],
       { variant: 'success', message: 'Option saved!' }
     );
     this.props.storyViewStore.addOptionToSequence(
@@ -64,7 +65,8 @@ class SaveOptionModal extends Component {
   updateOption = async values => {
     this.setParams();
     const option = await this.snackbarRef.current.executeAndShowSnackbar(
-      optionService.update.bind(null, values._id, OptionModel.forApi(values)),
+      optionService.update,
+      [values._id, OptionModel.forApi(values)],
       { variant: 'success', message: 'Option updated!' }
     );
     this.props.storyViewStore.updateOption(
