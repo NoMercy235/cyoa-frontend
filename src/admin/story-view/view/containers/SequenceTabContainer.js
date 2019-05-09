@@ -113,12 +113,17 @@ class SequenceTabContainer extends Component {
   };
 
   onDeleteChapter = async (chapterId) => {
-    await chapterService.delete(chapterId);
-    await this.getChapters();
-    this.snackbarRef.current.showSnackbar({
-      variant: 'success',
-      message: 'Chapter deleted!',
-    });
+    const { selectedChapterId } = this.state;
+
+    await this.snackbarRef.current.executeAndShowSnackbar(
+      chapterService.delete.bind(null, chapterId),
+      { variant: 'success', message: 'Chapter deleted!' },
+    );
+
+    await Promise.all([
+      this.getChapters(),
+      (chapterId === selectedChapterId) && this.getSequences(),
+    ]);
   };
 
   componentDidMount () {

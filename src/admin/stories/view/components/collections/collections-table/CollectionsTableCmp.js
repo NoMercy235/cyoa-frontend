@@ -21,14 +21,25 @@ class CollectionsTableCmp extends Component {
     selectedCollection: '',
   };
 
-  onChangeCollection = id => () => {
+  setSelectedCollection = id => {
+    const { storyStore } = this.props;
     this.setState({ selectedCollection: id });
-    this.props.onChangeCollection(id);
-    this.props.storyStore.setSelectedCollection(id);
+    storyStore.setSelectedCollection(id);
   };
 
-  onDeleteCollection = id => () => {
-    this.props.onDeleteCollection(id);
+  onChangeCollection = id => () => {
+    const { onChangeCollection } = this.props;
+    onChangeCollection(id);
+    this.setSelectedCollection(id);
+  };
+
+  onDeleteCollection = id => async () => {
+    const { onDeleteCollection } = this.props;
+    const { selectedCollection } = this.state;
+    await onDeleteCollection(id);
+    if (id === selectedCollection) {
+      this.onChangeCollection('')();
+    }
   };
 
   renderName = row => {
