@@ -10,7 +10,8 @@ class BasicEditAction extends Component {
     resource: this.props.resource || {},
   };
 
-  onShowModal = async () => {
+  onShowModal = async (event) => {
+    event.stopPropagation();
     const { getBeforeModal, onModalOpen } = this.props;
 
     onModalOpen && await onModalOpen();

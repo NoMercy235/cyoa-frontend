@@ -54,7 +54,8 @@ class SaveChapterModal extends Component {
     return this.props.chapter || new ChapterModel();
   };
 
-  onClose = (resetForm) => () => {
+  onClose = (resetForm) => event => {
+    event && event.stopPropagation();
     if (!this.mounted) return;
     resetForm(this.getInitialValues());
     this.props.onClose();
