@@ -36,10 +36,11 @@ class IndexRoute extends Component {
       const user = await userService.getUserWithToken();
       this.props.appStore.setUser(user);
     } catch (e) {
-      this.snackbarRef.current.showSnackbar({
-        variant: 'error',
-        message: 'Token has expired. Please relog.',
-      });
+      // TODO: this doesn't work since the DOM is not loaded
+      // this.snackbarRef.current.showSnackbar({
+      //   variant: 'error',
+      //   message: 'Token has expired. Please relog.',
+      // });
     }
   };
 
