@@ -86,10 +86,14 @@ class SaveOptionModal extends Component {
         {},
         option,
         {
-          nextSeq: {
-            value: option.nextSeq._id,
-            label: option.nextSeq.name,
-          },
+          // If there is no nextSeq, then it has been deleted at some point
+          // We will require the user to select another one.
+          nextSeq: option.nextSeq
+            ? {
+              value: option.nextSeq._id,
+              label: option.nextSeq.name,
+            }
+            : '',
         },
       );
     }

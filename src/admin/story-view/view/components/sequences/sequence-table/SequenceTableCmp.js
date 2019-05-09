@@ -74,7 +74,7 @@ class SequenceTableCmp extends Component {
 
     const sequence = sequences.find(s => s._id === rowSeqId);
 
-    return (
+    return sequence && (
       <tr>
         <td colSpan={colSpan} className={classes.optionsTableContainer}>
           {parseContent(sequence.content)}

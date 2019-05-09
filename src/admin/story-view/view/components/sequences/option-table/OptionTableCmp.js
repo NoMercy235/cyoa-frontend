@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core';
+import { IconButton, Tooltip, withStyles } from '@material-ui/core';
 import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
 import TableCmp from '../../../../../../shared/components/table/TableCmp';
 import { optionService } from '../../../../../../infrastructure/services/OptionService';
@@ -13,10 +13,31 @@ import BasicEditAction from '../../../../../../shared/components/form/BasicEditA
 import DeleteRow from '../../../../../../shared/components/table/actions/DeleteRow';
 import { renderOptionTableTitle } from './OptionTableTitle';
 import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
+import WarningIcon from '@material-ui/icons/WarningRounded';
 
 @inject('storyViewStore')
 @observer
 class OptionTableCmp extends Component {
+  editRef = React.createRef();
+
+  onWarningClick = e => {
+    this.editRef.current.onShowModal(e);
+  };
+
+  getNextSeqName = ({ nextSeq }) => {
+    return nextSeq
+      ? nextSeq.name
+      : (
+        <Tooltip title="The sequence no longer exists. Please update.">
+          <IconButton onClick={this.onWarningClick}>
+            <WarningIcon
+              color="secondary"
+            />
+          </IconButton>
+        </Tooltip>
+      );
+  };
+
   getConsequences(option) {
     return option.consequences
       .filter(c => c.attribute)
@@ -55,6 +76,7 @@ class OptionTableCmp extends Component {
     return (
       <div key={row._id} className={classes.actionsContainer}>
         <BasicEditAction
+          ref={this.editRef}
           resourceName="option"
           resource={row}
           modalComponent={SaveOptionModal}
@@ -80,7 +102,7 @@ class OptionTableCmp extends Component {
     const data = sequence.options.map(o => {
       return [
         o.action,
-        o.nextSeq.name,
+        this.getNextSeqName(o),
         this.getConsequences(o),
         this.getActions(o),
       ];
