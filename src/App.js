@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import './App.scss';
 import { Provider } from 'mobx-react';
 import { appStore } from './shared/store/AppStore';
@@ -11,7 +11,7 @@ import { publicStoryStore } from './public/landing/stores/PublicStoryStore';
 class App extends Component {
   render() {
     return (
-      <Fragment>
+      <>
         <BrowserRouter>
           <Provider
             appStore={appStore}
@@ -22,7 +22,7 @@ class App extends Component {
             <IndexRoute />
           </Provider>
         </BrowserRouter>
-      </Fragment>
+      </>
     );
   }
 }

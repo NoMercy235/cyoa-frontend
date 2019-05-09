@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
@@ -41,7 +41,7 @@ class ShareButton extends Component {
     const { classes, text } = this.props;
 
     return (
-      <Fragment>
+      <>
         <IconButton
           aria-label="Share"
           onClick={this.handleClick}
@@ -72,7 +72,7 @@ class ShareButton extends Component {
             />
           </div>
         </Popover>
-      </Fragment>
+      </>
     );
   }
 }

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
@@ -165,7 +165,7 @@ class SaveOptionModal extends Component {
 
   render() {
     return (
-      <Fragment>
+      <>
         <Formik
           enableReinitialize={true}
           initialValues={this.getInitialValues()}
@@ -175,7 +175,7 @@ class SaveOptionModal extends Component {
           {this.renderForm}
         </Formik>
         <Snackbar innerRef={this.snackbarRef}/>
-      </Fragment>
+      </>
     );
   }
 }

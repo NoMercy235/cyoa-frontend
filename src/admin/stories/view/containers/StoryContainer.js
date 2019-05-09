@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import CollectionsTableCmp from '../components/collections/collections-table/CollectionsTableCmp';
 import StoriesTableCmp from '../components/stories/stories-table/StoriesTableCmp';
 import classes from './StoryContainer.module.scss';
@@ -69,7 +69,7 @@ class StoryContainer extends Component {
     const { stories, collections } = this.props.storyStore;
 
     return (
-      <Fragment>
+      <>
         <Breadcrumb/>
         <div className={classes.tableContainer}>
           <div className={classes.collectionsContainer}>
@@ -87,7 +87,7 @@ class StoryContainer extends Component {
           </div>
         </div>
         <Snackbar innerRef={this.snackbarRef}/>
-      </Fragment>
+      </>
     );
   }
 }

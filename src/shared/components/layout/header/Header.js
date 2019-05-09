@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -24,7 +24,7 @@ class Header extends Component {
     } = this.props;
 
     return (
-      <Fragment>
+      <>
         <CssBaseline />
         <AppBar
           position="fixed"
@@ -50,7 +50,7 @@ class Header extends Component {
             {HeaderCmp && <HeaderCmp />}
           </Toolbar>
         </AppBar>
-      </Fragment>
+      </>
     );
   }
 }

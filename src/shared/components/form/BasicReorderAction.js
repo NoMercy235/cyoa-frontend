@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import ArrowUpIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import IconButton from '@material-ui/core/IconButton';
@@ -20,7 +20,7 @@ class BasicReorderAction extends Component {
 
     // The extra divs are needed because Tooltip does not allow having disabled children
     return (
-      <Fragment>
+      <>
         <Tooltip title="Move up">
           <div>
             <IconButton
@@ -42,7 +42,7 @@ class BasicReorderAction extends Component {
             </IconButton>
           </div>
         </Tooltip>
-      </Fragment>
+      </>
     );
   }
 }

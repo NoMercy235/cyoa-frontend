@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { LANDING_ROUTE } from '../../../../../shared/constants/routes';
 import { withRouter } from 'react-router-dom';
@@ -39,7 +39,7 @@ class StoryFinished extends Component {
 
   getContentText = () => {
     return (
-      <Fragment>
+      <>
         <Typography
           variant="h6"
           color="inherit"
@@ -52,7 +52,7 @@ class StoryFinished extends Component {
         >
           On the other hand, many different adventures await, so you can go ahead and read something else to satisfy your curiosity.
         </Typography>
-      </Fragment>
+      </>
     );
   };
 

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -88,7 +88,7 @@ class SideMenu extends Component {
     const { classes, open, onHandleDrawerClose } = this.props;
 
     return (
-      <Fragment>
+      <>
         <Drawer
           open={open}
           onClose={onHandleDrawerClose}
@@ -109,7 +109,7 @@ class SideMenu extends Component {
             {this.renderAdminMenu()}
           </List>
         </Drawer>
-      </Fragment>
+      </>
     );
   }
 }

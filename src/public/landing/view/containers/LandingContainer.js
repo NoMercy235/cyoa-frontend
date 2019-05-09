@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import LandingCmp from '../components/landing/LandingCmp';
 import { publicStoryService } from '../../../../infrastructure/services/StoryService';
 import { inject, observer } from 'mobx-react';
@@ -27,12 +27,12 @@ class LandingContainer extends Component {
   render() {
     const { publicStoryStore: { stories } } = this.props;
     return (
-      <Fragment>
+      <>
         <Breadcrumb/>
         <LandingCmp
           stories={stories}
         />
-      </Fragment>
+      </>
     );
   }
 }

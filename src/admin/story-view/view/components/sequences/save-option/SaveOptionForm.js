@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Field, FieldArray, Form } from 'formik';
 import TextField from '@material-ui/core/TextField';
@@ -53,7 +53,7 @@ class SaveOptionForm extends Component {
   renderConsequences = (arrayHelpers) => {
     const { classes, formik, attributes } = this.props;
     return (
-      <Fragment>
+      <>
         <Typography
           className={classes.consequenceHeader}
           variant="h6"
@@ -78,7 +78,7 @@ class SaveOptionForm extends Component {
             onRemoveConsequence={this.onRemoveConsequence(arrayHelpers)}
           />
         ))}
-      </Fragment>
+      </>
     );
   };
 

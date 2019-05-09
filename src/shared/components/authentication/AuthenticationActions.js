@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 
@@ -7,7 +7,7 @@ class AuthenticationActions extends Component {
     const { formik } = this.props;
 
     return (
-      <Fragment>
+      <>
         <Button
           color="secondary"
           onClick={this.props.onClose}
@@ -22,7 +22,7 @@ class AuthenticationActions extends Component {
         >
           {this.props.okText}
         </Button>
-      </Fragment>
+      </>
     );
   }
 }

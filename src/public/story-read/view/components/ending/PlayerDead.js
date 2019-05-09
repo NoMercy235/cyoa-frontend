@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
@@ -32,7 +32,7 @@ class PlayerDead extends Component {
 
   getContentText = () => {
     return (
-      <Fragment>
+      <>
         <img
           alt="Cover"
           src={playerDead}
@@ -43,7 +43,7 @@ class PlayerDead extends Component {
         >
           Your choices have led to impending doom. You lie on the ground with blurring vision thinking about what happened that led to this miserable fate.
         </Typography>
-      </Fragment>
+      </>
     );
   };
 

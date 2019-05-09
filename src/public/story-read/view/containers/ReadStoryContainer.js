@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { publicStoryService } from '../../../../infrastructure/services/StoryService';
 import { withRouter } from 'react-router-dom';
 import * as PropTypes from 'prop-types';
@@ -37,7 +37,7 @@ class ReadStoryContainer extends Component {
     const { canRender, story, chapters } = this.state;
 
     return (
-      <Fragment>
+      <>
         <Breadcrumb/>
         {canRender && (
           <StoryContent
@@ -45,7 +45,7 @@ class ReadStoryContainer extends Component {
             chapters={chapters}
           />
         )}
-      </Fragment>
+      </>
     );
   }
 }

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { PlayerModel } from '../../../../../infrastructure/models/PlayerModel';
 import { SequenceModel } from '../../../../../infrastructure/models/SequenceModel';
@@ -24,9 +24,9 @@ class DisplaySequenceTitle extends Component {
 
   renderAttribute = (attr, index) => {
     const text = (
-      <Fragment>
+      <>
         <b>{attr.name}</b>&nbsp;&nbsp;{attr.value}
-      </Fragment>
+      </>
     );
 
     return (

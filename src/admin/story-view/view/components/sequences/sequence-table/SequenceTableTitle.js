@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import HelpCmp from '../../../../../../shared/components/help/HelpCmp';
 
 function getTitle() {
@@ -7,7 +7,7 @@ function getTitle() {
 
 function getDescription () {
   return (
-    <Fragment>
+    <>
       <span>The sequences have the following structure:</span>
       <ul>
         <li><b>chapter</b> Use this to manage your sequences easier</li>
@@ -18,7 +18,7 @@ function getDescription () {
       </ul>
       <span>To define what options each sequence has, use the expand button to the left of the sequence.</span>
       <p>You can reorder the sequences one step at a time if you wish them to appear in a different order in this table. The reordering will only affect your view of the sequences and will not have an impact on the public page where other users can read your story.</p>
-    </Fragment>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import * as PropTypes from 'prop-types';
@@ -37,7 +37,7 @@ class BasicEditAction extends Component {
     };
 
     return (
-      <Fragment>
+      <>
         <IconButton
           onClick={this.onShowModal}
         >
@@ -51,7 +51,7 @@ class BasicEditAction extends Component {
           {...resourceProp}
           {...innerProps}
         />
-      </Fragment>
+      </>
     );
   }
 }

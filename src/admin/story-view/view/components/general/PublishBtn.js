@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import Button from '@material-ui/core/Button';
@@ -26,14 +26,14 @@ class PublishBtn extends Component {
 
   renderPublishDescription = () => {
     return (
-      <Fragment>
+      <>
         <span>Please note the following:</span>
         <ul>
           <li>If the player should be able to lose the story, at least one important attribute is needed</li>
           <li>You need to have marked one sequence as a starting sequence</li>
           <li>You need at least one sequence marked as ending sequence </li>
         </ul>
-      </Fragment>
+      </>
     );
   };
 
@@ -55,13 +55,13 @@ class PublishBtn extends Component {
 
   renderUnpublishDescription = () => {
     return (
-      <Fragment>
+      <>
         <span>Please note the following:</span>
         <ul>
           <li>Any users currently reading the story will still be able to continue reading it</li>
           <li>Players in possession of the shared link will still be able to access the story</li>
         </ul>
-      </Fragment>
+      </>
     );
   };
 
@@ -85,10 +85,10 @@ class PublishBtn extends Component {
     const { story } = this.props;
 
     return (
-      <Fragment>
+      <>
         {story.published ? this.renderUnpublishButton() : this.renderPublishButton()}
         <Snackbar innerRef={this.snackbarRef}/>
-      </Fragment>
+      </>
     );
   }
 }

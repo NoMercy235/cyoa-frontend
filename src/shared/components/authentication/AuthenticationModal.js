@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { styles } from './Authentication.css';
@@ -124,7 +124,7 @@ class AuthenticationModal extends Component {
 
   render() {
     return (
-      <Fragment>
+      <>
         <Formik
           enableReinitialize={true}
           initialValues={new AuthenticationModel()}
@@ -133,7 +133,7 @@ class AuthenticationModal extends Component {
         >
           {this.renderForm}
         </Formik>
-      </Fragment>
+      </>
     );
   }
 }

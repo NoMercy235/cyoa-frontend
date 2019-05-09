@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
 import AppBar from '@material-ui/core/AppBar';
@@ -23,7 +23,7 @@ class StoryView extends Component {
     const { story } = this.props;
 
     return (
-      <Fragment>
+      <>
         <Breadcrumb/>
         <AppBar position="static">
           <Tabs value={currentTab} onChange={this.handleChange}>
@@ -44,7 +44,7 @@ class StoryView extends Component {
             story={story}
           />
         )}
-      </Fragment>
+      </>
     );
   }
 }

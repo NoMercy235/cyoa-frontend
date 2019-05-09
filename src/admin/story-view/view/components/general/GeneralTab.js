@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import styles from './GeneralTab.module.scss';
@@ -10,7 +10,7 @@ class GeneralTab extends Component {
   render() {
     const { story } = this.props;
     return (
-      <Fragment>
+      <>
         <Typography
           variant="h6"
           color="inherit"
@@ -25,7 +25,7 @@ class GeneralTab extends Component {
           />
           {parseContent(story.longDescription)}
         </div>
-      </Fragment>
+      </>
     );
   }
 }

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { storyService } from '../../../../infrastructure/services/StoryService';
 import StoryView from '../components/StoryView';
 import * as PropTypes from 'prop-types';
@@ -48,12 +48,12 @@ class StoryViewContainer extends Component {
     }
 
     return (
-      <Fragment>
+      <>
         <StoryView
           story={currentStory}
           getAttributes={this.getAttributes}
         />
-      </Fragment>
+      </>
     );
   }
 }

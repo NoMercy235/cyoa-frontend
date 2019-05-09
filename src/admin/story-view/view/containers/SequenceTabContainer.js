@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
 import Snackbar from '../../../../shared/components/snackbar/Snackbar';
@@ -134,7 +134,7 @@ class SequenceTabContainer extends Component {
     const { selectedChapterId } = this.state;
 
     return (
-      <Fragment>
+      <>
         <div className={classes.tablesContainer}>
           <ChapterListCmp
             className={classes.chaptersList}
@@ -155,7 +155,7 @@ class SequenceTabContainer extends Component {
           />
         </div>
         <Snackbar innerRef={this.snackbarRef}/>
-      </Fragment>
+      </>
     );
   }
 }

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -27,7 +27,7 @@ class BasicNewAction extends Component {
     } = this.props;
     const { modalOpen } = this.state;
     return (
-      <Fragment>
+      <>
         <Tooltip title={tooltip}>
           <IconButton
             className={className}
@@ -42,7 +42,7 @@ class BasicNewAction extends Component {
           onClose={this.onHideModal}
           {...(innerProps || {})}
         />
-      </Fragment>
+      </>
     );
   }
 }

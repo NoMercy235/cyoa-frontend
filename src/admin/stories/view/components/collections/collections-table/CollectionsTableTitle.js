@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import HelpCmp from '../../../../../../shared/components/help/HelpCmp';
 
 function getTitle() {
@@ -7,9 +7,9 @@ function getTitle() {
 
 function getDescription () {
   return (
-    <Fragment>
+    <>
       <span>The role of collections is simply to group your stories and make it easier to access them.</span>
-    </Fragment>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Exit from '@material-ui/icons/ExitToAppRounded';
@@ -83,7 +83,7 @@ class Authentication extends Component {
     const { modalOpen } = this.state;
 
     return (
-      <Fragment>
+      <>
         {appStore.isLoggedIn
           ? this.renderLogout(this.props)
           : this.renderLogin(this.props)
@@ -94,7 +94,7 @@ class Authentication extends Component {
           onClose={this.onChangeState({ modalOpen: false })}
         />
         <Snackbar innerRef={this.snackbarRef}/>
-      </Fragment>
+      </>
     );
   }
 }

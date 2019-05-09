@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import ConfirmationModal from '../components/confirmation/ConfirmationModal';
 import { withStyles } from '@material-ui/core';
 import { styles } from '../components/layout/Styles.css';
@@ -30,7 +30,7 @@ export function withModal(InnerComponent, Modal = ConfirmationModal) {
       const { isOpen } = this.state;
 
       return (
-        <Fragment>
+        <>
           <InnerComponent
             onClick={this.onShowModal}
             {...innerProps}
@@ -43,7 +43,7 @@ export function withModal(InnerComponent, Modal = ConfirmationModal) {
             open={isOpen}
             onClose={this.onHideModal}
             onAccept={this.onAccept}/>
-        </Fragment>
+        </>
       );
     }
   }

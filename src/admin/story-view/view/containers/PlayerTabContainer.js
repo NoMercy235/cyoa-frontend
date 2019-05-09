@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import AttributesTableCmp from '../components/player/AttributesTableCmp';
 import { attributeService } from '../../../../infrastructure/services/AttributeService';
 import * as PropTypes from 'prop-types';
@@ -34,7 +34,7 @@ class PlayerTabContainer extends Component {
   render() {
     const { attributes } = this.props.storyViewStore;
     return (
-      <Fragment>
+      <>
         <div className={classes.tableContainer}>
           <AttributesTableCmp
             attributes={attributes}
@@ -43,7 +43,7 @@ class PlayerTabContainer extends Component {
           />
         </div>
         <Snackbar innerRef={this.snackbarRef}/>
-      </Fragment>
+      </>
     );
   }
 }

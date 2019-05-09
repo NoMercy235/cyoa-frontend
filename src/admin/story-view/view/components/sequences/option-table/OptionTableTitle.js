@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import HelpCmp from '../../../../../../shared/components/help/HelpCmp';
 
 function getTitle() {
@@ -7,7 +7,7 @@ function getTitle() {
 
 function getDescription () {
   return (
-    <Fragment>
+    <>
       <p>The options have the following structure:</p>
       <ul>
         <li><b>action</b> The text that will appear to the user when they want to select this option</li>
@@ -22,7 +22,7 @@ function getDescription () {
       <p>An option is not required to have a consequence. It can be removed if you wish so.</p>
       <p>Consequences can target important attributes. Using a negative value for <b>changeValue</b> will cause that attribute to drop to negative values eventually.</p>
       <p>Having an important attribute with negative value will immediately cause the player to lose the story.</p>
-    </Fragment>
+    </>
   );
 }
 
