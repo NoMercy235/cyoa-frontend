@@ -2,6 +2,16 @@
 /* eslint no-undef: 0 */
 /* eslint no-useless-escape: 0 */
 
+const isLocalhost = Boolean(
+  window.location.hostname === 'localhost' ||
+  // [::1] is the IPv6 localhost address.
+  window.location.hostname === '[::1]' ||
+  // 127.0.0.1/8 is considered localhost for IPv4.
+  window.location.hostname.match(
+    /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
+  )
+);
+
 (function () {
   if (typeof importScripts !== 'function') {
     console.warn('ImportScripts not available. Cannot start service worker');
@@ -48,6 +58,10 @@
   );
 
   configureGoogleCache (workbox);
+
+  if (isLocalhost) {
+    setupBasicEventListeners();
+  }
 })();
 
 function configureGoogleCache (workbox) {
@@ -75,4 +89,19 @@ function configureGoogleCache (workbox) {
       ],
     })
   );
+}
+
+function setupBasicEventListeners () {
+  self.addEventListener('install', () => {
+    console.log('[SW]: Installed');
+  });
+
+  self.addEventListener('activate', () => {
+    console.log('[SW]: Activated');
+  });
+
+  self.addEventListener('fetch', (event) => {
+    console.log('[SW]: ', event);
+    return fetch(event.request);
+  });
 }
