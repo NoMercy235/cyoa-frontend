@@ -3,7 +3,7 @@ import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { withDefaultLayout } from '../../hoc/DefaultLayout';
 import { inject, observer } from 'mobx-react';
 import { appStorePropTypes } from '../../store/AppStore';
-import withAuth from '../../hoc/AuthRoute';
+import withAuth from '../../hoc/withAuthRoute';
 import { tagService } from '../../../infrastructure/services/TagService';
 import PublicRoute from '../../../public/PublicRoute';
 import { ADMIN_ROUTE, LANDING_ROUTE, NOT_FOUND_ROUTE } from '../../constants/routes';

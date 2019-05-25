@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 
-export default function withAuth(WrappedCmp) {
+export default function withAuthRoute(WrappedCmp) {
   @inject('appStore')
   @observer
   class AuthenticatedComponent extends Component {

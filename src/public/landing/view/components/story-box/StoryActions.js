@@ -12,6 +12,9 @@ import ShareButton from '../ShareButton';
 import { styles } from './StoryBox.css';
 import Button from '@material-ui/core/Button';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import withOnlineCheck from '../../../../../shared/hoc/withOnlineCheck';
+
+const ReadStoryButton = withOnlineCheck(Button);
 
 class StoryActions extends Component {
   makePath = (withOrigin = false) => {
@@ -35,15 +38,32 @@ class StoryActions extends Component {
   getReadBtn = () => {
     const { classes } = this.props;
     const Btn = withRouter(({ history }) => (
-      <Button
+      <ReadStoryButton
         onClick={this.goToReadStory(history)}
       >
         <span className={classes.readStoryLabel}>Read</span>
         <VisibilityIcon fontSize="default" />
-      </Button>
+      </ReadStoryButton>
     ));
 
     return <Btn />;
+  };
+
+  renderIconButton = () => {
+    const { classes } = this.props;
+
+    return (
+      <IconButton
+        className={classnames(classes.expand, {
+          [classes.expandOpen]: this.props.expanded,
+        })}
+        onClick={this.props.handleExpandClick}
+        aria-expanded={this.props.expanded}
+        aria-label="Show more"
+      >
+        <ExpandMoreIcon />
+      </IconButton>
+    );
   };
 
   render() {
@@ -53,16 +73,7 @@ class StoryActions extends Component {
       <CardActions className={classes.actions} disableActionSpacing>
         {this.getReadBtn()}
         <ShareButton text={this.makePath(true)}/>
-        <IconButton
-          className={classnames(classes.expand, {
-            [classes.expandOpen]: this.props.expanded,
-          })}
-          onClick={this.props.handleExpandClick}
-          aria-expanded={this.props.expanded}
-          aria-label="Show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
+        {this.renderIconButton()}
       </CardActions>
     );
   }

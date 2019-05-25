@@ -9,7 +9,7 @@ const makeRandomId = function () {
 class AppStore {
   @observable HeaderCmp;
   @observable user;
-  @observable onlineStatus;
+  @observable onlineStatus = true;
   localId = '';
 
   constructor () {
