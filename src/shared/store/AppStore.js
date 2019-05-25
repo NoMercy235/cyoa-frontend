@@ -9,6 +9,7 @@ const makeRandomId = function () {
 class AppStore {
   @observable HeaderCmp;
   @observable user;
+  @observable onlineStatus;
   localId = '';
 
   constructor () {
@@ -36,6 +37,10 @@ class AppStore {
     this.HeaderCmp = null;
   }
 
+  @action setOnlineStatus(status) {
+    this.onlineStatus = status;
+  }
+
   @computed get isLoggedIn() {
     return !!this.user;
   }
@@ -52,6 +57,11 @@ export const appStorePropTypes = PropTypes.shape({
 
   setUser: PropTypes.func,
   getUserId: PropTypes.func,
+
+  loadHeader: PropTypes.func,
+  unloadHeader: PropTypes.func,
+
+  setOnlineStatus: PropTypes.func,
 
   isLoggedIn: PropTypes.bool,
 });

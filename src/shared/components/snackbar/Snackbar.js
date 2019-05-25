@@ -14,6 +14,19 @@ import SnackbarContent from '@material-ui/core/es/SnackbarContent/SnackbarConten
 import * as ReactDOM from 'react-dom';
 import { BaseModel } from '../../../infrastructure/models/BaseModel';
 
+export const SnackbarEnum = {
+  Variants: {
+    Success: 'success',
+    Warning: 'warning',
+    Error: 'error',
+    Info: 'info',
+  },
+  Verticals: {
+    Top: 'top',
+    Bottom: 'bottom',
+  },
+};
+
 const variantIcon = {
   success: CheckCircleIcon,
   warning: WarningIcon,

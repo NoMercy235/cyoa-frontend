@@ -9,8 +9,10 @@ import PublicRoute from '../../../public/PublicRoute';
 import { ADMIN_ROUTE, LANDING_ROUTE, NOT_FOUND_ROUTE } from '../../constants/routes';
 import { userService } from '../../../infrastructure/services/UserService';
 import { authService } from '../../../infrastructure/services/AuthenticationService';
-import Snackbar from '../snackbar/Snackbar';
+import Snackbar, { SnackbarEnum } from '../snackbar/Snackbar';
 import NotFoundCmp from '../NotFoundCmp';
+import { Detector } from 'react-detect-offline';
+import { ONLINE_STATUS_POLLING_INTERVAL } from '../../constants/global';
 
 const LazyAdminRoute = React.lazy(() => import('../../../admin/AdminRoute'));
 
@@ -36,12 +38,28 @@ class IndexRoute extends Component {
       const user = await userService.getUserWithToken();
       this.props.appStore.setUser(user);
     } catch (e) {
-      // TODO: this doesn't work since the DOM is not loaded
-      // this.snackbarRef.current.showSnackbar({
-      //   variant: 'error',
-      //   message: 'Token has expired. Please relog.',
-      // });
+      // Sometimes this can fail
+      // TODO: investigate why
+      if (!this.snackbarRef) return;
+
+      this.snackbarRef.current.showSnackbar({
+        variant: SnackbarEnum.Variants.Error,
+        message: 'Token has expired. Please relog.',
+      });
     }
+  };
+
+  updateOnlineStatus = (status) => {
+    const { appStore } = this.props;
+    appStore.setOnlineStatus(status);
+
+    const displayedStatus = status ? 'Online' : 'Offline';
+
+    this.snackbarRef.current.showSnackbar({
+      variant: SnackbarEnum.Variants.Info,
+      message: `You are now: ${displayedStatus}`,
+      vertical: SnackbarEnum.Verticals.Bottom,
+    });
   };
 
   async componentDidMount () {
@@ -51,6 +69,16 @@ class IndexRoute extends Component {
     ]);
     this.setState({ canRender: true });
   }
+
+  renderOnlineStatusDetector = () => {
+    return (
+      <Detector
+        onChange={this.updateOnlineStatus}
+        polling={{ interval: ONLINE_STATUS_POLLING_INTERVAL }}
+        render={() => ''}
+      />
+    );
+  };
 
   renderFallback = () => {
     return <div>Loading...</div>;
@@ -63,6 +91,7 @@ class IndexRoute extends Component {
 
     return (
       <>
+        {this.renderOnlineStatusDetector()}
         <Suspense fallback={this.renderFallback()}>
           <Switch>
             <Route path={LANDING_ROUTE} component={PublicRoute} />
