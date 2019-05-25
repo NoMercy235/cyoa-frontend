@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import * as PropTypes from 'prop-types';
 import styles from './FileSelect.module.scss';
-import Snackbar from '../../snackbar/Snackbar';
+import Snackbar, { SnackbarEnum } from '../../snackbar/Snackbar';
 import { ERRORS } from '../../../constants/errors';
 
 function getBase64(file) {
@@ -27,7 +27,7 @@ class FileSelect extends React.Component {
     if (file.size <= 10e5) return;
 
     this.snackbarRef.current.showSnackbar({
-      variant: 'error',
+      variant: SnackbarEnum.Variants.Error,
       message: ERRORS.fileTooLarge,
     });
     throw ERRORS.fileTooLarge;

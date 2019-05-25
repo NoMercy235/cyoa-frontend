@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import { storyService } from '../../../../../infrastructure/services/StoryService';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import { storyViewStorePropTypes } from '../../../stores/StoryViewStore';
-import Snackbar from '../../../../../shared/components/snackbar/Snackbar';
+import Snackbar, { SnackbarEnum } from '../../../../../shared/components/snackbar/Snackbar';
 import { withModal } from '../../../../../shared/hoc/withModal';
 
 const HOCButton = withModal(Button);
@@ -20,7 +20,7 @@ class PublishBtn extends Component {
     const dbStory = await this.snackbarRef.current.executeAndShowSnackbar(
       storyService.update,
       [story._id, { published: state }],
-      { variant: 'success', message }
+      { variant: SnackbarEnum.Variants.Success, message }
     );
     this.props.storyViewStore.setCurrentStory(dbStory);
   };

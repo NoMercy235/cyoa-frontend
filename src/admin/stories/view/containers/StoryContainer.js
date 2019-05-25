@@ -6,7 +6,7 @@ import { storyService } from '../../../../infrastructure/services/StoryService';
 import { inject, observer } from 'mobx-react';
 import { storyStorePropTypes } from '../../stores/StoryStore';
 import { collectionService } from '../../../../infrastructure/services/CollectionService';
-import Snackbar from '../../../../shared/components/snackbar/Snackbar';
+import Snackbar, { SnackbarEnum } from '../../../../shared/components/snackbar/Snackbar';
 import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
 
 @inject('storyStore')
@@ -44,7 +44,10 @@ class StoryContainer extends Component {
     await this.snackbarRef.current.executeAndShowSnackbar(
       collectionService.delete,
       [colId],
-      { variant: 'success', message: 'Collection deleted!' },
+      {
+        variant: SnackbarEnum.Variants.Success,
+        message: 'Collection deleted!',
+      },
     );
     this.props.storyStore.removeCollection(colId);
   };
@@ -53,7 +56,10 @@ class StoryContainer extends Component {
     await this.snackbarRef.current.executeAndShowSnackbar(
       storyService.delete,
       [storyId],
-      { variant: 'success', message: 'Story deleted!' },
+      {
+        variant: SnackbarEnum.Variants.Success,
+        message: 'Story deleted!',
+      },
     );
     this.props.storyStore.removeStory(storyId);
   };

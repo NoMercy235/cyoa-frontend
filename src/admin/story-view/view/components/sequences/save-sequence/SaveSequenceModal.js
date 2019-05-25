@@ -6,7 +6,7 @@ import { Formik } from 'formik';
 import { DialogTitle } from '../../../../../../shared/components/dialog/Title';
 import { DialogContent } from '../../../../../../shared/components/dialog/Content';
 import { DialogActions } from '../../../../../../shared/components/dialog/Actions';
-import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
+import Snackbar, { SnackbarEnum } from '../../../../../../shared/components/snackbar/Snackbar';
 import { styles } from './SaveSequence.css';
 import { inject } from 'mobx-react';
 import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
@@ -40,7 +40,7 @@ class SaveSequenceModal extends Component {
     return await this.snackbarRef.current.executeAndShowSnackbar(
       method,
       args,
-      { variant: 'success', message },
+      { variant: SnackbarEnum.Variants.Success, message },
     );
   };
 

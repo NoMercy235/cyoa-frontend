@@ -6,7 +6,7 @@ import { Formik } from 'formik';
 import { DialogTitle } from '../../../../../../shared/components/dialog/Title';
 import { DialogContent } from '../../../../../../shared/components/dialog/Content';
 import { DialogActions } from '../../../../../../shared/components/dialog/Actions';
-import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
+import Snackbar, { SnackbarEnum } from '../../../../../../shared/components/snackbar/Snackbar';
 import { inject } from 'mobx-react';
 import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
@@ -54,7 +54,10 @@ class SaveOptionModal extends Component {
     const option = await this.snackbarRef.current.executeAndShowSnackbar(
       optionService.save,
       [OptionModel.forApi(values)],
-      { variant: 'success', message: 'Option saved!' }
+      {
+        variant: SnackbarEnum.Variants.Success,
+        message: 'Option saved!',
+      }
     );
     this.props.storyViewStore.addOptionToSequence(
       this.props.sequenceId,
@@ -67,7 +70,10 @@ class SaveOptionModal extends Component {
     const option = await this.snackbarRef.current.executeAndShowSnackbar(
       optionService.update,
       [values._id, OptionModel.forApi(values)],
-      { variant: 'success', message: 'Option updated!' }
+      {
+        variant: SnackbarEnum.Variants.Success,
+        message: 'Option updated!',
+      }
     );
     this.props.storyViewStore.updateOption(
       this.props.sequenceId,

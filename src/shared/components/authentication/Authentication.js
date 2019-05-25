@@ -8,7 +8,7 @@ import AuthenticationModal from './AuthenticationModal';
 import { inject, observer } from 'mobx-react';
 import { appStorePropTypes } from '../../store/AppStore';
 import { withRouter } from 'react-router-dom';
-import Snackbar from '../snackbar/Snackbar';
+import Snackbar, { SnackbarEnum } from '../snackbar/Snackbar';
 import { Tooltip } from '@material-ui/core';
 import classNames from 'classnames';
 
@@ -27,7 +27,7 @@ class Authentication extends Component {
   onHandleLogout = (history) => () => {
     this.props.appStore.setUser(null);
     this.snackbarRef.current.showSnackbar({
-      variant: 'success',
+      variant: SnackbarEnum.Variants.Success,
       message: 'Goodbye!',
     });
     localStorage.removeItem('jwt');
@@ -37,7 +37,7 @@ class Authentication extends Component {
   onAuthSuccessful = () => {
     const { onAuthSuccessful } = this.props;
     this.snackbarRef.current.showSnackbar({
-      variant: 'success',
+      variant: SnackbarEnum.Variants.Success,
       message: 'Welcome!',
     });
     onAuthSuccessful && onAuthSuccessful();

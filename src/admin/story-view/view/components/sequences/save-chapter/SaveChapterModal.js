@@ -6,7 +6,7 @@ import { Formik } from 'formik';
 import { DialogTitle } from '../../../../../../shared/components/dialog/Title';
 import { DialogContent } from '../../../../../../shared/components/dialog/Content';
 import { DialogActions } from '../../../../../../shared/components/dialog/Actions';
-import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
+import Snackbar, { SnackbarEnum } from '../../../../../../shared/components/snackbar/Snackbar';
 import { styles } from './SaveChapter.css';
 import { inject } from 'mobx-react';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
@@ -34,7 +34,10 @@ class SaveChapterModal extends Component {
     await this.snackbarRef.current.executeAndShowSnackbar(
       chapterService.save,
       [ChapterModel.forApi(values)],
-      { variant: 'success', message: 'Chapter saved!' },
+      {
+        variant: SnackbarEnum.Variants.Success,
+        message: 'Chapter saved!',
+      },
     );
     await this.refreshChapters();
   };
@@ -43,7 +46,10 @@ class SaveChapterModal extends Component {
     await this.snackbarRef.current.executeAndShowSnackbar(
       chapterService.update,
       [values._id, ChapterModel.forApi(values, ['_id'])],
-      { variant: 'success', message: 'Chapter updated!' },
+      {
+        variant: SnackbarEnum.Variants.Success,
+        message: 'Chapter updated!',
+      },
     );
     await this.refreshChapters();
   };

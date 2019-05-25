@@ -6,7 +6,7 @@ import { Formik } from 'formik';
 import { DialogTitle } from '../../../../../../shared/components/dialog/Title';
 import { DialogContent } from '../../../../../../shared/components/dialog/Content';
 import { DialogActions } from '../../../../../../shared/components/dialog/Actions';
-import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
+import Snackbar, { SnackbarEnum } from '../../../../../../shared/components/snackbar/Snackbar';
 import { styles } from './SaveAttribute.css';
 import { inject } from 'mobx-react';
 import { attributeService } from '../../../../../../infrastructure/services/AttributeService';
@@ -28,7 +28,10 @@ class SaveAttributeModal extends Component {
     const attribute = await this.snackbarRef.current.executeAndShowSnackbar(
       attributeService.save,
       [AttributeModel.forApi(values)],
-      { variant: 'success', message: 'Attribute saved!' },
+      {
+        variant: SnackbarEnum.Variants.Success,
+        message: 'Attribute saved!',
+      },
     );
     this.props.storyViewStore.addAttribute(attribute);
   };
@@ -37,7 +40,10 @@ class SaveAttributeModal extends Component {
     const attribute = await this.snackbarRef.current.executeAndShowSnackbar(
       attributeService.update,
       [values._id, AttributeModel.forApi(values)],
-      { variant: 'success', message: 'Attribute updated!' },
+      {
+        variant: SnackbarEnum.Variants.Success,
+        message: 'Attribute updated!',
+      },
     );
     this.props.storyViewStore.updateAttribute(values._id, attribute);
   };

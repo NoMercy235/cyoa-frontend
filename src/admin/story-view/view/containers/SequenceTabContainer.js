@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
-import Snackbar from '../../../../shared/components/snackbar/Snackbar';
+import Snackbar, { SnackbarEnum } from '../../../../shared/components/snackbar/Snackbar';
 import { inject, observer } from 'mobx-react';
 import SequenceTableCmp from '../components/sequences/sequence-table/SequenceTableCmp';
 import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
@@ -48,7 +48,10 @@ class SequenceTabContainer extends Component {
     await this.snackbarRef.current.executeAndShowSnackbar(
       sequenceService.delete,
       [sequenceId],
-      { variant: 'success', message: 'Sequence deleted!' },
+      {
+        variant: SnackbarEnum.Variants.Success,
+        message: 'Sequence deleted!',
+      },
     );
     this.props.storyViewStore.removeSequence(sequenceId);
   };
@@ -59,7 +62,10 @@ class SequenceTabContainer extends Component {
     await this.snackbarRef.current.executeAndShowSnackbar(
       optionService.delete,
       [optionId],
-      { variant: 'success', message: 'Option deleted!' },
+      {
+        variant: SnackbarEnum.Variants.Success,
+        message: 'Option deleted!',
+      },
     );
     this.props.storyViewStore.removeOptionFromSequence(sequenceId, optionId);
   };
@@ -80,7 +86,7 @@ class SequenceTabContainer extends Component {
       return this.props.storyViewStore.updateSequenceInPlace(dbSeq._id, { order: dbSeq.order });
     }));
     this.snackbarRef.current.showSnackbar({
-      variant: 'success',
+      variant: SnackbarEnum.Variants.Success,
       message: 'Order has been updated',
     });
   };
@@ -120,7 +126,10 @@ class SequenceTabContainer extends Component {
     await this.snackbarRef.current.executeAndShowSnackbar(
       chapterService.delete,
       [chapterId],
-      { variant: 'success', message: 'Chapter deleted!' },
+      {
+        variant: SnackbarEnum.Variants.Success,
+        message: 'Chapter deleted!',
+      },
     );
 
     await Promise.all([

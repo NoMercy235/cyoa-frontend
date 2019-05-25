@@ -6,7 +6,7 @@ import { Formik } from 'formik';
 import { DialogTitle } from '../../../../../../shared/components/dialog/Title';
 import { DialogContent } from '../../../../../../shared/components/dialog/Content';
 import { DialogActions } from '../../../../../../shared/components/dialog/Actions';
-import Snackbar from '../../../../../../shared/components/snackbar/Snackbar';
+import Snackbar, { SnackbarEnum } from '../../../../../../shared/components/snackbar/Snackbar';
 import SaveCollectionForm from './SaveCollectionForm';
 import { collectionService } from '../../../../../../infrastructure/services/CollectionService';
 import { CollectionModel } from '../../../../../../infrastructure/models/CollectionModel';
@@ -27,7 +27,10 @@ class SaveCollectionModal extends Component {
     const collection = await this.snackbarRef.current.executeAndShowSnackbar(
       collectionService.save,
       [CollectionModel.forApi(values)],
-      { variant: 'success', message: 'Collection saved!' },
+      {
+        variant: SnackbarEnum.Variants.Success,
+        message: 'Collection saved!',
+      },
     );
     this.props.storyStore.addCollection(collection);
   };
@@ -36,7 +39,10 @@ class SaveCollectionModal extends Component {
     const collection = await this.snackbarRef.current.executeAndShowSnackbar(
       collectionService.update,
       [values._id, CollectionModel.forApi(values)],
-      { variant: 'success', message: 'Collection updated!' },
+      {
+        variant: SnackbarEnum.Variants.Success,
+        message: 'Collection updated!',
+      },
     );
     this.props.storyStore.updateCollection(values._id, collection);
   };

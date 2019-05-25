@@ -25,6 +25,11 @@ export const SnackbarEnum = {
     Top: 'top',
     Bottom: 'bottom',
   },
+  Horizontals: {
+    Center: 'center',
+    Left: 'left',
+    Right: 'right',
+  },
 };
 
 const variantIcon = {
@@ -42,10 +47,10 @@ class Snackbar extends React.Component {
   state = {
     // snackbar
     open: false,
-    variant: 'success',
+    variant: SnackbarEnum.Variants.Success,
     message: '',
-    vertical: 'top',
-    horizontal: 'center',
+    vertical: SnackbarEnum.Verticals.Top,
+    horizontal: SnackbarEnum.Horizontals.Center,
   };
 
   executeAndShowSnackbar = async (foo, args, options) => {
@@ -56,7 +61,7 @@ class Snackbar extends React.Component {
     } catch (e) {
       this.setState({
         open: true,
-        variant: 'error',
+        variant: SnackbarEnum.Variants.Error,
         message: BaseModel.handleError(e),
       });
       throw e;

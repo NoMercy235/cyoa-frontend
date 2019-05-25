@@ -5,7 +5,7 @@ import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
 import { inject, observer } from 'mobx-react';
 import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
-import Snackbar from '../../../../shared/components/snackbar/Snackbar';
+import Snackbar, { SnackbarEnum } from '../../../../shared/components/snackbar/Snackbar';
 import classes from './PlayerTabContainer.module.scss';
 
 @inject('storyViewStore')
@@ -23,7 +23,10 @@ class PlayerTabContainer extends Component {
     await this.snackbarRef.current.executeAndShowSnackbar(
       attributeService.delete,
       [attributeId],
-      { variant: 'success', message: 'Attribute deleted!' },
+      {
+        variant: SnackbarEnum.Variants.Success,
+        message: 'Attribute deleted!',
+      },
     );
     this.props.storyViewStore.removeAttribute(attributeId);
   };
