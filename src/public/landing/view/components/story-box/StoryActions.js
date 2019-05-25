@@ -36,14 +36,19 @@ class StoryActions extends Component {
   };
 
   getReadBtn = () => {
-    const { classes } = this.props;
+    const { classes, story } = this.props;
+    // TODO: this should check the cache to see if the story is available offline on the current device
+    const StoryBtn = story.isAvailableOffline
+      ? Button
+      : ReadStoryButton;
+
     const Btn = withRouter(({ history }) => (
-      <ReadStoryButton
+      <StoryBtn
         onClick={this.goToReadStory(history)}
       >
         <span className={classes.readStoryLabel}>Read</span>
         <VisibilityIcon fontSize="default" />
-      </ReadStoryButton>
+      </StoryBtn>
     ));
 
     return <Btn />;

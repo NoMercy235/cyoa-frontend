@@ -12,4 +12,8 @@ export const styles = theme => ({
   uploadBtn: {
     marginTop: theme.spacing.unit,
   },
+  isAvailableOfflineContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
 });

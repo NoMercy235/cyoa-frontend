@@ -16,6 +16,7 @@ export class StoryModel extends BaseModel {
   fromCollection = '';
   publish = false;
   coverPic = '';
+  isAvailableOffline = false;
 
   constructor(metadata) {
     super();
@@ -59,6 +60,7 @@ export class StoryModel extends BaseModel {
       startSeq: story.startSeq,
       fromCollection: story.fromCollection,
       coverPic: story.coverPic,
+      isAvailableOffline: story.isAvailableOffline,
     };
 
     if (!result.coverPic) delete result.coverPic;
@@ -71,6 +73,10 @@ export class StoryModel extends BaseModel {
       { name: 'Name' },
       {
         name: 'Tags',
+        options: { filter: false, sort: false },
+      },
+      {
+        name: 'Offline',
         options: { filter: false, sort: false },
       },
       {

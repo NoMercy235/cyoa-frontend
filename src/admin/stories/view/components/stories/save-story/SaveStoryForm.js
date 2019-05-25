@@ -9,6 +9,8 @@ import { hasError } from '../../../../../../shared/components/form/helpers';
 import { TagModel } from '../../../../../../infrastructure/models/TagModel';
 import { CollectionModel } from '../../../../../../infrastructure/models/CollectionModel';
 import FileSelect from '../../../../../../shared/components/form/FileSelect/FileSelect';
+import Checkbox from '@material-ui/core/Checkbox';
+import Typography from '@material-ui/core/Typography';
 
 class SaveStoryForm extends Component {
   tags = TagModel.get();
@@ -65,6 +67,30 @@ class SaveStoryForm extends Component {
     );
   };
 
+  renderIsAvailableOfflineField = ({ field }) => {
+    const { formik } = this.props;
+    return (
+      <Checkbox
+        {...field}
+        checked={formik.values.isAvailableOffline}
+        value=""
+      />
+    );
+  };
+
+  renderIsAvailableOfflineInfo = () => {
+    const { formik } = this.props;
+
+    return formik.values.isAvailableOffline && (
+      <Typography
+        variant="caption"
+        color="secondary"
+      >
+        Warning. If the story is available offline, you will not be able to add attributes to it (the story will not have a player) and the actions (options) chosen by the reader cannot have consequences.
+      </Typography>
+    );
+  };
+
   renderShortDescriptionField = ({ field }) => {
     const { formik } = this.props;
     return (
@@ -118,6 +144,19 @@ class SaveStoryForm extends Component {
           required
           render={this.renderNameField}
         />
+        <Typography
+          className={classes.isAvailableOfflineContainer}
+          variant="inherit"
+          color="inherit"
+          noWrap
+        >
+          Make this story available offline?
+          <Field
+            name="isAvailableOffline"
+            render={this.renderIsAvailableOfflineField}
+          />
+        </Typography>
+        {this.renderIsAvailableOfflineInfo()}
         <Field
           name="shortDescription"
           required

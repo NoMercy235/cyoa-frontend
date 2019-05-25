@@ -9,9 +9,15 @@ import SequenceTabContainer from '../containers/SequenceTabContainer';
 import GeneralTabContainer from '../containers/GeneralTabContainer';
 import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
 
+const TabsEnum = {
+  General: 'General',
+  Player: 'Player',
+  Sequences: 'Sequences',
+};
+
 class StoryView extends Component {
   state = {
-    currentTab: 0,
+    currentTab: TabsEnum.General,
   };
 
   handleChange = (event, value) => {
@@ -27,19 +33,21 @@ class StoryView extends Component {
         <Breadcrumb/>
         <AppBar position="static">
           <Tabs value={currentTab} onChange={this.handleChange}>
-            <Tab label="General" />
-            <Tab label="Player" />
-            <Tab label="Sequences" />
+            <Tab value={TabsEnum.General} label={TabsEnum.General} />
+            {!story.isAvailableOffline && (
+              <Tab value={TabsEnum.Player} label={TabsEnum.Player} />
+            )}
+            <Tab value={TabsEnum.Sequences} label={TabsEnum.Sequences} />
           </Tabs>
         </AppBar>
-        {currentTab === 0 && <GeneralTabContainer story={story} />}
-        {currentTab === 1 && (
+        {currentTab === TabsEnum.General && <GeneralTabContainer story={story} />}
+        {currentTab === TabsEnum.Player && (
           <PlayerTabContainer
             story={story}
             getAttributes={this.props.getAttributes}
           />
         )}
-        {currentTab === 2 && (
+        {currentTab === TabsEnum.Sequences && (
           <SequenceTabContainer
             story={story}
           />

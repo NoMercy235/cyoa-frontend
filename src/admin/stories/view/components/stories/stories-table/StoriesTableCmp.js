@@ -16,6 +16,8 @@ import BasicEditAction from '../../../../../../shared/components/form/BasicEditA
 import { observer } from 'mobx-react';
 import { ADMIN_STORY_VIEW_ROUTE, makePath } from '../../../../../../shared/constants/routes';
 import { renderStoriesTableTitle } from './StoriesTableTitle';
+import CheckIcon from '@material-ui/icons/Check';
+import CloseIcon from '@material-ui/icons/Close';
 
 @observer
 class StoriesTableCmp extends Component {
@@ -50,6 +52,12 @@ class StoriesTableCmp extends Component {
     return <Icon />;
   };
 
+  renderIsOffline = row => {
+    return row.isAvailableOffline
+      ? <CheckIcon color="primary"/>
+      : <CloseIcon color="secondary"/>;
+  };
+
   getActions = row => {
     return (
       <div key={row._id} className={this.props.classes.actionsContainer}>
@@ -76,6 +84,7 @@ class StoriesTableCmp extends Component {
       return [
         this.renderName(s),
         s.tagsName.join(', '),
+        this.renderIsOffline(s),
         this.getActions(s),
       ];
     });
