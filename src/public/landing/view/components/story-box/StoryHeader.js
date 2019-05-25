@@ -8,10 +8,10 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import { styles } from './StoryBox.css';
 import Typography from '@material-ui/core/Typography';
+import MenuDropdown from '../../../../../shared/components/menu/MenuDropdown';
+import Switch from '@material-ui/core/Switch';
 
 class StoryHeader extends Component {
-  state = { expanded: false, coverPic: '' };
-
   renderTitle = () => {
     const { story } = this.props;
     return (
@@ -21,6 +21,41 @@ class StoryHeader extends Component {
       >
         {story.name}
       </Typography>
+    );
+  };
+
+  renderIsAvailableOffline = () => {
+    const { story, isAvailableOffline } = this.props;
+
+    if (!story.isAvailableOffline) return false;
+
+    return (
+      <div onClick={this.props.makeStoryAvailableOffline}>
+        Make available offline
+        <Switch
+          value={isAvailableOffline}
+          checked={isAvailableOffline}
+        />
+      </div>
+    );
+  };
+
+  getMenuItems = () => {
+    return [
+      this.renderIsAvailableOffline(),
+    ].filter(el => el);
+  };
+
+  renderAction = () => {
+    return (
+      <MenuDropdown
+        items={this.getMenuItems()}
+        closeOnItemClick={false}
+      >
+        <IconButton onClick={this.handleClick}>
+          <MoreVertIcon />
+        </IconButton>
+      </MenuDropdown>
     );
   };
 
@@ -45,11 +80,7 @@ class StoryHeader extends Component {
             {(story.authorShort[0] || 'N/A').toUpperCase()}
           </Avatar>
         }
-        action={
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
-        }
+        action={this.renderAction()}
         title={this.renderTitle()}
         subheader={this.renderSubheader()}
       />
@@ -58,8 +89,11 @@ class StoryHeader extends Component {
 }
 
 StoryHeader.propTypes = {
-  story: PropTypes.instanceOf(StoryModel),
   classes: PropTypes.object.isRequired,
+  story: PropTypes.instanceOf(StoryModel).isRequired,
+  isAvailableOffline: PropTypes.bool.isRequired,
+
+  makeStoryAvailableOffline: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(StoryHeader);

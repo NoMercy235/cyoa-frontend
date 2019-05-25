@@ -13,7 +13,20 @@ import { parseContent } from '../../../../../shared/utilities';
 import notFoundImg from '../../../../../assets/notfound.png';
 
 class StoryBox extends Component {
-  state = { expanded: false, coverPic: '' };
+  state = {
+    expanded: false,
+    coverPic: '',
+    isAvailableOffline: false,
+  };
+
+  makeStoryAvailableOffline = () => {
+    const { story } = this.props;
+    // TODO: make it available offline
+    console.log('making story available offline', story);
+    this.setState({
+      isAvailableOffline: !this.state.isAvailableOffline,
+    });
+  };
 
   handleExpandClick = async () => {
     const newExpansion = !this.state.coverPic;
@@ -45,11 +58,15 @@ class StoryBox extends Component {
 
   render() {
     const { story, classes } = this.props;
-    const { expanded } = this.state;
+    const { expanded, isAvailableOffline } = this.state;
 
     return (
       <Card className={classes.card}>
-        <StoryHeader story={story}/>
+        <StoryHeader
+          story={story}
+          isAvailableOffline={isAvailableOffline}
+          makeStoryAvailableOffline={this.makeStoryAvailableOffline}
+        />
         <CardContent>
           {parseContent(story.shortDescription)}
         </CardContent>
