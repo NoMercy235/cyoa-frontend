@@ -30,9 +30,22 @@ class StoryBox extends Component {
     }
   };
 
+  renderImage = () => {
+    const { classes } = this.props;
+    const { coverPic } = this.state;
+
+    return coverPic && (
+      <img
+        alt="Cover"
+        className={classes.coverPic}
+        src={coverPic || notFoundImg}
+      />
+    );
+  };
+
   render() {
     const { story, classes } = this.props;
-    const { coverPic, expanded } = this.state;
+    const { expanded } = this.state;
 
     return (
       <Card className={classes.card}>
@@ -47,11 +60,7 @@ class StoryBox extends Component {
         />
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <div className={classes.expandedContainer}>
-            <img
-              alt="Cover"
-              className={classes.coverPic}
-              src={coverPic || notFoundImg}
-            />
+            {this.renderImage()}
             {parseContent(story.longDescription)}
           </div>
         </Collapse>
