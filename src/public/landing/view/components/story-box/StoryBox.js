@@ -11,6 +11,8 @@ import StoryHeader from './StoryHeader';
 import StoryActions from './StoryActions';
 import { parseContent } from '../../../../../shared/utilities';
 import notFoundImg from '../../../../../assets/notfound.png';
+import { SnackbarEnum } from '../../../../../shared/components/snackbar/Snackbar';
+import Snackbar from '../../../../../shared/components/snackbar/Snackbar';
 
 class StoryBox extends Component {
   state = {
@@ -18,14 +20,27 @@ class StoryBox extends Component {
     coverPic: '',
     isAvailableOffline: false,
   };
+  snackbarRef = React.createRef();
 
-  makeStoryAvailableOffline = () => {
+  makeStoryAvailableOffline = async isAvailableOffline => {
     const { story } = this.props;
-    // TODO: make it available offline
-    console.log('making story available offline', story);
-    this.setState({
-      isAvailableOffline: !this.state.isAvailableOffline,
-    });
+
+    this.setState({ isAvailableOffline });
+    const offlineStory = await publicStoryService.getOfflineStory(story._id);
+
+    if (isAvailableOffline) {
+      await StoryModel.saveOffline(offlineStory);
+      this.snackbarRef.current.showSnackbar({
+        variant: SnackbarEnum.Variants.Success,
+        message: 'Story is now available offline',
+      });
+    } else {
+      await StoryModel.removeOffline(story._id);
+      this.snackbarRef.current.showSnackbar({
+        variant: SnackbarEnum.Variants.Success,
+        message: 'Story no longer available offline',
+      });
+    }
   };
 
   handleExpandClick = async () => {
@@ -56,32 +71,47 @@ class StoryBox extends Component {
     );
   };
 
+  isStoryOffline = async () => {
+    const isStoryOffline = await this.props.story.isOffline();
+    if (isStoryOffline) {
+      this.setState({ isAvailableOffline: true });
+    }
+  };
+
+  async componentDidMount () {
+    await this.isStoryOffline();
+  }
+
   render() {
     const { story, classes } = this.props;
     const { expanded, isAvailableOffline } = this.state;
 
     return (
-      <Card className={classes.card}>
-        <StoryHeader
-          story={story}
-          isAvailableOffline={isAvailableOffline}
-          makeStoryAvailableOffline={this.makeStoryAvailableOffline}
-        />
-        <CardContent>
-          {parseContent(story.shortDescription)}
-        </CardContent>
-        <StoryActions
-          story={story}
-          expanded={expanded}
-          handleExpandClick={this.handleExpandClick}
-        />
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <div className={classes.expandedContainer}>
-            {this.renderImage()}
-            {parseContent(story.longDescription)}
-          </div>
-        </Collapse>
-      </Card>
+      <>
+        <Card className={classes.card}>
+          <StoryHeader
+            story={story}
+            isAvailableOffline={isAvailableOffline}
+            makeStoryAvailableOffline={this.makeStoryAvailableOffline}
+          />
+          <CardContent>
+            {parseContent(story.shortDescription)}
+          </CardContent>
+          <StoryActions
+            story={story}
+            expanded={expanded}
+            isAvailableOffline={isAvailableOffline}
+            handleExpandClick={this.handleExpandClick}
+          />
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <div className={classes.expandedContainer}>
+              {this.renderImage()}
+              {parseContent(story.longDescription)}
+            </div>
+          </Collapse>
+        </Card>
+        <Snackbar innerRef={this.snackbarRef}/>
+      </>
     );
   }
 }

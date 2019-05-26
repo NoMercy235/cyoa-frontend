@@ -13,6 +13,7 @@ import Snackbar, { SnackbarEnum } from '../snackbar/Snackbar';
 import NotFoundCmp from '../NotFoundCmp';
 import { Detector } from 'react-detect-offline';
 import { ONLINE_STATUS_POLLING_INTERVAL } from '../../constants/global';
+import { configureIdb } from '../../idb';
 
 const LazyAdminRoute = React.lazy(() => import('../../../admin/AdminRoute'));
 
@@ -62,12 +63,22 @@ class IndexRoute extends Component {
     });
   };
 
+  setIdbStatus = () => {
+    if (!window.indexedDB) {
+      this.props.appStore.setCanUseIdb(false);
+    } else {
+      this.props.appStore.setCanUseIdb(true);
+      configureIdb();
+    }
+  };
+
   async componentDidMount () {
     await Promise.all([
       this.getTags(),
       this.getUser(),
     ]);
     this.setState({ canRender: true });
+    this.setIdbStatus();
   }
 
   renderOnlineStatusDetector = () => {

@@ -10,6 +10,7 @@ class AppStore {
   @observable HeaderCmp;
   @observable user;
   @observable onlineStatus = true;
+  @observable canUseIdb;
   localId = '';
 
   constructor () {
@@ -41,6 +42,10 @@ class AppStore {
     this.onlineStatus = status;
   }
 
+  @action setCanUseIdb(hasIdb) {
+    this.canUseIdb = hasIdb;
+  }
+
   @computed get isLoggedIn() {
     return !!this.user;
   }
@@ -61,7 +66,11 @@ export const appStorePropTypes = PropTypes.shape({
   loadHeader: PropTypes.func,
   unloadHeader: PropTypes.func,
 
+  onlineStatus: PropTypes.func,
   setOnlineStatus: PropTypes.func,
+
+  canUseIdb: PropTypes.func,
+  setCanUseIdb: PropTypes.func,
 
   isLoggedIn: PropTypes.bool,
 });

@@ -14,8 +14,8 @@ class ReadStoryContainer extends Component {
     try {
       const options = { ignoreFields: 'coverPic' };
       const story = await publicStoryService.get(storyId, options);
+      await this.getChapters(story);
       this.setState({ story });
-      this.getChapters(story);
     } catch (e) {
       const { history } = this.props;
       history.replace(NOT_FOUND_ROUTE);

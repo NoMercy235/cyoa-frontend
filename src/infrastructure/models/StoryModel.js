@@ -1,6 +1,7 @@
 import { BaseModel } from './BaseModel';
 import * as moment from 'moment';
 import { ERRORS } from '../../shared/constants/errors';
+import { openIdb, StoresEnum } from '../../shared/idb';
 
 export class StoryModel extends BaseModel {
   _id = '';
@@ -35,6 +36,12 @@ export class StoryModel extends BaseModel {
     if (!this.created_at) return '';
     return this.created_at.format('DD-MM-YYYY');
   }
+
+  isOffline = async () => {
+    if (!this.isAvailableOffline) return false;
+    const db = await openIdb();
+    return !!(await db.get(StoresEnum.Stories, this._id));
+  };
 
   checkErrors() {
     let errors = {};
@@ -85,4 +92,14 @@ export class StoryModel extends BaseModel {
       },
     ];
   }
+
+  static saveOffline = async (offlineStory) => {
+    const db = await openIdb();
+    await db.put(StoresEnum.Stories, offlineStory, offlineStory.story._id);
+  };
+
+  static removeOffline = async (storyId) => {
+    const db = await openIdb();
+    await db.delete(StoresEnum.Stories, storyId);
+  };
 }

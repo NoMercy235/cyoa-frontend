@@ -1,5 +1,7 @@
 import { BaseService } from './BaseService';
 import { StoryModel } from '../models/StoryModel';
+import { SequenceModel } from '../models/SequenceModel';
+import { OptionModel } from '../models/OptionModel';
 
 class StoryService extends BaseService {
   endpoint = 'api/story';
@@ -29,6 +31,7 @@ class StoryService extends BaseService {
 class PublicStoryService extends BaseService {
   endpoint = 'public/story';
   quickEndpoint = 'public/story/quick';
+  offlineEndpoint = 'public/story/offline';
 
   list = (filters = {}) => {
     return super.list(filters).then(stories => {
@@ -53,6 +56,19 @@ class PublicStoryService extends BaseService {
       return new StoryModel(story);
     });
   };
+
+  getOfflineStory = async (id, instanced = false) => {
+    return await this.client
+      .get(`${this.offlineEndpoint}/${id}`)
+      .then(BaseService.onSuccess)
+      .then(({ story, sequences, options }) => {
+        return {
+          story: instanced ? new StoryModel(story) : story,
+          sequences: instanced ? sequences.map(s => new SequenceModel(s)) : sequences,
+          options: instanced ? options.map(o => new OptionModel(o)) : options,
+        };
+      });
+  }
 }
 
 export const storyService = new StoryService();

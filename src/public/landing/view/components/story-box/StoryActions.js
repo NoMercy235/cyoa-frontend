@@ -36,11 +36,9 @@ class StoryActions extends Component {
   };
 
   getReadBtn = () => {
-    const { classes, story } = this.props;
-    // TODO: this should check the cache to see if the story is available offline on the current device
-    const StoryBtn = story.isAvailableOffline
-      ? Button
-      : ReadStoryButton;
+    const { classes, isAvailableOffline } = this.props;
+
+    const StoryBtn = isAvailableOffline ? Button : ReadStoryButton;
 
     const Btn = withRouter(({ history }) => (
       <StoryBtn
@@ -85,10 +83,12 @@ class StoryActions extends Component {
 }
 
 StoryActions.propTypes = {
+  classes: PropTypes.object.isRequired,
   story: PropTypes.instanceOf(StoryModel).isRequired,
   expanded: PropTypes.bool.isRequired,
+  isAvailableOffline: PropTypes.bool.isRequired,
+
   handleExpandClick: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(StoryActions);
