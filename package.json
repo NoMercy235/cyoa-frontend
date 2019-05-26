@@ -28,22 +28,18 @@
   "scripts": {
     "start": "react-app-rewired start",
     "start-https": "HTTPS=true react-app-rewired start",
-
     "start-http-prod": "npm run build && npm run http-server",
     "start-http-prod-no-build": "npm run build-sw && npm run http-server",
     "http-server": "npx http-server ./build -p 3000 --push-state",
-
     "start-https-prod": "npm run build && npm run https-server",
     "https-server": "PORT=3000 npx https-localhost build/",
-
     "build": "react-app-rewired build && npm run clean-cra-sw && npm run build-sw",
     "build-sw": "node ./src/swBuild.js",
     "clean-cra-sw": "rm -f build/precache-manifest.*.js && rm -f build/service-worker.js",
-
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
-    "serve": "npm run docker-setup && npm run clean-node-modules",
-    "docker-setup": "docker-compose down && npm i && npm run build && docker-compose build --no-cache && docker-compose up -d",
+    "serve": "npm i && npm run build && npm run docker-setup && npm run clean-node-modules",
+    "docker-setup": "docker-compose down && docker-compose build --no-cache && docker-compose up -d",
     "clean-node-modules": "rm -rf node_modules/"
   },
   "eslintConfig": {
