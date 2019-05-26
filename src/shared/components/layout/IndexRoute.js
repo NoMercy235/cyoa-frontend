@@ -32,13 +32,18 @@ class IndexRoute extends Component {
 
   getUser = async () => {
     const jwt = localStorage.getItem('jwt');
-    if (!jwt) return;
+    if (!jwt) {
+      this.props.appStore.generateLocalId();
+      return;
+    }
 
     try {
       await authService.checkToken();
       const user = await userService.getUserWithToken();
       this.props.appStore.setUser(user);
     } catch (e) {
+      this.props.appStore.generateLocalId();
+
       // Sometimes this can fail
       // TODO: investigate why
       if (!this.snackbarRef) return;

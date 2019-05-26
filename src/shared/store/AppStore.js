@@ -13,16 +13,11 @@ class AppStore {
   @observable canUseIdb;
   localId = '';
 
-  constructor () {
-    const user = localStorage.getItem('user');
-    if (user) {
-      this.user = JSON.parse(user);
-    } else {
-      this.localId = localStorage.getItem('localId');
-      if (!this.localId) {
-        this.localId = makeRandomId();
-        localStorage.setItem('localId', this.localId);
-      }
+  @action generateLocalId() {
+    this.localId = localStorage.getItem('localId');
+    if (!this.localId) {
+      this.localId = makeRandomId();
+      localStorage.setItem('localId', this.localId);
     }
   }
 
@@ -59,6 +54,8 @@ class AppStore {
 
 export const appStorePropTypes = PropTypes.shape({
   user: PropTypes.instanceOf(UserModel),
+
+  generateLocalId: PropTypes.func,
 
   setUser: PropTypes.func,
   getUserId: PropTypes.func,

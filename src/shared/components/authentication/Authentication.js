@@ -25,7 +25,10 @@ class Authentication extends Component {
   };
 
   onHandleLogout = (history) => () => {
-    this.props.appStore.setUser(null);
+    const { appStore } = this.props;
+
+    appStore.setUser(null);
+    appStore.generateLocalId();
     this.snackbarRef.current.showSnackbar({
       variant: SnackbarEnum.Variants.Success,
       message: 'Goodbye!',
