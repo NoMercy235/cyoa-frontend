@@ -93,13 +93,13 @@ export class StoryModel extends BaseModel {
     ];
   }
 
-  static saveOffline = async (offlineStory) => {
+  saveOffline = async (offlineStory) => {
     const db = await openIdb();
     await db.put(StoresEnum.Stories, offlineStory, offlineStory.story._id);
   };
 
-  static removeOffline = async (storyId) => {
+  removeOffline = async () => {
     const db = await openIdb();
-    await db.delete(StoresEnum.Stories, storyId);
+    await db.delete(StoresEnum.Stories, this._id);
   };
 }

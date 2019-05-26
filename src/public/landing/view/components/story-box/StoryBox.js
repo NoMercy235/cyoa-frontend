@@ -29,13 +29,13 @@ class StoryBox extends Component {
     const offlineStory = await publicStoryService.getOfflineStory(story._id);
 
     if (isAvailableOffline) {
-      await StoryModel.saveOffline(offlineStory);
+      await story.saveOffline(offlineStory);
       this.snackbarRef.current.showSnackbar({
         variant: SnackbarEnum.Variants.Success,
         message: 'Story is now available offline',
       });
     } else {
-      await StoryModel.removeOffline(story._id);
+      await story.removeOffline();
       this.snackbarRef.current.showSnackbar({
         variant: SnackbarEnum.Variants.Success,
         message: 'Story no longer available offline',
