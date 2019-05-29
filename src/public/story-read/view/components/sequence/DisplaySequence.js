@@ -7,7 +7,6 @@ import CardActions from '@material-ui/core/CardActions';
 import OptionChoice from './OptionChoice';
 import styles from './DisplaySequence.module.scss';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
-import { publicSequenceService } from '../../../../../infrastructure/services/SequenceService';
 import DisplayEnding from './DisplayEnding';
 import { PlayerModel } from '../../../../../infrastructure/models/PlayerModel';
 import DisplaySequenceTitle from './DisplaySequenceTitle';
@@ -15,9 +14,9 @@ import { parseContent } from '../../../../../shared/utilities';
 import { ChapterModel } from '../../../../../infrastructure/models/ChapterModel';
 import List from '@material-ui/core/List';
 import RootRef from '@material-ui/core/RootRef';
+import { SequenceModel } from '../../../../../infrastructure/models/SequenceModel';
 
 class DisplaySequence extends Component {
-  state = { sequence: null };
   cardRef = React.createRef();
 
   scrollToCardTop = () => {
@@ -25,13 +24,12 @@ class DisplaySequence extends Component {
   };
 
   renderTitle = () => {
-    const { sequence } = this.state;
-    const { chapters, player, story } = this.props;
+    const { chapters, player, story, seq } = this.props;
 
     return (
       <DisplaySequenceTitle
         player={player}
-        sequence={sequence}
+        sequence={seq}
         chapters={chapters}
         story={story}
       />
@@ -39,44 +37,26 @@ class DisplaySequence extends Component {
   };
 
   renderPicture = () => {
-    const { sequence } = this.state;
-    if (!sequence.scenePic) return '';
-    return (
+    const { seq } = this.props;
+    return seq.scenePic && (
       <img
         className={styles.scenePic}
-        src={sequence.scenePic}
+        src={seq.scenePic}
         alt=""
       />
     );
   };
 
   renderContent = () => {
-    return parseContent(this.state.sequence.content);
-  };
-
-  getSequence = async () => {
-    const { story, seq } = this.props;
-    const params = { ':story': story._id };
-    publicSequenceService.setNextRouteParams(params);
-    const sequence = await publicSequenceService.get(seq);
-    this.setState({ sequence });
+    return parseContent(this.props.seq.content);
   };
 
   async componentDidUpdate () {
-    if (this.props.seq !== this.state.sequence._id) {
-      await this.getSequence();
-      this.scrollToCardTop();
-    }
-  }
-
-  componentDidMount () {
-    this.getSequence();
+    this.scrollToCardTop();
   }
 
   render() {
-    const { sequence } = this.state;
-    if (!sequence) return '';
-    const { onOptionClick, player } = this.props;
+    const { onOptionClick, player, seq } = this.props;
 
     return (
       <RootRef rootRef={this.cardRef}>
@@ -88,7 +68,7 @@ class DisplaySequence extends Component {
           </CardContent>
           <CardActions disableActionSpacing>
             <List className={styles.optionsContainer}>
-              {!sequence.isEnding && sequence.options.map(o => (
+              {!seq.isEnding && seq.options.map(o => (
                 <OptionChoice
                   key={o._id}
                   option={o}
@@ -96,9 +76,9 @@ class DisplaySequence extends Component {
                   onOptionClick={onOptionClick}
                 />
               ))}
-              {sequence.isEnding && (
+              {seq.isEnding && (
                 <DisplayEnding
-                  sequence={sequence}
+                  sequence={seq}
                   onHandleClick={onOptionClick}
                 />
               )}
@@ -113,7 +93,7 @@ class DisplaySequence extends Component {
 DisplaySequence.propTypes = {
   story: PropTypes.instanceOf(StoryModel).isRequired,
   chapters: PropTypes.arrayOf(PropTypes.instanceOf(ChapterModel)).isRequired,
-  seq: PropTypes.string.isRequired,
+  seq: PropTypes.instanceOf(SequenceModel).isRequired,
   player: PropTypes.instanceOf(PlayerModel).isRequired,
   onOptionClick: PropTypes.func.isRequired,
 };
