@@ -25,3 +25,16 @@ export const openIdb = async (dbName = DB_NAME, version = DB_VERSION) => {
   dbCaches[dbName] = await openDB(dbName, version);
   return dbCaches[dbName];
 };
+
+export const getStoryStoreIdInIdb = async storyId => {
+  const db = await openIdb();
+  return await db.get(StoresEnum.Stories, storyId);
+};
+
+export const getSeqById = async (storyId, seqId) => {
+  const db = await openIdb();
+  const storyStore = await db.get(StoresEnum.Stories, storyId);
+  const seq = storyStore.sequences.find(s => s._id === seqId);
+  seq.options = storyStore.options.filter(o => o.sequence === seqId);
+  return seq;
+};

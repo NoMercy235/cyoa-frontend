@@ -11,6 +11,9 @@ import { appStorePropTypes } from '../../../../shared/store/AppStore';
 import DisplaySequence from '../components/sequence/DisplaySequence';
 import EndingContainer from './EndingContainer';
 import { publicSequenceService } from '../../../../infrastructure/services/SequenceService';
+import { getSeqById, getStoryStoreIdInIdb } from '../../../../shared/idb';
+import { PlayerModel } from '../../../../infrastructure/models/PlayerModel';
+import OfflineStoryUnavailable from '../components/OfflineStoryUnavailable';
 
 @inject('appStore')
 @observer
@@ -22,6 +25,8 @@ class ReadStoryContainer extends Component {
     chapters: [],
     player: null,
     currentSequence: null,
+
+    unavailableOffline: false,
   };
 
   goTo404 = () => {
@@ -58,6 +63,8 @@ class ReadStoryContainer extends Component {
       return;
     }
 
+    // If the story has offline mode available, the attributes should
+    // be an empty array anyway.
     const attributes = this.getModifiedAttributes(option);
     const metadata = {
       lastStorySequence: option.nextSeq,
@@ -66,9 +73,15 @@ class ReadStoryContainer extends Component {
 
     const params = { ':playerId': this.state.player._id };
     playerService.setNextRouteParams(params);
-    const player = await playerService.update(metadata);
+    try {
+      const player = await playerService.update(metadata);
+      this.setState({ player });
+    } catch (e) {
+      // TODO: If this fails while the user is offline, do nothing, because it is expected
+      // If it happens in other circumstances, an error notification should pop up
+    }
     const sequence = await this.getSequence(option.nextSeq);
-    this.setState({ player, sequence });
+    this.setState({ sequence });
   };
 
   getStory = async storyId => {
@@ -85,15 +98,58 @@ class ReadStoryContainer extends Component {
   };
 
   getSequence = async seqId => {
+    const { appStore } = this.props;
     const { story } = this.state;
     const params = { ':story': story._id };
     publicSequenceService.setNextRouteParams(params);
-    const sequence = await publicSequenceService.get(seqId);
-    this.setState({ currentSequence: sequence });
+    try {
+      const sequence = await publicSequenceService.get(seqId);
+      this.setState({ currentSequence: sequence });
+    } catch (e) {
+      if (!appStore.onlineStatus) {
+        const offlineStoryStore = await this.getOfflineStoryStore();
+        if (offlineStoryStore) {
+          const sequence = await getSeqById(offlineStoryStore.story._id, seqId);
+          this.setState({ currentSequence: sequence });
+        } else {
+          this.setState({ unavailableOffline: true });
+        }
+      }
+    }
+  };
+
+  getOfflineStoryStore = async () => {
+    const { match } = this.props;
+    const storyId = match.params.storyId;
+    return await getStoryStoreIdInIdb(storyId);
+  };
+
+  initOfflineStory = async offlineStoryStore => {
+    const { story, chapters } = offlineStoryStore;
+    const currentSequence = await getSeqById(story._id, story.startSeq);
+
+    this.setState({
+      canRender: true,
+      story,
+      chapters,
+      currentSequence,
+      player: new PlayerModel(),
+    });
   };
 
   async componentDidMount () {
-    const storyId = this.props.match.params.storyId;
+    const { match, appStore } = this.props;
+
+    const storyId = match.params.storyId;
+    const offlineStoryStore = await this.getOfflineStoryStore();
+
+    if (!appStore.onlineStatus && !offlineStoryStore) {
+      this.setState({ unavailableOffline: true });
+      return;
+    } else if (!appStore.onlineStatus && offlineStoryStore) {
+      await this.initOfflineStory(offlineStoryStore);
+      return;
+    }
 
     try {
       await Promise.all([
@@ -109,6 +165,22 @@ class ReadStoryContainer extends Component {
     this.setState({ canRender: true });
   }
 
+  renderHasWon = () => {
+    const {
+      story,
+      player,
+      hasWon,
+    } = this.state;
+
+    return (
+      <EndingContainer
+        story={story}
+        player={player}
+        hasWon={hasWon}
+      />
+    );
+  };
+
   renderSequence = () => {
     const {
       story,
@@ -116,16 +188,15 @@ class ReadStoryContainer extends Component {
       player,
       currentSequence,
       hasWon,
+      unavailableOffline,
     } = this.state;
 
     if (hasWon) {
-      return (
-        <EndingContainer
-          story={story}
-          player={player}
-          hasWon={hasWon}
-        />
-      );
+      return this.renderHasWon();
+    }
+
+    if (unavailableOffline) {
+      return <OfflineStoryUnavailable/>;
     }
 
     return (
