@@ -57,6 +57,19 @@ export class StoryModel extends BaseModel {
     return errors;
   }
 
+  // These are made as properties and not static functions because of a bug (I think)
+  // that calls them at compile time. Doing so would crash the app since the function's
+  // argument is undefined.
+  saveOffline = async (offlineStory) => {
+    const db = await openIdb();
+    await db.put(StoresEnum.Stories, offlineStory, offlineStory.story._id);
+  };
+
+  removeOffline = async () => {
+    const db = await openIdb();
+    await db.delete(StoresEnum.Stories, this._id);
+  };
+
   static forApi(story) {
     const result = {
       name: story.name,
@@ -92,14 +105,4 @@ export class StoryModel extends BaseModel {
       },
     ];
   }
-
-  saveOffline = async (offlineStory) => {
-    const db = await openIdb();
-    await db.put(StoresEnum.Stories, offlineStory, offlineStory.story._id);
-  };
-
-  removeOffline = async () => {
-    const db = await openIdb();
-    await db.delete(StoresEnum.Stories, this._id);
-  };
 }
