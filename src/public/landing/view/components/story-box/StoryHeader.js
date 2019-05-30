@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import {
   withStyles,
   Avatar,
@@ -18,14 +18,28 @@ import { appStorePropTypes } from '../../../../../shared/store/AppStore';
 import { styles } from './StoryBox.css';
 
 @inject('appStore')
+@observer
 class StoryHeader extends Component {
   state = {
     isMakingOffline: false,
   };
 
-  onMakeAvailableOfflineClick = async (e, isAvailableOffline) => {
+  onMakeAvailableTextClick = async e => {
+    const { story } = this.props;
+    const currentOffline = await story.isOffline();
+    await this.onMakeAvailableOfflineChange(e, !currentOffline);
+  };
+
+  onMakeAvailableOfflineChange = async (e, isAvailableOffline) => {
+    const {
+      appStore: { onlineStatus },
+      makeStoryAvailableOffline,
+    } = this.props;
+
+    if (!onlineStatus) return;
+
     this.setState({ isMakingOffline: true });
-    await this.props.makeStoryAvailableOffline(isAvailableOffline);
+    await makeStoryAvailableOffline(isAvailableOffline);
     this.setState({ isMakingOffline: false });
   };
 
@@ -47,6 +61,7 @@ class StoryHeader extends Component {
       isAvailableOffline,
       appStore: {
         canUseIdb,
+        onlineStatus,
       },
     } = this.props;
     const { isMakingOffline } = this.state;
@@ -54,13 +69,13 @@ class StoryHeader extends Component {
     if (!story.isAvailableOffline || !canUseIdb) return false;
 
     return (
-      <div>
+      <div onClick={this.onMakeAvailableTextClick}>
         Available offline?
         <Switch
           value={isAvailableOffline}
           checked={isAvailableOffline}
-          onChange={this.onMakeAvailableOfflineClick}
-          disabled={isMakingOffline}
+          onChange={this.onMakeAvailableOfflineChange}
+          disabled={isMakingOffline || !onlineStatus}
         />
       </div>
     );
