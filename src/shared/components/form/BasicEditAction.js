@@ -62,7 +62,7 @@ BasicEditAction.propTypes = {
   resourceName: PropTypes.string.isRequired,
   resource: PropTypes.object.isRequired,
   tooltip: PropTypes.string,
-  modalComponent: PropTypes.func.isRequired,
+  modalComponent: PropTypes.object.isRequired,
   getBeforeModal: PropTypes.func,
   onModalOpen: PropTypes.func,
   onModalClose: PropTypes.func,

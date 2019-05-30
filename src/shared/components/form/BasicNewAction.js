@@ -50,7 +50,7 @@ class BasicNewAction extends Component {
 BasicNewAction.propTypes = {
   className: PropTypes.string,
   tooltip: PropTypes.string.isRequired,
-  modalComponent: PropTypes.func.isRequired,
+  modalComponent: PropTypes.object.isRequired,
   innerProps: PropTypes.object,
   onModalOpen: PropTypes.func,
   onModalClose: PropTypes.func,
