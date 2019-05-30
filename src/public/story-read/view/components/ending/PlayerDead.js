@@ -54,7 +54,7 @@ class PlayerDead extends Component {
         <CardContent>
           {this.getContentText()}
         </CardContent>
-        <CardActions disableActionSpacing>
+        <CardActions disableSpacing>
           <div className={styles.actionsContainer}>
             <Button
               variant="contained"

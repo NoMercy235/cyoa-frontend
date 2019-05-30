@@ -73,7 +73,7 @@ class StoryActions extends Component {
     const { classes } = this.props;
 
     return (
-      <CardActions className={classes.actions} disableActionSpacing>
+      <CardActions className={classes.actions} disableSpacing>
         {this.getReadBtn()}
         <ShareButton text={this.makePath(true)}/>
         {this.renderIconButton()}

@@ -66,7 +66,7 @@ class DisplaySequence extends Component {
             {this.renderPicture()}
             {this.renderContent()}
           </CardContent>
-          <CardActions disableActionSpacing>
+          <CardActions disableSpacing>
             <List className={styles.optionsContainer}>
               {!seq.isEnding && seq.options.map(o => (
                 <OptionChoice

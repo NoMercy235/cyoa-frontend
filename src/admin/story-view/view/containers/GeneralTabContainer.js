@@ -20,7 +20,7 @@ class GeneralTabContainer extends Component {
         <CardContent className={styles.content}>
           <GeneralTab story={story}/>
         </CardContent>
-        <CardActions disableActionSpacing>
+        <CardActions disableSpacing>
           <PublishBtn story={story}/>
         </CardActions>
       </Card>
