@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { publicStoryService } from '../../../../infrastructure/services/StoryService';
-import { withRouter } from 'react-router-dom';
 import * as PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import { inject, observer } from 'mobx-react';
+
+import { publicStoryService } from '../../../../infrastructure/services/StoryService';
 import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
 import { publicChapterService } from '../../../../infrastructure/services/ChapterService';
 import { NOT_FOUND_ROUTE } from '../../../../shared/constants/routes';
 import { playerService } from '../../../../infrastructure/services/PlayerService';
-import { inject, observer } from 'mobx-react';
 import { appStorePropTypes } from '../../../../shared/store/AppStore';
 import DisplaySequence from '../components/sequence/DisplaySequence';
 import EndingContainer from './EndingContainer';

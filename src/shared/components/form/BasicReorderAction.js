@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
+import * as PropTypes from 'prop-types';
+import { IconButton, Tooltip } from '@material-ui/core';
 import ArrowUpIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import * as PropTypes from 'prop-types';
 
 class BasicReorderAction extends Component {
   // Checking one more time to really prevent the user from updating the position

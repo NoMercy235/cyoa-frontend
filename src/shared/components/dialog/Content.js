@@ -1,5 +1,4 @@
-import { withStyles } from '@material-ui/core/styles';
-import MuiDialogContent from '@material-ui/core/DialogContent';
+import { withStyles, DialogContent as MuiDialogContent } from '@material-ui/core';
 
 export const DialogContent = withStyles(theme => ({
   root: {

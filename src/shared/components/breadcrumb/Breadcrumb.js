@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import Chip from '@material-ui/core/Chip';
-import Avatar from '@material-ui/core/Avatar';
 import * as PropTypes from 'prop-types';
-import styles from './Breadcrumb.module.scss';
 import { withRouter } from 'react-router-dom';
+import { Avatar, Chip } from '@material-ui/core';
+
 import {
   adminBreadcrumb,
   publicBreadcrumb,
   storyReadBreadcrumb,
   storyViewBreadcrumb,
 } from '../../constants/breadcrumbs';
+
+import styles from './Breadcrumb.module.scss';
 
 const getBreadCrumbs = () => {
   const path = window.location.pathname;

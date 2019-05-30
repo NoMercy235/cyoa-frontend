@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react';
+
 import LandingCmp from '../components/landing/LandingCmp';
 import { publicStoryService } from '../../../../infrastructure/services/StoryService';
-import { inject, observer } from 'mobx-react';
 import { publicStoryStorePropTypes } from '../../stores/PublicStoryStore';
 import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
 import { appStorePropTypes } from '../../../../shared/store/AppStore';

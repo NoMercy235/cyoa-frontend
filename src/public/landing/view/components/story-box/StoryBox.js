@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Collapse from '@material-ui/core/Collapse';
+import { withStyles, Card, CardContent, Collapse } from '@material-ui/core';
+
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import { publicStoryService } from '../../../../../infrastructure/services/StoryService';
-import { styles } from './StoryBox.css';
 import StoryHeader from './StoryHeader';
 import StoryActions from './StoryActions';
 import { parseContent } from '../../../../../shared/utilities';
 import notFoundImg from '../../../../../assets/notfound.png';
 import { SnackbarEnum } from '../../../../../shared/components/snackbar/Snackbar';
 import Snackbar from '../../../../../shared/components/snackbar/Snackbar';
+
+import { styles } from './StoryBox.css';
 
 class StoryBox extends Component {
   state = {

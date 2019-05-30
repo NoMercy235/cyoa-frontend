@@ -1,9 +1,11 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import * as PropTypes from 'prop-types';
-import styles from './FileSelect.module.scss';
+import { Button } from '@material-ui/core';
+
 import Snackbar, { SnackbarEnum } from '../../snackbar/Snackbar';
 import { ERRORS } from '../../../constants/errors';
+
+import styles from './FileSelect.module.scss';
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {

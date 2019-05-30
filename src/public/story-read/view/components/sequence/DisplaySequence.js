@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardActions from '@material-ui/core/CardActions';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardActions,
+  List,
+  RootRef,
+} from '@material-ui/core';
+
 import OptionChoice from './OptionChoice';
-import styles from './DisplaySequence.module.scss';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import DisplayEnding from './DisplayEnding';
 import { PlayerModel } from '../../../../../infrastructure/models/PlayerModel';
 import DisplaySequenceTitle from './DisplaySequenceTitle';
 import { parseContent } from '../../../../../shared/utilities';
 import { ChapterModel } from '../../../../../infrastructure/models/ChapterModel';
-import List from '@material-ui/core/List';
-import RootRef from '@material-ui/core/RootRef';
 import { SequenceModel } from '../../../../../infrastructure/models/SequenceModel';
+
+import styles from './DisplaySequence.module.scss';
 
 class DisplaySequence extends Component {
   cardRef = React.createRef();

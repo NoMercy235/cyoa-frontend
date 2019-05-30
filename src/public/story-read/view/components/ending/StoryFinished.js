@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { LANDING_ROUTE } from '../../../../../shared/constants/routes';
 import { withRouter } from 'react-router-dom';
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Typography,
+} from '@material-ui/core';
+
+import { LANDING_ROUTE } from '../../../../../shared/constants/routes';
 import { playerService } from '../../../../../infrastructure/services/PlayerService';
-import Button from '@material-ui/core/Button';
 import { PlayerModel } from '../../../../../infrastructure/models/PlayerModel';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
+
 import styles from './Ending.module.scss';
-import Typography from '@material-ui/core/Typography';
 
 class StoryFinished extends Component {
   deletePlayer = async () => {

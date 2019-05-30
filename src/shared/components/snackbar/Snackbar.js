@@ -1,18 +1,22 @@
 import React from 'react';
-import MuiSnackbar from '@material-ui/core/Snackbar';
+import * as ReactDOM from 'react-dom';
 import * as PropTypes from 'prop-types';
+import classNames from 'classnames';
+import {
+  withStyles,
+  IconButton,
+  Snackbar as MuiSnackbar,
+  SnackbarContent,
+} from '@material-ui/core';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
 import InfoIcon from '@material-ui/icons/Info';
 import WarningIcon from '@material-ui/icons/Warning';
 import CloseIcon from '@material-ui/icons/Close';
-import classNames from 'classnames';
-import IconButton from '@material-ui/core/IconButton';
-import { styles } from './Snackbar.css';
-import { withStyles } from '@material-ui/core';
-import SnackbarContent from '@material-ui/core/es/SnackbarContent/SnackbarContent';
-import * as ReactDOM from 'react-dom';
+
 import { BaseModel } from '../../../infrastructure/models/BaseModel';
+
+import { styles } from './Snackbar.css';
 
 export const SnackbarEnum = {
   Variants: {

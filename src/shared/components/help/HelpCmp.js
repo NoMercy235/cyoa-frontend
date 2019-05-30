@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
+import { withStyles, Typography } from '@material-ui/core';
 import Help from '@material-ui/icons/Help';
+
 import { withModal } from '../../hoc/withModal';
 import HelpModal from './HelpModal';
 import { styles } from './Help.css';
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 
 const HOCHelp = withModal(Help, HelpModal);
 

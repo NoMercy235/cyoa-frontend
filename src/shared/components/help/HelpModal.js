@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import Dialog from '@material-ui/core/Dialog';
+import { withStyles, Button, Dialog } from '@material-ui/core';
+
 import { DialogTitle } from '../dialog/Title';
 import { DialogContent } from '../dialog/Content';
 import { DialogActions } from '../dialog/Actions';
-import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core';
-import { styles } from './Help.css';
+
 import { dialogDefaultCss } from '../dialog/Dialog.css';
+import { styles } from './Help.css';
 
 class HelpModal extends Component {
   render() {

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import Button from '@material-ui/core/Button';
+import { Button } from '@material-ui/core';
+
 import { storyService } from '../../../../../infrastructure/services/StoryService';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import { storyViewStorePropTypes } from '../../../stores/StoryViewStore';

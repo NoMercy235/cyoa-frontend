@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import CardHeader from '@material-ui/core/CardHeader';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
-import { styles } from './StoryBox.css';
-import Typography from '@material-ui/core/Typography';
-import MenuDropdown from '../../../../../shared/components/menu/MenuDropdown';
-import Switch from '@material-ui/core/Switch';
 import { inject } from 'mobx-react';
+import {
+  withStyles,
+  Avatar,
+  CardHeader,
+  IconButton,
+  Switch,
+  Typography,
+} from '@material-ui/core';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+
+import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
+import MenuDropdown from '../../../../../shared/components/menu/MenuDropdown';
 import { appStorePropTypes } from '../../../../../shared/store/AppStore';
+
+import { styles } from './StoryBox.css';
 
 @inject('appStore')
 class StoryHeader extends Component {

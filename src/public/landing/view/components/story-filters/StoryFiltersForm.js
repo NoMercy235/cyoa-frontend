@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import List from '@material-ui/core/List';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import ListItem from '@material-ui/core/ListItem';
-import TextField from '@material-ui/core/TextField';
 import { Field, Form } from 'formik';
+import {
+  Button,
+  List,
+  ListItem,
+  ListSubheader,
+  TextField,
+} from '@material-ui/core';
+
 import Select from '../../../../../shared/components/form/Select/Select';
 import { TagModel } from '../../../../../infrastructure/models/TagModel';
-import classes from './StoryFilters.module.scss';
-import Button from '@material-ui/core/Button';
+
+import styles from './StoryFilters.module.scss';
 
 class StoryFiltersForm extends Component {
   tags = TagModel.get();
@@ -26,7 +30,7 @@ class StoryFiltersForm extends Component {
   renderTagsField = ({ field }) => {
     return (
       <Select
-        className={classes.tagsFilter}
+        className={styles.tagsFilter}
         formikField={field}
         label="Tags"
         items={this.tags}

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import * as PropTypes from 'prop-types';
+import { inject, observer } from 'mobx-react';
+
 import AttributesTableCmp from '../components/player/AttributesTableCmp';
 import { attributeService } from '../../../../infrastructure/services/AttributeService';
-import * as PropTypes from 'prop-types';
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
-import { inject, observer } from 'mobx-react';
 import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
 import Snackbar, { SnackbarEnum } from '../../../../shared/components/snackbar/Snackbar';
+
 import classes from './PlayerTabContainer.module.scss';
 
 @inject('storyViewStore')

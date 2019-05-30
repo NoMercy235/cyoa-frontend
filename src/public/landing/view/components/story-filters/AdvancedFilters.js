@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { styles } from './Filters.css';
-import { withStyles } from '@material-ui/core';
 import * as PropTypes from 'prop-types';
-import Drawer from '@material-ui/core/Drawer';
+import { withStyles, Drawer } from '@material-ui/core';
+
+import { styles } from './Filters.css';
 import StoryFilters from './StoryFilters';
 
 class AdvancedFiltersCmp extends Component {

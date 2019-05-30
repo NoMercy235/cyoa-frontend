@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
+import { Tooltip, Typography } from '@material-ui/core';
 
 export default function withOnlineCheck(WrappedCmp) {
   @inject('appStore')

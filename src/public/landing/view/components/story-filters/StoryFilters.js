@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import classes from './StoryFilters.module.scss';
-import Paper from '@material-ui/core/Paper';
 import { Formik } from 'formik';
+import { Paper } from '@material-ui/core';
+
 import StoryFiltersForm from './StoryFiltersForm';
+
+import styles from './StoryFilters.module.scss';
 
 class StoryFilters extends Component {
   onSubmit = async (values, { setSubmitting }) => {
@@ -19,7 +21,7 @@ class StoryFilters extends Component {
     const {initialValues} = this.props;
 
     return (
-      <Paper className={classes.container}>
+      <Paper className={styles.container}>
         <Formik
           enableReinitialize={true}
           initialValues={initialValues}

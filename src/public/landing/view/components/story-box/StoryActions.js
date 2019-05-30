@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
-import CardActions from '@material-ui/core/CardActions';
-import IconButton from '@material-ui/core/IconButton';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
+import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
+import { withStyles, Button, CardActions, IconButton } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+
+import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import { makePath, READ_STORY_ROUTE } from '../../../../../shared/constants/routes';
 import ShareButton from '../ShareButton';
-import { styles } from './StoryBox.css';
-import Button from '@material-ui/core/Button';
-import VisibilityIcon from '@material-ui/icons/Visibility';
 import withOnlineCheck from '../../../../../shared/hoc/withOnlineCheck';
+
+import { styles } from './StoryBox.css';
 
 const ReadStoryButton = withOnlineCheck(Button);
 
@@ -57,7 +56,7 @@ class StoryActions extends Component {
 
     return (
       <IconButton
-        className={classnames(classes.expand, {
+        className={classNames(classes.expand, {
           [classes.expandOpen]: this.props.expanded,
         })}
         onClick={this.props.handleExpandClick}

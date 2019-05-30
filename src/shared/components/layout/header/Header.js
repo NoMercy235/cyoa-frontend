@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import { styles } from '../Styles.css';
 import { inject, observer } from 'mobx-react';
+import {
+  withStyles,
+  AppBar,
+  CssBaseline,
+  IconButton,
+  Toolbar,
+  Typography,
+} from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+
 import { appStorePropTypes } from '../../../store/AppStore';
+
+import { styles } from '../Styles.css';
 
 @inject('appStore')
 @observer

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
-import { styles as tableStyles } from '../../../../../shared/components/table/TableCmp.css';
+import { observer } from 'mobx-react';
+
 import { AttributeModel } from '../../../../../infrastructure/models/AttributeModel';
 import TableCmp from '../../../../../shared/components/table/TableCmp';
 import ViewRow from '../../../../../shared/components/table/actions/ViewRow';
@@ -9,8 +10,9 @@ import DeleteRow from '../../../../../shared/components/table/actions/DeleteRow'
 import BasicNewAction from '../../../../../shared/components/form/BasicNewAction';
 import SaveAttributeModal from './save-attribute/SaveAttributeModal';
 import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
-import { observer } from 'mobx-react';
 import { renderAttributesTableTitle } from './AttributesTableTitle';
+
+import { styles as tableStyles } from '../../../../../shared/components/table/TableCmp.css';
 
 @observer
 class AttributesTableCmp extends Component {

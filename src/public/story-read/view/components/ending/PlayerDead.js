@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Typography,
+} from '@material-ui/core';
+
 import { playerService } from '../../../../../infrastructure/services/PlayerService';
 import { PlayerModel } from '../../../../../infrastructure/models/PlayerModel';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import styles from './Ending.module.scss';
-import Card from '@material-ui/core/Card';
-import Typography from '@material-ui/core/Typography';
 import playerDead from '../../../../../assets/player-dead.png';
+
+import styles from './Ending.module.scss';
 
 class PlayerDead extends Component {
   retry = async () => {

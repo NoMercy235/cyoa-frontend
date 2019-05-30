@@ -1,5 +1,6 @@
 import { observable, action, computed, runInAction } from 'mobx';
 import * as PropTypes from 'prop-types';
+
 import { AttributeModel } from '../../../infrastructure/models/AttributeModel';
 import { SequenceModel } from '../../../infrastructure/models/SequenceModel';
 import { StoryModel } from '../../../infrastructure/models/StoryModel';

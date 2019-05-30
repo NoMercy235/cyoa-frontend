@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import styles from './DisplaySequence.module.scss';
+import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import FaceIcon from '@material-ui/icons/Face';
-import { SequenceModel } from '../../../../../infrastructure/models/SequenceModel';
 import { Utils } from '@nomercy235/utils';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+
+import { SequenceModel } from '../../../../../infrastructure/models/SequenceModel';
+
+import styles from './DisplaySequence.module.scss';
 
 class DisplayEnding extends Component {
   onHandleClick = () => this.props.onHandleClick();

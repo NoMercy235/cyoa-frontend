@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import MuiSelect from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
-import Checkbox from '@material-ui/core/Checkbox';
-import ListItemText from '@material-ui/core/ListItemText';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import { withStyles } from '@material-ui/core';
+import {
+  withStyles,
+  Checkbox,
+  FormControl,
+  FormHelperText,
+  Input,
+  InputLabel,
+  ListItemText,
+  MenuItem,
+  Select as MuiSelect,
+} from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ClearSelectIcon from './ClearSelectIcon';
 import { Utils } from '@nomercy235/utils';
+
+import ClearSelectIcon from './ClearSelectIcon';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

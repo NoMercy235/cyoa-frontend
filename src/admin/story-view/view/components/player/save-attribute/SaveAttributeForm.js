@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Field, Form } from 'formik';
-import TextField from '@material-ui/core/TextField';
-import { withStyles } from '@material-ui/core';
-import { styles } from './SaveAttribute.css';
+import { withStyles, TextField } from '@material-ui/core';
+
 import { hasError } from '../../../../../../shared/components/form/helpers';
+
+import { styles } from './SaveAttribute.css';
 
 class SaveAttributeForm extends Component {
   renderNameField = ({ field }) => {

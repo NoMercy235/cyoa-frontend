@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core';
-import { styles as storiesTableStyles } from './StoriesTableCmp.css';
-import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
-import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
+import { withStyles, Tooltip } from '@material-ui/core';
+import CheckIcon from '@material-ui/icons/Check';
+import CloseIcon from '@material-ui/icons/Close';
 import classNames from 'classnames';
-import Tooltip from '@material-ui/core/Tooltip';
 import { withRouter } from 'react-router-dom';
+import { observer } from 'mobx-react';
+
+import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import TableCmp from '../../../../../../shared/components/table/TableCmp';
 import ViewRow from '../../../../../../shared/components/table/actions/ViewRow';
 import DeleteRow from '../../../../../../shared/components/table/actions/DeleteRow';
 import BasicNewAction from '../../../../../../shared/components/form/BasicNewAction';
 import SaveStoryModal from '../save-story/SaveStoryModal';
 import BasicEditAction from '../../../../../../shared/components/form/BasicEditAction';
-import { observer } from 'mobx-react';
 import { ADMIN_STORY_VIEW_ROUTE, makePath } from '../../../../../../shared/constants/routes';
 import { renderStoriesTableTitle } from './StoriesTableTitle';
-import CheckIcon from '@material-ui/icons/Check';
-import CloseIcon from '@material-ui/icons/Close';
+
+import { styles as storiesTableStyles } from './StoriesTableCmp.css';
+import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
 
 @observer
 class StoriesTableCmp extends Component {

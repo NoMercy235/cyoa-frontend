@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { styles } from './Filters.css';
-import { withStyles } from '@material-ui/core';
 import * as PropTypes from 'prop-types';
-import InputBase from '@material-ui/core/InputBase';
+import { withStyles, Badge, IconButton, InputBase, Tooltip } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/FilterList';
-import Tooltip from '@material-ui/core/Tooltip';
-import Badge from '@material-ui/core/Badge';
-import IconButton from '@material-ui/core/IconButton';
+
+import { styles } from './Filters.css';
 
 const withBadge = (Cmp, classes) => {
   return (

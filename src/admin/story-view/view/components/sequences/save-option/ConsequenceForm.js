@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Field } from 'formik';
-import TextField from '@material-ui/core/TextField';
-import { withStyles } from '@material-ui/core';
+import { withStyles, IconButton, TextField, Tooltip } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+
 import { arrayHasError } from '../../../../../../shared/components/form/helpers';
 import Select from '../../../../../../shared/components/form/Select/Select';
-import { styles } from './SaveOption.css';
 import { AttributeModel } from '../../../../../../infrastructure/models/AttributeModel';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Tooltip from '@material-ui/core/Tooltip';
+
+import { styles } from './SaveOption.css';
 
 class ConsequenceForm extends Component {
   getAttributes = () => {

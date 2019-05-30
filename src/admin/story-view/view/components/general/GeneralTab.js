@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
+import { Typography } from '@material-ui/core';
+
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
-import styles from './GeneralTab.module.scss';
-import Typography from '@material-ui/core/Typography';
 import notFoundImg from '../../../../../assets/notfound.png';
 import { parseContent } from '../../../../../shared/utilities';
+
+import styles from './GeneralTab.module.scss';
 
 class GeneralTab extends Component {
   render() {

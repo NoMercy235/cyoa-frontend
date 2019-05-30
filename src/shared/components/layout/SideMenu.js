@@ -1,23 +1,27 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import HomeIcon from '@material-ui/icons/Home';
-import InfoIcon from '@material-ui/icons/Info';
-import { styles } from './Styles.css';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
+import {
+  withStyles,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from '@material-ui/core';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import HomeIcon from '@material-ui/icons/Home';
+import InfoIcon from '@material-ui/icons/Info';
+import ViewStoryIcon from '@material-ui/icons/Pageview';
+
 import { appStorePropTypes } from '../../store/AppStore';
 import { ADMIN_STORIES_ROUTE } from '../../constants/routes';
-import ViewStoryIcon from '@material-ui/icons/Pageview';
 import Authentication from '../authentication/Authentication';
+
+import { styles } from './Styles.css';
 
 const publicMenu = [
   {

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core';
-import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
-import { styles as customStyles } from './SequenceTableCmp.css';
+import { withStyles, Tooltip } from '@material-ui/core';
+import { observer } from 'mobx-react';
+import ForwardIcon from '@material-ui/icons/Forward';
+import BlockIcon from '@material-ui/icons/Block';
+
 import TableCmp from '../../../../../../shared/components/table/TableCmp';
 import DeleteRow from '../../../../../../shared/components/table/actions/DeleteRow';
 import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
@@ -10,15 +12,14 @@ import BasicEditAction from '../../../../../../shared/components/form/BasicEditA
 import SaveSequenceModal from '../save-sequence/SaveSequenceModal';
 import BasicNewAction from '../../../../../../shared/components/form/BasicNewAction';
 import OptionTableCmp from '../option-table/OptionTableCmp';
-import { observer } from 'mobx-react';
 import { renderSequenceTableTitle } from './SequenceTableTitle';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import BasicReorderAction from '../../../../../../shared/components/form/BasicReorderAction';
-import ForwardIcon from '@material-ui/icons/Forward';
-import BlockIcon from '@material-ui/icons/Block';
 import { parseContent } from '../../../../../../shared/utilities';
 import { chapterService } from '../../../../../../infrastructure/services/ChapterService';
-import Tooltip from '@material-ui/core/Tooltip';
+
+import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
+import { styles as customStyles } from './SequenceTableCmp.css';
 
 @observer
 class SequenceTableCmp extends Component {

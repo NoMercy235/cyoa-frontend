@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
 import * as PropTypes from 'prop-types';
+import { observer } from 'mobx-react';
+
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import StoryBox from '../story-box/StoryBox';
-import styles from './LandingCmp.module.scss';
 import NoResultsFound from '../../../../../shared/components/table/NoResultsFound';
+
+import styles from './LandingCmp.module.scss';
 
 @observer
 class LandingCmp extends Component {

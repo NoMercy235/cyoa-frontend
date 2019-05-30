@@ -1,6 +1,6 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import { withStyles, Typography } from '@material-ui/core';
+
 import { styles } from './Authentication.css';
 
 export const HasAccount = withStyles(styles)(props => {

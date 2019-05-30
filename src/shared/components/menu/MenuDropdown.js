@@ -1,11 +1,13 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
-import MenuItem from '@material-ui/core/MenuItem';
-import Popper from '@material-ui/core/Popper';
-import Grow from '@material-ui/core/Grow';
-import Paper from '@material-ui/core/Paper';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import MenuList from '@material-ui/core/MenuList';
+import {
+  ClickAwayListener,
+  Grow,
+  MenuItem,
+  MenuList,
+  Paper,
+  Popper,
+} from '@material-ui/core';
 
 class MenuDropdown extends React.Component {
   static defaultProps = {

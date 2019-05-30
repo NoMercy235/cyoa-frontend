@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
+import { withStyles, IconButton, Popover, TextField } from '@material-ui/core';
 import ShareIcon from '@material-ui/icons/Share';
-import Popover from '@material-ui/core/Popover';
-import TextField from '@material-ui/core/TextField';
 
 const styles = theme => ({
   container: {

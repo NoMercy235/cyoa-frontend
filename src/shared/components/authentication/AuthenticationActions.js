@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
+import { Button } from '@material-ui/core';
 
 class AuthenticationActions extends Component {
   render() {

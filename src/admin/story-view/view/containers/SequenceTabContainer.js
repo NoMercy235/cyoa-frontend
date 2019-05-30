@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
+import { inject, observer } from 'mobx-react';
+import { withRouter } from 'react-router-dom';
+
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
 import Snackbar, { SnackbarEnum } from '../../../../shared/components/snackbar/Snackbar';
-import { inject, observer } from 'mobx-react';
 import SequenceTableCmp from '../components/sequences/sequence-table/SequenceTableCmp';
 import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
 import { sequenceService } from '../../../../infrastructure/services/SequenceService';
 import { optionService } from '../../../../infrastructure/services/OptionService';
 import ChapterListCmp from '../components/sequences/chapter-table/ChapterListCmp';
-import classes from './SequenceTabContainer.module.scss';
 import { chapterService } from '../../../../infrastructure/services/ChapterService';
-import { withRouter } from 'react-router-dom';
+
+import classes from './SequenceTabContainer.module.scss';
 
 @inject('storyViewStore')
 @observer

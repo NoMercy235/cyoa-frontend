@@ -1,24 +1,25 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Dialog from '@material-ui/core/Dialog';
+import { withStyles, Dialog } from '@material-ui/core';
 import { Formik } from 'formik';
+import { inject } from 'mobx-react';
+import classNames from 'classnames';
+
 import { DialogTitle } from '../../../../../../shared/components/dialog/Title';
 import { DialogContent } from '../../../../../../shared/components/dialog/Content';
 import { DialogActions } from '../../../../../../shared/components/dialog/Actions';
 import Snackbar, { SnackbarEnum } from '../../../../../../shared/components/snackbar/Snackbar';
-import { inject } from 'mobx-react';
 import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 import { optionService } from '../../../../../../infrastructure/services/OptionService';
 import { OptionModel } from '../../../../../../infrastructure/models/OptionModel';
 import SaveOptionForm from './SaveOptionForm';
-import { styles } from './SaveOption.css';
 import { ConsequenceModel } from '../../../../../../infrastructure/models/ConsequenceModel';
-import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
-import classNames from 'classnames';
 import { debounced } from '../../../../../../shared/utilities';
 import { sequenceService } from '../../../../../../infrastructure/services/SequenceService';
+
+import { styles } from './SaveOption.css';
+import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
 
 const debouncedSequenceList = debounced(sequenceService.list);
 

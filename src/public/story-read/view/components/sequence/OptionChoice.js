@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { OptionModel } from '../../../../../infrastructure/models/OptionModel';
+import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import FaceIcon from '@material-ui/icons/Face';
-import styles from './DisplaySequence.module.scss';
+
+import { OptionModel } from '../../../../../infrastructure/models/OptionModel';
 import { PlayerModel } from '../../../../../infrastructure/models/PlayerModel';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+
+import styles from './DisplaySequence.module.scss';
 
 class OptionChoice extends Component {
   onOptionClick = () => {

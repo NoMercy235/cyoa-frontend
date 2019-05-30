@@ -1,7 +1,9 @@
 import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
-import { withDefaultLayout } from '../../hoc/DefaultLayout';
 import { inject, observer } from 'mobx-react';
+import { Detector } from 'react-detect-offline';
+
+import { withDefaultLayout } from '../../hoc/DefaultLayout';
 import { appStorePropTypes } from '../../store/AppStore';
 import withAuth from '../../hoc/withAuthRoute';
 import { tagService } from '../../../infrastructure/services/TagService';
@@ -11,7 +13,6 @@ import { userService } from '../../../infrastructure/services/UserService';
 import { authService } from '../../../infrastructure/services/AuthenticationService';
 import Snackbar, { SnackbarEnum } from '../snackbar/Snackbar';
 import NotFoundCmp from '../NotFoundCmp';
-import { Detector } from 'react-detect-offline';
 import { ONLINE_STATUS_POLLING_INTERVAL } from '../../constants/global';
 import { configureIdb } from '../../idb';
 

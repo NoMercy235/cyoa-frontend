@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Field, FieldArray, Form } from 'formik';
-import TextField from '@material-ui/core/TextField';
-import { withStyles } from '@material-ui/core';
+import { withStyles, IconButton, TextField, Tooltip, Typography } from '@material-ui/core';
 import { hasError } from '../../../../../../shared/components/form/helpers';
-import { styles } from './SaveOption.css';
-import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
-import IconButton from '@material-ui/core/IconButton';
+
 import ConsequenceForm from './ConsequenceForm';
 import { ConsequenceModel } from '../../../../../../infrastructure/models/ConsequenceModel';
-import Tooltip from '@material-ui/core/Tooltip';
 import { AttributeModel } from '../../../../../../infrastructure/models/AttributeModel';
 import FormikAutocompleteContainer from '../../../../../../shared/components/form/Autocomplete/FormikAutocompleteContainer';
+
+import { styles } from './SaveOption.css';
 
 class SaveOptionForm extends Component {
   onAddConsequence = arrayHelpers => () => {

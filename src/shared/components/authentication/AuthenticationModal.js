@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import { styles } from './Authentication.css';
+import { inject } from 'mobx-react';
+import { Formik } from 'formik';
+import { withStyles, Dialog } from '@material-ui/core';
+
 import LoginForm from './LoginForm';
 import { appStorePropTypes } from '../../store/AppStore';
-import Dialog from '@material-ui/core/Dialog';
 import { DialogTitle } from '../dialog/Title';
 import { DialogContent } from '../dialog/Content';
 import { DialogActions } from '../dialog/Actions';
-import { Formik } from 'formik';
 import AuthenticationActions from './AuthenticationActions';
 import { NoAccount } from './NoAccount';
 import { HasAccount } from './HasAccount';
 import RegisterForm from './RegisterForm';
 import { authService } from '../../../infrastructure/services/AuthenticationService';
-import { inject } from 'mobx-react';
 import { UserModel } from '../../../infrastructure/models/UserModel';
 import { AuthenticationModel } from '../../../infrastructure/models/AuthenticationModel';
+
+import { styles } from './Authentication.css';
 import { dialogDefaultCss } from '../dialog/Dialog.css';
 
 @inject('appStore')

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
 import * as PropTypes from 'prop-types';
-import Tooltip from '@material-ui/core/es/Tooltip/Tooltip';
+import { IconButton, Tooltip } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
 
 class BasicEditAction extends Component {
   state = {

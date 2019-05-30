@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Exit from '@material-ui/icons/ExitToAppRounded';
-import { styles } from './Authentication.css';
-import Button from '@material-ui/core/Button';
-import AuthenticationModal from './AuthenticationModal';
-import { inject, observer } from 'mobx-react';
-import { appStorePropTypes } from '../../store/AppStore';
-import { withRouter } from 'react-router-dom';
-import Snackbar, { SnackbarEnum } from '../snackbar/Snackbar';
-import { Tooltip } from '@material-ui/core';
 import classNames from 'classnames';
+import { inject, observer } from 'mobx-react';
+import { withRouter } from 'react-router-dom';
+import { withStyles, Button, Tooltip } from '@material-ui/core';
+import Exit from '@material-ui/icons/ExitToAppRounded';
+
+import AuthenticationModal from './AuthenticationModal';
+import { appStorePropTypes } from '../../store/AppStore';
+import Snackbar, { SnackbarEnum } from '../snackbar/Snackbar';
+
+import { styles } from './Authentication.css';
 
 @inject('appStore')
 @observer

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Field, Form } from 'formik';
-import TextField from '@material-ui/core/TextField';
-import { withStyles } from '@material-ui/core/styles';
-import { styles } from './SaveChapter.css';
+import { withStyles, TextField } from '@material-ui/core';
+
 import { hasError } from '../../../../../../shared/components/form/helpers';
 import Select from '../../../../../../shared/components/form/Select/Select';
 import { ChapterModel } from '../../../../../../infrastructure/models/ChapterModel';
+
+import { styles } from './SaveChapter.css';
 
 class SaveChapterForm extends Component {
   getChapters = () => {

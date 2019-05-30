@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { Paper, withStyles } from '@material-ui/core';
-import { styles as customStyles } from './ChapterListCmp.css';
+import { withStyles, Paper, List, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
+
 import ChapterItem from './ChapterItem';
 import BasicNewAction from '../../../../../../shared/components/form/BasicNewAction';
 import { renderChaptersListTitle } from './ChaptersListTitle';
 import SaveChapterModal from '../save-chapter/SaveChapterModal';
 import { ChapterModel } from '../../../../../../infrastructure/models/ChapterModel';
+
+import { styles as customStyles } from './ChapterListCmp.css';
 
 @observer
 class ChapterListCmp extends Component {

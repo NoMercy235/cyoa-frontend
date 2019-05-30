@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import IconButton from '@material-ui/core/IconButton';
 import * as PropTypes from 'prop-types';
+import { IconButton, Tooltip } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+
 import { withModal } from '../../../hoc/withModal';
-import Tooltip from '@material-ui/core/es/Tooltip/Tooltip';
 
 const IconButtonHOC = withModal(IconButton);
 

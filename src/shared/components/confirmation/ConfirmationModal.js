@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
+import { withStyles, Button, Dialog } from '@material-ui/core';
+
 import { appStorePropTypes } from '../../store/AppStore';
-import Dialog from '@material-ui/core/Dialog';
 import { DialogTitle } from '../dialog/Title';
 import { DialogContent } from '../dialog/Content';
 import { DialogActions } from '../dialog/Actions';
-import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core';
+
 import { dialogDefaultCss } from '../dialog/Dialog.css';
 
 class ConfirmationModal extends Component {

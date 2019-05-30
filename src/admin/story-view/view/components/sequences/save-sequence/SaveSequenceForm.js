@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Field, Form } from 'formik';
-import TextField from '@material-ui/core/TextField';
-import { withStyles } from '@material-ui/core';
-import { styles } from './SaveSequence.css';
+import { withStyles, Button, Checkbox, TextField, Typography } from '@material-ui/core';
+
 import { hasError } from '../../../../../../shared/components/form/helpers';
-import Checkbox from '@material-ui/core/Checkbox';
-import Typography from '@material-ui/core/Typography';
 import FileSelect from '../../../../../../shared/components/form/FileSelect/FileSelect';
-import Button from '@material-ui/core/Button';
 import { ChapterModel } from '../../../../../../infrastructure/models/ChapterModel';
 import Select from '../../../../../../shared/components/form/Select/Select';
+
+import { styles } from './SaveSequence.css';
 
 class SaveSequenceForm extends Component {
   state = {

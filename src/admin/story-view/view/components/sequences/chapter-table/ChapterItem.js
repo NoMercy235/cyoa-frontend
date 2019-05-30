@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core';
-import { styles as customStyles } from './ChapterListCmp.css';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
+import {
+  withStyles,
+  List,
+  ListItem,
+  ListItemText,
+  Collapse,
+  IconButton,
+  Tooltip,
+} from '@material-ui/core';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import DeleteRow from '../../../../../../shared/components/table/actions/DeleteRow';
-import Tooltip from '@material-ui/core/Tooltip';
+import SelectedIcon from '@material-ui/icons/KeyboardArrowRight';
+
 import SaveChapterModal from '../save-chapter/SaveChapterModal';
 import BasicEditAction from '../../../../../../shared/components/form/BasicEditAction';
-import SelectedIcon from '@material-ui/icons/KeyboardArrowRight';
-import IconButton from '@material-ui/core/IconButton';
+import DeleteRow from '../../../../../../shared/components/table/actions/DeleteRow';
+
+import { styles as customStyles } from './ChapterListCmp.css';
 
 class ChapterItem extends Component {
   state = {

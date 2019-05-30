@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import withStyles from '@material-ui/core/styles/withStyles';
-import { styles } from './Authentication.css';
 import { Field, Form } from 'formik';
-import TextField from '@material-ui/core/TextField';
+import { withStyles, TextField } from '@material-ui/core';
+
 import { hasError } from '../form/helpers';
+
+import { styles } from './Authentication.css';
 
 class RegisterForm extends Component {
   renderFirstNameField = ({ field }) => {

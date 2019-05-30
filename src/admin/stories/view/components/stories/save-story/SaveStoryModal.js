@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Dialog from '@material-ui/core/Dialog';
+import { withStyles, Dialog } from '@material-ui/core';
 import { Formik } from 'formik';
 import { inject } from 'mobx-react';
+
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import { DialogTitle } from '../../../../../../shared/components/dialog/Title';
 import { DialogContent } from '../../../../../../shared/components/dialog/Content';
 import { DialogActions } from '../../../../../../shared/components/dialog/Actions';
 import Snackbar, { SnackbarEnum } from '../../../../../../shared/components/snackbar/Snackbar';
-import { styles } from './SaveStory.css';
 import SaveStoryForm from './SaveStoryForm';
 import { storyStorePropTypes } from '../../../../stores/StoryStore';
 import { storyService } from '../../../../../../infrastructure/services/StoryService';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 import { TagModel } from '../../../../../../infrastructure/models/TagModel';
+
+import { styles } from './SaveStory.css';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
 
 @inject('storyStore')

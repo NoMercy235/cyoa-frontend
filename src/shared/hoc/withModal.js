@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import ConfirmationModal from '../components/confirmation/ConfirmationModal';
-import { withStyles } from '@material-ui/core';
-import { styles } from '../components/layout/Styles.css';
 import * as PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core';
+
+import ConfirmationModal from '../components/confirmation/ConfirmationModal';
+
+import { styles } from '../components/layout/Styles.css';
 
 export function withModal(InnerComponent, Modal = ConfirmationModal) {
   class Confirmation extends Component {

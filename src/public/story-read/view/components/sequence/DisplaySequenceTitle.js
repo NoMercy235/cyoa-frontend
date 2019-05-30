@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
+import { Avatar, Chip } from '@material-ui/core';
+import ToysIcon from '@material-ui/icons/Toys';
+
 import { PlayerModel } from '../../../../../infrastructure/models/PlayerModel';
 import { SequenceModel } from '../../../../../infrastructure/models/SequenceModel';
-import Chip from '@material-ui/core/Chip';
-import Avatar from '@material-ui/core/Avatar';
-import ToysIcon from '@material-ui/icons/Toys';
-import styles from './DisplaySequence.module.scss';
 import { ChapterModel } from '../../../../../infrastructure/models/ChapterModel';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
+
+import styles from './DisplaySequence.module.scss';
 
 class DisplaySequenceTitle extends Component {
   renderChapterName = () => {

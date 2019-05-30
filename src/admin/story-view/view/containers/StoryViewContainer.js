@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { storyService } from '../../../../infrastructure/services/StoryService';
-import StoryView from '../components/StoryView';
 import * as PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
+
+import StoryView from '../components/StoryView';
+import { storyService } from '../../../../infrastructure/services/StoryService';
 import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
 import { attributeService } from '../../../../infrastructure/services/AttributeService';
 import { NOT_FOUND_ROUTE } from '../../../../shared/constants/routes';

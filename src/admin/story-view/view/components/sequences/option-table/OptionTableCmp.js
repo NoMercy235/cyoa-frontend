@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { IconButton, Tooltip, withStyles } from '@material-ui/core';
-import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
+import { withStyles, IconButton, Tooltip } from '@material-ui/core';
+import { inject, observer } from 'mobx-react';
+import WarningIcon from '@material-ui/icons/WarningRounded';
+
 import TableCmp from '../../../../../../shared/components/table/TableCmp';
 import { optionService } from '../../../../../../infrastructure/services/OptionService';
 import { OptionModel } from '../../../../../../infrastructure/models/OptionModel';
-import { inject, observer } from 'mobx-react';
 import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
 import BasicNewAction from '../../../../../../shared/components/form/BasicNewAction';
 import SaveOptionModal from '../save-option/SaveOptionModal';
@@ -13,7 +14,8 @@ import BasicEditAction from '../../../../../../shared/components/form/BasicEditA
 import DeleteRow from '../../../../../../shared/components/table/actions/DeleteRow';
 import { renderOptionTableTitle } from './OptionTableTitle';
 import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
-import WarningIcon from '@material-ui/icons/WarningRounded';
+
+import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
 
 @inject('storyViewStore')
 @observer

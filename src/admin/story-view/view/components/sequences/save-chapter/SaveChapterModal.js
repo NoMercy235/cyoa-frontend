@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Dialog from '@material-ui/core/Dialog';
+import { withStyles, Dialog } from '@material-ui/core';
 import { Formik } from 'formik';
+import { inject } from 'mobx-react';
+
 import { DialogTitle } from '../../../../../../shared/components/dialog/Title';
 import { DialogContent } from '../../../../../../shared/components/dialog/Content';
 import { DialogActions } from '../../../../../../shared/components/dialog/Actions';
 import Snackbar, { SnackbarEnum } from '../../../../../../shared/components/snackbar/Snackbar';
-import { styles } from './SaveChapter.css';
-import { inject } from 'mobx-react';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 import { ChapterModel } from '../../../../../../infrastructure/models/ChapterModel';
 import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
 import { chapterService } from '../../../../../../infrastructure/services/ChapterService';
 import SaveChapterForm from './SaveChapterForm';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
+
+import { styles } from './SaveChapter.css';
 
 @inject('storyViewStore')
 class SaveChapterModal extends Component {

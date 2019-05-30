@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react';
+
 import CollectionsTableCmp from '../components/collections/collections-table/CollectionsTableCmp';
 import StoriesTableCmp from '../components/stories/stories-table/StoriesTableCmp';
-import classes from './StoryContainer.module.scss';
 import { storyService } from '../../../../infrastructure/services/StoryService';
-import { inject, observer } from 'mobx-react';
 import { storyStorePropTypes } from '../../stores/StoryStore';
 import { collectionService } from '../../../../infrastructure/services/CollectionService';
 import Snackbar, { SnackbarEnum } from '../../../../shared/components/snackbar/Snackbar';
 import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
+
+import classes from './StoryContainer.module.scss';
 
 @inject('storyStore')
 @observer

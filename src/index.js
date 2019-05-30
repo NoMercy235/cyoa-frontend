@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.scss';
+
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+
+import './index.scss';
 
 // Fix the warning for Typography components.
 // @see https://material-ui.com/style/typography/#migration-to-typography-v2

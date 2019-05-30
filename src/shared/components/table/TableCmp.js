@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import Paper from '@material-ui/core/Paper';
 import * as PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core';
-import { getMuiTheme, styles as tableStyles } from './TableCmp.css';
-import MUIDataTable from 'mui-datatables';
 import classNames from 'classnames';
+import MUIDataTable from 'mui-datatables';
+import { withStyles, Paper } from '@material-ui/core';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 
+import { getMuiTheme, styles as tableStyles } from './TableCmp.css';
 
 class TableCmp extends Component {
   defaultOptions = {

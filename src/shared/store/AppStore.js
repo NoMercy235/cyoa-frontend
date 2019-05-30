@@ -1,5 +1,6 @@
 import * as PropTypes from 'prop-types';
 import { action, computed, observable } from 'mobx';
+
 import { UserModel } from '../../infrastructure/models/UserModel';
 
 const makeRandomId = function () {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
+
 import Autocomplete from './Autocomplete';
 import { KeyCode } from '../../../utilities';
 import { hasError } from '../helpers';

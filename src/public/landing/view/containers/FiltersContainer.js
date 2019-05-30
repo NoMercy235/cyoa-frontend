@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { inject } from 'mobx-react';
+
 import FiltersCmp from '../components/story-filters/FiltersCmp';
 import { BaseService } from '../../../../infrastructure/services/BaseService';
 import { publicStoryService } from '../../../../infrastructure/services/StoryService';
-import { inject } from 'mobx-react';
 import { publicStoryStorePropTypes } from '../../stores/PublicStoryStore';
 import AdvancedFiltersCmp from '../components/story-filters/AdvancedFilters';
 import { debounced } from '../../../../shared/utilities';
