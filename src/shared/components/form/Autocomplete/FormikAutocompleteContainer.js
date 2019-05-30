@@ -6,6 +6,10 @@ import { KeyCode } from '../../../utilities';
 import { hasError } from '../helpers';
 
 class FormikAutocompleteContainer extends Component {
+  static defaultProps = {
+    searchOnFocus: false,
+  };
+
   state = {
     suggestions: [],
   };
@@ -28,19 +32,18 @@ class FormikAutocompleteContainer extends Component {
   };
 
   onInputChange = value => {
-    // value && this.props.onSetSuggestions(value);
     value && this.setSuggestions(value);
   };
 
   onFocus = () => {
-    const { formik, field } = this.props;
+    const { formik, field, searchOnFocus } = this.props;
     formik.setFieldTouched(field.name, true, false);
+    searchOnFocus && this.setSuggestions('');
   };
 
   onBlur = e => {
     const { formik } = this.props;
     formik.handleBlur(e);
-    // this.props.onSetSuggestions(null);
     this.setSuggestions(null);
   };
 
@@ -88,6 +91,7 @@ FormikAutocompleteContainer.propTypes = {
   field: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
+  searchOnFocus: PropTypes.bool,
   onSearchRequest: PropTypes.func.isRequired,
 };
 

@@ -9,6 +9,7 @@ import ConsequenceForm from './ConsequenceForm';
 import { ConsequenceModel } from '../../../../../../infrastructure/models/ConsequenceModel';
 import { AttributeModel } from '../../../../../../infrastructure/models/AttributeModel';
 import FormikAutocompleteContainer from '../../../../../../shared/components/form/Autocomplete/FormikAutocompleteContainer';
+import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 
 import { styles } from './SaveOption.css';
 
@@ -43,6 +44,7 @@ class SaveOptionForm extends Component {
         field={field}
         label="Leads to"
         placeholder="Search for sequences"
+        searchOnFocus={true}
         onSearchRequest={onSearchRequest}
       />
     );
@@ -81,7 +83,7 @@ class SaveOptionForm extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, story } = this.props;
 
     return (
       <Form noValidate className={classes.form}>
@@ -95,10 +97,16 @@ class SaveOptionForm extends Component {
           required
           render={this.renderNextSeqField}
         />
-        <FieldArray
-          name="consequences"
-          render={this.renderConsequences}
-        />
+        {!story.isAvailableOffline
+          ? (
+            <FieldArray
+              name="consequences"
+              render={this.renderConsequences}
+            />
+          )
+          : (
+            <Typography>Consequences cannot be added for stories that are available offline</Typography>
+          )}
       </Form>
     );
   }
@@ -107,6 +115,7 @@ class SaveOptionForm extends Component {
 SaveOptionForm.propTypes = {
   classes: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
+  story: PropTypes.instanceOf(StoryModel).isRequired,
   attributes: PropTypes.arrayOf(PropTypes.instanceOf(AttributeModel)).isRequired,
   onClose: PropTypes.func.isRequired,
   onSearchRequest: PropTypes.func.isRequired,

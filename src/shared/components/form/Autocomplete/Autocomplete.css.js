@@ -8,6 +8,7 @@ export const styles = theme => ({
   input: {
     display: 'flex',
     padding: 0,
+    minHeight: theme.spacing(5),
   },
   valueContainer: {
     display: 'flex',
