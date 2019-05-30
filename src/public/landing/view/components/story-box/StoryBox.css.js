@@ -24,13 +24,13 @@ export const styles = theme => ({
     float: 'left',
     maxWidth: 300,
     maxHeight: 300,
-    marginRight: theme.spacing.unit * 2,
+    marginRight: theme.spacing(2),
     borderRadius: '15%',
   },
   expandedContainer: {
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
   },
   readStoryLabel: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
   },
 });

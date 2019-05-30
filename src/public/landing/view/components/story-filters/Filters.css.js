@@ -3,7 +3,7 @@ import { SCREEN_MIN_WIDTH_LG } from '../../../../../shared/constants/global';
 
 export const styles = theme => ({
   search: {
-    marginRight: theme.spacing.unit * 2,
+    marginRight: theme.spacing(2),
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
@@ -12,12 +12,12 @@ export const styles = theme => ({
     },
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing.unit,
+      marginLeft: theme.spacing(1),
       width: 'auto',
     },
   },
   searchIcon: {
-    width: theme.spacing.unit * 9,
+    width: theme.spacing(9),
     height: '100%',
     position: 'absolute',
     pointerEvents: 'none',
@@ -25,8 +25,8 @@ export const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     [theme.breakpoints.down('sm')]: {
-      width: theme.spacing.unit * 4,
-      paddingLeft: theme.spacing.unit,
+      width: theme.spacing(4),
+      paddingLeft: theme.spacing(1),
     },
   },
   inputRoot: {
@@ -34,10 +34,10 @@ export const styles = theme => ({
     width: '100%',
   },
   inputInput: {
-    paddingTop: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 10,
+    paddingTop: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+    paddingLeft: theme.spacing(10),
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
@@ -47,19 +47,19 @@ export const styles = theme => ({
       },
     },
     [theme.breakpoints.down('sm')]: {
-      paddingLeft: theme.spacing.unit * 5,
+      paddingLeft: theme.spacing(5),
     },
   },
   advancedFilters: {
     cursor: 'pointer',
-    margin: `0 ${theme.spacing.unit}px`,
+    margin: theme.spacing(0, 1),
   },
   advancedFiltersBadge: {
     '& > span': {
-      top: theme.spacing.unit,
-      right: theme.spacing.unit * 0.5,
-      height: theme.spacing.unit * 2,
-      width: theme.spacing.unit * 2,
+      top: theme.spacing(1),
+      right: theme.spacing(0.5),
+      height: theme.spacing(2),
+      width: theme.spacing(2),
     },
   },
   advancedFiltersDrawer: {

@@ -4,18 +4,18 @@ export const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
   },
   nested: {
-    paddingLeft: theme.spacing.unit * 4,
+    paddingLeft: theme.spacing(4),
   },
   listTitle: {
     display: 'flex',
     alignItems: 'center',
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 3}px`,
+    padding: theme.spacing(1, 3),
     '& > span': {
       flex: '1 1',
     },
   },
   listItem: {
-    height: theme.spacing.unit * 7,
+    height: theme.spacing(7),
     '& > div[class*="MuiListItemText-root"]': {
       paddingLeft: 0,
     },

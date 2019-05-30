@@ -21,7 +21,7 @@ export const styles = theme => ({
   },
   consequenceAttribute: {
     flex: '3 3',
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
   },
   consequenceChangeValue: {
     flex: '1 1',

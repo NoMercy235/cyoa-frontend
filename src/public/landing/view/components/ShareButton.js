@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 
 const styles = theme => ({
   container: {
-    margin: theme.spacing.unit * 2,
+    margin: theme.spacing(2),
     wordBreak: 'break-all',
   },
 });

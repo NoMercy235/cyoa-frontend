@@ -4,7 +4,7 @@ export const styles = theme => ({
   },
   name: {
     flex: '1 1',
-    paddingRight: theme.spacing.unit,
+    paddingRight: theme.spacing(1),
   },
   startValue: {
     flex: '1 1',

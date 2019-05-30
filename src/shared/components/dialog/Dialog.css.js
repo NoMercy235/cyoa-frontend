@@ -5,7 +5,7 @@ export const dialogDefaultCss = theme => ({
     width: '60vw',
     [`@media (max-width: ${SCREEN_MAX_WIDTH_SM}px)`]: {
       width: '100vw',
-      margin: theme.spacing.unit,
+      margin: theme.spacing(1),
     },
   },
 });

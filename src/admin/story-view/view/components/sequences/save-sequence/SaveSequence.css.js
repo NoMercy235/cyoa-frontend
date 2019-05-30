@@ -7,6 +7,6 @@ export const styles = theme => ({
     alignItems: 'center',
   },
   uploadBtn: {
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
   },
 });

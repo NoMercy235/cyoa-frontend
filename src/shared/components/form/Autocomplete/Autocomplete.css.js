@@ -3,7 +3,7 @@ import { emphasize } from '@material-ui/core/styles/colorManipulator';
 export const styles = theme => ({
   root: {
     flexGrow: 1,
-    margin: `${theme.spacing.unit}px 0`,
+    margin: theme.spacing(1, 0),
   },
   input: {
     display: 'flex',
@@ -17,7 +17,7 @@ export const styles = theme => ({
     overflow: 'hidden',
   },
   chip: {
-    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
+    margin: theme.spacing(0.5, 0.25),
   },
   chipFocused: {
     backgroundColor: emphasize(
@@ -26,7 +26,7 @@ export const styles = theme => ({
     ),
   },
   noOptionsMessage: {
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
+    padding: theme.spacing(1, 2),
   },
   singleValue: {
     fontSize: 16,
@@ -39,12 +39,12 @@ export const styles = theme => ({
   paper: {
     position: 'absolute',
     zIndex: 1,
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
     left: 0,
     right: 0,
   },
   divider: {
-    height: theme.spacing.unit * 2,
+    height: theme.spacing(2),
   },
 });

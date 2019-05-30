@@ -40,8 +40,8 @@ export const styles = theme => ({
     maxHeight: '100vh',
     overflow: 'auto',
     flexGrow: 1,
-    marginTop: theme.spacing.unit * 8,
-    padding: theme.spacing.unit * 3,
+    marginTop: theme.spacing(8),
+    padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
