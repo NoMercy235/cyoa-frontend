@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Field, Form } from 'formik';
-import { withStyles, Checkbox, Typography, TextField } from '@material-ui/core';
+import { withStyles, Switch, Typography, TextField } from '@material-ui/core';
 
 import Select from '../../../../../../shared/components/form/Select/Select';
 import { hasError } from '../../../../../../shared/components/form/helpers';
@@ -67,12 +67,13 @@ class SaveStoryForm extends Component {
   };
 
   renderIsAvailableOfflineField = ({ field }) => {
-    const { formik } = this.props;
+    const { formik: { values } } = this.props;
     return (
-      <Checkbox
+      <Switch
         {...field}
-        checked={formik.values.isAvailableOffline}
-        value=""
+        checked={values.isAvailableOffline}
+        value={values.isAvailableOffline}
+        disabled={!!values._id}
       />
     );
   };
@@ -80,7 +81,22 @@ class SaveStoryForm extends Component {
   renderIsAvailableOfflineInfo = () => {
     const { formik } = this.props;
 
-    return formik.values.isAvailableOffline && (
+    return !!formik.values._id && (
+      <i>
+        <Typography
+          variant="caption"
+          color="secondary"
+        >
+          (cannot edit)
+        </Typography>
+      </i>
+    );
+  };
+
+  renderIsAvailableOfflineWarning = () => {
+    const { formik: { values } } = this.props;
+
+    return values.isAvailableOffline && !values._id && (
       <Typography
         variant="caption"
         color="secondary"
@@ -154,8 +170,9 @@ class SaveStoryForm extends Component {
             name="isAvailableOffline"
             render={this.renderIsAvailableOfflineField}
           />
+          {this.renderIsAvailableOfflineInfo()}
         </Typography>
-        {this.renderIsAvailableOfflineInfo()}
+        {this.renderIsAvailableOfflineWarning()}
         <Field
           name="shortDescription"
           required
