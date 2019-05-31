@@ -93,7 +93,7 @@ class StoryHeader extends Component {
         items={this.getMenuItems()}
         closeOnItemClick={false}
       >
-        <IconButton onClick={this.handleClick}>
+        <IconButton>
           <MoreVertIcon />
         </IconButton>
       </MenuDropdown>

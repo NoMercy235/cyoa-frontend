@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { inject, observer } from 'mobx-react';
 import { withRouter } from 'react-router-dom';
 import { withStyles, Button, Tooltip } from '@material-ui/core';
-import Exit from '@material-ui/icons/ExitToAppRounded';
 
 import AuthenticationModal from './AuthenticationModal';
 import { appStorePropTypes } from '../../store/AppStore';
@@ -62,18 +60,14 @@ class Authentication extends Component {
   };
 
   renderLogout = () => {
-    const { classes, appStore } = this.props;
     const Logout = withRouter(({ history }) => (
       <>
-        <div className={classNames(classes.mainAuthArea, classes.userEmail)}>
-          {appStore.user.email}
-        </div>
         <Tooltip title="Logout">
           <Button
             onClick={this.onHandleLogout(history)}
             color="inherit"
           >
-            <Exit />
+            Logout
           </Button>
         </Tooltip>
       </>

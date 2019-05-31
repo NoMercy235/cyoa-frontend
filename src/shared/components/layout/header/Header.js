@@ -11,19 +11,49 @@ import {
   Typography,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import classNames from 'classnames';
 
 import { appStorePropTypes } from '../../../store/AppStore';
 import ttaLogo from '../../../../assets/tta-logo.png';
+import { LANDING_ROUTE } from '../../../constants/routes';
+import MenuDropdown from '../../menu/MenuDropdown';
+import Authentication from '../../authentication/Authentication';
 
 import { styles } from '../Styles.css';
-import { LANDING_ROUTE } from '../../../constants/routes';
 
 @inject('appStore')
 @observer
 class Header extends Component {
   goToLanding = () => {
     this.props.history.push(LANDING_ROUTE);
+  };
+
+  renderAuthBtn = () => {
+    return <Authentication/>;
+  };
+
+  getMenuItems = () => {
+    return [
+      this.renderAuthBtn(),
+    ].filter(el => el);
+  };
+
+  renderSettings = () => {
+    const { classes } = this.props;
+    return (
+      <MenuDropdown
+        className={classes.settingsBtn}
+        items={this.getMenuItems()}
+        closeOnItemClick={false}
+      >
+        <IconButton
+          color="inherit"
+        >
+          <MoreVertIcon/>
+        </IconButton>
+      </MenuDropdown>
+    );
   };
 
   renderAppTitle = () => {
@@ -77,6 +107,7 @@ class Header extends Component {
             </IconButton>
             {this.renderAppTitle()}
             {HeaderCmp && <HeaderCmp />}
+            {this.renderSettings()}
           </Toolbar>
         </AppBar>
       </>

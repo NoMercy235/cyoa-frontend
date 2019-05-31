@@ -6,20 +6,17 @@ import {
   withStyles,
   Divider,
   Drawer,
-  IconButton,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
 } from '@material-ui/core';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import HomeIcon from '@material-ui/icons/Home';
 import InfoIcon from '@material-ui/icons/Info';
 import ViewStoryIcon from '@material-ui/icons/Pageview';
 
 import { appStorePropTypes } from '../../store/AppStore';
 import { ADMIN_STORIES_ROUTE } from '../../constants/routes';
-import Authentication from '../authentication/Authentication';
 import ttaLogo from '../../../assets/tta-logo.png';
 
 import { styles } from './Styles.css';
@@ -61,19 +58,6 @@ class SideMenu extends Component {
     return <Item key={item.name} />;
   };
 
-  renderAuthentication = () => {
-    return (
-      <ListItem
-        button
-        component={Authentication}
-      >
-        <ListItemIcon>
-          <HomeIcon/>
-        </ListItemIcon>
-      </ListItem>
-    );
-  };
-
   renderAdminMenu = () => {
     const { appStore: { isLoggedIn } } = this.props;
     if (!isLoggedIn) {
@@ -104,13 +88,6 @@ class SideMenu extends Component {
             src={ttaLogo}
             className={classes.logoImg}
           />
-          <Divider />
-          <div className={classes.sideMenuHeader}>
-            {this.renderAuthentication()}
-            <IconButton onClick={onHandleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
           <Divider />
           <List>
             {publicMenu.map(this.renderItem)}

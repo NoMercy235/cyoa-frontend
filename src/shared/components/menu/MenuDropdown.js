@@ -48,7 +48,7 @@ class MenuDropdown extends React.Component {
   };
 
   render() {
-    const { children, items, placement } = this.props;
+    const { className, children, items, placement } = this.props;
     const { open } = this.state;
 
     return (
@@ -57,6 +57,7 @@ class MenuDropdown extends React.Component {
           ref={node => {
             this.anchorEl = node;
           }}
+          className={className}
           aria-owns={open ? 'menu-list-grow' : undefined}
           aria-haspopup="true"
           onClick={this.handleToggle}
@@ -92,6 +93,7 @@ class MenuDropdown extends React.Component {
 }
 
 MenuDropdown.propTypes = {
+  className: PropTypes.string,
   placement: PropTypes.oneOf([
     'bottom-end',
     'bottom-start',

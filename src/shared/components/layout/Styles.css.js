@@ -64,4 +64,7 @@ export const styles = theme => ({
   clickable: {
     cursor: 'pointer',
   },
+  settingsBtn: {
+    marginRight: theme.spacing(1),
+  },
 });
