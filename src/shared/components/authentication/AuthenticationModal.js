@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { Formik } from 'formik';
 import { withStyles, Dialog } from '@material-ui/core';
 
@@ -16,25 +16,46 @@ import RegisterForm from './RegisterForm';
 import { authService } from '../../../infrastructure/services/AuthenticationService';
 import { UserModel } from '../../../infrastructure/models/UserModel';
 import { AuthenticationModel } from '../../../infrastructure/models/AuthenticationModel';
+import { SnackbarEnum } from '../snackbar/Snackbar';
+import Snackbar from '../snackbar/Snackbar';
 
 import { styles } from './Authentication.css';
 import { dialogDefaultCss } from '../dialog/Dialog.css';
 
 @inject('appStore')
+@observer
 class AuthenticationModal extends Component {
   state = {
     isLoggingIn: true,
   };
+  snackbarRef = React.createRef();
+
+  onClose = () => {
+    const { appStore, onClose } = this.props;
+
+    appStore.setIsAuthModalOpen(false);
+    onClose && onClose();
+  };
+
+  onSuccess = () => {
+    const { onSuccess } = this.props;
+
+    this.snackbarRef.current.showSnackbar({
+      variant: SnackbarEnum.Variants.Success,
+      message: 'Welcome!',
+    });
+    onSuccess && onSuccess();
+  };
 
   authenticate = response => {
-    const { appStore, onSuccess, onClose } = this.props;
+    const { appStore } = this.props;
 
     localStorage.setItem('jwt', response.token);
     appStore.setUser(
       new UserModel(response.user)
     );
-    onSuccess && onSuccess();
-    onClose();
+    this.onSuccess();
+    this.onClose();
   };
 
   login = async (values) => {
@@ -91,19 +112,17 @@ class AuthenticationModal extends Component {
     return model.checkErrors({ isLoggingIn: this.state.isLoggingIn });
   };
 
-  renderForm = formik => {
-    const { classes, open, onClose } = this.props;
+  renderForm = isAuthModalOpen => formik => {
+    const { classes } = this.props;
     const { isLoggingIn } = this.state;
 
     return (
       <Dialog
-        open={open}
-        onClose={onClose}
+        open={isAuthModalOpen}
+        onClose={this.onClose}
         classes={{ paper: classes.dialogSize }}
       >
-        <DialogTitle
-          onClose={onClose}
-        >
+        <DialogTitle onClose={this.onClose}>
           {this.renderTitle()}
         </DialogTitle>
         <DialogContent>
@@ -117,13 +136,15 @@ class AuthenticationModal extends Component {
           <AuthenticationActions
             formik={formik}
             okText={this.renderOkText()}
-            onClose={onClose}/>
+            onClose={this.onClose}/>
         </DialogActions>
       </Dialog>
     );
   };
 
   render() {
+    const { appStore } = this.props;
+
     return (
       <>
         <Formik
@@ -132,8 +153,9 @@ class AuthenticationModal extends Component {
           onSubmit={this.onSubmit}
           validate={this.validate}
         >
-          {this.renderForm}
+          {this.renderForm(appStore.isAuthModalOpen)}
         </Formik>
+        <Snackbar innerRef={this.snackbarRef}/>
       </>
     );
   }
@@ -141,8 +163,7 @@ class AuthenticationModal extends Component {
 
 AuthenticationModal.propTypes = {
   classes: PropTypes.object,
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func,
   onSuccess: PropTypes.func,
   appStore: appStorePropTypes,
 };

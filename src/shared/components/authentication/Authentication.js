@@ -4,7 +4,6 @@ import { inject, observer } from 'mobx-react';
 import { withRouter } from 'react-router-dom';
 import { withStyles, Button, Tooltip } from '@material-ui/core';
 
-import AuthenticationModal from './AuthenticationModal';
 import { appStorePropTypes } from '../../store/AppStore';
 import Snackbar, { SnackbarEnum } from '../snackbar/Snackbar';
 
@@ -13,13 +12,10 @@ import { styles } from './Authentication.css';
 @inject('appStore')
 @observer
 class Authentication extends Component {
-  state = {
-    modalOpen: false,
-  };
   snackbarRef = React.createRef();
 
-  onChangeState = (metadata) => () => {
-    this.setState(metadata);
+  onLoginClick = () => {
+    this.props.appStore.setIsAuthModalOpen(true);
   };
 
   onHandleLogout = (history) => () => {
@@ -35,21 +31,12 @@ class Authentication extends Component {
     history.replace('/');
   };
 
-  onAuthSuccessful = () => {
-    const { onAuthSuccessful } = this.props;
-    this.snackbarRef.current.showSnackbar({
-      variant: SnackbarEnum.Variants.Success,
-      message: 'Welcome!',
-    });
-    onAuthSuccessful && onAuthSuccessful();
-  };
-
   renderLogin = () => {
     const { classes } = this.props;
     return (
       <>
         <Button
-          onClick={this.onChangeState({ modalOpen: true })}
+          onClick={this.onLoginClick}
           color="inherit"
         >
           Login
@@ -77,7 +64,6 @@ class Authentication extends Component {
 
   render() {
     const { appStore } = this.props;
-    const { modalOpen } = this.state;
 
     return (
       <>
@@ -85,11 +71,6 @@ class Authentication extends Component {
           ? this.renderLogout(this.props)
           : this.renderLogin(this.props)
         }
-        <AuthenticationModal
-          open={modalOpen}
-          onSuccess={this.onAuthSuccessful}
-          onClose={this.onChangeState({ modalOpen: false })}
-        />
         <Snackbar innerRef={this.snackbarRef}/>
       </>
     );

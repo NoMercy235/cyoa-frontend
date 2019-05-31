@@ -18,6 +18,7 @@ import ViewStoryIcon from '@material-ui/icons/Pageview';
 import { appStorePropTypes } from '../../store/AppStore';
 import { ADMIN_STORIES_ROUTE } from '../../constants/routes';
 import ttaLogo from '../../../assets/tta-logo.png';
+import withAuthCmp from '../../hoc/withAuthCmp';
 
 import { styles } from './Styles.css';
 
@@ -38,6 +39,8 @@ const adminMenu = [
     icon: <ViewStoryIcon />,
   },
 ];
+
+const AuthRequiredListItem = withAuthCmp(ListItem);
 
 @inject('appStore')
 @observer
@@ -62,12 +65,12 @@ class SideMenu extends Component {
     const { appStore: { isLoggedIn } } = this.props;
     if (!isLoggedIn) {
       return (
-        <ListItem>
+        <AuthRequiredListItem>
           <ListItemIcon>
             <InfoIcon/>
           </ListItemIcon>
           <ListItemText primary="Log in to use additional features"/>
-        </ListItem>
+        </AuthRequiredListItem>
       );
     }
     return adminMenu.map(this.renderItem);

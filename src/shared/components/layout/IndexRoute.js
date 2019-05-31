@@ -15,6 +15,7 @@ import Snackbar, { SnackbarEnum } from '../snackbar/Snackbar';
 import NotFoundCmp from '../NotFoundCmp';
 import { ONLINE_STATUS_POLLING_INTERVAL } from '../../constants/global';
 import { configureIdb } from '../../idb';
+import AuthenticationModal from '../authentication/AuthenticationModal';
 
 const LazyAdminRoute = React.lazy(() => import('../../../admin/AdminRoute'));
 
@@ -118,6 +119,7 @@ class IndexRoute extends Component {
           </Switch>
         </Suspense>
 
+        <AuthenticationModal/>
         <Snackbar innerRef={this.snackbarRef}/>
       </>
     );

@@ -45,11 +45,8 @@ class Header extends Component {
       <MenuDropdown
         className={classes.settingsBtn}
         items={this.getMenuItems()}
-        closeOnItemClick={false}
       >
-        <IconButton
-          color="inherit"
-        >
+        <IconButton color="inherit">
           <MoreVertIcon/>
         </IconButton>
       </MenuDropdown>

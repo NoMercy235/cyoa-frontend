@@ -12,6 +12,7 @@ class AppStore {
   @observable user;
   @observable onlineStatus = true;
   @observable canUseIdb;
+  @observable isAuthModalOpen = false;
   localId = '';
 
   @action generateLocalId() {
@@ -42,6 +43,10 @@ class AppStore {
     this.canUseIdb = hasIdb;
   }
 
+  @action setIsAuthModalOpen = (state) => {
+    this.isAuthModalOpen = state;
+  };
+
   @computed get isLoggedIn() {
     return !!this.user;
   }
@@ -64,11 +69,14 @@ export const appStorePropTypes = PropTypes.shape({
   loadHeader: PropTypes.func,
   unloadHeader: PropTypes.func,
 
-  onlineStatus: PropTypes.func,
+  onlineStatus: PropTypes.bool,
   setOnlineStatus: PropTypes.func,
 
-  canUseIdb: PropTypes.func,
+  canUseIdb: PropTypes.bool,
   setCanUseIdb: PropTypes.func,
+
+  isAuthModalOpen: PropTypes.bool,
+  setIsAuthModalOpen: PropTypes.func,
 
   isLoggedIn: PropTypes.bool,
 });
