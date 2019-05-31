@@ -88,7 +88,9 @@ class StoryHeader extends Component {
   };
 
   renderAction = () => {
-    return (
+    const items = this.getMenuItems();
+
+    return !!items.length && (
       <MenuDropdown
         items={this.getMenuItems()}
         closeOnItemClick={false}
