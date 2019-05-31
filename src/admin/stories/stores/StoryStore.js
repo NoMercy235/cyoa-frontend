@@ -14,7 +14,7 @@ class StoryStore {
   }
 
   @action addStory(story) {
-    this.stories.push(story);
+    this.stories.unshift(story);
   }
 
   @action updateStory(id, newStory) {
