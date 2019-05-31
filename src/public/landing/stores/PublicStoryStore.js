@@ -8,13 +8,13 @@ class PublicStoryStore {
   @observable stories = [];
   @observable collections = [];
 
-  @action setStories(stories) {
+  @action setStories = stories => {
     this.stories = stories;
-  }
+  };
 
-  @action setCollections(collections) {
+  @action setCollections = collections => {
     this.collections = collections;
-  }
+  };
 }
 
 export const publicStoryStorePropTypes = PropTypes.shape({

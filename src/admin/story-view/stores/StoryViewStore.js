@@ -11,35 +11,35 @@ class StoryViewStore {
   @observable chapters = [];
   @observable currentStory = null;
 
-  @action setAttributes(attributes) {
+  @action setAttributes = attributes => {
     this.attributes = attributes;
-  }
+  };
 
-  @action addAttribute(attribute) {
+  @action addAttribute = attribute => {
     this.attributes.push(attribute);
-  }
+  };
 
-  @action updateAttribute(id, newAttribute) {
+  @action updateAttribute = (id, newAttribute) => {
     this.attributes = this.attributes
       .map(a => {
         if (a._id !== id) return a;
         return newAttribute;
       });
-  }
+  };
 
-  @action removeAttribute(attributeId) {
+  @action removeAttribute = attributeId => {
     this.attributes = this.attributes.filter(a => a._id !== attributeId);
-  }
+  };
 
-  @action setSequences(sequences) {
+  @action setSequences = sequences => {
     this.sequences = sequences;
-  }
+  };
 
-  @action addSequence(sequence) {
+  @action addSequence = sequence => {
     this.sequences.push(sequence);
-  }
+  };
 
-  @action updateSequence(id, newSequence) {
+  @action updateSequence = (id, newSequence) => {
     // Similar to what we did for stories (when they were changing collections,
     // we need to wait a little bit here as well when changing the chapter of a
     // sequence in order to prevent the warning thrown by react when its trying to
@@ -53,75 +53,75 @@ class StoryViewStore {
         })
         .filter(s => s);
     }), 100);
-  }
+  };
 
-  @action updateSequenceInPlace(id, metadata) {
+  @action updateSequenceInPlace = (id, metadata) => {
     this.sequences = this.sequences
       .map(s => {
         if (s._id !== id) return s;
         s = Object.assign(s, metadata);
         return s;
       });
-  }
+  };
 
-  @action removeSequence(sequenceId) {
+  @action removeSequence = sequenceId => {
     this.sequences = this.sequences.filter(a => a._id !== sequenceId);
-  }
+  };
 
-  @action setOptionsToSequence(sequenceId, options) {
+  @action setOptionsToSequence = (sequenceId, options) => {
     const s = this.getSequenceById(sequenceId);
     s.options = options;
-  }
+  };
 
-  @action addOptionToSequence(sequenceId, option) {
+  @action addOptionToSequence = (sequenceId, option) => {
     const s = this.sequences.find(s => s._id === sequenceId);
     s.options.push(option);
-  }
+  };
 
-  @action updateOption(sequenceId, optionId, option) {
+  @action updateOption = (sequenceId, optionId, option) => {
     const seq = this.sequences.find(s => s._id === sequenceId);
     seq.options = seq.options.map(o => {
       if (o._id !== optionId) return o;
       return option;
     });
-  }
+  };
 
-  @action removeOptionFromSequence(sequenceId, optionId) {
+  @action removeOptionFromSequence = (sequenceId, optionId) => {
     const seq = this.getSequenceById(sequenceId);
     seq.options = seq.options.filter(o => o._id !== optionId);
-  }
+  };
 
-  @action setCurrentStory(story) {
+  @action setCurrentStory = story => {
     this.currentStory = story;
-  }
+  };
 
-  @action updateCurrentStory(metadata) {
+  @action updateCurrentStory = metadata => {
     this.currentStory = new StoryModel(
       Object.assign({}, this.currentStory, metadata)
     );
-  }
+  };
 
-  @action setChapters(chapters) {
+  @action setChapters = chapters => {
     this.chapters = chapters;
-  }
+  };
 
-  @action addChapter(chapter) {
+  @action addChapter = chapter => {
     this.chapters.push(chapter);
-  }
+  };
 
-  @action updateChapter(id, newChapter) {
+  @action updateChapter = (id, newChapter) => {
     this.chapters = this.chapters
       .map(c => {
         if (c._id !== id) return c;
         return newChapter;
       });
-  }
+  };
 
-  @action reset() {
+  @action reset = () => {
     this.attributes = [];
     this.sequences = [];
     this.currentStory = null;
-  }
+  };
 
   @computed get sequencesInOrder() {
     return this.sequences.slice().sort((a, b) => {

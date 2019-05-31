@@ -9,15 +9,15 @@ class StoryStore {
   @observable collections = [];
   @observable selectedCollection = observable.box('');
 
-  @action setStories(stories) {
+  @action setStories = stories => {
     this.stories = stories;
-  }
+  };
 
-  @action addStory(story) {
+  @action addStory = story => {
     this.stories.unshift(story);
-  }
+  };
 
-  @action updateStory(id, newStory) {
+  @action updateStory = (id, newStory) => {
     // Hack needed to prevent the immediate update of a component due to mobx
     // observables. When changing the collection of a story, that would
     // remove it from the current active table and throw an error when the app
@@ -31,40 +31,40 @@ class StoryStore {
         })
         .filter(s => s);
     }), 100);
-  }
+  };
 
-  @action removeStory(storyId) {
+  @action removeStory = storyId => {
     this.stories = this.stories.filter(c => c._id !== storyId);
-  }
+  };
 
-  @action setCollections(collections) {
+  @action setCollections = collections => {
     this.collections = collections;
-  }
+  };
 
-  @action addCollection(collection) {
+  @action addCollection = collection => {
     this.collections.push(collection);
-  }
+  };
 
-  @action updateCollection(id, newCollection) {
+  @action updateCollection = (id, newCollection) => {
     this.collections = this.collections.map(c => {
       if (c._id !== id) return c;
       return newCollection;
     });
-  }
+  };
 
-  @action removeCollection(colId) {
+  @action removeCollection = colId => {
     this.collections = this.collections.filter(c => c._id !== colId);
-  }
+  };
 
-  @action setSelectedCollection(value) {
+  @action setSelectedCollection = value => {
     this.selectedCollection.set(value);
-  }
+  };
 
-  @action reset() {
+  @action reset = () => {
     this.collections = [];
     this.stories = [];
     this.selectedCollection = observable.box('');
-  }
+  };
 
   @computed get getSelectedCollection() {
     return this.selectedCollection.get();

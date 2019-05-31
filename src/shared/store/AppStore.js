@@ -15,35 +15,35 @@ class AppStore {
   @observable isAuthModalOpen = false;
   localId = '';
 
-  @action generateLocalId() {
+  @action generateLocalId = () => {
     this.localId = localStorage.getItem('localId');
     if (!this.localId) {
       this.localId = makeRandomId();
       localStorage.setItem('localId', this.localId);
     }
-  }
+  };
 
-  @action setUser(user) {
+  @action setUser = user => {
     this.user = user;
-  }
+  };
 
-  @action loadHeader(cmp) {
+  @action loadHeader = cmp => {
     this.HeaderCmp = cmp;
-  }
+  };
 
-  @action unloadHeader() {
+  @action unloadHeader = () => {
     this.HeaderCmp = null;
-  }
+  };
 
-  @action setOnlineStatus(status) {
+  @action setOnlineStatus = status => {
     this.onlineStatus = status;
-  }
+  };
 
-  @action setCanUseIdb(hasIdb) {
+  @action setCanUseIdb = hasIdb => {
     this.canUseIdb = hasIdb;
-  }
+  };
 
-  @action setIsAuthModalOpen = (state) => {
+  @action setIsAuthModalOpen = state => {
     this.isAuthModalOpen = state;
   };
 
