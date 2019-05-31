@@ -16,6 +16,9 @@ export const styles = theme => ({
   },
   appTitle: {
     flexGrow: 1,
+    [`@media (max-width: ${SCREEN_MAX_WIDTH_SM}px)`]: {
+      display: 'none',
+    },
   },
   menuButton: {
     marginLeft: 12,
@@ -54,5 +57,11 @@ export const styles = theme => ({
   },
   logoImg: {
     width: '100%',
+  },
+  headerLogo: {
+    height: 60,
+  },
+  clickable: {
+    cursor: 'pointer',
   },
 });

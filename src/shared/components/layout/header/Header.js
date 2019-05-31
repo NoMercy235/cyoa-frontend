@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import {
   withStyles,
@@ -10,14 +11,45 @@ import {
   Typography,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import classNames from 'classnames';
 
 import { appStorePropTypes } from '../../../store/AppStore';
+import ttaLogo from '../../../../assets/tta-logo.png';
 
 import { styles } from '../Styles.css';
+import { LANDING_ROUTE } from '../../../constants/routes';
 
 @inject('appStore')
 @observer
 class Header extends Component {
+  goToLanding = () => {
+    this.props.history.push(LANDING_ROUTE);
+  };
+
+  renderAppTitle = () => {
+    const { classes } = this.props;
+
+    return (
+      <>
+        <img
+          alt="Cover"
+          src={ttaLogo}
+          className={classNames(classes.headerLogo, classes.clickable)}
+          onClick={this.goToLanding}
+        />
+        <Typography
+          className={classNames(classes.appTitle, classes.clickable)}
+          variant="h6"
+          color="inherit"
+          noWrap
+          onClick={this.goToLanding}
+        >
+          Choose your own adventure!
+        </Typography>
+      </>
+    );
+  };
+
   render() {
     const {
       classes,
@@ -43,14 +75,7 @@ class Header extends Component {
             >
               <MenuIcon />
             </IconButton>
-            <Typography
-              className={classes.appTitle}
-              variant="h6"
-              color="inherit"
-              noWrap
-            >
-              Choose your own adventure!
-            </Typography>
+            {this.renderAppTitle()}
             {HeaderCmp && <HeaderCmp />}
           </Toolbar>
         </AppBar>
@@ -61,8 +86,14 @@ class Header extends Component {
 
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+
   onHandleDrawerOpened: PropTypes.func.isRequired,
   appStore: appStorePropTypes,
 };
 
-export default withStyles(styles)(Header);
+export default withStyles(styles)(
+  withRouter(Header),
+);

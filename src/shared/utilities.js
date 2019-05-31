@@ -47,7 +47,7 @@ export const KeyCode = {
 export const getMainMuiTheme = (asTheme = true) => {
   const options = {
     palette: {
-      primary: { main: '#5a1e84' }, // Purple and green play nicely together.
+      primary: { main: '#432874' }, // Purple and green play nicely together.
       secondary: { main: '#d87000' }, // This is just green.A700 as hex.
     },
   };
