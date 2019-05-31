@@ -1,7 +1,9 @@
-import { BaseModel } from './BaseModel';
 import * as moment from 'moment';
+
+import { BaseModel } from './BaseModel';
 import { ERRORS } from '../../shared/constants/errors';
 import { openIdb, StoresEnum } from '../../shared/idb';
+import { publicStoryService } from '../services/StoryService';
 
 export class StoryModel extends BaseModel {
   _id = '';
@@ -60,8 +62,10 @@ export class StoryModel extends BaseModel {
   // These are made as properties and not static functions because of a bug (I think)
   // that calls them at compile time. Doing so would crash the app since the function's
   // argument is undefined.
-  saveOffline = async (offlineStory) => {
+  saveOffline = async () => {
+    const offlineStory = await publicStoryService.getOfflineStory(this._id);
     const db = await openIdb();
+    offlineStory.updated = moment.utc().local().format('YYYY-MM-DD HH:mm:ss');
     await db.put(StoresEnum.Stories, offlineStory, offlineStory.story._id);
   };
 

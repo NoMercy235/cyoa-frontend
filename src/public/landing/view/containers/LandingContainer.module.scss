@@ -1,8 +1,16 @@
-.container {
-  display: flex;
+.storiesContainer {
+  flex: 3 3;
   overflow: auto;
-  align-items: stretch;
-  height: 100%;
-  // Needed for the box-shadow of Paper components
+  display: flex;
+  flex-direction: column;
   padding: 2px;
+
+  & > div:not(:last-of-type) {
+    margin-bottom: 10px;
+  }
+}
+
+.filtersContainer {
+  margin: 10px 2px;
+  padding: 10px;
 }

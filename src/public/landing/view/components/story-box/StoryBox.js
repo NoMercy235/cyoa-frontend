@@ -8,8 +8,6 @@ import StoryHeader from './StoryHeader';
 import StoryActions from './StoryActions';
 import { parseContent } from '../../../../../shared/utilities';
 import notFoundImg from '../../../../../assets/notfound.png';
-import { SnackbarEnum } from '../../../../../shared/components/snackbar/Snackbar';
-import Snackbar from '../../../../../shared/components/snackbar/Snackbar';
 
 import { styles } from './StoryBox.css';
 
@@ -19,27 +17,12 @@ class StoryBox extends Component {
     coverPic: '',
     isAvailableOffline: false,
   };
-  snackbarRef = React.createRef();
 
   makeStoryAvailableOffline = async isAvailableOffline => {
-    const { story } = this.props;
+    const { story, makeStoryAvailableOffline } = this.props;
 
     this.setState({ isAvailableOffline });
-    const offlineStory = await publicStoryService.getOfflineStory(story._id);
-
-    if (isAvailableOffline) {
-      await story.saveOffline(offlineStory);
-      this.snackbarRef.current.showSnackbar({
-        variant: SnackbarEnum.Variants.Success,
-        message: 'Story is now available offline',
-      });
-    } else {
-      await story.removeOffline();
-      this.snackbarRef.current.showSnackbar({
-        variant: SnackbarEnum.Variants.Success,
-        message: 'Story no longer available offline',
-      });
-    }
+    makeStoryAvailableOffline(story, isAvailableOffline);
   };
 
   handleExpandClick = async () => {
@@ -109,7 +92,6 @@ class StoryBox extends Component {
             </div>
           </Collapse>
         </Card>
-        <Snackbar innerRef={this.snackbarRef}/>
       </>
     );
   }
@@ -118,6 +100,8 @@ class StoryBox extends Component {
 StoryBox.propTypes = {
   story: PropTypes.instanceOf(StoryModel),
   classes: PropTypes.object.isRequired,
+
+  makeStoryAvailableOffline: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(StoryBox);
