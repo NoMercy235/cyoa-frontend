@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { withStyles, Dialog } from '@material-ui/core';
+import { withStyles } from '@material-ui/core';
 import { Formik } from 'formik';
 import { inject } from 'mobx-react';
 
@@ -14,6 +14,7 @@ import { storyStorePropTypes } from '../../../../stores/StoryStore';
 import { storyService } from '../../../../../../infrastructure/services/StoryService';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 import { TagModel } from '../../../../../../infrastructure/models/TagModel';
+import { Dialog } from '../../../../../../shared/components/dialog/Dialog';
 
 import { styles } from './SaveStory.css';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';

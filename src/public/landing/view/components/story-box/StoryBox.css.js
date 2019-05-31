@@ -1,5 +1,3 @@
-import red from '@material-ui/core/colors/red';
-
 export const styles = theme => ({
   actions: {
     display: 'flex',
@@ -18,7 +16,7 @@ export const styles = theme => ({
     transform: 'rotate(180deg)',
   },
   avatar: {
-    backgroundColor: red[500],
+    backgroundColor: theme.palette.primary.main,
   },
   coverPic: {
     float: 'left',

@@ -1,5 +1,5 @@
-import Typography from '@material-ui/core/Typography';
 import React from 'react';
+import { createMuiTheme, Typography } from '@material-ui/core';
 
 export const parseContent = (content, options = {}) => {
   return content.split('\n').map((line, i) => {
@@ -42,4 +42,15 @@ export const noop = () => {};
 
 export const KeyCode = {
   Backspace: 8,
+};
+
+export const getMainMuiTheme = (asTheme = true) => {
+  const options = {
+    palette: {
+      primary: { main: '#5a1e84' }, // Purple and green play nicely together.
+      secondary: { main: '#d87000' }, // This is just green.A700 as hex.
+    },
+  };
+
+  return asTheme ? createMuiTheme(options) : options;
 };

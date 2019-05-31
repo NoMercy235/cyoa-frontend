@@ -1,5 +1,7 @@
 import { createMuiTheme } from '@material-ui/core';
+
 import { SCREEN_MAX_WIDTH_SM } from '../../constants/global';
+import { getMainMuiTheme } from '../../utilities';
 
 const onHoverChange = theme => ({
   color: theme.palette.primary.main,
@@ -7,6 +9,7 @@ const onHoverChange = theme => ({
 });
 
 export const getMuiTheme = () => createMuiTheme({
+  ...getMainMuiTheme(false),
   overrides: {
     MUIDataTable: {
       responsiveScroll: {

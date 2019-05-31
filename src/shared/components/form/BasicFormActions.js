@@ -16,6 +16,7 @@ class BasicFormActions extends Component {
           Cancel
         </Button>
         <Button
+          color="primary"
           type="submit"
           disabled={formik.isSubmitting}
           onClick={formik.submitForm}

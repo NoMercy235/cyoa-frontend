@@ -52,4 +52,7 @@ export const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  logoImg: {
+    width: '100%',
+  },
 });

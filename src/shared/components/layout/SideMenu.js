@@ -20,6 +20,7 @@ import ViewStoryIcon from '@material-ui/icons/Pageview';
 import { appStorePropTypes } from '../../store/AppStore';
 import { ADMIN_STORIES_ROUTE } from '../../constants/routes';
 import Authentication from '../authentication/Authentication';
+import ttaLogo from '../../../assets/tta-logo.png';
 
 import { styles } from './Styles.css';
 
@@ -98,6 +99,12 @@ class SideMenu extends Component {
           onClose={onHandleDrawerClose}
           classes={{ paper: classes.sideMenu }}
         >
+          <img
+            alt="Cover"
+            src={ttaLogo}
+            className={classes.logoImg}
+          />
+          <Divider />
           <div className={classes.sideMenuHeader}>
             {this.renderAuthentication()}
             <IconButton onClick={onHandleDrawerClose}>
