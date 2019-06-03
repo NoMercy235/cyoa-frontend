@@ -65,7 +65,7 @@ class SideMenu extends Component {
     const { appStore: { isLoggedIn } } = this.props;
     if (!isLoggedIn) {
       return (
-        <AuthRequiredListItem>
+        <AuthRequiredListItem button>
           <ListItemIcon>
             <InfoIcon/>
           </ListItemIcon>
