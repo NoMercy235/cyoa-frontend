@@ -44,11 +44,16 @@ export const KeyCode = {
   Backspace: 8,
 };
 
+export const ThemeColors = {
+  Primary: '#432874',
+  Secondary: '#d87000',
+};
+
 export const getMainMuiTheme = (asTheme = true) => {
   const options = {
     palette: {
-      primary: { main: '#432874' }, // Purple and green play nicely together.
-      secondary: { main: '#d87000' }, // This is just green.A700 as hex.
+      primary: { main: ThemeColors.Primary }, // Purple and green play nicely together.
+      secondary: { main: ThemeColors.Secondary }, // This is just green.A700 as hex.
     },
   };
 
