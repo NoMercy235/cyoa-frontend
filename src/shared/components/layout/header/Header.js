@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import classNames from 'classnames';
 
 import { appStorePropTypes } from '../../../store/AppStore';
@@ -47,7 +47,7 @@ class Header extends Component {
         items={this.getMenuItems()}
       >
         <IconButton color="inherit">
-          <MoreVertIcon/>
+          <AccountCircle/>
         </IconButton>
       </MenuDropdown>
     );

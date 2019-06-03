@@ -66,5 +66,6 @@ export const styles = theme => ({
   },
   settingsBtn: {
     marginRight: theme.spacing(1),
+    marginLeft: 'auto',
   },
 });
