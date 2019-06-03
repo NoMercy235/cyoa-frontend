@@ -5,30 +5,18 @@ import { withRouter } from 'react-router-dom';
 import { withStyles, Button, Tooltip } from '@material-ui/core';
 
 import { appStorePropTypes } from '../../store/AppStore';
-import Snackbar, { SnackbarEnum } from '../snackbar/Snackbar';
 
 import { styles } from './Authentication.css';
 
 @inject('appStore')
 @observer
 class Authentication extends Component {
-  snackbarRef = React.createRef();
-
   onLoginClick = () => {
     this.props.appStore.setIsAuthModalOpen(true);
   };
 
-  onHandleLogout = (history) => () => {
-    const { appStore } = this.props;
-
-    appStore.setUser(null);
-    appStore.generateLocalId();
-    this.snackbarRef.current.showSnackbar({
-      variant: SnackbarEnum.Variants.Success,
-      message: 'Goodbye!',
-    });
-    localStorage.removeItem('jwt');
-    history.replace('/');
+  onLogoutClick = history => () => {
+    this.props.onHandleLogout(history);
   };
 
   renderLogin = () => {
@@ -51,7 +39,7 @@ class Authentication extends Component {
       <>
         <Tooltip title="Logout">
           <Button
-            onClick={this.onHandleLogout(history)}
+            onClick={this.onLogoutClick(history)}
             color="inherit"
           >
             Logout
@@ -71,7 +59,6 @@ class Authentication extends Component {
           ? this.renderLogout(this.props)
           : this.renderLogin(this.props)
         }
-        <Snackbar innerRef={this.snackbarRef}/>
       </>
     );
   }
@@ -79,7 +66,7 @@ class Authentication extends Component {
 
 Authentication.propTypes = {
   classes: PropTypes.object.isRequired,
-  onAuthSuccessful: PropTypes.func,
+  onHandleLogout: PropTypes.func.isRequired,
   appStore: appStorePropTypes,
 };
 

@@ -19,18 +19,35 @@ import ttaLogo from '../../../../assets/tta-logo.png';
 import { LANDING_ROUTE } from '../../../constants/routes';
 import MenuDropdown from '../../menu/MenuDropdown';
 import Authentication from '../../authentication/Authentication';
+import { SnackbarEnum } from '../../snackbar/Snackbar';
+import Snackbar from '../../snackbar/Snackbar';
 
 import { styles } from '../Styles.css';
 
 @inject('appStore')
 @observer
 class Header extends Component {
+  snackbarRef = React.createRef();
+
   goToLanding = () => {
     this.props.history.push(LANDING_ROUTE);
   };
 
+  onHandleLogout = history => {
+    const { appStore } = this.props;
+
+    appStore.setUser(null);
+    appStore.generateLocalId();
+    this.snackbarRef.current.showSnackbar({
+      variant: SnackbarEnum.Variants.Success,
+      message: 'Goodbye!',
+    });
+    localStorage.removeItem('jwt');
+    history.replace('/');
+  };
+
   renderAuthBtn = () => {
-    return <Authentication/>;
+    return <Authentication onHandleLogout={this.onHandleLogout}/>;
   };
 
   getMenuItems = () => {
@@ -107,6 +124,7 @@ class Header extends Component {
             {this.renderSettings()}
           </Toolbar>
         </AppBar>
+        <Snackbar innerRef={this.snackbarRef}/>
       </>
     );
   }
