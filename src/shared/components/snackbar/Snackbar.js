@@ -79,7 +79,8 @@ class Snackbar extends React.Component {
     });
   };
 
-  onCloseSnackbar = () => {
+  onCloseSnackbar = (e, reason) => {
+    if (reason === 'clickaway') return;
     this.setState({ open: false });
   };
 
