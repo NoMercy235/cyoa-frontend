@@ -12,10 +12,10 @@ export class TagModel extends BaseModel {
   }
 
   static get() {
-    if (!TagModel.tags) {
-      TagModel.tags = JSON.parse(localStorage.getItem('tags'))
-        .map(t => new TagModel(t));
-    }
     return TagModel.tags;
+  }
+
+  static set(tags) {
+    TagModel.tags = tags;
   }
 }

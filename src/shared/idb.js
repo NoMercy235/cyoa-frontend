@@ -6,14 +6,29 @@ export const StoresEnum = {
   Stories: 'stories',
 };
 
-export const configureIdb = async () => {
-  await openDB(DB_NAME, 1, {
-    upgrade (db) {
-      db.createObjectStore(StoresEnum.Stories, {
+const ensureTablesExist = db => {
+  const currentObjectStores = Object.values(db.objectStoreNames);
+  const currentStores = Object.values(StoresEnum);
+
+  // Add if they don't exist
+  currentStores
+    .filter(storeName => !currentObjectStores.includes(storeName))
+    .map(storeName => {
+      db.createObjectStore(storeName, {
         autoIncrement: true,
       });
-    },
-  });
+    });
+
+  // Remove if they shouldn't exist
+  currentObjectStores
+    .filter(storeName => !currentStores.includes(storeName))
+    .forEach(storeName => {
+      db.deleteObjectStore(storeName);
+    });
+};
+
+export const configureIdb = async () => {
+  await openDB(DB_NAME, DB_VERSION, { upgrade: ensureTablesExist });
 };
 
 let dbCaches = {};

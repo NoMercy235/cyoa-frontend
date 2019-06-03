@@ -16,6 +16,7 @@ import NotFoundCmp from '../NotFoundCmp';
 import { ONLINE_STATUS_POLLING_INTERVAL } from '../../constants/global';
 import { configureIdb } from '../../idb';
 import AuthenticationModal from '../authentication/AuthenticationModal';
+import { TagModel } from '../../../infrastructure/models/TagModel';
 
 const LazyAdminRoute = React.lazy(() => import('../../../admin/AdminRoute'));
 
@@ -29,7 +30,7 @@ class IndexRoute extends Component {
 
   getTags = async () => {
     const tags = await tagService.list();
-    localStorage.setItem('tags', JSON.stringify(tags));
+    TagModel.set(tags);
   };
 
   getUser = async () => {
@@ -48,7 +49,7 @@ class IndexRoute extends Component {
 
       // Sometimes this can fail
       // TODO: investigate why
-      if (!this.snackbarRef) return;
+      if (!this.snackbarRef || !this.snackbarRef.current) return;
 
       this.snackbarRef.current.showSnackbar({
         variant: SnackbarEnum.Variants.Error,
@@ -70,22 +71,22 @@ class IndexRoute extends Component {
     });
   };
 
-  setIdbStatus = () => {
+  setIdbStatus = async () => {
     if (!window.indexedDB) {
       this.props.appStore.setCanUseIdb(false);
     } else {
       this.props.appStore.setCanUseIdb(true);
-      configureIdb();
+      await configureIdb();
     }
   };
 
   async componentDidMount () {
+    await this.setIdbStatus();
     await Promise.all([
       this.getTags(),
       this.getUser(),
     ]);
     this.setState({ canRender: true });
-    this.setIdbStatus();
   }
 
   renderOnlineStatusDetector = () => {
