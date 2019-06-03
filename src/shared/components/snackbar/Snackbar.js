@@ -98,6 +98,7 @@ class Snackbar extends React.Component {
 
     return ReactDOM.createPortal(
       <MuiSnackbar
+        key={message}
         anchorOrigin={{ vertical, horizontal }}
         open={open}
         onClose={this.onCloseSnackbar}
