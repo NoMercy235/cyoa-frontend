@@ -1,4 +1,6 @@
 import { openDB } from 'idb';
+import { SequenceModel } from '../infrastructure/models/SequenceModel';
+import { OptionModel } from '../infrastructure/models/OptionModel';
 
 export const DB_NAME = 'cyoa';
 export const DB_VERSION = 1;
@@ -46,10 +48,15 @@ export const getStoryStoreIdInIdb = async storyId => {
   return await db.get(StoresEnum.Stories, storyId);
 };
 
-export const getSeqById = async (storyId, seqId) => {
+export const getSeqById = async (storyId, seqId, instanced = true) => {
   const db = await openIdb();
   const storyStore = await db.get(StoresEnum.Stories, storyId);
-  const seq = storyStore.sequences.find(s => s._id === seqId);
+  let seq = storyStore.sequences.find(s => s._id === seqId);
   seq.options = storyStore.options.filter(o => o.sequence === seqId);
+  if (instanced) {
+    // The warning is an IDE bug
+    seq = new SequenceModel(seq);
+    seq.options = seq.options.map(o => new OptionModel(o));
+  }
   return seq;
 };

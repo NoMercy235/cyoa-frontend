@@ -15,6 +15,7 @@ import { publicSequenceService } from '../../../../infrastructure/services/Seque
 import { getSeqById, getStoryStoreIdInIdb } from '../../../../shared/idb';
 import { PlayerModel } from '../../../../infrastructure/models/PlayerModel';
 import OfflineStoryUnavailable from '../components/OfflineStoryUnavailable';
+import { StoryModel } from '../../../../infrastructure/models/StoryModel';
 
 @inject('appStore')
 @observer
@@ -126,13 +127,13 @@ class ReadStoryContainer extends Component {
   };
 
   initOfflineStory = async offlineStoryStore => {
-    const { story, chapters } = offlineStoryStore;
+    const { story } = offlineStoryStore;
     const currentSequence = await getSeqById(story._id, story.startSeq);
 
     this.setState({
       canRender: true,
-      story,
-      chapters,
+      story: new StoryModel(story),
+      chapters: [],
       currentSequence,
       player: new PlayerModel(),
     });
