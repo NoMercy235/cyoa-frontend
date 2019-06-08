@@ -1,14 +1,8 @@
-const { injectBabelPlugin, compose } = require('react-app-rewired');
+const { addBabelPlugins, override } = require('customize-cra');
 
-function rewireDecorators(config) {
-  return injectBabelPlugin(['@babel/plugin-proposal-decorators', { legacy: true }], config);
-}
-
-function rewireClassFields(config) {
-  return injectBabelPlugin(['@babel/plugin-proposal-class-properties', { loose: true }], config);
-}
-
-module.exports = compose(
-  rewireDecorators,
-  rewireClassFields,
+module.exports = override(
+  ...addBabelPlugins(
+    ['@babel/plugin-proposal-decorators', { legacy: true }],
+    ['@babel/plugin-proposal-class-properties', { loose: true }],
+  ),
 );
