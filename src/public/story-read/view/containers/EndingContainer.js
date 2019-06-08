@@ -8,13 +8,24 @@ import { StoryModel } from '../../../../infrastructure/models/StoryModel';
 
 class EndingContainer extends Component {
   renderStoryFinished = () => {
-    const { player } = this.props;
-    return <StoryFinished player={player}/>;
+    const { player, onlineStatus } = this.props;
+    return (
+      <StoryFinished
+        player={player}
+        onlineStatus={onlineStatus}
+      />
+    );
   };
 
   renderPlayerDead = () => {
-    const { player, story } = this.props;
-    return <PlayerDead player={player} story={story}/>;
+    const { player, story, onlineStatus } = this.props;
+    return (
+      <PlayerDead
+        player={player}
+        story={story}
+        onlineStatus={onlineStatus}
+      />
+    );
   };
 
   render() {
@@ -34,6 +45,7 @@ EndingContainer.propTypes = {
   // This one is deprecated. Probably will remove in the future
   isDead: PropTypes.bool,
   hasWon: PropTypes.bool.isRequired,
+  onlineStatus: PropTypes.bool.isRequired,
 };
 
 export default EndingContainer;

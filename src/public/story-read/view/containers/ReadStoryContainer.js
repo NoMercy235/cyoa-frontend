@@ -173,12 +173,14 @@ class ReadStoryContainer extends Component {
       player,
       hasWon,
     } = this.state;
+    const { appStore } = this.props;
 
     return (
       <EndingContainer
         story={story}
         player={player}
         hasWon={hasWon}
+        onlineStatus={appStore.onlineStatus}
       />
     );
   };

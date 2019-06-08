@@ -13,16 +13,14 @@ import {
 import { LANDING_ROUTE } from '../../../../../shared/constants/routes';
 import { playerService } from '../../../../../infrastructure/services/PlayerService';
 import { PlayerModel } from '../../../../../infrastructure/models/PlayerModel';
+import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 
 import styles from './Ending.module.scss';
 
 class StoryFinished extends Component {
-  deletePlayer = async () => {
-    await playerService.delete(this.props.player._id);
-  };
-
   retry = async () => {
-    await this.deletePlayer();
+    const { onlineStatus, player } = this.props;
+    onlineStatus && await playerService.delete(player._id);
     window.location.reload();
   };
 
@@ -92,9 +90,11 @@ class StoryFinished extends Component {
 
 StoryFinished.propTypes = {
   player: PropTypes.instanceOf(PlayerModel).isRequired,
+  story: PropTypes.instanceOf(StoryModel).isRequired,
   match: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  onlineStatus: PropTypes.bool.isRequired,
 };
 
 export default withRouter(StoryFinished);

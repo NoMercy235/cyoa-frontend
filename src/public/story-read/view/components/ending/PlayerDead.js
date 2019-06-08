@@ -19,7 +19,8 @@ import styles from './Ending.module.scss';
 
 class PlayerDead extends Component {
   retry = async () => {
-    await playerService.delete(this.props.player._id);
+    const { onlineStatus, player } = this.props;
+    onlineStatus && await playerService.delete(player._id);
     window.location.reload();
   };
 
@@ -80,6 +81,7 @@ PlayerDead.propTypes = {
   match: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  onlineStatus: PropTypes.bool.isRequired,
 };
 
 export default withRouter(PlayerDead);
