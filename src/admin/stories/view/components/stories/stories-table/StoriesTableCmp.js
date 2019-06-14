@@ -59,6 +59,12 @@ class StoriesTableCmp extends Component {
       : <CloseIcon color="secondary"/>;
   };
 
+  renderIsPublished = row => {
+    return row.published
+      ? <CheckIcon color="primary"/>
+      : <CloseIcon color="secondary"/>;
+  };
+
   getActions = row => {
     return (
       <div key={row._id} className={this.props.classes.actionsContainer}>
@@ -86,6 +92,7 @@ class StoriesTableCmp extends Component {
         this.renderName(s),
         s.tagsName.join(', '),
         this.renderIsOffline(s),
+        this.renderIsPublished(s),
         this.getActions(s),
       ];
     });

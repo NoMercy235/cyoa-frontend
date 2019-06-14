@@ -104,6 +104,10 @@ export class StoryModel extends BaseModel {
         options: { filter: false, sort: false },
       },
       {
+        name: 'Published',
+        options: { filter: false, sort: false },
+      },
+      {
         name: '',
         options: { filter: false, sort: false },
       },
