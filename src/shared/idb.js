@@ -15,7 +15,7 @@ const ensureTablesExist = db => {
   // Add if they don't exist
   currentStores
     .filter(storeName => !currentObjectStores.includes(storeName))
-    .map(storeName => {
+    .forEach(storeName => {
       db.createObjectStore(storeName, {
         autoIncrement: true,
       });
