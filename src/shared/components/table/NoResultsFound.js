@@ -5,10 +5,10 @@ import { Typography } from '@material-ui/core';
 class NoResultsFound extends Component {
 
   render() {
-    const { condition } = this.props;
-    const result = typeof condition === 'function'
-      ? condition()
-      : condition;
+    const { show } = this.props;
+    const result = typeof show === 'function'
+      ? show()
+      : show;
     if (!result) return null;
 
     return (
@@ -24,7 +24,7 @@ class NoResultsFound extends Component {
 }
 
 NoResultsFound.propTypes = {
-  condition: PropTypes.oneOfType([
+  show: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.bool,
   ]).isRequired,

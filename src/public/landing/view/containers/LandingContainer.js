@@ -65,7 +65,7 @@ class LandingContainer extends Component {
       <>
         <Breadcrumb/>
         <div className={styles.storiesContainer}>
-          <NoResultsFound condition={hasStories}/>
+          <NoResultsFound show={!hasStories}/>
           {hasStories && stories.map(s => (
             <StoryBox
               key={s._id}
