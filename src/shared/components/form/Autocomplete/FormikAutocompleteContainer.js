@@ -14,16 +14,26 @@ class FormikAutocompleteContainer extends Component {
     suggestions: [],
   };
 
+  mounted = false;
+
+  componentDidMount () {
+    this.mounted = true;
+  }
+
+  componentWillUnmount () {
+    this.mounted = false;
+  }
+
   setSuggestions = async searchQuery => {
     if (searchQuery === null) {
-      this.setState({ suggestions: [] });
+      this.mounted && this.setState({ suggestions: [] });
       return;
     }
 
     const { onSearchRequest } = this.props;
 
     const suggestions = await onSearchRequest(searchQuery);
-    this.setState({ suggestions });
+    this.mounted && this.setState({ suggestions });
   };
 
   onChange = selected => {
