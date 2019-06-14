@@ -19,6 +19,20 @@ class PlayerTabContainer extends Component {
     console.log('Selected: ', id);
   };
 
+  onEditAttribute = id => {
+    const params = { ':story': this.props.story._id };
+    attributeService.setNextRouteParams(params);
+
+    return async () => {
+      const attr =  await attributeService.get(id);
+      attr.linkedEnding = {
+        value: attr.linkedEnding._id,
+        label: attr.linkedEnding.name,
+      };
+      return attr;
+    };
+  };
+
   onDeleteAttribute = async attributeId => {
     const params = { ':story': this.props.story._id };
     attributeService.setNextRouteParams(params);
@@ -44,6 +58,7 @@ class PlayerTabContainer extends Component {
         <div className={classes.tableContainer}>
           <AttributesTableCmp
             attributes={attributes}
+            onEditAttribute={this.onEditAttribute}
             onSelectAttribute={this.onSelectAttribute}
             onDeleteAttribute={this.onDeleteAttribute}
           />

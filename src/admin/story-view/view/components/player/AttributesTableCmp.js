@@ -26,13 +26,16 @@ class AttributesTableCmp extends Component {
   };
 
   getActions = row => {
+    const { classes, onEditAttribute } = this.props;
+
     return (
-      <div key={row._id} className={this.props.classes.actionsContainer}>
+      <div key={row._id} className={classes.actionsContainer}>
         <ViewRow onClick={this.onSelectAttribute(row._id)}/>
         <BasicEditAction
           resourceName="attribute"
           resource={row}
           modalComponent={SaveAttributeModal}
+          getBeforeModal={onEditAttribute(row._id)}
         />
         <DeleteRow
           title="Delete confirmation"
@@ -85,6 +88,7 @@ class AttributesTableCmp extends Component {
 AttributesTableCmp.propTypes = {
   classes: PropTypes.object,
   attributes: PropTypes.arrayOf(PropTypes.shape(AttributeModel)),
+  onEditAttribute: PropTypes.func.isRequired,
   onSelectAttribute: PropTypes.func.isRequired,
   onDeleteAttribute: PropTypes.func.isRequired,
 };
