@@ -58,6 +58,18 @@ class SequenceTabContainer extends Component {
     this.props.storyViewStore.removeSequence(sequenceId);
   };
 
+  onEditOption = async (sequenceId, optionId) => {
+    const params = { ':sequence': sequenceId };
+    optionService.setNextRouteParams(params);
+
+    const option = await optionService.get(optionId);
+    option.nextSeq = {
+      value: option.nextSeq._id,
+      label: option.nextSeq.name,
+    };
+    return option;
+  };
+
   onDeleteOption = async (sequenceId, optionId) => {
     const params = { ':sequence': sequenceId };
     optionService.setNextRouteParams(params);
@@ -168,6 +180,7 @@ class SequenceTabContainer extends Component {
             sequences={sequencesInOrder}
             selectedChapterId={selectedChapterId}
             onDeleteSequence={this.onDeleteSequence}
+            onEditOption={this.onEditOption}
             onDeleteOption={this.onDeleteOption}
             onMoveSeqUp={this.onMoveSeqUp}
             onMoveSeqDown={this.onMoveSeqDown}

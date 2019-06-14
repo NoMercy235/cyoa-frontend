@@ -69,7 +69,12 @@ class SequenceTableCmp extends Component {
   };
 
   renderOptionsTable = (rowData) => {
-    const { classes, onDeleteOption, sequences } = this.props;
+    const {
+      classes,
+      onEditOption,
+      onDeleteOption,
+      sequences,
+    } = this.props;
     const colSpan = SequenceModel.getTableColumns().length;
     const rowSeqId = rowData[0];
 
@@ -81,6 +86,7 @@ class SequenceTableCmp extends Component {
           {parseContent(sequence.content)}
           {!sequence.isEnding && <OptionTableCmp
             sequence={sequence}
+            onEditOption={onEditOption}
             onDeleteOption={onDeleteOption}
           />}
         </td>
@@ -168,6 +174,7 @@ SequenceTableCmp.propTypes = {
   sequences: PropTypes.arrayOf(PropTypes.instanceOf(SequenceModel)),
   selectedChapterId: PropTypes.string.isRequired,
   onDeleteSequence: PropTypes.func.isRequired,
+  onEditOption: PropTypes.func.isRequired,
   onDeleteOption: PropTypes.func.isRequired,
   onMoveSeqUp: PropTypes.func.isRequired,
   onMoveSeqDown: PropTypes.func.isRequired,

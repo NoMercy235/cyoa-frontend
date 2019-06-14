@@ -58,6 +58,10 @@ class OptionTableCmp extends Component {
     this.props.storyViewStore.setOptionsToSequence(id, options);
   };
 
+  onEditOption = id => async () => {
+    return await this.props.onEditOption(this.props.sequence._id, id);
+  };
+
   onDeleteOption = id => () => {
     this.props.onDeleteOption(this.props.sequence._id, id);
   };
@@ -83,6 +87,7 @@ class OptionTableCmp extends Component {
           resource={row}
           modalComponent={SaveOptionModal}
           innerProps={{ sequenceId: seqId }}
+          getBeforeModal={this.onEditOption(row._id)}
         />
         <DeleteRow
           title="Delete confirmation"
@@ -142,6 +147,7 @@ class OptionTableCmp extends Component {
 OptionTableCmp.propTypes = {
   classes: PropTypes.object,
   sequence: PropTypes.instanceOf(SequenceModel).isRequired,
+  onEditOption: PropTypes.func.isRequired,
   onDeleteOption: PropTypes.func.isRequired,
 
   storyViewStore: storyViewStorePropTypes,

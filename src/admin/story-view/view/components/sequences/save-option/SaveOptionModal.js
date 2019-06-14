@@ -89,28 +89,9 @@ class SaveOptionModal extends Component {
   getInitialValues = () => {
     const { option, storyViewStore } = this.props;
 
-    if (option) {
-      // The nextSeq is populated on the list request, but it's not in the
-      // format expected by the Autocomplete component. Here we parse it to that format
-      return Object.assign(
-        {},
-        option,
-        {
-          // If there is no nextSeq, then it has been deleted at some point
-          // We will require the user to select another one.
-          nextSeq: option.nextSeq
-            ? {
-              value: option.nextSeq._id,
-              label: option.nextSeq.name,
-            }
-            : '',
-        },
-      );
-    }
-
     // Here we don't need any parsing, because, by default, the nextSeq's value is an
     // empty string and that's a valid value.
-    return new OptionModel({
+    return option || new OptionModel({
       story: storyViewStore.currentStory._id,
       consequences: [new ConsequenceModel()],
     });
