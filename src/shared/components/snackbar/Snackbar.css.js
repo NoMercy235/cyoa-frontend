@@ -22,7 +22,7 @@ export const styles = theme => ({
     marginRight: theme.spacing(1),
   },
   snackbarMessageContent: {
-    width: '80%',
+    width: 'auto',
   },
   message: {
     display: 'flex',
