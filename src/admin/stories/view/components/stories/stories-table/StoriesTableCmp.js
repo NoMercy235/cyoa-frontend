@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles, Tooltip } from '@material-ui/core';
-import CheckIcon from '@material-ui/icons/Check';
-import CloseIcon from '@material-ui/icons/Close';
 import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
 import { observer } from 'mobx-react';
@@ -16,6 +14,7 @@ import SaveStoryModal from '../save-story/SaveStoryModal';
 import BasicEditAction from '../../../../../../shared/components/form/BasicEditAction';
 import { ADMIN_STORY_VIEW_ROUTE, makePath } from '../../../../../../shared/constants/routes';
 import { renderStoriesTableTitle } from './StoriesTableTitle';
+import YesNoCmp from '../../../../../../shared/components/table/YesNoCmp';
 
 import { styles as storiesTableStyles } from './StoriesTableCmp.css';
 import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
@@ -54,15 +53,11 @@ class StoriesTableCmp extends Component {
   };
 
   renderIsOffline = row => {
-    return row.isAvailableOffline
-      ? <CheckIcon color="primary"/>
-      : <CloseIcon color="secondary"/>;
+    return <YesNoCmp condition={row.isAvailableOffline}/>;
   };
 
   renderIsPublished = row => {
-    return row.published
-      ? <CheckIcon color="primary"/>
-      : <CloseIcon color="secondary"/>;
+    return <YesNoCmp condition={row.published}/>;
   };
 
   getActions = row => {

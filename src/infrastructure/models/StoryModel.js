@@ -17,7 +17,7 @@ export class StoryModel extends BaseModel {
   startSeq = '';
   created_at = '';
   fromCollection = '';
-  publish = false;
+  published = false;
   coverPic = '';
   isAvailableOffline = false;
 

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import { observer } from 'mobx-react';
-import CheckIcon from '@material-ui/icons/Check';
-import CloseIcon from '@material-ui/icons/Close';
 
 import { AttributeModel } from '../../../../../infrastructure/models/AttributeModel';
 import TableCmp from '../../../../../shared/components/table/TableCmp';
@@ -13,6 +11,7 @@ import BasicNewAction from '../../../../../shared/components/form/BasicNewAction
 import SaveAttributeModal from './save-attribute/SaveAttributeModal';
 import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
 import { renderAttributesTableTitle } from './AttributesTableTitle';
+import YesNoCmp from '../../../../../shared/components/table/YesNoCmp';
 
 import { styles as tableStyles } from '../../../../../shared/components/table/TableCmp.css';
 
@@ -45,9 +44,7 @@ class AttributesTableCmp extends Component {
   };
 
   renderIsImportant = row => {
-    return row.isImportant
-      ? <CheckIcon color="primary"/>
-      : <CloseIcon color="secondary"/>;
+    return <YesNoCmp condition={row.isImportant}/>;
   };
 
   render() {
