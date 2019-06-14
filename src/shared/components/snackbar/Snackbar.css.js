@@ -21,9 +21,11 @@ export const styles = theme => ({
     opacity: 0.9,
     marginRight: theme.spacing(1),
   },
+  snackbarMessageContent: {
+    width: '80%',
+  },
   message: {
     display: 'flex',
     alignItems: 'center',
-    maxWidth: '30vw',
   },
 });

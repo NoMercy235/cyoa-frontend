@@ -105,8 +105,11 @@ class Snackbar extends React.Component {
         autoHideDuration={autoHideDuration}
       >
         <SnackbarContent
-          className={classes[variant]}
           aria-describedby="client-snackbar"
+          classes={{
+            root: classes[variant],
+            message: classes.snackbarMessageContent,
+          }}
           message={
             <span id="client-snackbar" className={classes.message}>
               <Icon className={classNames(classes.icon, classes.iconVariant)} />
