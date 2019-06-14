@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Field, Form } from 'formik';
-import { withStyles, TextField } from '@material-ui/core';
+import { withStyles, TextField, Checkbox, Typography } from '@material-ui/core';
 
 import { hasError } from '../../../../../../shared/components/form/helpers';
+import FormikAutocompleteContainer
+  from '../../../../../../shared/components/form/Autocomplete/FormikAutocompleteContainer';
 
 import { styles } from './SaveAttribute.css';
 
@@ -35,6 +37,17 @@ class SaveAttributeForm extends Component {
     );
   };
 
+  renderIsImportantField = ({ field }) => {
+    const { formik } = this.props;
+    return (
+      <Checkbox
+        {...field}
+        checked={formik.values.isImportant}
+        value={formik.values.isImportant}
+      />
+    );
+  };
+
   renderDescriptionField = ({ field }) => {
     const { formik } = this.props;
     return (
@@ -47,6 +60,33 @@ class SaveAttributeForm extends Component {
         rows={3}
         value={formik.values.description}
         {...hasError(formik, 'description')}
+      />
+    );
+  };
+
+  renderLinkedEndingField = ({ field }) => {
+    const { formik, onSequenceSearch } = this.props;
+    return (
+      <FormikAutocompleteContainer
+        formik={formik}
+        field={field}
+        label="Associated ending"
+        placeholder="Search for sequences"
+        searchOnFocus={true}
+        onSearchRequest={onSequenceSearch}
+      />
+    );
+  };
+
+  renderLinkedEndingFormikField = () => {
+    const { formik } = this.props;
+
+    if (!formik.values.isImportant) return null;
+
+    return (
+      <Field
+        name="linkedEnding"
+        render={this.renderLinkedEndingField}
       />
     );
   };
@@ -68,6 +108,18 @@ class SaveAttributeForm extends Component {
             render={this.renderStartValueField}
           />
         </div>
+        <Typography
+          variant="inherit"
+          color="inherit"
+          noWrap
+        >
+          Is important?
+          <Field
+            name="isImportant"
+            render={this.renderIsImportantField}
+          />
+        </Typography>
+        {this.renderLinkedEndingFormikField()}
         <Field
           name="description"
           required
@@ -81,6 +133,7 @@ class SaveAttributeForm extends Component {
 SaveAttributeForm.propTypes = {
   classes: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
+  onSequenceSearch: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(SaveAttributeForm);

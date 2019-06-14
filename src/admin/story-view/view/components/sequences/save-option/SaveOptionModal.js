@@ -28,6 +28,9 @@ class SaveOptionModal extends Component {
   snackbarRef = React.createRef();
 
   onSearchRequest = async (searchQuery) => {
+    sequenceService.setNextRouteParams(
+      { ':story': this.props.storyViewStore.currentStory._id }
+    );
     return (await debouncedSequenceList({
       name: {
         op: 'ilike',
@@ -120,16 +123,10 @@ class SaveOptionModal extends Component {
 
   onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      // Change the nextSeq back to normal id which will be handled by the backend
-      const finalValues = Object.assign(
-        {},
-        values,
-        { nextSeq: values.nextSeq.value },
-      );
       if (values._id) {
-        await this.updateOption(finalValues);
+        await this.updateOption(values);
       } else {
-        await this.saveOption(finalValues);
+        await this.saveOption(values);
       }
       this.onClose(resetForm)();
     } finally {

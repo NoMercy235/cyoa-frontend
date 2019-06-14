@@ -52,7 +52,9 @@ export class OptionModel extends BaseModel {
       story: option.story,
       action: option.action,
       sequence: option.sequence,
-      nextSeq: option.nextSeq,
+      nextSeq: option.nextSeq.value
+        ? option.nextSeq.value
+        : option.nextSeq,
       consequences: option.consequences,
     };
   }

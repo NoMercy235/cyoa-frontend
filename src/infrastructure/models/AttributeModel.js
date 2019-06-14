@@ -7,6 +7,7 @@ export class AttributeModel extends BaseModel {
   isImportant = false;
   description = '';
   startValue = 0;
+  linkedEnding = '';
 
   constructor(metadata) {
     super();
@@ -21,6 +22,9 @@ export class AttributeModel extends BaseModel {
     if (this.startValue !== 0 && !this.startValue) {
       errors.startValue = ERRORS.fieldRequired;
     }
+    if (this.isImportant && !this.linkedEnding) {
+      errors.linkedEnding = ERRORS.fieldRequired;
+    }
     return errors;
   }
 
@@ -30,6 +34,9 @@ export class AttributeModel extends BaseModel {
       isImportant: attribute.isImportant,
       description: attribute.description,
       startValue: attribute.startValue,
+      linkedEnding: attribute.linkedEnding.value
+        ? attribute.linkedEnding.value
+        : attribute.linkedEnding,
     };
   }
 
@@ -37,6 +44,7 @@ export class AttributeModel extends BaseModel {
     return [
       { name: 'Name' },
       { name: 'Start Value', options: { filter: false} },
+      { name: 'Important?', options: { filter: false} },
       {
         name: '',
         options: { filter: false, sort: false },

@@ -13,13 +13,39 @@ import { AttributeModel } from '../../../../../../infrastructure/models/Attribut
 import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
 import SaveAttributeForm from './SaveAttributeForm';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
+import { debounced } from '../../../../../../shared/utilities';
+import { sequenceService } from '../../../../../../infrastructure/services/SequenceService';
 
 import { styles } from './SaveAttribute.css';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
 
+const debouncedSequenceList = debounced(sequenceService.list);
+
 @inject('storyViewStore')
 class SaveAttributeModal extends Component {
   snackbarRef = React.createRef();
+
+  onSequenceSearch = async (searchQuery) => {
+    sequenceService.setNextRouteParams(
+      { ':story': this.props.storyViewStore.currentStory._id }
+    );
+
+    return (await debouncedSequenceList({
+      name: {
+        op: 'ilike',
+        value: searchQuery,
+        options: {
+          allowEmpty: true,
+        },
+      },
+      isEnding: {
+        op: 'equals',
+        value: true,
+      },
+    })).map(s => {
+      return { value: s._id, label: s.name };
+    });
+  };
 
   renderTitle() {
     return this.props.attribute ? 'Edit attribute' : 'Create attribute';
@@ -93,6 +119,7 @@ class SaveAttributeModal extends Component {
           <SaveAttributeForm
             formik={formik}
             onClose={this.onClose(formik.resetForm)}
+            onSequenceSearch={this.onSequenceSearch}
           />
         </DialogContent>
         <DialogActions>

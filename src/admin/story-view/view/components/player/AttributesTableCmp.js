@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import { observer } from 'mobx-react';
+import CheckIcon from '@material-ui/icons/Check';
+import CloseIcon from '@material-ui/icons/Close';
 
 import { AttributeModel } from '../../../../../infrastructure/models/AttributeModel';
 import TableCmp from '../../../../../shared/components/table/TableCmp';
@@ -42,12 +44,23 @@ class AttributesTableCmp extends Component {
     );
   };
 
+  renderIsImportant = row => {
+    return row.isImportant
+      ? <CheckIcon color="primary"/>
+      : <CloseIcon color="secondary"/>;
+  };
+
   render() {
     const { attributes } = this.props;
     const columns = AttributeModel.getTableColumns();
 
     const data = attributes.map(a => {
-      return [a.name, a.startValue, this.getActions(a)];
+      return [
+        a.name,
+        a.startValue,
+        this.renderIsImportant(a),
+        this.getActions(a),
+      ];
     });
 
     const options = {
