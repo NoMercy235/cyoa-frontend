@@ -10,7 +10,7 @@ function getDescription () {
   return (
     <>
       <p>Define attributes which will be attached to a player when starting your story</p>
-      <p>You have full control over the behavior of attributes. If you want to end a story when an attribute goes below 0, then you will handle that case from the sequence options</p>
+      <p>An important attribute must be linked to a specific ending sequence. When the value of that attribute will reach 0 or lower, the player will lose and will be shown the linked ending sequence.</p>
     </>
   );
 }

@@ -10,19 +10,19 @@ import { NOT_FOUND_ROUTE } from '../../../../shared/constants/routes';
 import { playerService } from '../../../../infrastructure/services/PlayerService';
 import { appStorePropTypes } from '../../../../shared/store/AppStore';
 import DisplaySequence from '../components/sequence/DisplaySequence';
-import EndingContainer from './EndingContainer';
 import { publicSequenceService } from '../../../../infrastructure/services/SequenceService';
 import { getSeqById, getStoryStoreIdInIdb } from '../../../../shared/idb';
 import { PlayerModel } from '../../../../infrastructure/models/PlayerModel';
 import OfflineStoryUnavailable from '../components/OfflineStoryUnavailable';
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
+import StoryFinished from '../components/story-finished/StoryFinished';
 
 @inject('appStore')
 @observer
 class ReadStoryContainer extends Component {
   state = {
     canRender: false,
-    hasWon: false,
+    isFinished: false,
     story: null,
     chapters: [],
     player: null,
@@ -59,17 +59,30 @@ class ReadStoryContainer extends Component {
       });
   };
 
+  hasLost = async attributes => {
+    // If an important attribute has a value below 0, the player lost and it should be
+    // shown the linked ending of the attribute
+    const negativeImportantAttr = attributes.find(a => a.isImportant && a.value <= 0);
+    if (negativeImportantAttr) {
+      await this.getSequence(negativeImportantAttr.linkedEnding);
+      return negativeImportantAttr;
+    }
+  };
+
   onOptionClick = async option => {
     if (!option) {
-      this.setState({ hasWon: true });
+      this.setState({ isFinished: true });
       return;
     }
 
     // If the story has offline mode available, the attributes should
     // be an empty array anyway.
     const attributes = this.getModifiedAttributes(option);
+    const hasLostAttr = await this.hasLost(attributes);
     const metadata = {
-      lastStorySequence: option.nextSeq,
+      lastStorySequence: hasLostAttr
+        ? hasLostAttr.linkedEnding
+        : option.nextSeq,
       attributes,
     };
 
@@ -82,8 +95,10 @@ class ReadStoryContainer extends Component {
       // TODO: If this fails while the user is offline, do nothing, because it is expected
       // If it happens in other circumstances, an error notification should pop up
     }
-    const sequence = await this.getSequence(option.nextSeq);
-    this.setState({ sequence });
+    // If the player lost, there's no need to get a new sequence.
+    // We already have the linked ending of the attribute
+    if (hasLostAttr) return;
+    await this.getSequence(option.nextSeq);
   };
 
   getStory = async storyId => {
@@ -167,20 +182,14 @@ class ReadStoryContainer extends Component {
     this.setState({ canRender: true });
   }
 
-  renderHasWon = () => {
-    const {
-      story,
-      player,
-      hasWon,
-    } = this.state;
-    const { appStore } = this.props;
+  renderFinished = () => {
+    const { player } = this.state;
+    const { appStore: { onlineStatus } } = this.props;
 
     return (
-      <EndingContainer
-        story={story}
+      <StoryFinished
         player={player}
-        hasWon={hasWon}
-        onlineStatus={appStore.onlineStatus}
+        onlineStatus={onlineStatus}
       />
     );
   };
@@ -191,12 +200,12 @@ class ReadStoryContainer extends Component {
       chapters,
       player,
       currentSequence,
-      hasWon,
+      isFinished,
       unavailableOffline,
     } = this.state;
 
-    if (hasWon) {
-      return this.renderHasWon();
+    if (isFinished) {
+      return this.renderFinished();
     }
 
     if (unavailableOffline) {

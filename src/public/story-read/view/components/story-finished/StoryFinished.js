@@ -10,18 +10,21 @@ import {
   Typography,
 } from '@material-ui/core';
 
+import { LANDING_ROUTE } from '../../../../../shared/constants/routes';
 import { playerService } from '../../../../../infrastructure/services/PlayerService';
 import { PlayerModel } from '../../../../../infrastructure/models/PlayerModel';
-import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
-import playerDead from '../../../../../assets/player-dead.png';
 
-import styles from './Ending.module.scss';
+import styles from './StoryFinished.module.scss';
 
-class PlayerDead extends Component {
+class StoryFinished extends Component {
   retry = async () => {
     const { onlineStatus, player } = this.props;
     onlineStatus && await playerService.delete(player._id);
     window.location.reload();
+  };
+
+  readOtherStories = async () => {
+    this.props.history.push(LANDING_ROUTE);
   };
 
   getTitle = () => {
@@ -30,7 +33,7 @@ class PlayerDead extends Component {
         variant="h4"
         color="inherit"
       >
-        You have died
+        Story completed!
       </Typography>
     );
   };
@@ -38,15 +41,17 @@ class PlayerDead extends Component {
   getContentText = () => {
     return (
       <>
-        <img
-          alt="Cover"
-          src={playerDead}
-        />
         <Typography
           variant="h6"
           color="inherit"
         >
-          Your choices have led to impending doom. You lie on the ground with blurring vision thinking about what happened that led to this miserable fate.
+          You have reached the end of the story. There may be more paths to discover, so you may want to try going through it again and discover other possibilities.
+        </Typography>
+        <Typography
+          variant="h6"
+          color="inherit"
+        >
+          On the other hand, many different adventures await, so you can go ahead and read something else to satisfy your curiosity.
         </Typography>
       </>
     );
@@ -54,7 +59,7 @@ class PlayerDead extends Component {
 
   render() {
     return (
-      <Card>
+      <Card classes={{ root: styles.card }}>
         <CardHeader title={this.getTitle()}/>
         <CardContent>
           {this.getContentText()}
@@ -68,6 +73,13 @@ class PlayerDead extends Component {
             >
               Try again?
             </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.readOtherStories}
+            >
+              Read other stories?
+            </Button>
           </div>
         </CardActions>
       </Card>
@@ -75,8 +87,7 @@ class PlayerDead extends Component {
   }
 }
 
-PlayerDead.propTypes = {
-  story: PropTypes.instanceOf(StoryModel).isRequired,
+StoryFinished.propTypes = {
   player: PropTypes.instanceOf(PlayerModel).isRequired,
   match: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
@@ -84,4 +95,4 @@ PlayerDead.propTypes = {
   onlineStatus: PropTypes.bool.isRequired,
 };
 
-export default withRouter(PlayerDead);
+export default withRouter(StoryFinished);
