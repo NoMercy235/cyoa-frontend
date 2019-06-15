@@ -33,6 +33,8 @@ class AuthenticationModal extends Component {
   onClose = () => {
     const { appStore, onClose } = this.props;
 
+    this.formik.resetForm();
+
     appStore.setIsAuthModalOpen(false);
     onClose && onClose();
   };
@@ -115,6 +117,7 @@ class AuthenticationModal extends Component {
   renderForm = isAuthModalOpen => formik => {
     const { classes } = this.props;
     const { isLoggingIn } = this.state;
+    this.formik = formik;
 
     return (
       <Dialog
