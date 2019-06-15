@@ -1,2 +1,2 @@
-// Timeout for a test is 30s.
-jest.setTimeout(30 * 1000);
+// Timeout for a test is 5 minutes.
+jest.setTimeout(5 * 60 * 1000);

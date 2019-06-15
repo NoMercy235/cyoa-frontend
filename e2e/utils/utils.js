@@ -1,11 +1,40 @@
-const sSnackbarRoot = 'div[class*="MuiSnackbar-root"]';
-const sSnackbarCloseBtn = 'div[class*="MuiSnackbarContent-action"] > button';
-const sDrawerBackdrop = 'div[class*="MuiBackdrop-root"]';
+const {
+  sUserSettings,
+  xLoginOption,
+  xLoginBtn,
+  xLogoutOption,
+  sEmailInput,
+  sPasswordInput,
+  sDrawerBackdrop,
+  sSnackbarCloseBtn,
+  sSnackbarRoot,
+} = require('./selectorsAndXPaths');
 
 class Utils {
   constructor (browser, page) {
     this.browser = browser;
     this.page = page;
+  }
+
+  async login (credentials) {
+    await this.page.click(sUserSettings);
+
+    await this.clickOnElement(
+      xLoginOption,
+      { waitForElement: sEmailInput },
+    );
+
+    await this.page.type(sEmailInput, credentials.username);
+    await this.page.type(sPasswordInput, credentials.password);
+
+    await this.clickOnElement(xLoginBtn);
+    await this.closeSnackbar();
+  }
+
+  async logout () {
+    await this.clickOnElement(sUserSettings);
+    await this.clickOnElement(xLogoutOption);
+    await this.closeSnackbar();
   }
 
   async clickOnElement (selectorOrXPath, options = {}) {
@@ -39,6 +68,16 @@ class Utils {
     }
   }
 
+  async fillInputElement (selector, value) {
+    await this.page.$eval(
+      selector,
+      (el, value) => {
+        el.value = value;
+      },
+      value
+    );
+  }
+
   async closeSnackbar () {
     await this.clickOnElement(sSnackbarCloseBtn);
     await this.page.waitForSelector(sSnackbarRoot, { hidden: true });
@@ -52,6 +91,13 @@ class Utils {
 
   static isSelector (selectorOrXPath) {
     return !selectorOrXPath.startsWith('//');
+  }
+
+  static async beforeAll () {
+    const browser = global.__BROWSER__;
+    const page = await browser.newPage();
+    const customConfig = global.__CUSTOM_CONFIG__;
+    return { browser, page, customConfig };
   }
 }
 

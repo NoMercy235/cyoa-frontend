@@ -1,12 +1,14 @@
-const Utils = require('./utils');
+const Utils = require('./utils/utils');
+const {
+  sUserSettings,
+  xLoginOption,
+  xLoginBtn,
+  xLogoutOption,
+  sEmailInput,
+  sPasswordInput,
+} = require('./utils/selectorsAndXPaths');
 
 const sAppTitle = 'h6[class*="appTitle"]';
-const sUserSettings = 'div[class*="settingsBtn"]';
-const xLoginOption = '//li[contains(., "Login")]';
-const xLogoutOption = '//li[contains(., "Logout")]';
-const sEmailInput = 'input[name="email"]';
-const sPasswordInput = 'input[name="password"]';
-const xLoginBtn = '//button[contains(., "Login")]';
 const xWelcomeMessage = '//span[contains(., "Welcome")]';
 const xGoodbyeMessage = '//span[contains(., "Goodbye")]';
 const sMenuBtn = 'button[aria-label="Open drawer"]';
@@ -21,33 +23,34 @@ describe('Authentication', () => {
   let utils;
 
   beforeAll(async () => {
-    browser = global.__BROWSER__;
-    page = await browser.newPage();
-    credentials = global.__CUSTOM_CONFIG__.credentials;
-    const endpoint = global.__CUSTOM_CONFIG__.endpoint;
+    const beforeAll = await Utils.beforeAll();
+    browser = beforeAll.browser;
+    page = beforeAll.page;
+    credentials = beforeAll.customConfig.credentials;
 
     utils = new Utils(browser, page);
 
-    await page.goto(endpoint);
-    await page.setViewport({ width: 0, height: 0 });
+    await page.goto(beforeAll.customConfig.endpoint);
   });
 
   afterAll(() => {
-    browser.close();
+    page.close();
   });
 
   it('should not have access to the admin options', async () => {
-    await page.click(sMenuBtn);
-    await page.waitForXPath(xPleaseLoginForAdditionalFeatures);
+    await utils.waitForElement(sAppTitle);
+    await utils.clickOnElement(sMenuBtn);
+    await utils.waitForElement(xPleaseLoginForAdditionalFeatures);
     await utils.closeDrawer();
   });
 
   it('should log in successfully', async () => {
     await page.click(sUserSettings);
 
-    await utils.clickOnElement(xLoginOption, {
-      waitForElement: sEmailInput,
-    });
+    await utils.clickOnElement(
+      xLoginOption,
+      { waitForElement: sEmailInput },
+    );
 
     await page.type(sEmailInput, credentials.username);
     await page.type(sPasswordInput, credentials.password);
