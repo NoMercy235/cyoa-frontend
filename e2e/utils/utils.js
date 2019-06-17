@@ -40,6 +40,9 @@ class Utils {
   async clickOnElement (selectorOrXPath, options = {}) {
     const isSelector = Utils.isSelector(selectorOrXPath);
     await this.waitForElement(selectorOrXPath);
+    if (options.waitAfterVisible) {
+      await this.page.waitFor(options.waitAfterVisible);
+    }
     if (isSelector) {
       await this.clickBySelector(selectorOrXPath);
     } else {

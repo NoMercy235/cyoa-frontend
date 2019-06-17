@@ -63,7 +63,7 @@ class Header extends Component {
         className={classes.settingsBtn}
         items={this.getMenuItems()}
       >
-        <IconButton color="inherit">
+        <IconButton color="inherit" id="settingsBtn">
           <AccountCircle/>
         </IconButton>
       </MenuDropdown>

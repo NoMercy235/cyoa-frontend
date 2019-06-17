@@ -14,7 +14,7 @@ const xStoryTableDeleteAction = storyName => `//tr[contains(@class, "MuiTableRow
 const xYesBtn = '//button[contains(., "Yes")]';
 const xStoryDeletedMessage = '//span[contains(., "Story deleted!")]';
 
-describe('LandingContainer', () => {
+describe('AdminStory', () => {
   let browser;
   let page;
   let credentials;

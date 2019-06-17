@@ -8,7 +8,7 @@ const {
   sPasswordInput,
 } = require('./utils/selectorsAndXPaths');
 
-const sAppTitle = 'h6[class*="appTitle"]';
+const xAppTitle = '//h6[text()="Choose your own adventure!"]';
 const xWelcomeMessage = '//span[contains(., "Welcome")]';
 const xGoodbyeMessage = '//span[contains(., "Goodbye")]';
 const sMenuBtn = 'button[aria-label="Open drawer"]';
@@ -38,7 +38,7 @@ describe('Authentication', () => {
   });
 
   it('should not have access to the admin options', async () => {
-    await utils.waitForElement(sAppTitle);
+    await utils.waitForElement(xAppTitle);
     await utils.clickOnElement(sMenuBtn);
     await utils.waitForElement(xPleaseLoginForAdditionalFeatures);
     await utils.closeDrawer();
@@ -97,9 +97,12 @@ describe('Authentication', () => {
   });
 
   it('should redirect to landing if the user logs out from a page that needs authentication', async () => {
-    await utils.clickOnElement(sUserSettings);
+    await utils.clickOnElement(
+      sUserSettings,
+      { waitAfterVisible: 1000 }
+    );
     await utils.clickOnElement(xLogoutOption);
-    await utils.waitForElement(sAppTitle);
+    await utils.waitForElement(xAppTitle);
     expect(page.url().endsWith('/public')).toBe(true);
   });
 });

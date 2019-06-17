@@ -1,7 +1,7 @@
 module.exports = {
-  sUserSettings: 'div[class*="settingsBtn"]',
-  xLogoutOption: '//li[contains(., "Logout")]',
-  xLoginOption: '//li[contains(., "Login")]',
+  sUserSettings: '#settingsBtn',
+  xLogoutOption: '//button[contains(., "Logout")]',
+  xLoginOption: '//button[contains(., "Login")]',
   sEmailInput: 'input[name="email"]',
   sPasswordInput: 'input[name="password"]',
   xLoginBtn: '//button[contains(., "Login")]',
