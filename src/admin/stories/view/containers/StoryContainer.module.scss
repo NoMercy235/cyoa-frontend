@@ -10,7 +10,6 @@
 
   @media screen and (min-width:1071px) {
     flex-direction: row;
-    flex-wrap: wrap;
 
     div[class*="Container"]:not(:last-of-type) {
       margin-right: 10px;
