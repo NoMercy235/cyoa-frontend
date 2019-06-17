@@ -82,11 +82,10 @@ class Header extends Component {
           onClick={this.goToLanding}
         />
         <Typography
-          className={classNames(classes.appTitle, classes.clickable)}
+          className={classes.appTitle}
           variant="h6"
           color="inherit"
           noWrap
-          onClick={this.goToLanding}
         >
           Choose your own adventure!
         </Typography>
