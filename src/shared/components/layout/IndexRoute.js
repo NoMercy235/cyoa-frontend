@@ -12,7 +12,7 @@ import { ADMIN_ROUTE, LANDING_ROUTE, NOT_FOUND_ROUTE } from '../../constants/rou
 import { userService } from '../../../infrastructure/services/UserService';
 import { authService } from '../../../infrastructure/services/AuthenticationService';
 import Snackbar, { SnackbarEnum } from '../snackbar/Snackbar';
-import NotFoundCmp from '../NotFoundCmp';
+import NotFoundCmp from '../not-found/NotFoundCmp';
 import { ONLINE_STATUS_POLLING_INTERVAL } from '../../constants/global';
 import { configureIdb } from '../../idb';
 import AuthenticationModal from '../authentication/AuthenticationModal';

@@ -36,14 +36,12 @@ class ReadStoryContainer extends Component {
     history.replace(NOT_FOUND_ROUTE);
   };
 
-  getPlayer = async () => {
-    const params = { ':story': this.state.story._id };
+  getPlayer = async storyId => {
+    const params = { ':story': storyId };
     playerService.setNextRouteParams(params);
-    const player = await playerService.get(
+    return await playerService.get(
       this.props.appStore.getUserId()
     );
-    this.setState({ player });
-    return player;
   };
 
   getModifiedAttributes = option => {
@@ -103,21 +101,18 @@ class ReadStoryContainer extends Component {
 
   getStory = async storyId => {
     const options = { ignoreFields: 'coverPic' };
-    const story = await publicStoryService.get(storyId, options);
-    this.setState({ story });
+    return await publicStoryService.get(storyId, options);
   };
 
   getChapters = async storyId => {
     const params = { ':story': storyId };
     publicChapterService.setNextRouteParams(params);
-    const chapters = await publicChapterService.list({});
-    this.setState({ chapters });
+    return await publicChapterService.list({});
   };
 
-  getSequence = async seqId => {
+  getSequence = async (seqId, storyId = this.state.story._id ) => {
     const { appStore } = this.props;
-    const { story } = this.state;
-    const params = { ':story': story._id };
+    const params = { ':story': storyId };
     publicSequenceService.setNextRouteParams(params);
     try {
       const sequence = await publicSequenceService.get(seqId);
@@ -169,17 +164,23 @@ class ReadStoryContainer extends Component {
     }
 
     try {
-      await Promise.all([
+      const [story, chapters, player] = await Promise.all([
         this.getStory(storyId),
         this.getChapters(storyId),
+        this.getPlayer(storyId),
       ]);
-      const player = await this.getPlayer();
-      await this.getSequence(player.lastStorySequence);
+      await this.getSequence(player.lastStorySequence, storyId);
+      this.setState({
+        canRender: true,
+        story,
+        chapters,
+        player,
+      });
     } catch (e) {
+      console.log(e);
       // TODO: It's not always a 404. Handle different cases as well.
       this.goTo404();
     }
-    this.setState({ canRender: true });
   }
 
   renderFinished = () => {

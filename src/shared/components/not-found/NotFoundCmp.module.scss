@@ -1,0 +1,30 @@
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 30vh;
+  padding-left: 10vw;
+  padding-right: 10vw;
+
+  .notFoundText {
+    color: gray;
+  }
+
+  .goBackText {
+    word-wrap: break-word;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .goBackClickable {
+    color: cornflowerblue;
+
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+}
