@@ -55,11 +55,23 @@ export const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  logoContainer: {
+    position: 'relative',
+  },
   logoImg: {
     width: '100%',
+    height: '100%',
   },
   headerLogo: {
     height: 60,
+  },
+  sideMenuCloseBtn: {
+    [`@media (min-width: ${SCREEN_MAX_WIDTH_SM}px)`]: {
+      display: 'none',
+    },
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
   },
   clickable: {
     cursor: 'pointer',

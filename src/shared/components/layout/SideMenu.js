@@ -6,6 +6,7 @@ import {
   withStyles,
   Divider,
   Drawer,
+  IconButton,
   List,
   ListItem,
   ListItemIcon,
@@ -13,6 +14,7 @@ import {
 } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import InfoIcon from '@material-ui/icons/Info';
+import ArrowBack from '@material-ui/icons/ArrowBackOutlined';
 import ViewStoryIcon from '@material-ui/icons/Pageview';
 
 import { appStorePropTypes } from '../../store/AppStore';
@@ -48,6 +50,28 @@ class SideMenu extends Component {
   onItemClick = (item, history) => () => {
     history.push(item.route);
     this.props.onHandleDrawerClose();
+  };
+
+  renderAppLogo = () => {
+    const { classes, onHandleDrawerClose } = this.props;
+
+    return (
+      <div className={classes.logoContainer}>
+        <img
+          alt="Cover"
+          src={ttaLogo}
+          className={classes.logoImg}
+        />
+        <IconButton
+          id="closeSideMenu"
+          color="secondary"
+          className={classes.sideMenuCloseBtn}
+          onClick={onHandleDrawerClose}
+        >
+          <ArrowBack/>
+        </IconButton>
+      </div>
+    );
   };
 
   renderItem = (item) => {
@@ -86,11 +110,7 @@ class SideMenu extends Component {
           onClose={onHandleDrawerClose}
           classes={{ paper: classes.sideMenu }}
         >
-          <img
-            alt="Cover"
-            src={ttaLogo}
-            className={classes.logoImg}
-          />
+          {this.renderAppLogo()}
           <Divider />
           <List>
             {publicMenu.map(this.renderItem)}
