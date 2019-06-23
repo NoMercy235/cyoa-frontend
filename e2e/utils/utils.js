@@ -62,12 +62,12 @@ class Utils {
     await els[0].click();
   }
 
-  async waitForElement (selectorOrXPath) {
+  async waitForElement (selectorOrXPath, options = {}) {
     const isSelector = Utils.isSelector(selectorOrXPath);
     if (isSelector) {
-      await this.page.waitForSelector(selectorOrXPath);
+      await this.page.waitForSelector(selectorOrXPath, options);
     } else {
-      await this.page.waitForXPath(selectorOrXPath);
+      await this.page.waitForXPath(selectorOrXPath, options);
     }
   }
 

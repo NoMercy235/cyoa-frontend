@@ -3,7 +3,7 @@ const faker = require('faker');
 
 const sNewStoryBtn = 'button[title="New story"]';
 const xCreateStoryModalTitle = '//h6[contains(., "Create story")]';
-const xTagsInput = '//div[contains(@class, "MuiSelect-root")]/input[@name="tags"]/..';
+const xTagsInput = '//div[contains(@class, "MuiInputBase-root")]/input[@name="tags"]/..';
 const sNameInput = 'input[name="name"]';
 const sShortDescInput = 'textarea[name="shortDescription"]';
 const sLongDescInput = 'textarea[name="longDescription"]';
