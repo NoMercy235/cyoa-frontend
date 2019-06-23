@@ -10,13 +10,33 @@ import { DialogActions } from '../dialog/Actions';
 import { dialogDefaultCss } from '../dialog/Dialog.css';
 
 class ConfirmationModal extends Component {
+  static defaultProps = {
+    disableNoBtn: false,
+    disableYesBtn: false,
+    closeOnOutsideClick: false,
+  };
+
+  onClose = () => {
+    const { closeOnOutsideClick, onClose } = this.props;
+    closeOnOutsideClick && onClose();
+  };
+
   render() {
-    const { classes, title, description, open, onClose, onAccept } = this.props;
+    const {
+      classes,
+      title,
+      description,
+      open,
+      onClose,
+      onAccept,
+      disableNoBtn,
+      disableYesBtn,
+    } = this.props;
 
     return (
       <Dialog
         open={open}
-        onClose={onClose}
+        onClose={this.onClose}
         classes={{ paper: classes.dialogSize }}
       >
         <DialogTitle
@@ -31,12 +51,14 @@ class ConfirmationModal extends Component {
           <Button
             color="secondary"
             onClick={onClose}
+            disabled={disableNoBtn}
           >
             No
           </Button>
           <Button
             type="submit"
             onClick={onAccept}
+            disabled={disableYesBtn}
           >
             Yes
           </Button>
@@ -57,6 +79,9 @@ ConfirmationModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onAccept: PropTypes.func.isRequired,
+  disableNoBtn: PropTypes.bool,
+  disableYesBtn: PropTypes.bool,
+  closeOnOutsideClick: PropTypes.bool,
   appStore: appStorePropTypes,
 };
 

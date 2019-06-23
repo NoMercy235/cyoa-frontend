@@ -10,11 +10,20 @@ export function withModal(InnerComponent, Modal = ConfirmationModal) {
   class Confirmation extends Component {
     state = {
       isOpen: false,
+      shouldDisableButtons: false,
     };
 
-    onAccept = (e) => {
-      this.onHideModal(e);
-      this.props.onClick();
+    onAccept = async e => {
+      e.stopPropagation();
+      const { onClick, onPreCondition } = this.props;
+      if (onPreCondition) {
+        this.setState({ shouldDisableButtons: true });
+        const result = await onPreCondition();
+        this.setState({ shouldDisableButtons: false });
+        if (!result) return;
+      }
+      this.onHideModal();
+      onClick();
     };
 
     onShowModal = (e) => {
@@ -23,13 +32,13 @@ export function withModal(InnerComponent, Modal = ConfirmationModal) {
     };
 
     onHideModal = (e) => {
-      e.stopPropagation();
+      e && e.stopPropagation();
       this.setState({ isOpen: false });
     };
 
     render() {
       const { innerProps, children, title, description } = this.props;
-      const { isOpen } = this.state;
+      const { isOpen, shouldDisableButtons } = this.state;
 
       return (
         <>
@@ -44,7 +53,10 @@ export function withModal(InnerComponent, Modal = ConfirmationModal) {
             description={description}
             open={isOpen}
             onClose={this.onHideModal}
-            onAccept={this.onAccept}/>
+            onAccept={this.onAccept}
+            disableNoBtn={shouldDisableButtons}
+            disableYesBtn={shouldDisableButtons}
+          />
         </>
       );
     }
@@ -59,6 +71,7 @@ export function withModal(InnerComponent, Modal = ConfirmationModal) {
       PropTypes.string, PropTypes.func, PropTypes.object,
     ]).isRequired,
     onClick: PropTypes.func,
+    onPreCondition: PropTypes.func,
     innerProps: PropTypes.object,
   };
 

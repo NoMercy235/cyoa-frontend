@@ -8,22 +8,55 @@ import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import { storyViewStorePropTypes } from '../../../stores/StoryViewStore';
 import Snackbar, { SnackbarEnum } from '../../../../../shared/components/snackbar/Snackbar';
 import { withModal } from '../../../../../shared/hoc/withModal';
+import { BACKEND_ERRORS } from '../../../../../shared/constants/errors';
+
+import styles from './GeneralTab.module.scss';
 
 const HOCButton = withModal(Button);
 
 @inject('storyViewStore')
 @observer
 class PublishBtn extends Component {
+  state = { errors: [] };
   snackbarRef = React.createRef();
+
+  onCheckIfCanPublish = async () => {
+    const { story } = this.props;
+    try {
+      await storyService.checkIfCanPublish(story._id);
+      return true;
+    } catch (e) {
+      this.setState({ errors: Object.keys(e) });
+      return false;
+    }
+  };
 
   onChangePublishState = (state, message) => async () => {
     const { story } = this.props;
+
     const dbStory = await this.snackbarRef.current.executeAndShowSnackbar(
       storyService.update,
       [story._id, { published: state }],
       { variant: SnackbarEnum.Variants.Success, message }
     );
     this.props.storyViewStore.setCurrentStory(dbStory);
+  };
+
+  renderErrors = () => {
+    const { errors } = this.state;
+
+    if (!errors.length) return null;
+
+    return (
+      <>
+        <span className={styles.publishBtnErrors}>Encountered the following errors:</span>
+        <ul className={styles.publishBtnErrors}>
+          {errors.map((err, i) => {
+            return <li key={i}>{BACKEND_ERRORS[err]}</li>;
+          })}
+        </ul>
+      </>
+    );
   };
 
   renderPublishDescription = () => {
@@ -35,6 +68,7 @@ class PublishBtn extends Component {
           <li>You need to have marked one sequence as a starting sequence</li>
           <li>You need at least one sequence marked as ending sequence </li>
         </ul>
+        {this.renderErrors()}
       </>
     );
   };
@@ -49,6 +83,7 @@ class PublishBtn extends Component {
           color: 'primary',
         }}
         onClick={this.onChangePublishState(true, 'Story has been published!')}
+        onPreCondition={this.onCheckIfCanPublish}
       >
         Publish
       </HOCButton>
