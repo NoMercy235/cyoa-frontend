@@ -7,7 +7,7 @@ module.exports = {
   },
   endpoint: 'http://whereveritshosted/',
   credentials: {
-    username: 'valid username',
+    email: 'valid email',
     password: 'valid password',
   },
 };

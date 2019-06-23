@@ -21,23 +21,24 @@ describe('Authentication', () => {
   let page;
   let credentials;
   let utils;
+  let endpoint;
 
   beforeAll(async () => {
     const beforeAll = await Utils.beforeAll();
     browser = beforeAll.browser;
     page = beforeAll.page;
     credentials = beforeAll.customConfig.credentials;
+    endpoint = beforeAll.customConfig.endpoint;
 
     utils = new Utils(browser, page);
-
-    await page.goto(beforeAll.customConfig.endpoint);
   });
 
-  afterAll(() => {
-    page.close();
+  afterAll(async () => {
+    await page.close();
   });
 
   it('should not have access to the admin options', async () => {
+    await page.goto(endpoint);
     await utils.waitForElement(xAppTitle);
     await utils.clickOnElement(sMenuBtn);
     await utils.waitForElement(xPleaseLoginForAdditionalFeatures);
@@ -52,7 +53,7 @@ describe('Authentication', () => {
       { waitForElement: sEmailInput },
     );
 
-    await page.type(sEmailInput, credentials.username);
+    await page.type(sEmailInput, credentials.email);
     await page.type(sPasswordInput, credentials.password);
 
     await utils.clickOnElement(xLoginBtn);
@@ -69,7 +70,7 @@ describe('Authentication', () => {
 
   it('should log out successfully', async () => {
     await page.click(sUserSettings);
-    await utils.clickOnElement(xLogoutOption, {
+    await utils.clickOnElement(xLogoutOption(credentials.email), {
       waitForElement: xGoodbyeMessage,
     });
     await utils.closeSnackbar();
@@ -82,7 +83,7 @@ describe('Authentication', () => {
       waitForElement: sEmailInput,
     });
 
-    await page.type(sEmailInput, credentials.username);
+    await page.type(sEmailInput, credentials.email);
     await page.type(sPasswordInput, credentials.password);
 
     await utils.clickOnElement(xLoginBtn);
@@ -101,7 +102,7 @@ describe('Authentication', () => {
       sUserSettings,
       { waitAfterVisible: 1000 }
     );
-    await utils.clickOnElement(xLogoutOption);
+    await utils.clickOnElement(xLogoutOption(credentials.email));
     await utils.waitForElement(xAppTitle);
     expect(page.url().endsWith('/public')).toBe(true);
   });

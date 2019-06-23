@@ -14,6 +14,10 @@ const xStoryTableDeleteAction = storyName => `//tr[contains(@class, "MuiTableRow
 const xYesBtn = '//button[contains(., "Yes")]';
 const xStoryDeletedMessage = '//span[contains(., "Story deleted!")]';
 
+const xStoryNameTableCell = storyName => `//td[contains(@class, "MuiTableCell-root")]/span[text()="${storyName}"]`;
+const xStoryNameBreadcrumb = storyName => `//div[contains(@class, "MuiChip-root")]/span[text()="${storyName}"]`;
+const xAdminBreadcrumb = '//div[contains(@class, "MuiChip-root")]/span[text()="Admin"]';
+
 describe('AdminStory', () => {
   let browser;
   let page;
@@ -37,7 +41,7 @@ describe('AdminStory', () => {
   });
 
   afterAll(async () => {
-    await utils.logout();
+    await utils.logout(credentials);
     await page.close();
   });
 
@@ -59,6 +63,12 @@ describe('AdminStory', () => {
     await utils.clickOnElement(xSaveStoryBtn);
     await utils.closeSnackbar();
     await utils.waitForElement(xStoryTableRow(storyName));
+  });
+
+  it('should view the name of the new story', async () => {
+    await utils.clickOnElement(xStoryNameTableCell(storyName));
+    await utils.waitForElement(xStoryNameBreadcrumb(storyName));
+    await utils.clickOnElement(xAdminBreadcrumb);
   });
 
   it('should delete the created story', async () => {

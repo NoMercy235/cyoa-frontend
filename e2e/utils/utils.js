@@ -24,16 +24,16 @@ class Utils {
       { waitForElement: sEmailInput },
     );
 
-    await this.page.type(sEmailInput, credentials.username);
+    await this.page.type(sEmailInput, credentials.email);
     await this.page.type(sPasswordInput, credentials.password);
 
     await this.clickOnElement(xLoginBtn);
     await this.closeSnackbar();
   }
 
-  async logout () {
+  async logout (credentials) {
     await this.clickOnElement(sUserSettings);
-    await this.clickOnElement(xLogoutOption);
+    await this.clickOnElement(xLogoutOption(credentials.email));
     await this.closeSnackbar();
   }
 
