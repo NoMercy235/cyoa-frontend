@@ -7,7 +7,7 @@ export class AttributeModel extends BaseModel {
   isImportant = false;
   description = '';
   startValue = 0;
-  linkedEnding = '';
+  linkedEnding = null;
 
   constructor(metadata) {
     super();
@@ -34,7 +34,7 @@ export class AttributeModel extends BaseModel {
       isImportant: attribute.isImportant,
       description: attribute.description,
       startValue: attribute.startValue,
-      linkedEnding: attribute.linkedEnding.value
+      linkedEnding: attribute.linkedEnding && attribute.linkedEnding.value
         ? attribute.linkedEnding.value
         : attribute.linkedEnding,
     };

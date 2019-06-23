@@ -25,10 +25,12 @@ class PlayerTabContainer extends Component {
 
     return async () => {
       const attr =  await attributeService.get(id);
-      attr.linkedEnding = {
-        value: attr.linkedEnding._id,
-        label: attr.linkedEnding.name,
-      };
+      if (attr.linkedEnding) {
+        attr.linkedEnding = {
+          value: attr.linkedEnding._id,
+          label: attr.linkedEnding.name,
+        };
+      }
       return attr;
     };
   };
