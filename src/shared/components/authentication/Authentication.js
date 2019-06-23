@@ -35,6 +35,7 @@ class Authentication extends Component {
   };
 
   renderLogout = () => {
+    const { user } = this.props.appStore;
     const Logout = withRouter(({ history }) => (
       <>
         <Tooltip title="Logout">
@@ -42,7 +43,7 @@ class Authentication extends Component {
             onClick={this.onLogoutClick(history)}
             color="inherit"
           >
-            Logout
+            Logout ({user.email})
           </Button>
         </Tooltip>
       </>

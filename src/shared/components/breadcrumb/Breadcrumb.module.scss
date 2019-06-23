@@ -2,11 +2,28 @@
 
 .container {
   margin-bottom: 10px;
+  display: flex;
 }
 
 .breadcrumb {
   display: inline-flex;
   align-items: center;
+  overflow: hidden;
+
+  .innerBreadcrumb {
+    max-width: 100%;
+
+    & > span {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
+.flexOne {
+  flex: 1;
 }
 
 @media screen and (max-width: $SCREEN_MAX_WIDTH_SM) {

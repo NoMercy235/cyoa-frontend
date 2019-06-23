@@ -10,6 +10,8 @@ import {
   storyReadBreadcrumb,
   storyViewBreadcrumb,
 } from '../../constants/breadcrumbs';
+import { inject, observer } from 'mobx-react';
+import { storyViewStorePropTypes } from '../../../admin/story-view/stores/StoryViewStore';
 
 import styles from './Breadcrumb.module.scss';
 
@@ -43,6 +45,8 @@ const getBreadCrumbs = () => {
   }
 };
 
+@inject('storyViewStore')
+@observer
 class Breadcrumb extends Component {
   state = {
     breadcrumbs: getBreadCrumbs(),
@@ -73,25 +77,39 @@ class Breadcrumb extends Component {
     );
   };
 
+  renderBreadcrumb = (bc, i) => {
+    const label = typeof bc.label === 'function'
+      ? bc.label(this.props.storyViewStore)
+      : bc.label;
+
+    return (
+      <span
+        key={i}
+        className={classNames(styles.breadcrumb, {
+          [styles.flexOne]: bc.shouldHaveFlexOne,
+        })}
+      >
+        <Chip
+          classes={{ root: styles.innerBreadcrumb }}
+          sizes='large'
+          avatar={this.renderAvatar(bc.icon, i)}
+          label={label}
+          onClick={this.handleClick(bc, i)}
+          clickable={this.isNotLast(i)}
+          color={this.isNotLast(i) ? 'primary' : 'default'}
+          variant="outlined"
+        />
+        {this.isNotLast(i) && <span>&nbsp;&gt;&nbsp;</span>}
+      </span>
+    );
+  };
+
   render() {
     const { breadcrumbs } = this.state;
 
     return (
       <div className={styles.container}>
-        {breadcrumbs.map((bc, i) => (
-          <span key={i} className={styles.breadcrumb}>
-            <Chip
-              sizes='large'
-              avatar={this.renderAvatar(bc.icon, i)}
-              label={bc.label}
-              onClick={this.handleClick(bc, i)}
-              clickable={this.isNotLast(i)}
-              color={this.isNotLast(i) ? 'primary' : 'default'}
-              variant="outlined"
-            />
-            {this.isNotLast(i) && <span>&nbsp;&gt;&nbsp;</span>}
-          </span>
-        ))}
+        {breadcrumbs.map(this.renderBreadcrumb)}
       </div>
     );
   }
@@ -102,6 +120,8 @@ Breadcrumb.propTypes = {
   match: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+
+  storyViewStore: storyViewStorePropTypes,
 };
 
 // This is a workaround because of a CSS loading order issue present in the
