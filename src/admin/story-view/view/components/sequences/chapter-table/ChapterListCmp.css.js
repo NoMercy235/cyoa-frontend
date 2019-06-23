@@ -18,6 +18,7 @@ export const styles = theme => ({
     height: theme.spacing(7),
     '& > div[class*="MuiListItemText-root"]': {
       paddingLeft: 0,
+      wordBreak: 'break-all',
     },
   },
   chapterName: {
