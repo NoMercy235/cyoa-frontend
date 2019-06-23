@@ -1,7 +1,7 @@
 const Utils = require('./utils/utils');
 const DataMock = require('./utils/dataGenerator');
 
-const xStoryBoxes = '//div[contains(@class, "StoryBox")]';
+const xStoryBoxes = '//div[contains(@class, "storiesContainer")]/child::node()';
 const sQuickSearchInput = 'input[placeholder="Search..."]';
 const sProgressBar = '#nprogress';
 

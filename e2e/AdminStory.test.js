@@ -3,7 +3,7 @@ const faker = require('faker');
 
 const sNewStoryBtn = 'button[title="New story"]';
 const xCreateStoryModalTitle = '//h6[contains(., "Create story")]';
-const xTagsInput = '//div[contains(@class, "MuiInputBase-root")]/input[@name="tags"]/..';
+const xTagsInput = '//div[contains(@class, "MuiSelect-root")]/input[@name="tags"]/..';
 const sNameInput = 'input[name="name"]';
 const sShortDescInput = 'textarea[name="shortDescription"]';
 const sLongDescInput = 'textarea[name="longDescription"]';
@@ -53,7 +53,9 @@ describe('AdminStory', () => {
 
     storyName = faker.random.words(5);
 
-    await utils.clickOnElement(xTagsInput);
+    await utils.clickOnElement(xTagsInput, {
+      waitAfterVisible: 100,
+    });
     await utils.clickOnElement(xAdventureListItem);
     await utils.clickOnElement(xCreateStoryModalTitle);
     await page.type(sNameInput, storyName);
