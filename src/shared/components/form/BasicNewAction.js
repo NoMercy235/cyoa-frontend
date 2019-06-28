@@ -23,18 +23,20 @@ class BasicNewAction extends Component {
       className,
       tooltip, innerProps,
       modalComponent: ModalComponent,
+      disabled,
     } = this.props;
     const { modalOpen } = this.state;
     return (
       <>
-        <Tooltip title={tooltip}>
-          <IconButton
-            className={className}
-            onClick={this.onShowModal}
-          >
+        <IconButton
+          className={className}
+          onClick={this.onShowModal}
+          disabled={disabled}
+        >
+          <Tooltip title={tooltip}>
             <AddIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
+          </Tooltip>
+        </IconButton>
 
         <ModalComponent
           open={modalOpen}
@@ -50,6 +52,7 @@ BasicNewAction.propTypes = {
   className: PropTypes.string,
   tooltip: PropTypes.string.isRequired,
   modalComponent: PropTypes.object.isRequired,
+  disabled: PropTypes.bool,
   innerProps: PropTypes.object,
   onModalOpen: PropTypes.func,
   onModalClose: PropTypes.func,

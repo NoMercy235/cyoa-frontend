@@ -28,7 +28,13 @@ class BasicEditAction extends Component {
   };
 
   render() {
-    const { modalComponent, resourceName, tooltip, innerProps } = this.props;
+    const {
+      modalComponent,
+      resourceName,
+      tooltip,
+      innerProps,
+      disabled,
+    } = this.props;
     const { resource, modalOpen } = this.state;
 
     const ModalComponent = modalComponent;
@@ -40,6 +46,7 @@ class BasicEditAction extends Component {
       <>
         <IconButton
           onClick={this.onShowModal}
+          disabled={disabled}
         >
           <Tooltip title={tooltip || 'Edit'}>
             <EditIcon fontSize="small" />
@@ -62,6 +69,7 @@ BasicEditAction.propTypes = {
   resource: PropTypes.object.isRequired,
   tooltip: PropTypes.string,
   modalComponent: PropTypes.object.isRequired,
+  disabled: PropTypes.bool,
   getBeforeModal: PropTypes.func,
   onModalOpen: PropTypes.func,
   onModalClose: PropTypes.func,

@@ -17,9 +17,14 @@ import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import BasicReorderAction from '../../../../../../shared/components/form/BasicReorderAction';
 import { parseContent } from '../../../../../../shared/utilities';
 import { chapterService } from '../../../../../../infrastructure/services/ChapterService';
+import withDisabledStoryPublished from '../../../../../../shared/hoc/withDisabledStoryPublished';
 
 import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
 import { styles as customStyles } from './SequenceTableCmp.css';
+
+const BasicNewBtnWithDisabledState = withDisabledStoryPublished(BasicNewAction);
+const BasicEditBtnWithDisabledState = withDisabledStoryPublished(BasicEditAction);
+const BasicDeleteBtnWithDisabledState = withDisabledStoryPublished(DeleteRow);
 
 @observer
 class SequenceTableCmp extends Component {
@@ -52,14 +57,14 @@ class SequenceTableCmp extends Component {
           disableUp={index === 0}
           disableDown={index === sequences.length - 1}
         />}
-        <BasicEditAction
+        <BasicEditBtnWithDisabledState
           resourceName="sequence"
           resource={row}
           modalComponent={SaveSequenceModal}
           onModalOpen={this.getAllChapters}
           innerProps={{ story, chapters, selectedChapterId, isStartSeq: this.isStartSeq(row) }}
         />
-        <DeleteRow
+        <BasicDeleteBtnWithDisabledState
           title="Delete confirmation"
           description="Are you sure you want to delete this sequence?"
           onClick={this.onDeleteSequence(row._id)}
@@ -71,9 +76,9 @@ class SequenceTableCmp extends Component {
   renderOptionsTable = (rowData) => {
     const {
       classes,
+      sequences,
       onEditOption,
       onDeleteOption,
-      sequences,
     } = this.props;
     const colSpan = SequenceModel.getTableColumns().length;
     const rowSeqId = rowData[0];
@@ -84,11 +89,13 @@ class SequenceTableCmp extends Component {
       <tr>
         <td colSpan={colSpan} className={classes.optionsTableContainer}>
           {parseContent(sequence.content)}
-          {!sequence.isEnding && <OptionTableCmp
-            sequence={sequence}
-            onEditOption={onEditOption}
-            onDeleteOption={onDeleteOption}
-          />}
+          {!sequence.isEnding && (
+            <OptionTableCmp
+              sequence={sequence}
+              onEditOption={onEditOption}
+              onDeleteOption={onDeleteOption}
+            />
+          )}
         </td>
       </tr>
     );
@@ -145,7 +152,7 @@ class SequenceTableCmp extends Component {
       },
       customToolbar: () => {
         return (
-          <BasicNewAction
+          <BasicNewBtnWithDisabledState
             tooltip="New sequence"
             modalComponent={SaveSequenceModal}
             innerProps={{ story, chapters, selectedChapterId, isStartSeq: false }}

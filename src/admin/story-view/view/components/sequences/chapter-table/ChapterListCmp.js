@@ -8,8 +8,11 @@ import BasicNewAction from '../../../../../../shared/components/form/BasicNewAct
 import { renderChaptersListTitle } from './ChaptersListTitle';
 import SaveChapterModal from '../save-chapter/SaveChapterModal';
 import { ChapterModel } from '../../../../../../infrastructure/models/ChapterModel';
+import withDisabledStoryPublished from '../../../../../../shared/hoc/withDisabledStoryPublished';
 
 import { styles as customStyles } from './ChapterListCmp.css';
+
+const BasicNewBtnWithDisabledState = withDisabledStoryPublished(BasicNewAction);
 
 @observer
 class ChapterListCmp extends Component {
@@ -30,7 +33,7 @@ class ChapterListCmp extends Component {
           noWrap
         >
           <span>{renderChaptersListTitle()}</span>
-          <BasicNewAction
+          <BasicNewBtnWithDisabledState
             className={classes.chapterAddBtn}
             tooltip="New chapter"
             modalComponent={SaveChapterModal}

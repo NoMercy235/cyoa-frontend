@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import * as PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import { Tooltip, Typography } from '@material-ui/core';
+
+import { appStorePropTypes } from '../store/AppStore';
 
 export default function withOnlineCheck(WrappedCmp) {
   @inject('appStore')
@@ -61,6 +64,12 @@ export default function withOnlineCheck(WrappedCmp) {
         : this.renderDisabledWrappedCmp();
     }
   }
+
+  OnlineCheckedComponent.propTypes = {
+    propName: PropTypes.string.isRequired,
+
+    appStore: appStorePropTypes,
+  };
 
   return OnlineCheckedComponent;
 }

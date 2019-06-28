@@ -1,6 +1,8 @@
 export const ERRORS = {
   fieldRequired: 'This field is required',
   fileTooLarge: 'The file is too large',
+
+  cannotPerformActionWhileStoryPublished: 'Cannot perform action while story is published',
 };
 
 export const BACKEND_ERRORS = {

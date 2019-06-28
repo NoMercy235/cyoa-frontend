@@ -12,8 +12,13 @@ import SaveAttributeModal from './save-attribute/SaveAttributeModal';
 import BasicEditAction from '../../../../../shared/components/form/BasicEditAction';
 import { renderAttributesTableTitle } from './AttributesTableTitle';
 import YesNoCmp from '../../../../../shared/components/table/YesNoCmp';
+import withDisabledStoryPublished from '../../../../../shared/hoc/withDisabledStoryPublished';
 
 import { styles as tableStyles } from '../../../../../shared/components/table/TableCmp.css';
+
+const BasicNewBtnWithDisabledState = withDisabledStoryPublished(BasicNewAction);
+const BasicEditBtnWithDisabledState = withDisabledStoryPublished(BasicEditAction);
+const BasicDeleteBtnWithDisabledState = withDisabledStoryPublished(DeleteRow);
 
 @observer
 class AttributesTableCmp extends Component {
@@ -31,13 +36,13 @@ class AttributesTableCmp extends Component {
     return (
       <div key={row._id} className={classes.actionsContainer}>
         <ViewRow onClick={this.onSelectAttribute(row._id)}/>
-        <BasicEditAction
+        <BasicEditBtnWithDisabledState
           resourceName="attribute"
           resource={row}
           modalComponent={SaveAttributeModal}
           getBeforeModal={onEditAttribute(row._id)}
         />
-        <DeleteRow
+        <BasicDeleteBtnWithDisabledState
           title="Delete confirmation"
           description="Are you sure you want to delete this attribute?"
           onClick={this.onDeleteAttribute(row._id)}
@@ -66,7 +71,7 @@ class AttributesTableCmp extends Component {
     const options = {
       customToolbar: () => {
         return (
-          <BasicNewAction
+          <BasicNewBtnWithDisabledState
             tooltip="New attribute"
             modalComponent={SaveAttributeModal}
           />

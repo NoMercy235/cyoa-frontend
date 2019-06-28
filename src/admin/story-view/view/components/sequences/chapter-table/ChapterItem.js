@@ -16,8 +16,13 @@ import SelectedIcon from '@material-ui/icons/KeyboardArrowRight';
 import SaveChapterModal from '../save-chapter/SaveChapterModal';
 import BasicEditAction from '../../../../../../shared/components/form/BasicEditAction';
 import DeleteRow from '../../../../../../shared/components/table/actions/DeleteRow';
+import withDisabledStoryPublished from '../../../../../../shared/hoc/withDisabledStoryPublished';
+import { ChapterModel } from '../../../../../../infrastructure/models/ChapterModel';
 
 import { styles as customStyles } from './ChapterListCmp.css';
+
+const BasicEditBtnWithDisabledState = withDisabledStoryPublished(BasicEditAction);
+const BasicDeleteBtnWithDisabledState = withDisabledStoryPublished(DeleteRow);
 
 class ChapterItem extends Component {
   state = {
@@ -54,7 +59,7 @@ class ChapterItem extends Component {
   renderEditAction = () => {
     const { chapter } = this.props;
     return !this.isDefaultChapter() && (
-      <BasicEditAction
+      <BasicEditBtnWithDisabledState
         resourceName="chapter"
         resource={chapter}
         modalComponent={SaveChapterModal}
@@ -65,7 +70,7 @@ class ChapterItem extends Component {
 
   renderDeleteAction = () => {
     return !this.isDefaultChapter() && (
-      <DeleteRow
+      <BasicDeleteBtnWithDisabledState
         title="Delete confirmation"
         description="Are you sure you want to delete this chapter?"
         onClick={this.onDeleteRow}
@@ -136,7 +141,7 @@ class ChapterItem extends Component {
 
 ChapterItem.propTypes = {
   classes: PropTypes.object,
-  chapter: PropTypes.object.isRequired,
+  chapter: PropTypes.instanceOf(ChapterModel).isRequired,
   selectedChapterId: PropTypes.string.isRequired,
   onDeleteRow: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,

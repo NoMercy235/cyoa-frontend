@@ -9,12 +9,13 @@ const IconButtonHOC = withModal(IconButton);
 
 class DeleteRow extends Component {
   render() {
-    const { title, description, tooltip, onClick } = this.props;
+    const { title, description, tooltip, onClick, disabled } = this.props;
     return (
       <IconButtonHOC
         title={title}
         description={description}
         onClick={onClick}
+        innerProps={{ disabled }}
       >
         <Tooltip title={tooltip || 'Delete'}>
           <DeleteIcon fontSize="small" />
@@ -28,6 +29,7 @@ DeleteRow.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   tooltip: PropTypes.string,
+  disabled: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
 };
 

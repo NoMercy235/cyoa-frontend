@@ -15,9 +15,13 @@ import BasicEditAction from '../../../../../../shared/components/form/BasicEditA
 import { ADMIN_STORY_VIEW_ROUTE, makePath } from '../../../../../../shared/constants/routes';
 import { renderStoriesTableTitle } from './StoriesTableTitle';
 import YesNoCmp from '../../../../../../shared/components/table/YesNoCmp';
+import withDisabledStoryPublished from '../../../../../../shared/hoc/withDisabledStoryPublished';
 
 import { styles as storiesTableStyles } from './StoriesTableCmp.css';
 import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
+
+const BasicEditBtnWithDisabledState = withDisabledStoryPublished(BasicEditAction);
+const BasicDeleteBtnWithDisabledState = withDisabledStoryPublished(DeleteRow);
 
 @observer
 class StoriesTableCmp extends Component {
@@ -64,15 +68,17 @@ class StoriesTableCmp extends Component {
     return (
       <div key={row._id} className={this.props.classes.actionsContainer}>
         {this.renderSeeIcon(row)}
-        <BasicEditAction
+        <BasicEditBtnWithDisabledState
           resourceName="story"
           resource={row}
           modalComponent={SaveStoryModal}
+          storyPublished={row.published}
         />
-        <DeleteRow
+        <BasicDeleteBtnWithDisabledState
           title="Delete confirmation"
           description="Are you sure you want to delete this story?"
           onClick={this.onDeleteStory(row._id)}
+          storyPublished={row.published}
         />
       </div>
     );

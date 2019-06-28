@@ -14,8 +14,13 @@ import BasicEditAction from '../../../../../../shared/components/form/BasicEditA
 import DeleteRow from '../../../../../../shared/components/table/actions/DeleteRow';
 import { renderOptionTableTitle } from './OptionTableTitle';
 import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
+import withDisabledStoryPublished from '../../../../../../shared/hoc/withDisabledStoryPublished';
 
 import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
+
+const BasicNewBtnWithDisabledState = withDisabledStoryPublished(BasicNewAction);
+const BasicEditBtnWithDisabledState = withDisabledStoryPublished(BasicEditAction);
+const BasicDeleteBtnWithDisabledState = withDisabledStoryPublished(DeleteRow);
 
 @inject('storyViewStore')
 @observer
@@ -81,7 +86,7 @@ class OptionTableCmp extends Component {
 
     return (
       <div key={row._id} className={classes.actionsContainer}>
-        <BasicEditAction
+        <BasicEditBtnWithDisabledState
           ref={this.editRef}
           resourceName="option"
           resource={row}
@@ -89,7 +94,7 @@ class OptionTableCmp extends Component {
           innerProps={{ sequenceId: seqId }}
           getBeforeModal={this.onEditOption(row._id)}
         />
-        <DeleteRow
+        <BasicDeleteBtnWithDisabledState
           title="Delete confirmation"
           description="Are you sure you want to delete this attribute?"
           onClick={this.onDeleteOption(row._id)}
@@ -124,7 +129,7 @@ class OptionTableCmp extends Component {
       },
       customToolbar: () => {
         return (
-          <BasicNewAction
+          <BasicNewBtnWithDisabledState
             tooltip="New option"
             modalComponent={SaveOptionModal}
             innerProps={{ sequenceId: sequence._id }}
