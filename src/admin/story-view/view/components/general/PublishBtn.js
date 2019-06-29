@@ -31,12 +31,12 @@ class PublishBtn extends Component {
     }
   };
 
-  onChangePublishState = (state, message) => async () => {
+  onChangePublishState = (published, message) => async () => {
     const { story } = this.props;
 
     const dbStory = await this.snackbarRef.current.executeAndShowSnackbar(
-      storyService.update,
-      [story._id, { published: state }],
+      storyService.publish,
+      [story._id, published ],
       { variant: SnackbarEnum.Variants.Success, message }
     );
     this.props.storyViewStore.setCurrentStory(dbStory);
@@ -95,8 +95,8 @@ class PublishBtn extends Component {
       <>
         <span>Please note the following:</span>
         <ul>
-          <li>Any users currently reading the story will still be able to continue reading it</li>
-          <li>Players in possession of the shared link will still be able to access the story</li>
+          <li>The story will not be accessible to anyone, even if they have the link to it</li>
+          <li>Any players associated to the story will be deleted</li>
         </ul>
       </>
     );

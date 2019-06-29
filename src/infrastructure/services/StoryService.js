@@ -23,7 +23,15 @@ class StoryService extends BaseService {
   };
 
   update = (id, story) => {
-    return super.update(id, story).then(c => new StoryModel(c));
+    return super.update(id, story).then(s => new StoryModel(s));
+  };
+
+  publish = (id, published) => {
+    const url = `${this.endpoint}/${id}/publish`;
+    return this.client
+      .put(url, { published })
+      .then(BaseService.onSuccess)
+      .then(s => new StoryModel(s));
   };
 
   checkIfCanPublish = id => {
