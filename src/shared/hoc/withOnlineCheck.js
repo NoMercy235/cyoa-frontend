@@ -9,6 +9,10 @@ export default function withOnlineCheck(WrappedCmp) {
   @inject('appStore')
   @observer
   class OnlineCheckedComponent extends Component {
+    static defaultProps = {
+      propName: 'disabled',
+    };
+
     renderTooltip = () => {
       return (
         <Typography
@@ -24,13 +28,14 @@ export default function withOnlineCheck(WrappedCmp) {
       const newProps = Object.assign({}, this.props);
       delete newProps.staticContext;
       delete newProps.appStore;
+      delete newProps.propName;
       return newProps;
     };
 
     renderWrappedCmp = () => {
       const {
         appStore,
-        propName = 'disabled',
+        propName,
         children,
       } = this.props;
 
@@ -66,7 +71,7 @@ export default function withOnlineCheck(WrappedCmp) {
   }
 
   OnlineCheckedComponent.propTypes = {
-    propName: PropTypes.string.isRequired,
+    propName: PropTypes.string,
 
     appStore: appStorePropTypes,
   };
