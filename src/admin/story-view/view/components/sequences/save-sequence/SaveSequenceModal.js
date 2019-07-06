@@ -52,7 +52,7 @@ class SaveSequenceModal extends Component {
       'Sequence saved!',
     );
     if (sequence.chapter === this.props.selectedChapterId) {
-      this.props.storyViewStore.addSequence(sequence);
+      await this.props.storyViewStore.serviceGetSequences();
     }
     return sequence;
   };

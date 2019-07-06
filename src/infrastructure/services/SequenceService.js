@@ -13,9 +13,16 @@ class SequenceService extends BaseService {
     });
   };
 
-  list = (filters, sort) => {
-    return super.list(filters, sort).then(sequences => {
-      return sequences.map(s => new SequenceModel(s));
+  list = (filters, sort, pagination) => {
+    return super.list(filters, sort, pagination).then(response => {
+      if (pagination) {
+        return {
+          page: response.page,
+          total: response.total,
+          sequences: response.data.map(s => new SequenceModel(s)),
+        };
+      }
+      return response.map(s => new SequenceModel(s));
     });
   };
 

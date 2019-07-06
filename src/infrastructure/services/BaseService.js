@@ -69,11 +69,12 @@ export class BaseService {
     this.delete = this.delete.bind(this);
   }
 
-  list(filters = {}, sort = {}) {
+  list(filters = {}, sort = {}, pagination) {
     let query = '';
 
     query += BaseService.parseFilters(filters);
     query += BaseService.parseSort(sort);
+    query += BaseService.parsePagination(pagination);
 
     let url = this.withRouteParams(this.endpoint + '?' + query);
     return this.client.get(url).then(BaseService.onSuccess);
@@ -154,6 +155,15 @@ export class BaseService {
       const b = encodeURIComponent('sort[order]') + `=${sort[key]}`;
       result += [a, b, ''].join('&');
     });
+    return result;
+  }
+
+  static parsePagination (pagination) {
+    let result = '';
+    if (!pagination) return result;
+    const a = encodeURIComponent('pagination[page]') + `=${pagination.page}`;
+    const b = encodeURIComponent('pagination[limit]') + `=${pagination.limit}`;
+    result += [a, b, ''].join('&');
     return result;
   }
 }
