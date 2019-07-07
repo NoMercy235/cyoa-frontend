@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import { withRouter } from 'react-router-dom';
-import { withStyles, Button, Tooltip } from '@material-ui/core';
+import { withStyles, Typography } from '@material-ui/core';
 
 import { appStorePropTypes } from '../../store/AppStore';
 
@@ -20,33 +20,27 @@ class Authentication extends Component {
   };
 
   renderLogin = () => {
-    const { classes } = this.props;
     return (
-      <>
-        <Button
-          onClick={this.onLoginClick}
-          color="inherit"
-        >
-          Login
-        </Button>
-        <div className={classes.mainAuthArea}/>
-      </>
+      <Typography
+        variant="button"
+        onClick={this.onLoginClick}
+        color="inherit"
+      >
+        Login
+      </Typography>
     );
   };
 
   renderLogout = () => {
     const { user } = this.props.appStore;
     const Logout = withRouter(({ history }) => (
-      <>
-        <Tooltip title="Logout">
-          <Button
-            onClick={this.onLogoutClick(history)}
-            color="inherit"
-          >
-            Logout ({user.email})
-          </Button>
-        </Tooltip>
-      </>
+      <Typography
+        variant="button"
+        onClick={this.onLogoutClick(history)}
+        color="inherit"
+      >
+        Logout ({user.email})
+      </Typography>
     ));
     return <Logout />;
   };
