@@ -1,5 +1,6 @@
 import React from 'react';
 import { createMuiTheme, Typography } from '@material-ui/core';
+import { runInAction } from 'mobx';
 
 export const parseContent = (content, options = {}) => {
   return content.split('\n').map((line, i) => {
@@ -59,3 +60,59 @@ export const getMainMuiTheme = (asTheme = true) => {
 
   return asTheme ? createMuiTheme(options) : options;
 };
+
+export class QueryParams {
+  static defaultPagination = { page: 0, limit: 10 };
+
+  filters = {};
+  sort = {};
+  pagination = {};
+
+  constructor (options) {
+    if (options.pagination) {
+      this.pagination = options.pagination;
+    }
+  }
+
+  addFilter ({ name, op, value }, options = {}) {
+    runInAction(() => {
+      this.filters[name] = { op, value, options };
+    });
+  }
+
+  setFilter (filters) {
+    runInAction(() => {
+      this.filters = filters;
+    });
+  }
+
+  setSort ({ field, order }) {
+    runInAction(() => {
+      this.sort = field
+        ? { [field]: order }
+        : {};
+    });
+  }
+
+  setPagination (pagination) {
+    runInAction(() => {
+      this.pagination = Object.assign(
+        {},
+        this.pagination,
+        pagination
+      );
+    });
+  }
+
+  refreshPage () {
+    runInAction(() => {
+      this.pagination.page = 0;
+    });
+  }
+
+  reset () {
+    this.setFilter({});
+    this.setSort({});
+    this.setPagination(QueryParams.defaultPagination);
+  }
+}

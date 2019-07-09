@@ -87,7 +87,7 @@ class Header extends Component {
           color="inherit"
           noWrap
         >
-          Choose your own adventure!
+          Mynona
         </Typography>
       </>
     );

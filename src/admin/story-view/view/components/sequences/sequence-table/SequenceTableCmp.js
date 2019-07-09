@@ -45,8 +45,13 @@ class SequenceTableCmp extends Component {
     this.props.onMoveSeqDown(seq);
   };
 
-  getActions = (row, index) => {
-    const { classes, sequences, story, selectedChapterId } = this.props;
+  getActions = row => {
+    const {
+      classes,
+      queryParams,
+      story,
+      selectedChapterId,
+    } = this.props;
     const { chapters, canReorder } = this.state;
 
     return (
@@ -54,8 +59,8 @@ class SequenceTableCmp extends Component {
         {canReorder && <BasicReorderAction
           onMoveUp={this.onMoveSeqUp(row)}
           onMoveDown={this.onMoveSeqDown(row)}
-          disableUp={index === 0}
-          disableDown={index === sequences.length - 1}
+          disableUp={row.order === 0}
+          disableDown={row.order === queryParams.pagination.total - 1}
         />}
         <BasicEditBtnWithDisabledState
           resourceName="sequence"
@@ -127,7 +132,14 @@ class SequenceTableCmp extends Component {
   };
 
   render() {
-    const { sequences, story, selectedChapterId, className } = this.props;
+    const {
+      className,
+      sequences,
+      queryParams,
+      story,
+      selectedChapterId,
+      onChangePage,
+    } = this.props;
     const { chapters } = this.state;
     const columns = SequenceModel.getTableColumns();
 
@@ -142,6 +154,12 @@ class SequenceTableCmp extends Component {
     const options = {
       expandableRows: true,
       renderExpandableRow: this.renderOptionsTable,
+      pagination: true,
+      page: queryParams.pagination.page,
+      count: queryParams.pagination.total,
+      rowsPerPageOptions: [5, 10, 15],
+      rowsPerPage: 10,
+      onChangePage: onChangePage,
       onTableChange: (action, tableState) => {
         if (action !== 'expandRow') return;
         if (tableState.expandedRows.data.length && this.state.canReorder) {
@@ -179,12 +197,17 @@ SequenceTableCmp.propTypes = {
   className: PropTypes.string,
   story: PropTypes.instanceOf(StoryModel),
   sequences: PropTypes.arrayOf(PropTypes.instanceOf(SequenceModel)),
+  queryParams: PropTypes.shape({
+    page: PropTypes.number,
+    limit: PropTypes.number,
+  }).isRequired,
   selectedChapterId: PropTypes.string.isRequired,
   onDeleteSequence: PropTypes.func.isRequired,
   onEditOption: PropTypes.func.isRequired,
   onDeleteOption: PropTypes.func.isRequired,
   onMoveSeqUp: PropTypes.func.isRequired,
   onMoveSeqDown: PropTypes.func.isRequired,
+  onChangePage: PropTypes.func.isRequired,
 };
 
 export default withStyles(theme => ({

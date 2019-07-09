@@ -23,29 +23,23 @@ class SequenceTabContainer extends Component {
   snackbarRef = React.createRef();
 
   getSequences = async (chapterId = '') => {
-    const params = { ':story': this.props.match.params.id };
+    const { storyViewStore, match } = this.props;
+
+    const params = { ':story': match.params.id };
     sequenceService.setNextRouteParams(params);
 
-    let filters = {};
-
-    this.setState({ selectedChapterId: chapterId });
-    filters.chapter = {
-      op: 'equals',
-      value: chapterId,
-      options: {
-        allowEmpty: true,
-      },
-    };
-
-    const sequences = await sequenceService.list(
-      filters,
-      { order: 'asc' },
+    storyViewStore.queryParams.sequences.addFilter(
+      { name: 'chapter', op: 'equals', value: chapterId },
+      { allowEmpty: true }
     );
-    this.props.storyViewStore.setSequences(sequences);
+    this.setState({ selectedChapterId: chapterId });
+    await storyViewStore.serviceGetSequences();
   };
 
   onDeleteSequence = async sequenceId => {
-    const params = { ':story': this.props.story._id };
+    const { story, storyViewStore } = this.props;
+
+    const params = { ':story': story._id };
     sequenceService.setNextRouteParams(params);
     await this.snackbarRef.current.executeAndShowSnackbar(
       sequenceService.delete,
@@ -55,7 +49,7 @@ class SequenceTabContainer extends Component {
         message: 'Sequence deleted!',
       },
     );
-    this.props.storyViewStore.removeSequence(sequenceId);
+    await storyViewStore.serviceGetSequences();
   };
 
   onEditOption = async (sequenceId, optionId) => {
@@ -95,10 +89,8 @@ class SequenceTabContainer extends Component {
   onUpdateSequence = async sequences => {
     const params = { ':story': this.props.story._id };
     sequenceService.setNextRouteParams(params);
-    const dbSequences = await sequenceService.updateOrder(sequences);
-    await Promise.all(dbSequences.map(dbSeq => {
-      return this.props.storyViewStore.updateSequenceInPlace(dbSeq._id, { order: dbSeq.order });
-    }));
+    await sequenceService.updateOrder(sequences);
+    await this.props.storyViewStore.serviceGetSequences();
     this.snackbarRef.current.showSnackbar({
       variant: SnackbarEnum.Variants.Success,
       message: 'Order has been updated',
@@ -152,16 +144,40 @@ class SequenceTabContainer extends Component {
     ]);
   };
 
+  onChangeSequencesPage = async currentPage => {
+    const { storyViewStore: { queryParams } } = this.props;
+
+    queryParams.sequences.setPagination({ page: currentPage });
+    await this.getSequences(this.state.selectedChapterId);
+  };
+
   componentDidMount () {
-    const { story } = this.props;
+    const { story, storyViewStore } = this.props;
     const params = { ':story': story._id };
     chapterService.setNextRouteParams(params);
+
+    // Set the default sort. This can't be changed from the UI yet.
+    storyViewStore.queryParams.sequences.setSort({
+      field: 'order', order: 'asc',
+    });
+
     this.getSequences();
     this.getChapters();
   }
 
+  componentWillUnmount () {
+    const { storyViewStore } = this.props;
+
+    storyViewStore.queryParams.sequences.reset();
+    storyViewStore.setSequences([]);
+    storyViewStore.setChapters([]);
+  }
+
   render() {
-    const { storyViewStore: { sequencesInOrder, chapters }, story } = this.props;
+    const {
+      story,
+      storyViewStore: { sequencesInOrder, chapters, queryParams },
+    } = this.props;
     const { selectedChapterId } = this.state;
 
     return (
@@ -178,12 +194,14 @@ class SequenceTabContainer extends Component {
             className={classes.sequencesTable}
             story={story}
             sequences={sequencesInOrder}
+            queryParams={queryParams.sequences}
             selectedChapterId={selectedChapterId}
             onDeleteSequence={this.onDeleteSequence}
             onEditOption={this.onEditOption}
             onDeleteOption={this.onDeleteOption}
             onMoveSeqUp={this.onMoveSeqUp}
             onMoveSeqDown={this.onMoveSeqDown}
+            onChangePage={this.onChangeSequencesPage}
           />
         </div>
         <Snackbar innerRef={this.snackbarRef}/>
