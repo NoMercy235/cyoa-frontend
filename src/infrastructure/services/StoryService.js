@@ -2,6 +2,7 @@ import { BaseService } from './BaseService';
 import { StoryModel } from '../models/StoryModel';
 import { SequenceModel } from '../models/SequenceModel';
 import { OptionModel } from '../models/OptionModel';
+import { QueryParams } from '../../shared/utilities';
 
 class StoryService extends BaseService {
   endpoint = 'api/story';
@@ -42,14 +43,19 @@ class StoryService extends BaseService {
 
 
 class PublicStoryService extends BaseService {
+  static adaptResponse = QueryParams.adaptResponse({
+    resource: 'stories',
+    ResourceModel: StoryModel,
+  });
+
   endpoint = 'public/story';
   quickEndpoint = 'public/story/quick';
   offlineEndpoint = 'public/story/offline';
 
-  list = (filters = {}) => {
-    return super.list(filters).then(stories => {
-      return stories.map(s => new StoryModel(s));
-    });
+  list = (filters, sort, pagination) => {
+    return super
+      .list(filters, sort, pagination)
+      .then(PublicStoryService.adaptResponse);
   };
 
   quickList = async (value) => {
@@ -57,11 +63,9 @@ class PublicStoryService extends BaseService {
     const url = `${this.quickEndpoint}?${quickSearch}`;
 
     return await this.client
-      .get(url)
+      .get(`${url}&${BaseService.parsePagination(QueryParams.defaultPagination)}`)
       .then(BaseService.onSuccess)
-      .then(stories => {
-        return stories.map(s => new StoryModel(s));
-      });
+      .then(PublicStoryService.adaptResponse);
   };
 
   get = (id, options) => {
@@ -81,7 +85,7 @@ class PublicStoryService extends BaseService {
           options: instanced ? options.map(o => new OptionModel(o)) : options,
         };
       });
-  }
+  };
 }
 
 export const storyService = new StoryService();

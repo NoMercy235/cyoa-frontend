@@ -115,4 +115,12 @@ export class QueryParams {
     this.setSort({});
     this.setPagination(QueryParams.defaultPagination);
   }
+
+  static adaptResponse ({ resource, ResourceModel }) {
+    return response => ({
+      page: response.page,
+      total: response.total,
+      [resource]: response.data.map(d => new ResourceModel(d)),
+    });
+  }
 }

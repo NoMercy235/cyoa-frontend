@@ -2,6 +2,7 @@ import * as PropTypes from 'prop-types';
 import { action, computed, observable } from 'mobx';
 
 import { UserModel } from '../../infrastructure/models/UserModel';
+import { QueryParams } from '../utilities';
 
 const makeRandomId = function () {
   return Math.random().toString().substring(2);
@@ -13,6 +14,13 @@ class AppStore {
   @observable onlineStatus = true;
   @observable canUseIdb;
   @observable isAuthModalOpen = false;
+
+  @observable queryParams = {
+    publicStories: new QueryParams({
+      pagination: { page: 0, limit: 10, total: 0 },
+    }),
+  };
+
   localId = '';
 
   @action generateLocalId = () => {

@@ -18,11 +18,12 @@ import styles from './LandingContainer.module.scss';
 class LandingContainer extends Component {
   snackbarRef = React.createRef();
 
-  getStories = async filters => {
+  getStories = async () => {
     const { appStore, publicStoryStore } = this.props;
+    const { filters, sort, pagination } = appStore.queryParams.publicStories;
 
-    const stories = await publicStoryService.list(filters);
-    publicStoryStore.setStories(stories);
+    const { stories } = await publicStoryService.list(filters, sort, pagination);
+
     // For each story that has been saved offline, update it with new data
     if (appStore.onlineStatus) {
       stories.forEach(async s => {
@@ -30,6 +31,8 @@ class LandingContainer extends Component {
         if (isOffline) await s.saveOffline();
       });
     }
+
+    publicStoryStore.setStories(stories);
   };
 
   makeStoryAvailableOffline = async (story, isAvailableOffline) => {

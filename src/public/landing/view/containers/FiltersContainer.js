@@ -42,7 +42,7 @@ class FiltersContainer extends Component {
       currentAdvancedFilters: advancedFilterInitialValues,
     });
 
-    const stories = await debouncedQuickList(value);
+    const { stories } = await debouncedQuickList(value);
     this.setStories(stories);
   };
 
