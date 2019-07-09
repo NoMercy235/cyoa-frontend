@@ -13,8 +13,8 @@ COPY ./config/default.conf /etc/nginx/conf.d/default.conf
 # COPY ./config/nginx.conf /etc/nginx/nginx.conf
 
 COPY ./config/ssl.conf /config/nginx/ssl.conf
-COPY ./certs/fullchain.pem /config/keys/letsencrypt/fullchain.pem
-COPY ./certs/privkey.pem /config/keys/letsencrypt/privkey.pem
+# COPY ./certs/fullchain.pem /config/keys/letsencrypt/fullchain.pem
+# COPY ./certs/privkey.pem /config/keys/letsencrypt/privkey.pem
 
 EXPOSE $PORT
 
