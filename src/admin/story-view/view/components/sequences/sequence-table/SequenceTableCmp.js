@@ -131,6 +131,7 @@ class SequenceTableCmp extends Component {
 
   render() {
     const {
+      tableRef,
       className,
       sequences,
       queryParams,
@@ -183,6 +184,7 @@ class SequenceTableCmp extends Component {
 
     return (
       <TableCmp
+        tableRef={tableRef}
         className={className}
         title={renderSequenceTableTitle()}
         columns={columns}
@@ -194,6 +196,7 @@ class SequenceTableCmp extends Component {
 }
 
 SequenceTableCmp.propTypes = {
+  tableRef: PropTypes.object,
   classes: PropTypes.object,
   className: PropTypes.string,
   story: PropTypes.instanceOf(StoryModel),

@@ -19,6 +19,7 @@ import classes from './SequenceTabContainer.module.scss';
 @observer
 class SequenceTabContainer extends Component {
   snackbarRef = React.createRef();
+  tableRef = React.createRef();
 
   getSelectedChapterId = () => {
     const {
@@ -143,6 +144,9 @@ class SequenceTabContainer extends Component {
     const { appStore: { queryParams } } = this.props;
 
     queryParams.sequences.refreshPage();
+    // TODO: this is a hack because we can't change the page from the outside
+    // @see https://github.com/gregnb/mui-datatables/issues/756
+    this.tableRef.current.changePage(0);
     await this.getSequences(chapterId);
   };
 
@@ -216,6 +220,7 @@ class SequenceTabContainer extends Component {
             onChapterClick={this.onChangeChapter}
           />
           <SequenceTableCmp
+            tableRef={this.tableRef}
             className={classes.sequencesTable}
             story={story}
             sequences={sequencesInOrder}

@@ -26,12 +26,13 @@ class TableCmp extends Component {
 
   render() {
     const options = Object.assign({}, this.defaultOptions, this.props.options);
-    const { title, columns, data, classes, className } = this.props;
+    const { tableRef, title, columns, data, classes, className } = this.props;
 
     return (
       <Paper className={classNames(classes.root, className)}>
         <MuiThemeProvider theme={getMuiTheme()}>
           <MUIDataTable
+            innerRef={tableRef}
             title={title}
             data={data}
             columns={columns}
@@ -44,6 +45,7 @@ class TableCmp extends Component {
 }
 
 TableCmp.propTypes = {
+  tableRef: PropTypes.object,
   classes: PropTypes.object,
   className: PropTypes.string,
   title: PropTypes.oneOfType([
