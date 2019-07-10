@@ -12,7 +12,7 @@ class TableCmp extends Component {
     search: false,
     download: false,
     print: false,
-    selectableRows: false,
+    selectableRows: 'none',
     filter: false,
     viewColumns: false,
     // TODO: this should be set to true when the pagination is complete
