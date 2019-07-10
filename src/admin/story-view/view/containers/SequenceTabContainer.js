@@ -11,33 +11,52 @@ import { sequenceService } from '../../../../infrastructure/services/SequenceSer
 import { optionService } from '../../../../infrastructure/services/OptionService';
 import ChapterListCmp from '../components/sequences/chapter-table/ChapterListCmp';
 import { chapterService } from '../../../../infrastructure/services/ChapterService';
+import { appStorePropTypes } from '../../../../shared/store/AppStore';
 
 import classes from './SequenceTabContainer.module.scss';
 
-@inject('storyViewStore')
+@inject('storyViewStore', 'appStore')
 @observer
 class SequenceTabContainer extends Component {
-  state = {
-    selectedChapterId: '',
-  };
   snackbarRef = React.createRef();
 
-  getSequences = async (chapterId = '') => {
-    const { storyViewStore, match } = this.props;
+  getSelectedChapterId = () => {
+    const {
+      queryParams: {
+        sequences: {
+          filters: {
+            chapter: {
+              value: selectedChapterId
+            } = {},
+          },
+        },
+      },
+    } = this.props.appStore;
+    return selectedChapterId || '';
+  };
+
+  getSequences = async chapterId => {
+    const { appStore, storyViewStore, match } = this.props;
+    const selectedChapterId = this.getSelectedChapterId();
+
+    if (chapterId === undefined) {
+      chapterId = selectedChapterId
+    }
 
     const params = { ':story': match.params.id };
     sequenceService.setNextRouteParams(params);
 
-    storyViewStore.queryParams.sequences.addFilter(
+    appStore.queryParams.sequences.addFilter(
       { name: 'chapter', op: 'equals', value: chapterId },
       { allowEmpty: true }
     );
-    this.setState({ selectedChapterId: chapterId });
-    await storyViewStore.serviceGetSequences();
+    const { sequences, page, total } = await sequenceService.list(appStore.queryParams.sequences);
+    appStore.queryParams.sequences.setPagination({ page, total });
+    storyViewStore.setSequences(sequences);
   };
 
   onDeleteSequence = async sequenceId => {
-    const { story, storyViewStore } = this.props;
+    const { story } = this.props;
 
     const params = { ':story': story._id };
     sequenceService.setNextRouteParams(params);
@@ -49,7 +68,7 @@ class SequenceTabContainer extends Component {
         message: 'Sequence deleted!',
       },
     );
-    await storyViewStore.serviceGetSequences();
+    await this.getSequences();
   };
 
   onEditOption = async (sequenceId, optionId) => {
@@ -90,7 +109,7 @@ class SequenceTabContainer extends Component {
     const params = { ':story': this.props.story._id };
     sequenceService.setNextRouteParams(params);
     await sequenceService.updateOrder(sequences);
-    await this.props.storyViewStore.serviceGetSequences();
+    await this.getSequences();
     this.snackbarRef.current.showSnackbar({
       variant: SnackbarEnum.Variants.Success,
       message: 'Order has been updated',
@@ -120,6 +139,13 @@ class SequenceTabContainer extends Component {
   };
   // End of the moving logic
 
+  onChangeChapter = async chapterId => {
+    const { appStore: { queryParams } } = this.props;
+
+    queryParams.sequences.refreshPage();
+    await this.getSequences(chapterId);
+  };
+
   getChapters = async () => {
     const { storyViewStore } = this.props;
     const chapters = await chapterService.list();
@@ -127,8 +153,6 @@ class SequenceTabContainer extends Component {
   };
 
   onDeleteChapter = async (chapterId) => {
-    const { selectedChapterId } = this.state;
-
     await this.snackbarRef.current.executeAndShowSnackbar(
       chapterService.delete,
       [chapterId],
@@ -140,24 +164,24 @@ class SequenceTabContainer extends Component {
 
     await Promise.all([
       this.getChapters(),
-      (chapterId === selectedChapterId) && this.getSequences(),
+      (chapterId === this.getSelectedChapterId()) && this.getSequences(),
     ]);
   };
 
   onChangeSequencesPage = async currentPage => {
-    const { storyViewStore: { queryParams } } = this.props;
+    const { appStore: { queryParams } } = this.props;
 
     queryParams.sequences.setPagination({ page: currentPage });
-    await this.getSequences(this.state.selectedChapterId);
+    await this.getSequences(this.getSelectedChapterId());
   };
 
   componentDidMount () {
-    const { story, storyViewStore } = this.props;
+    const { appStore, story } = this.props;
     const params = { ':story': story._id };
     chapterService.setNextRouteParams(params);
 
     // Set the default sort. This can't be changed from the UI yet.
-    storyViewStore.queryParams.sequences.setSort({
+    appStore.queryParams.sequences.setSort({
       field: 'order', order: 'asc',
     });
 
@@ -166,19 +190,20 @@ class SequenceTabContainer extends Component {
   }
 
   componentWillUnmount () {
-    const { storyViewStore } = this.props;
+    const { appStore, storyViewStore } = this.props;
 
-    storyViewStore.queryParams.sequences.reset();
+    appStore.queryParams.sequences.reset();
     storyViewStore.setSequences([]);
     storyViewStore.setChapters([]);
   }
 
   render() {
     const {
+      appStore: { queryParams },
       story,
-      storyViewStore: { sequencesInOrder, chapters, queryParams },
+      storyViewStore: { sequencesInOrder, chapters },
     } = this.props;
-    const { selectedChapterId } = this.state;
+    const selectedChapterId = this.getSelectedChapterId();
 
     return (
       <>
@@ -188,7 +213,7 @@ class SequenceTabContainer extends Component {
             chapters={chapters}
             selectedChapterId={selectedChapterId}
             onDeleteChapter={this.onDeleteChapter}
-            onChapterClick={this.getSequences}
+            onChapterClick={this.onChangeChapter}
           />
           <SequenceTableCmp
             className={classes.sequencesTable}
@@ -202,6 +227,7 @@ class SequenceTabContainer extends Component {
             onMoveSeqUp={this.onMoveSeqUp}
             onMoveSeqDown={this.onMoveSeqDown}
             onChangePage={this.onChangeSequencesPage}
+            onSequenceSave={this.getSequences}
           />
         </div>
         <Snackbar innerRef={this.snackbarRef}/>
@@ -218,6 +244,7 @@ SequenceTabContainer.propTypes = {
   history: PropTypes.object.isRequired,
 
   storyViewStore: storyViewStorePropTypes,
+  appStore: appStorePropTypes,
 };
 
 export default withRouter(SequenceTabContainer);

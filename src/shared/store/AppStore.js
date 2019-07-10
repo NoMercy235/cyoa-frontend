@@ -19,6 +19,9 @@ class AppStore {
     publicStories: new QueryParams({
       pagination: { page: 0, limit: 10, total: 0 },
     }),
+    sequences: new QueryParams({
+      pagination: { page: 0, limit: 10, total: 0 },
+    }),
   };
 
   localId = '';

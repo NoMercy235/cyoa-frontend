@@ -16,7 +16,6 @@ import { renderSequenceTableTitle } from './SequenceTableTitle';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import BasicReorderAction from '../../../../../../shared/components/form/BasicReorderAction';
 import { parseContent } from '../../../../../../shared/utilities';
-import { chapterService } from '../../../../../../infrastructure/services/ChapterService';
 import withDisabledStoryPublished from '../../../../../../shared/hoc/withDisabledStoryPublished';
 
 import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
@@ -29,7 +28,6 @@ const BasicDeleteBtnWithDisabledState = withDisabledStoryPublished(DeleteRow);
 @observer
 class SequenceTableCmp extends Component {
   state = {
-    chapters: [],
     canReorder: true,
   };
 
@@ -51,8 +49,9 @@ class SequenceTableCmp extends Component {
       queryParams,
       story,
       selectedChapterId,
+      onSequenceSave,
     } = this.props;
-    const { chapters, canReorder } = this.state;
+    const { canReorder } = this.state;
 
     return (
       <div key={row._id} className={classes.actionsContainer}>
@@ -66,8 +65,12 @@ class SequenceTableCmp extends Component {
           resourceName="sequence"
           resource={row}
           modalComponent={SaveSequenceModal}
-          onModalOpen={this.getAllChapters}
-          innerProps={{ story, chapters, selectedChapterId, isStartSeq: this.isStartSeq(row) }}
+          innerProps={{
+            story,
+            selectedChapterId,
+            onSuccess: onSequenceSave,
+            isStartSeq: this.isStartSeq(row)
+          }}
         />
         <BasicDeleteBtnWithDisabledState
           title="Delete confirmation"
@@ -126,11 +129,6 @@ class SequenceTableCmp extends Component {
     }
   };
 
-  getAllChapters = async () => {
-    const chapters = await chapterService.list({});
-    this.setState({ chapters });
-  };
-
   render() {
     const {
       className,
@@ -139,8 +137,8 @@ class SequenceTableCmp extends Component {
       story,
       selectedChapterId,
       onChangePage,
+      onSequenceSave,
     } = this.props;
-    const { chapters } = this.state;
     const columns = SequenceModel.getTableColumns();
 
     const data = sequences.map((s, i) => {
@@ -159,7 +157,7 @@ class SequenceTableCmp extends Component {
       count: queryParams.pagination.total,
       rowsPerPageOptions: [5, 10, 15],
       rowsPerPage: 10,
-      onChangePage: onChangePage,
+      onChangePage,
       onTableChange: (action, tableState) => {
         if (action !== 'expandRow') return;
         if (tableState.expandedRows.data.length && this.state.canReorder) {
@@ -173,8 +171,11 @@ class SequenceTableCmp extends Component {
           <BasicNewBtnWithDisabledState
             tooltip="New sequence"
             modalComponent={SaveSequenceModal}
-            innerProps={{ story, chapters, selectedChapterId, isStartSeq: false }}
-            onModalOpen={this.getAllChapters}
+            innerProps={{
+              story,
+              selectedChapterId,
+              onSuccess: onSequenceSave,
+              isStartSeq: false }}
           />
         );
       },
@@ -208,6 +209,7 @@ SequenceTableCmp.propTypes = {
   onMoveSeqUp: PropTypes.func.isRequired,
   onMoveSeqDown: PropTypes.func.isRequired,
   onChangePage: PropTypes.func.isRequired,
+  onSequenceSave: PropTypes.func.isRequired,
 };
 
 export default withStyles(theme => ({

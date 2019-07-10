@@ -16,7 +16,6 @@ import SaveSequenceForm from './SaveSequenceForm';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 import { storyService } from '../../../../../../infrastructure/services/StoryService';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
-import { ChapterModel } from '../../../../../../infrastructure/models/ChapterModel';
 
 import { styles } from './SaveSequence.css';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
@@ -46,15 +45,11 @@ class SaveSequenceModal extends Component {
   };
 
   saveSequence = async values => {
-    const sequence = await this.sendRequest(
+    return await this.sendRequest(
       sequenceService.save,
       [SequenceModel.forApi(values)],
       'Sequence saved!',
     );
-    if (sequence.chapter === this.props.selectedChapterId) {
-      await this.props.storyViewStore.serviceGetSequences();
-    }
-    return sequence;
   };
 
   updateSequence = async values => {
@@ -95,7 +90,7 @@ class SaveSequenceModal extends Component {
   };
 
   onSubmit = async (values, { setSubmitting, resetForm }) => {
-    const { sequence } = this.props;
+    const { sequence, onSuccess } = this.props;
     try {
       let seq = {};
       if (values._id) {
@@ -112,6 +107,7 @@ class SaveSequenceModal extends Component {
         await this.updateStoryStartSeq(seq);
       }
 
+      onSuccess && await onSuccess();
       this.onClose(resetForm)();
     } finally {
       setSubmitting(false);
@@ -124,7 +120,12 @@ class SaveSequenceModal extends Component {
   };
 
   renderForm = formik => {
-    const { classes, open, isStartSeq, chapters } = this.props;
+    const {
+      classes,
+      open,
+      isStartSeq,
+      storyViewStore: { chapters },
+    } = this.props;
 
     return (
       <Dialog
@@ -177,12 +178,12 @@ SaveSequenceModal.propTypes = {
   match: PropTypes.object,
   classes: PropTypes.object,
   story: PropTypes.instanceOf(StoryModel).isRequired,
-  chapters: PropTypes.arrayOf(PropTypes.instanceOf(ChapterModel)).isRequired,
   selectedChapterId: PropTypes.string.isRequired,
   isStartSeq: PropTypes.bool.isRequired,
   sequence: PropTypes.instanceOf(SequenceModel),
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func,
   storyViewStore: storyViewStorePropTypes,
 };
 

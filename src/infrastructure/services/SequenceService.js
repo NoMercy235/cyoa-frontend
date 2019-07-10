@@ -14,7 +14,7 @@ class SequenceService extends BaseService {
     });
   };
 
-  list = (filters, sort, pagination) => {
+  list = ({ filters, sort, pagination } = {}) => {
     return super.list(filters, sort, pagination).then(response => {
       if (pagination) {
         return QueryParams.adaptResponse({

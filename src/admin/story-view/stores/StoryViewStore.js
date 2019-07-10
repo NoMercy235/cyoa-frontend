@@ -4,38 +4,12 @@ import * as PropTypes from 'prop-types';
 import { AttributeModel } from '../../../infrastructure/models/AttributeModel';
 import { SequenceModel } from '../../../infrastructure/models/SequenceModel';
 import { StoryModel } from '../../../infrastructure/models/StoryModel';
-import { sequenceService } from '../../../infrastructure/services/SequenceService';
-import { QueryParams } from '../../../shared/utilities';
 
 class StoryViewStore {
   @observable attributes = [];
   @observable sequences = [];
   @observable chapters = [];
   @observable currentStory = null;
-
-  @observable queryParams = {
-    sequences: new QueryParams({
-      pagination: { page: 0, limit: 10, total: 0 },
-    }),
-  };
-
-  @action serviceGetSequences = async (options = {}) => {
-    const { sequences: sequencesQueryParams } = this.queryParams;
-
-    const { filters, sort, pagination } = Object.assign({}, sequencesQueryParams, options);
-    const response = await sequenceService.list(filters, sort, pagination);
-    runInAction(() => {
-      // If the request had pagination, we have to take it into account
-      // else, just store the response
-      if (pagination) {
-        this.sequences = response.sequences;
-        sequencesQueryParams.pagination.page = response.page;
-        sequencesQueryParams.pagination.total = response.total;
-      } else {
-        this.sequences = response;
-      }
-    });
-  };
 
   @action setAttributes = attributes => {
     this.attributes = attributes;
@@ -197,8 +171,6 @@ export const storyViewStorePropTypes = PropTypes.shape({
   addChapter: PropTypes.func,
 
   reset: PropTypes.func,
-
-  serviceGetSequences: PropTypes.func,
 });
 
 
