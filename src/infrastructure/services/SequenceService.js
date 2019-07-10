@@ -34,9 +34,14 @@ class SequenceService extends BaseService {
     return super.update(id, sequence).then(s => new SequenceModel(s));
   };
 
-  updateOrder = sequences => {
+  updateOrder = (sequence, ahead) => {
     const url = this.withRouteParams(this.updateOrderEndpoint);
-    return this.client.put(url, sequences).then(BaseService.onSuccess);
+    return this.client
+      .put(url, {
+        seqId: sequence._id,
+        ahead,
+      })
+      .then(BaseService.onSuccess);
   };
 }
 

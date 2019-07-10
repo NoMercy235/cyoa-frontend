@@ -98,18 +98,10 @@ class SequenceTabContainer extends Component {
     this.props.storyViewStore.removeOptionFromSequence(sequenceId, optionId);
   };
 
-  /**
-   * How the move logic works:
-   * Get the pivot (current) sequence and modify it's order accordingly.
-   * Get the sequence that is before/after the pivot, depending on the button prossed
-   * Update their order property accordingly
-   * Call the API which handles this update in a specific way
-   * Modify in place the elements in the array from the store
-   */
-  onUpdateSequence = async sequences => {
+  onUpdateSequence = async (sequence, ahead) => {
     const params = { ':story': this.props.story._id };
     sequenceService.setNextRouteParams(params);
-    await sequenceService.updateOrder(sequences);
+    await sequenceService.updateOrder(sequence, ahead);
     await this.getSequences();
     this.snackbarRef.current.showSnackbar({
       variant: SnackbarEnum.Variants.Success,
@@ -118,27 +110,12 @@ class SequenceTabContainer extends Component {
   };
 
   onMoveSeqUp = seq => {
-    const { sequencesInOrder } = this.props.storyViewStore;
-    const index = sequencesInOrder.findIndex(s => s._id === seq._id);
-    let sequences = [{ _id: seq._id, order: seq.order - 1 }];
-    if (index > 0) {
-      const beforeSeq = sequencesInOrder[index - 1];
-      sequences.push({ _id: beforeSeq._id, order: seq.order });
-    }
-    this.onUpdateSequence(sequences);
+     this.onUpdateSequence(seq, false);
   };
 
   onMoveSeqDown = seq => {
-    const { sequencesInOrder } = this.props.storyViewStore;
-    const index = sequencesInOrder.findIndex(s => s._id === seq._id);
-    let sequences = [{ _id: seq._id, order: seq.order + 1 }];
-    if (index < sequencesInOrder.length - 1) {
-      const afterSeq = sequencesInOrder[index + 1];
-      sequences.push({ _id: afterSeq._id, order: seq.order });
-    }
-    this.onUpdateSequence(sequences);
+      this.onUpdateSequence(seq, true);
   };
-  // End of the moving logic
 
   onChangeChapter = async chapterId => {
     const { appStore: { queryParams } } = this.props;
