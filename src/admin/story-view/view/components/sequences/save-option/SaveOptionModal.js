@@ -93,7 +93,9 @@ class SaveOptionModal extends Component {
     // empty string and that's a valid value.
     return option || new OptionModel({
       story: storyViewStore.currentStory._id,
-      consequences: [new ConsequenceModel()],
+      consequences: storyViewStore.currentStory.isAvailableOffline
+        ? []
+        : [new ConsequenceModel()],
     });
   };
 
