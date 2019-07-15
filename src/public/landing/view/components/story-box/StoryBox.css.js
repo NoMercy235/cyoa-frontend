@@ -51,4 +51,11 @@ export const styles = theme => ({
   readStoryLabel: {
     marginRight: theme.spacing(1),
   },
+  storyTitle: {
+    '&:hover': {
+      color: theme.palette.primary.main,
+      cursor: 'pointer',
+      textDecoration: 'underline'
+    }
+  },
 });

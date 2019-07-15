@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import {
   withStyles,
@@ -14,6 +15,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import MenuDropdown from '../../../../../shared/components/menu/MenuDropdown';
 import { appStorePropTypes } from '../../../../../shared/store/AppStore';
+import { makeReadStoryPath } from '../../../../../shared/constants/routes';
 
 import { styles } from './StoryBox.css';
 
@@ -43,16 +45,26 @@ class StoryHeader extends Component {
     this.setState({ isMakingOffline: false });
   };
 
+  goToReadStory = history => () => {
+    const url = makeReadStoryPath(this.props.story._id);
+    history.push(url);
+  };
+
   renderTitle = () => {
-    const { story } = this.props;
-    return (
+    const { classes, story } = this.props;
+
+    const Title = withRouter(({ history }) => (
       <Typography
+        className={classes.storyTitle}
         variant="h6"
         color="inherit"
+        onClick={this.goToReadStory(history)}
       >
         {story.name}
       </Typography>
-    );
+    ));
+
+    return <Title/>;
   };
 
   renderIsAvailableOffline = () => {

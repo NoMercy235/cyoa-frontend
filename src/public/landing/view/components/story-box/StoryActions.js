@@ -7,7 +7,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
-import { makePath, READ_STORY_ROUTE } from '../../../../../shared/constants/routes';
+import { makeReadStoryPath } from '../../../../../shared/constants/routes';
 import ShareButton from '../ShareButton';
 import withOnlineCheck from '../../../../../shared/hoc/withOnlineCheck';
 
@@ -16,22 +16,9 @@ import { styles } from './StoryBox.css';
 const ReadStoryButton = withOnlineCheck(Button);
 
 class StoryActions extends Component {
-  makePath = (withOrigin = false) => {
-    let path = '';
-    if (withOrigin) {
-      path += window.location.origin;
-    }
-    path += makePath(
-      READ_STORY_ROUTE,
-      {
-        ':storyId': this.props.story._id,
-      }
-    );
-    return path;
-  };
-
   goToReadStory = history => () => {
-    history.push(this.makePath());
+    const url = makeReadStoryPath(this.props.story._id);
+    history.push(url);
   };
 
   getReadBtn = () => {
@@ -69,12 +56,12 @@ class StoryActions extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, story } = this.props;
 
     return (
       <CardActions className={classes.actions} disableSpacing>
         {this.getReadBtn()}
-        <ShareButton text={this.makePath(true)}/>
+        <ShareButton text={makeReadStoryPath(story._id, true)}/>
         {this.renderIconButton()}
       </CardActions>
     );

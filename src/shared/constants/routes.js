@@ -14,3 +14,17 @@ export const makePath = (path, args) => {
   });
   return result;
 };
+
+export const makeReadStoryPath = (storyId, withOrigin = false) => {
+  let path = '';
+  if (withOrigin) {
+    path += window.location.origin;
+  }
+  path += makePath(
+    READ_STORY_ROUTE,
+    {
+      ':storyId': storyId
+    }
+  );
+  return path;
+};
