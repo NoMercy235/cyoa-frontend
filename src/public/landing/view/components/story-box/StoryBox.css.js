@@ -1,9 +1,17 @@
+import { SCREEN_MAX_WIDTH_SM, SCREEN_MIN_WIDTH_MD } from '../../../../../shared/constants/global';
+
 export const styles = theme => ({
   actions: {
     display: 'flex',
   },
   card: {
     overflow: 'visible',
+  },
+  visibleContent: {
+    display: 'flex',
+    [`@media (max-width: ${SCREEN_MAX_WIDTH_SM}px)`]: {
+      flexDirection: 'column',
+    },
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -18,12 +26,24 @@ export const styles = theme => ({
   avatar: {
     backgroundColor: theme.palette.primary.main,
   },
-  coverPic: {
-    float: 'left',
-    maxWidth: 300,
-    maxHeight: 300,
-    marginRight: theme.spacing(2),
-    borderRadius: '15%',
+  storyCover: {
+    [`@media (max-width: ${SCREEN_MAX_WIDTH_SM}px)`]: {
+      width: '100%',
+    },
+    [`@media (min-width: ${SCREEN_MIN_WIDTH_MD}px)`]: {
+      flex: `0 0 ${theme.spacing(30)}px`,
+      alignSelf: 'flex-start',
+    },
+  },
+  storyContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    [`@media (min-width: ${SCREEN_MIN_WIDTH_MD}px)`]: {
+      flex: 1,
+    },
+  },
+  cardContent: {
+    flex: 1,
   },
   expandedContainer: {
     padding: theme.spacing(1),
