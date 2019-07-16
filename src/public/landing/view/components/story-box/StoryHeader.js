@@ -55,12 +55,15 @@ class StoryHeader extends Component {
 
     const Title = withRouter(({ history }) => (
       <Typography
-        className={classes.storyTitle}
         variant="h6"
         color="inherit"
-        onClick={this.goToReadStory(history)}
       >
-        {story.name}
+        <span
+          className={classes.storyTitle}
+          onClick={this.goToReadStory(history)}
+        >
+          {story.name}
+        </span>
       </Typography>
     ));
 
