@@ -6,6 +6,9 @@ export const styles = theme => ({
   },
   card: {
     overflow: 'visible',
+    '&:not(:last-child)': {
+      marginBottom: theme.spacing(1),
+    }
   },
   visibleContent: {
     display: 'flex',

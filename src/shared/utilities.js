@@ -64,6 +64,7 @@ export const getMainMuiTheme = (asTheme = true) => {
 export class QueryParams {
   static defaultPagination = { page: 0, limit: 10 };
 
+  custom = {};
   filters = {};
   sort = {};
   pagination = {};
@@ -72,6 +73,12 @@ export class QueryParams {
     if (options.pagination) {
       this.pagination = options.pagination;
     }
+  }
+
+  addCustomQueryParam ({ name, value }) {
+    runInAction(() => {
+      this.custom[name] = value;
+    });
   }
 
   addFilter ({ name, op, value }, options = {}) {
@@ -104,16 +111,22 @@ export class QueryParams {
     });
   }
 
+  nextPage () {
+    runInAction(() => {
+      this.pagination.page++;
+    });
+  }
+
   refreshPage () {
     runInAction(() => {
       this.pagination.page = 0;
     });
   }
 
-  reset () {
-    this.setFilter({});
-    this.setSort({});
-    this.setPagination(QueryParams.defaultPagination);
+  reset ({ filters, sort, pagination } = {}) {
+    this.setFilter(filters || {});
+    this.setSort(sort || {});
+    this.setPagination(pagination || QueryParams.defaultPagination);
   }
 
   static adaptResponse ({ resource, ResourceModel }) {

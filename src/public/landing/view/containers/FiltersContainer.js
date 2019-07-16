@@ -4,9 +4,10 @@ import { inject } from 'mobx-react';
 import FiltersCmp from '../components/story-filters/FiltersCmp';
 import { BaseService } from '../../../../infrastructure/services/BaseService';
 import { publicStoryService } from '../../../../infrastructure/services/StoryService';
-import { publicStoryStorePropTypes } from '../../stores/PublicStoryStore';
+import { FiltersType, publicStoryStorePropTypes } from '../../stores/PublicStoryStore';
 import AdvancedFiltersCmp from '../components/story-filters/AdvancedFilters';
 import { debounced } from '../../../../shared/utilities';
+import { appStorePropTypes } from '../../../../shared/store/AppStore';
 
 const advancedFilterInitialValues = {
   tags: [],
@@ -16,39 +17,60 @@ const advancedFilterInitialValues = {
 
 const debouncedQuickList = debounced(publicStoryService.quickList);
 
-@inject('publicStoryStore')
+@inject('publicStoryStore', 'appStore')
 class FiltersContainer extends Component {
   state = {
-    hasAdvancedFilters: false,
     quickSearchValue: '',
     isAdvancedFiltersDrawerOpened: false,
     currentAdvancedFilters: advancedFilterInitialValues,
   };
 
-  setStories = stories => {
-    this.props.publicStoryStore.setStories(stories);
+  onBeforeSearch = type => {
+    const { appStore, publicStoryStore } = this.props;
+    // We reset the stories to avoid problems with infinite scroll trigger
+    // when the new stories come in.
+    publicStoryStore.setStories([]);
+    appStore.queryParams.publicStories.reset();
+    publicStoryStore.filterType = type;
+    publicStoryStore.reachedEnd = true;
   };
 
-  getStories = async filters => {
-    this.setStories(
-      await publicStoryService.list(filters),
-    );
+  onAfterSearch = stories => {
+    const { appStore, publicStoryStore } = this.props;
+
+    // This is the same condition as the one in LandingContainer
+    publicStoryStore.reachedEnd = stories.length < appStore.queryParams.publicStories.pagination.limit;
+    publicStoryStore.setStories(stories);
   };
 
   onQuickSearch = async ({ target: { value } }) => {
+    const { appStore } = this.props;
+
+    this.onBeforeSearch(FiltersType.Quick);
+
     this.setState({
-      hasAdvancedFilters: false,
       quickSearchValue: value,
       currentAdvancedFilters: advancedFilterInitialValues,
     });
 
-    const { stories } = await debouncedQuickList(value);
-    this.setStories(stories);
+    appStore.queryParams.publicStories.addCustomQueryParam({
+      name: 'quickSearch', value
+    });
+
+    const { stories } = await debouncedQuickList(
+      value,
+      appStore.queryParams.publicStories
+    );
+
+    this.onAfterSearch(stories);
   };
 
   onAdvancedSearch = async values => {
+    const { appStore } = this.props;
+
+    this.onBeforeSearch(FiltersType.Advanced);
+
     this.setState({
-      hasAdvancedFilters: true,
       currentAdvancedFilters: { ...values },
       isAdvancedFiltersDrawerOpened: false,
       quickSearchValue: '',
@@ -60,16 +82,26 @@ class FiltersContainer extends Component {
       authorShort: values.authorShort,
       tags: values.tags,
     };
-    let filters = {};
-
     Object.keys(parsedValues).forEach(key => {
       if (Array.isArray(parsedValues[key])) {
-        filters[key] = { op: 'in', value: parsedValues[key] };
+        appStore.queryParams.publicStories.addFilter(
+          { name: key, op: 'in', value: parsedValues[key] },
+        );
       } else {
-        filters[key] = { op: 'ilike', value: parsedValues[key] };
+        appStore.queryParams.publicStories.addFilter(
+          { name: key, op: 'ilike', value: parsedValues[key] },
+        );
       }
     });
-    await this.getStories(BaseService.withOrFilters(filters));
+    appStore.queryParams.publicStories.filters = BaseService.withOrFilters(
+      appStore.queryParams.publicStories.filters
+    );
+
+    const { stories } = await publicStoryService.list(
+      appStore.queryParams.publicStories
+    );
+
+    this.onAfterSearch(stories);
   };
 
   onSwitchAdvancedFilters = state => () => {
@@ -80,7 +112,11 @@ class FiltersContainer extends Component {
 
   render() {
     const {
-      hasAdvancedFilters,
+      publicStoryStore: {
+        filterType,
+      },
+    } = this.props;
+    const {
       quickSearchValue,
       isAdvancedFiltersDrawerOpened,
       currentAdvancedFilters,
@@ -89,7 +125,7 @@ class FiltersContainer extends Component {
     return (
       <>
         <FiltersCmp
-          hasAdvancedFilters={hasAdvancedFilters}
+          filterType={filterType}
           quickSearchValue={quickSearchValue}
           onQuickSearch={this.onQuickSearch}
           onOpenAdvancedFilters={this.onSwitchAdvancedFilters(true)}
@@ -106,6 +142,7 @@ class FiltersContainer extends Component {
 }
 
 FiltersContainer.propTypes = {
+  appStore: appStorePropTypes,
   publicStoryStore: publicStoryStorePropTypes,
 };
 

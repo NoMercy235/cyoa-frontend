@@ -52,18 +52,22 @@ class PublicStoryService extends BaseService {
   quickEndpoint = 'public/story/quick';
   offlineEndpoint = 'public/story/offline';
 
-  list = (filters, sort, pagination) => {
+  list = ({ filters, sort, pagination }) => {
     return super
       .list(filters, sort, pagination)
       .then(PublicStoryService.adaptResponse);
   };
 
-  quickList = async (value) => {
-    const quickSearch = `quickSearch=${value}`;
-    const url = `${this.quickEndpoint}?${quickSearch}`;
+  quickList = async (value, { filters, sort, pagination } = {}) => {
+    const quickSearch = `quickSearch=${value}&`;
+    let url = `${this.quickEndpoint}?${quickSearch}`;
+
+    url += BaseService.parseFilters(filters);
+    url += BaseService.parseSort(sort);
+    url += BaseService.parsePagination(pagination);
 
     return await this.client
-      .get(`${url}&${BaseService.parsePagination(QueryParams.defaultPagination)}`)
+      .get(url)
       .then(BaseService.onSuccess)
       .then(PublicStoryService.adaptResponse);
   };

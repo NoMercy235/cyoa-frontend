@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { publicStoryService } from '../../../../infrastructure/services/StoryService';
-import { publicStoryStorePropTypes } from '../../stores/PublicStoryStore';
+import { FiltersType, publicStoryStorePropTypes } from '../../stores/PublicStoryStore';
 import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
 import { appStorePropTypes } from '../../../../shared/store/AppStore';
 import FiltersContainer from './FiltersContainer';
@@ -18,21 +19,56 @@ import styles from './LandingContainer.module.scss';
 class LandingContainer extends Component {
   snackbarRef = React.createRef();
 
+  getQuickStories = async () => {
+    const { appStore } = this.props;
+
+    return await publicStoryService.quickList(
+      appStore.queryParams.publicStories.custom.quickSearch,
+      appStore.queryParams.publicStories,
+    );
+  };
+
   getStories = async () => {
+    const { appStore } = this.props;
+
+    return await publicStoryService.list(appStore.queryParams.publicStories);
+  };
+
+  onNextStories = async () => {
+    const { publicStoryStore } = this.props;
+    return publicStoryStore.filterType === FiltersType.Quick
+      ? await this.getQuickStories()
+      : await this.getStories();
+  };
+
+  getNextStories = async (nextPage = true) => {
     const { appStore, publicStoryStore } = this.props;
-    const { filters, sort, pagination } = appStore.queryParams.publicStories;
 
-    const { stories } = await publicStoryService.list(filters, sort, pagination);
+    nextPage && appStore.queryParams.publicStories.nextPage();
+    const { stories: nextStories } = await this.onNextStories();
 
-    // For each story that has been saved offline, update it with new data
+    // If there are fewer items than the imposed limit,
+    // then we have reached the end of the dataset.
+    if (nextStories.length < appStore.queryParams.publicStories.pagination.limit) {
+      publicStoryStore.reachedEnd = true;
+    }
+
+    publicStoryStore.addStories(nextStories);
+
+    // We don't care when this happens, so we never wait for it.
+    this.updateOfflineStories(nextStories);
+  };
+
+  updateOfflineStories = async stories => {
+    const { appStore } = this.props;
+
     if (appStore.onlineStatus) {
+      // For each story that has been saved offline, update it with new data
       stories.forEach(async s => {
         const isOffline = await s.isOffline();
         if (isOffline) await s.saveOffline();
       });
     }
-
-    publicStoryStore.setStories(stories);
   };
 
   makeStoryAvailableOffline = async (story, isAvailableOffline) => {
@@ -51,31 +87,61 @@ class LandingContainer extends Component {
     }
   };
 
-  componentDidMount () {
-    this.getStories();
-    this.props.appStore.loadHeader(FiltersContainer);
+  async componentDidMount () {
+    const { appStore } = this.props;
+
+    appStore.loadHeader(FiltersContainer);
+    await this.getNextStories(false);
   }
 
   componentWillUnmount () {
-    this.props.appStore.unloadHeader(FiltersContainer);
+    const { appStore } = this.props;
+    appStore.unloadHeader(FiltersContainer);
+    appStore.queryParams.publicStories.reset();
   }
 
   render() {
-    const { publicStoryStore: { stories } } = this.props;
+    const {
+      publicStoryStore: {
+        reachedEnd,
+        stories
+      },
+    } = this.props;
     const hasStories = !!stories.length;
 
     return (
       <>
         <Breadcrumb/>
-        <div className={styles.storiesContainer}>
+        <div id="storiesContainer" className={styles.storiesContainer}>
           <NoResultsFound show={!hasStories}/>
-          {hasStories && stories.map(s => (
-            <StoryBox
-              key={s._id}
-              story={s}
-              makeStoryAvailableOffline={this.makeStoryAvailableOffline}
-            />
-          ))}
+          <InfiniteScroll
+            dataLength={stories.length}
+            next={this.getNextStories}
+            hasMore={!reachedEnd}
+            loader={<h4>Loading...</h4>}
+            endMessage={
+              <p>
+                That's the end of it
+              </p>
+            }
+            refreshFunction={console.log}
+            pullDownToRefresh
+            pullDownToRefreshContent={
+              <h3>Pull down to refresh</h3>
+            }
+            releaseToRefreshContent={
+              <h3>Release to refresh</h3>
+            }
+            scrollableTarget="storiesContainer"
+          >
+            {stories.map(s => (
+              <StoryBox
+                key={s._id}
+                story={s}
+                makeStoryAvailableOffline={this.makeStoryAvailableOffline}
+              />
+            ))}
+          </InfiniteScroll>
         </div>
         <Snackbar innerRef={this.snackbarRef}/>
       </>

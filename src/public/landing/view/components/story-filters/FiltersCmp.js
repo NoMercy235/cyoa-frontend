@@ -3,6 +3,7 @@ import * as PropTypes from 'prop-types';
 import { withStyles, Badge, IconButton, InputBase, Tooltip } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/FilterList';
+import { FiltersType } from '../../../stores/PublicStoryStore';
 
 import { styles } from './Filters.css';
 
@@ -40,14 +41,14 @@ class FiltersCmp extends Component {
   render() {
     const {
       classes,
-      hasAdvancedFilters,
+      filterType,
       quickSearchValue,
       onQuickSearch,
     } = this.props;
 
     return (
       <>
-        {hasAdvancedFilters
+        {filterType === FiltersType.Advanced
           ? withBadge(this.renderFilterIcon(), classes)
           : this.renderFilterIcon()
         }
@@ -72,7 +73,7 @@ class FiltersCmp extends Component {
 
 FiltersCmp.propTypes = {
   classes: PropTypes.object.isRequired,
-  hasAdvancedFilters: PropTypes.bool.isRequired,
+  filterType: PropTypes.string.isRequired,
   quickSearchValue: PropTypes.string.isRequired,
   onQuickSearch: PropTypes.func.isRequired,
   onOpenAdvancedFilters: PropTypes.func.isRequired,
