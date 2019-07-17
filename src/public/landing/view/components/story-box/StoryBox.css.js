@@ -41,9 +41,9 @@ export const styles = theme => ({
   },
   storyContent: {
     display: 'flex',
-    borderLeft: BORDER,
     flexDirection: 'column',
     [`@media (min-width: ${SCREEN_MIN_WIDTH_MD}px)`]: {
+      borderLeft: BORDER,
       flex: 1,
     },
   },
