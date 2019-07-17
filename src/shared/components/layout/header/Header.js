@@ -43,7 +43,9 @@ class Header extends Component {
       message: 'Goodbye!',
     });
     localStorage.removeItem('jwt');
-    history.replace('/');
+    if (!window.location.pathname.startsWith('/public')) {
+      history.replace('/');
+    }
   };
 
   renderAuthBtn = () => {
