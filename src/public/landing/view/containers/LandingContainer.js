@@ -11,6 +11,7 @@ import NoResultsFound from '../../../../shared/components/table/NoResultsFound';
 import StoryBox from '../components/story-box/StoryBox';
 import { SnackbarEnum } from '../../../../shared/components/snackbar/Snackbar';
 import Snackbar from '../../../../shared/components/snackbar/Snackbar';
+import { StoryListEnd } from '../components/story-list-end/StoryListEnd';
 
 import styles from './LandingContainer.module.scss';
 
@@ -120,19 +121,7 @@ class LandingContainer extends Component {
             next={this.getNextStories}
             hasMore={!reachedEnd}
             loader={<h4>Loading...</h4>}
-            endMessage={
-              <p>
-                That's the end of it
-              </p>
-            }
-            refreshFunction={console.log}
-            pullDownToRefresh
-            pullDownToRefreshContent={
-              <h3>Pull down to refresh</h3>
-            }
-            releaseToRefreshContent={
-              <h3>Release to refresh</h3>
-            }
+            endMessage={<StoryListEnd/>}
             scrollableTarget="storiesContainer"
           >
             {stories.map(s => (

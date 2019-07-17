@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .message {
+    padding: 0 8px;
+  }
+
+  .fossil {
+    height: 64px;
+    width: 64px;
+  }
+}
