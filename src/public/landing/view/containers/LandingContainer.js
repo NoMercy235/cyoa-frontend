@@ -95,9 +95,10 @@ class LandingContainer extends Component {
   }
 
   componentWillUnmount () {
-    const { appStore } = this.props;
+    const { appStore, publicStoryStore } = this.props;
     appStore.unloadHeader(FiltersContainer);
     appStore.queryParams.publicStories.reset();
+    publicStoryStore.reset();
   }
 
   render() {

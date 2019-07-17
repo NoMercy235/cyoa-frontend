@@ -27,6 +27,13 @@ class PublicStoryStore {
   @action setCollections = collections => {
     this.collections = collections;
   };
+
+  @action reset = () => {
+    this.stories = [];
+    this.collections = [];
+    this.filterType = FiltersType.None;
+    this.reachedEnd = false;
+  };
 }
 
 export const publicStoryStorePropTypes = PropTypes.shape({
@@ -38,6 +45,7 @@ export const publicStoryStorePropTypes = PropTypes.shape({
   setStories: PropTypes.func,
   addStories: PropTypes.func,
   setCollections: PropTypes.func,
+  reset: PropTypes.func,
 });
 
 
