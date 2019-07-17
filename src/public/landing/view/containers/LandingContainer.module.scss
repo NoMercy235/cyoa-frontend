@@ -1,6 +1,7 @@
 .storiesContainer {
   flex: 3 3;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   padding: 2px;
