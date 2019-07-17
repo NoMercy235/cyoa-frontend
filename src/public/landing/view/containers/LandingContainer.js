@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { CircularProgress } from '@material-ui/core';
 
 import { publicStoryService } from '../../../../infrastructure/services/StoryService';
 import { FiltersType, publicStoryStorePropTypes } from '../../stores/PublicStoryStore';
@@ -18,6 +19,9 @@ import styles from './LandingContainer.module.scss';
 @inject('publicStoryStore', 'appStore')
 @observer
 class LandingContainer extends Component {
+  state = {
+    initialRequestDone: false,
+  };
   snackbarRef = React.createRef();
 
   getQuickStories = async () => {
@@ -93,6 +97,9 @@ class LandingContainer extends Component {
 
     appStore.loadHeader(FiltersContainer);
     await this.getNextStories(false);
+    this.setState({
+      initialRequestDone: true,
+    });
   }
 
   componentWillUnmount () {
@@ -109,29 +116,32 @@ class LandingContainer extends Component {
         stories
       },
     } = this.props;
+    const { initialRequestDone } = this.state;
     const hasStories = !!stories.length;
 
     return (
       <>
         <Breadcrumb/>
         <div id="storiesContainer" className={styles.storiesContainer}>
-          <NoResultsFound show={!hasStories}/>
-          <InfiniteScroll
-            dataLength={stories.length}
-            next={this.getNextStories}
-            hasMore={!reachedEnd}
-            loader={<h4>Loading...</h4>}
-            endMessage={<StoryListEnd/>}
-            scrollableTarget="storiesContainer"
-          >
-            {stories.map(s => (
-              <StoryBox
-                key={s._id}
-                story={s}
-                makeStoryAvailableOffline={this.makeStoryAvailableOffline}
-              />
-            ))}
-          </InfiniteScroll>
+          <NoResultsFound show={initialRequestDone && !hasStories}/>
+          {(!initialRequestDone || hasStories) && (
+              <InfiniteScroll
+              dataLength={stories.length}
+              next={this.getNextStories}
+              hasMore={!reachedEnd}
+              loader={<CircularProgress/>}
+              endMessage={<StoryListEnd/>}
+              scrollableTarget="storiesContainer"
+            >
+              {stories.map(s => (
+                <StoryBox
+                  key={s._id}
+                  story={s}
+                  makeStoryAvailableOffline={this.makeStoryAvailableOffline}
+                />
+              ))}
+            </InfiniteScroll>
+          )}
         </div>
         <Snackbar innerRef={this.snackbarRef}/>
       </>
