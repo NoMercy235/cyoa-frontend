@@ -1,8 +1,9 @@
-import { SCREEN_MAX_WIDTH_SM, SCREEN_MIN_WIDTH_MD } from '../../../../../shared/constants/global';
+import { BORDER, SCREEN_MAX_WIDTH_SM, SCREEN_MIN_WIDTH_MD } from '../../../../../shared/constants/global';
 
 export const styles = theme => ({
   actions: {
     display: 'flex',
+    paddingBottom: 0,
   },
   card: {
     overflow: 'visible',
@@ -40,6 +41,7 @@ export const styles = theme => ({
   },
   storyContent: {
     display: 'flex',
+    borderLeft: BORDER,
     flexDirection: 'column',
     [`@media (min-width: ${SCREEN_MIN_WIDTH_MD}px)`]: {
       flex: 1,
@@ -50,6 +52,7 @@ export const styles = theme => ({
   },
   expandedContainer: {
     padding: theme.spacing(1),
+    borderTop: BORDER,
   },
   readStoryLabel: {
     marginRight: theme.spacing(1),

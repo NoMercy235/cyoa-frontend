@@ -39,15 +39,15 @@ class StoryActions extends Component {
   };
 
   renderIconButton = () => {
-    const { classes } = this.props;
+    const { classes, expanded, handleExpandClick } = this.props;
 
     return (
       <IconButton
         className={classNames(classes.expand, {
-          [classes.expandOpen]: this.props.expanded,
+          [classes.expandOpen]: expanded,
         })}
-        onClick={this.props.handleExpandClick}
-        aria-expanded={this.props.expanded}
+        onClick={handleExpandClick}
+        aria-expanded={expanded}
         aria-label="Show more"
       >
         <ExpandMoreIcon />
