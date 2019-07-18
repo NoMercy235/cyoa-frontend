@@ -84,7 +84,7 @@ class FormikAutocompleteContainer extends Component {
       <Autocomplete
         placeholder={placeholder}
         inputProps={inputProps}
-        value={field.value}
+        value={field.value || ''}
         suggestions={suggestions}
         onChange={this.onChange}
         onFocus={this.onFocus}
