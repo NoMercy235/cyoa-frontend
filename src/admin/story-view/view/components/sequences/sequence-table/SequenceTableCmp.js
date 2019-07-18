@@ -176,7 +176,8 @@ class SequenceTableCmp extends Component {
               story,
               selectedChapterId,
               onSuccess: onSequenceSave,
-              isStartSeq: false }}
+              isStartSeq: false
+            }}
           />
         );
       },
