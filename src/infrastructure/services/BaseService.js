@@ -110,7 +110,7 @@ export class BaseService {
     let result = url;
     if (this.routeParams) {
       Object.keys(this.routeParams).forEach(key => {
-        result = url.replace(key, this.routeParams[key]);
+        result = result.replace(key, this.routeParams[key]);
       });
     }
     return result;

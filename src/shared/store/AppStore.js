@@ -14,6 +14,7 @@ class AppStore {
   @observable onlineStatus = true;
   @observable canUseIdb;
   @observable isAuthModalOpen = false;
+  @observable isKeepPlayerModalOpen = false;
 
   @observable queryParams = {
     publicStories: new QueryParams({

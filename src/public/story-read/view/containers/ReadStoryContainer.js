@@ -16,6 +16,7 @@ import { PlayerModel } from '../../../../infrastructure/models/PlayerModel';
 import OfflineStoryUnavailable from '../components/OfflineStoryUnavailable';
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
 import StoryFinished from '../components/story-finished/StoryFinished';
+import ConfirmationModal from '../../../../shared/components/confirmation/ConfirmationModal';
 
 @inject('appStore')
 @observer
@@ -149,6 +150,32 @@ class ReadStoryContainer extends Component {
     });
   };
 
+  onKeepPlayerAccept = async () => {
+    const { appStore, match } = this.props;
+    const { player } = this.state;
+
+    const params = {
+      ':player': appStore.getUserId(),
+      ':story': match.params.storyId,
+    };
+    playerService.setNextRouteParams(params);
+    await playerService.set({
+      lastStorySequence: player.lastStorySequence,
+      attributes: player.attributes,
+    });
+    appStore.isKeepPlayerModalOpen = false;
+  };
+
+  onKeepPlayerReject = async () => {
+    const { appStore, match } = this.props;
+    const storyId = match.params.storyId;
+
+    const player = await this.getPlayer(storyId);
+    await this.getSequence(player.lastStorySequence, storyId);
+    this.setState({ player });
+    appStore.isKeepPlayerModalOpen = false;
+  };
+
   async componentDidMount () {
     const { match, appStore } = this.props;
 
@@ -224,6 +251,19 @@ class ReadStoryContainer extends Component {
     );
   };
 
+  renderKeepPlayerModa = () => {
+    const { appStore } = this.props;
+    return (
+      <ConfirmationModal
+        title="Keep current player?"
+        description="If you keep the current player, it will replace your cloud save, if any. Otherwise, your current progress will be replaced by the cloud save."
+        open={appStore.isKeepPlayerModalOpen}
+        onAccept={this.onKeepPlayerAccept}
+        onClose={this.onKeepPlayerReject}
+      />
+    );
+  };
+
   render() {
     const { canRender } = this.state;
 
@@ -231,6 +271,7 @@ class ReadStoryContainer extends Component {
       <>
         <Breadcrumb/>
         {canRender && this.renderSequence()}
+        {this.renderKeepPlayerModa()}
       </>
     );
   }

@@ -2,6 +2,7 @@ import { BaseService } from './BaseService';
 import { PlayerModel } from '../models/PlayerModel';
 
 class PlayerService extends BaseService {
+  setEndpoint = 'public/player/set/:story/:player';
   getOrCreateEndpoint = 'public/player/getOrCreate/:story';
   updateEndpoint = 'public/player/updateAttributes/:playerId';
   deleteEndpoint = 'public/player';
@@ -18,6 +19,14 @@ class PlayerService extends BaseService {
       .then(response => {
         return new PlayerModel(BaseService.onSuccess(response));
       });
+  };
+
+  set = playerMetadata => {
+    return this.client
+      .put(this.withRouteParams(this.setEndpoint), playerMetadata)
+      .then(response => {
+        return new PlayerModel(BaseService.onSuccess(response));
+      })
   };
 
   update = metadata => {

@@ -18,6 +18,7 @@ import { UserModel } from '../../../infrastructure/models/UserModel';
 import { AuthenticationModel } from '../../../infrastructure/models/AuthenticationModel';
 import { SnackbarEnum } from '../snackbar/Snackbar';
 import Snackbar from '../snackbar/Snackbar';
+import { makeRegexForPath, READ_STORY_ROUTE } from '../../constants/routes';
 
 import { styles } from './Authentication.css';
 import { dialogDefaultCss } from '../dialog/Dialog.css';
@@ -39,8 +40,19 @@ class AuthenticationModal extends Component {
     onClose && onClose();
   };
 
+  onAskIfShouldReplacePlayer = () => {
+    const { appStore } = this.props;
+
+    const readPathRegexp = makeRegexForPath(READ_STORY_ROUTE);
+    if (readPathRegexp.test(window.location.pathname)) {
+      appStore.isKeepPlayerModalOpen = true;
+    }
+  };
+
   onSuccess = () => {
     const { onSuccess } = this.props;
+
+    this.onAskIfShouldReplacePlayer();
 
     this.snackbarRef.current.showSnackbar({
       variant: SnackbarEnum.Variants.Success,
