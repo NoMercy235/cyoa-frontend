@@ -30,19 +30,27 @@ class SaveAttributeModal extends Component {
       { ':story': this.props.storyViewStore.currentStory._id }
     );
 
-    return (await debouncedSequenceList({
-      name: {
-        op: 'ilike',
-        value: searchQuery,
-        options: {
-          allowEmpty: true,
+    const { sequences } = (await debouncedSequenceList({
+      filters: {
+        name: {
+          op: 'ilike',
+          value: searchQuery,
+          options: {
+            allowEmpty: true,
+          },
+        },
+        isEnding: {
+          op: 'equals',
+          value: true,
         },
       },
-      isEnding: {
-        op: 'equals',
-        value: true,
-      },
-    })).map(s => {
+      pagination: {
+        page: 0,
+        limit: 20,
+      }
+    }));
+
+    return sequences.map(s => {
       return { value: s._id, label: s.name };
     });
   };
