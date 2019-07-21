@@ -1,7 +1,7 @@
 const Utils = require('./utils/utils');
 const DataMock = require('./utils/dataGenerator');
 
-const xStoryBoxes = '//div[contains(@class, "storiesContainer")]/child::node()';
+const xStoryBoxes = '//div[contains(@class, "storiesContainer")]/div/*[not(h6[text()="This is it. There\'s nothing more past this point."])]/child::node()';
 const sQuickSearchInput = 'input[placeholder="Search..."]';
 const sProgressBar = '#nprogress';
 
@@ -32,11 +32,14 @@ describe('LandingContainer guest', () => {
   });
 
   it('should see two stories', async () => {
-    await page.goto(endpoint);
+    await page.goto(endpoint, { waitUntil: 'networkidle2' });
+    await utils.waitForElement(sProgressBar, { hidden: true });
     await utils.waitForElement(xStoryBoxes);
     const storyBoxes = await page.$x(xStoryBoxes);
 
-    expect(storyBoxes.length).toEqual(2);
+    // TODO: fix this with XPath someday
+    // The extra child is the end of stories component
+    expect(storyBoxes.length).toEqual(3);
   });
 
   it('should quick search with the string stanley and see only one story', async () => {
@@ -45,6 +48,7 @@ describe('LandingContainer guest', () => {
     await utils.waitForElement(xStoryBoxes);
     const storyBoxes = await page.$x(xStoryBoxes);
 
-    expect(storyBoxes.length).toEqual(1);
+    // The extra child is the end of stories component
+    expect(storyBoxes.length).toEqual(2);
   });
 });

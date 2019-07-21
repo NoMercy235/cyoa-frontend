@@ -1,8 +1,12 @@
-const landingStories = require('../mocks/stories').landingStories;
+const {
+  landingStories,
+  landingPagination,
+} = require('../mocks/stories');
 
 function createRegexp (stringToGoIntoTheRegex) {
   const parsed = stringToGoIntoTheRegex.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
-  return new RegExp(parsed);
+  // We need to match anything other query params that go after it
+  return new RegExp(`${parsed}[\\S]+`);
 }
 
 class DataMock {
@@ -20,10 +24,21 @@ class DataMock {
   _handleRequest (match, response, config = {}) {
     this.handlers.push(req => {
       if (match(req)) {
+        let body;
+
+        if (config.pagination) {
+          body = {
+            data: response,
+            ...config.pagination
+          }
+        } else {
+          body = response;
+        }
+
         req.respond({
           status: 200 || config.status,
           contentType: 'application/json' || config.contentType,
-          body: JSON.stringify(response),
+          body: JSON.stringify(body),
         });
         return true;
       }
@@ -31,25 +46,33 @@ class DataMock {
     });
   }
 
-  mockStories (stories = landingStories) {
-    this._handleRequest(
-      req => req.url().endsWith('public/story?'),
-      stories,
-    );
-  }
-
-  mockStoriesQuickSearch (filter, stories = landingStories) {
-    const regexp = createRegexp(`public/story/quick?quickSearch=${filter}`);
+  mockStories (stories = landingStories, config = { pagination: landingPagination }) {
+    const regexp = createRegexp(`public/story?`);
 
     this._handleRequest(
       req => {
         return !!(req.url().match(regexp));
       },
-      stories.filter(s => {
-        return !!([s.name, s.shortDescription, s.longDescription].find(val => {
-          return val.toLowerCase().includes(filter.toLowerCase());
-        }));
-      }),
+      stories,
+      config,
+    );
+  }
+
+  mockStoriesQuickSearch (filter, stories = landingStories, config = { pagination: landingPagination }) {
+    const regexp = createRegexp(`public/story/quick?quickSearch=${filter}`);
+
+    const filteredStories = stories.filter(s => {
+      return !!([s.name, s.shortDescription, s.longDescription].find(val => {
+        return val.toLowerCase().includes(filter.toLowerCase());
+      }));
+    });
+
+    this._handleRequest(
+      req => {
+        return !!(req.url().match(regexp));
+      },
+      filteredStories,
+      config
     );
   }
 }

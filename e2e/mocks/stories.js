@@ -32,6 +32,12 @@ const landingStories = [{
   'chapters': ['5cb3440ba701c8001c5431e4'],
 }];
 
+const landingPagination = {
+  page: 0,
+  total: 2,
+};
+
 module.exports = {
   landingStories,
+  landingPagination,
 };
