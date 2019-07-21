@@ -89,7 +89,7 @@ class Header extends Component {
           color="inherit"
           noWrap
         >
-          Mynona
+          Rigamo
         </Typography>
       </>
     );

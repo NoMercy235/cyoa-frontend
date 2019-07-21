@@ -8,7 +8,7 @@ const {
   sPasswordInput,
 } = require('./utils/selectorsAndXPaths');
 
-const xAppTitle = '//h6[text()="Mynona"]';
+const xAppTitle = '//h6[text()="Rigamo"]';
 const xWelcomeMessage = '//span[contains(., "Welcome")]';
 const xGoodbyeMessage = '//span[contains(., "Goodbye")]';
 const sMenuBtn = 'button[aria-label="Open drawer"]';
