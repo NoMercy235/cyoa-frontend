@@ -36,7 +36,7 @@ class AuthenticationModal extends Component {
     const { appStore, onClose } = this.props;
 
     this.formik.resetForm();
-    this.setState({ isLoggingIn: true, errorMessage });
+    this.setState({ isLoggingIn: true, errorMessage: '' });
 
     appStore.setIsAuthModalOpen(false);
     onClose && onClose();
