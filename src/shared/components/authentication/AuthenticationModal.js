@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import { Formik } from 'formik';
-import { withStyles, Dialog } from '@material-ui/core';
+import { withStyles, Dialog, Typography } from '@material-ui/core';
 
 import LoginForm from './LoginForm';
 import { appStorePropTypes } from '../../store/AppStore';
@@ -28,6 +28,7 @@ import { dialogDefaultCss } from '../dialog/Dialog.css';
 class AuthenticationModal extends Component {
   state = {
     isLoggingIn: true,
+    errorMessage: '',
   };
   snackbarRef = React.createRef();
 
@@ -35,6 +36,7 @@ class AuthenticationModal extends Component {
     const { appStore, onClose } = this.props;
 
     this.formik.resetForm();
+    this.setState({ isLoggingIn: true, errorMessage });
 
     appStore.setIsAuthModalOpen(false);
     onClose && onClose();
@@ -99,6 +101,23 @@ class AuthenticationModal extends Component {
     this.setState(metadata);
   };
 
+  renderErrorText () {
+    const { classes } = this.props;
+    const { errorMessage } = this.state;
+
+    if (!errorMessage) return null;
+
+    return (
+      <Typography
+        className={classes.errorText}
+        variant="caption"
+        color="secondary"
+      >
+        {errorMessage}
+      </Typography>
+    );
+  }
+
   renderHelperText(formik) {
     if (this.state.isLoggingIn) {
       return <NoAccount
@@ -114,8 +133,10 @@ class AuthenticationModal extends Component {
   onSubmit = async (values, { setSubmitting }) => {
     try {
       this.state.isLoggingIn
-        ? this.login(values)
-        : this.register(values);
+        ? await this.login(values)
+        : await this.register(values);
+    } catch (e) {
+      this.setState({ errorMessage: e.message });
     } finally {
       setSubmitting(false);
     }
@@ -145,6 +166,7 @@ class AuthenticationModal extends Component {
             ? <LoginForm formik={formik} />
             : <RegisterForm formik={formik} />
           }
+          {this.renderErrorText()}
           {this.renderHelperText(formik)}
         </DialogContent>
         <DialogActions>

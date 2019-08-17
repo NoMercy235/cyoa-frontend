@@ -1,4 +1,4 @@
-const Utils = require('./utils/utils');
+const Utils = require('../../utils/utils');
 const {
   sUserSettings,
   xLoginOption,
@@ -6,9 +6,9 @@ const {
   xLogoutOption,
   sEmailInput,
   sPasswordInput,
-} = require('./utils/selectorsAndXPaths');
+  xAppTitle
+} = require('../../utils/selectorsAndXPaths');
 
-const xAppTitle = '//h6[text()="Rigamo"]';
 const xWelcomeMessage = '//span[contains(., "Welcome")]';
 const xGoodbyeMessage = '//span[contains(., "Goodbye")]';
 const sMenuBtn = 'button[aria-label="Open drawer"]';
