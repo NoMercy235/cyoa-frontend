@@ -8,6 +8,7 @@ export const styles = theme => ({
   card: {
     overflow: 'visible',
     '&:not(:last-child)': {
+      margin: '1px', // needed for the border shadowing
       marginBottom: theme.spacing(1),
     }
   },
