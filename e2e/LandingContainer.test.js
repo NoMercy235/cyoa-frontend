@@ -1,4 +1,4 @@
-const Utils = require('./utils/utils');
+const createContext = require('./utils/utils');
 const DataMock = require('./utils/dataGenerator');
 
 const xStoryBoxes = '//div[contains(@class, "infinite-scroll-component")]/div[position() < last()]';
@@ -8,41 +8,39 @@ const sProgressBar = '#nprogress';
 const QUICK_FILTER = 'stanley';
 
 describe('LandingContainer guest', () => {
-  let browser;
-  let page;
-  let utils;
-  let endpoint;
+  let context;
 
   beforeAll(async () => {
-    const beforeAll = await Utils.beforeAll();
-    browser = beforeAll.browser;
-    page = beforeAll.page;
-    endpoint = beforeAll.customConfig.endpoint;
-
-    utils = new Utils(browser, page);
-
-    await page.setRequestInterception(true);
-    const dataMock = new DataMock(page);
-    dataMock.mockStories();
-    dataMock.mockStoriesQuickSearch(QUICK_FILTER);
+    context = await createContext({
+      navigateToEndpoint: true,
+      interceptRequest: (context) => {
+        const dataMock = new DataMock(context.page);
+        dataMock.mockStories();
+        dataMock.mockStoriesQuickSearch(QUICK_FILTER);
+      },
+    });
   });
 
   afterAll(async () => {
-    await page.close();
+    await context.page.close();
   });
 
   it('should see two stories', async () => {
+    const { page, waitForElement, customConfig: { endpoint } } = context;
+
     await page.goto(endpoint, { waitUntil: 'networkidle2' });
-    await utils.waitForElement(sProgressBar, { hidden: true });
-    await utils.waitForElement(xStoryBoxes);
+    await waitForElement(sProgressBar, { hidden: true });
+    await waitForElement(xStoryBoxes);
     const storyBoxes = await page.$x(xStoryBoxes);
     expect(storyBoxes.length).toEqual(2);
   });
 
   it('should quick search with the string stanley and see only one story', async () => {
+    const { page, waitForElement } = context;
+
     await page.type(sQuickSearchInput, QUICK_FILTER);
-    await utils.waitForElement(sProgressBar, { hidden: true });
-    await utils.waitForElement(xStoryBoxes);
+    await waitForElement(sProgressBar, { hidden: true });
+    await waitForElement(xStoryBoxes);
     const storyBoxes = await page.$x(xStoryBoxes);
 
     expect(storyBoxes.length).toEqual(1);

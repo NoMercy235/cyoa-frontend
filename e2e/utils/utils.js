@@ -8,18 +8,31 @@ const {
   sDrawerBackdrop,
   sSnackbarCloseBtn,
   sSnackbarRoot,
+  xCloseModalBtn,
 } = require('./selectorsAndXPaths');
 
-class Utils {
-  constructor (browser, page) {
-    this.browser = browser;
-    this.page = page;
+async function createContext (options) {
+  function isStringSelector (selectorOrXPath) {
+    return !selectorOrXPath.startsWith('//');
   }
 
-  async login (credentials) {
+  async function beforeAll () {
+    const browser = global.__BROWSER__;
+    const page = await browser.newPage();
+    const customConfig = global.__CUSTOM_CONFIG__;
+
+    return { browser, page, customConfig };
+  }
+
+  const context = await beforeAll();
+  this.page = context.page;
+  this.browser = context.browser;
+  this.customConfig = context.customConfig;
+
+  const login = async (credentials) => {
     await this.page.click(sUserSettings);
 
-    await this.clickOnElement(
+    await clickOnElement(
       xLoginOption,
       { waitForElement: sEmailInput },
     );
@@ -27,51 +40,66 @@ class Utils {
     await this.page.type(sEmailInput, credentials.email);
     await this.page.type(sPasswordInput, credentials.password);
 
-    await this.clickOnElement(xLoginBtn);
-    await this.closeSnackbar();
-  }
+    await clickOnElement(xLoginBtn);
+    await closeSnackbar();
+  };
 
-  async logout (credentials) {
-    await this.clickOnElement(sUserSettings);
-    await this.clickOnElement(xLogoutOption(credentials.email));
-    await this.closeSnackbar();
-  }
+  const logout = async (credentials) => {
+    await clickOnElement(sUserSettings);
+    await clickOnElement(xLogoutOption(credentials.email));
+    await closeSnackbar();
+  };
 
-  async clickOnElement (selectorOrXPath, options = {}) {
-    const isSelector = Utils.isSelector(selectorOrXPath);
-    await this.waitForElement(selectorOrXPath);
+  const clickOnElement = async (selectorOrXPath, options = {}) => {
+    const isSelector = isStringSelector(selectorOrXPath);
+    await waitForElement(selectorOrXPath);
     if (options.waitAfterVisible) {
       await this.page.waitFor(options.waitAfterVisible);
     }
     if (isSelector) {
-      await this.clickBySelector(selectorOrXPath);
+      await clickBySelector(selectorOrXPath);
     } else {
-      await this.clickByXPath(selectorOrXPath);
+      await clickByXPath(selectorOrXPath);
     }
     if (options.waitForElement) {
-      await this.waitForElement(options.waitForElement);
+      await waitForElement(options.waitForElement);
     }
-  }
+  };
 
-  async clickBySelector (selector) {
+  const clickBySelector = async selector => {
     await this.page.click(selector);
-  }
+  };
 
-  async clickByXPath (xPath) {
+  const clickByXPath = async xPath => {
     const els = await this.page.$x(xPath);
     await els[0].click();
-  }
+  };
 
-  async waitForElement (selectorOrXPath, options = {}) {
-    const isSelector = Utils.isSelector(selectorOrXPath);
+  const waitForElement = async  (selectorOrXPath, options = {}) => {
+    const isSelector = isStringSelector(selectorOrXPath);
     if (isSelector) {
       await this.page.waitForSelector(selectorOrXPath, options);
     } else {
       await this.page.waitForXPath(selectorOrXPath, options);
     }
-  }
+  };
 
-  async fillInputElement (selector, value) {
+  const closeSnackbar = async () => {
+    await clickOnElement(sSnackbarCloseBtn);
+    await this.page.waitForSelector(sSnackbarRoot, { hidden: true });
+  };
+
+  const closeDrawer = async () => {
+    await this.page.click(sDrawerBackdrop);
+    await this.page.waitForSelector(sDrawerBackdrop, { hidden: true });
+  };
+
+  const closeModal = async () => {
+    await clickOnElement(xCloseModalBtn);
+    await waitForElement(xCloseModalBtn, { hidden: true });
+  };
+
+  const fillInputElement = async (selector, value) => {
     await this.page.$eval(
       selector,
       (el, value) => {
@@ -79,29 +107,34 @@ class Utils {
       },
       value
     );
+  };
+
+  if (options.navigateToEndpoint) {
+    await this.page.goto(this.customConfig.endpoint);
   }
 
-  async closeSnackbar () {
-    await this.clickOnElement(sSnackbarCloseBtn);
-    await this.page.waitForSelector(sSnackbarRoot, { hidden: true });
+  if (options.withLogin) {
+    await login(context.customConfig.credentials);
   }
 
-  async closeDrawer () {
-    await this.page.click(sDrawerBackdrop);
-    await this.page.waitForSelector(sDrawerBackdrop, { hidden: true });
-
+  if (options.interceptRequest) {
+    await context.page.setRequestInterception(true);
+    await options.interceptRequest(context);
   }
 
-  static isSelector (selectorOrXPath) {
-    return !selectorOrXPath.startsWith('//');
-  }
-
-  static async beforeAll () {
-    const browser = global.__BROWSER__;
-    const page = await browser.newPage();
-    const customConfig = global.__CUSTOM_CONFIG__;
-    return { browser, page, customConfig };
-  }
+  return {
+    login,
+    logout,
+    clickOnElement,
+    clickBySelector,
+    clickByXPath,
+    waitForElement,
+    closeSnackbar,
+    closeDrawer,
+    closeModal,
+    fillInputElement,
+    ...context,
+  };
 }
 
-module.exports = Utils;
+module.exports = createContext;

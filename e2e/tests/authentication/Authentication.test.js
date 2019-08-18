@@ -1,4 +1,4 @@
-const Utils = require('../../utils/utils');
+const createContext = require('../../utils/utils');
 const {
   sUserSettings,
   xLoginOption,
@@ -16,39 +16,30 @@ const xMyStoriesLink = '//div[contains(@class, "MuiButtonBase-root")]/div[contai
 const xPleaseLoginForAdditionalFeatures = '//div[contains(@class, "MuiButtonBase-root")]/div[contains(., "Log in to use additional features")]';
 const xCollectionsTableTitle = '//h6[contains(., "Collections")]';
 
-describe('Authentication', () => {
-  let browser;
-  let page;
-  let credentials;
-  let utils;
-  let endpoint;
+describe('Authentication happy path and restrictions', () => {
+  let context;
 
   beforeAll(async () => {
-    const beforeAll = await Utils.beforeAll();
-    browser = beforeAll.browser;
-    page = beforeAll.page;
-    credentials = beforeAll.customConfig.credentials;
-    endpoint = beforeAll.customConfig.endpoint;
-
-    utils = new Utils(browser, page);
+    context = await createContext({ navigateToEndpoint: true });
   });
 
   afterAll(async () => {
-    await page.close();
+    await context.page.close();
   });
 
   it('should not have access to the admin options', async () => {
-    await page.goto(endpoint);
-    await utils.waitForElement(xAppTitle);
-    await utils.clickOnElement(sMenuBtn);
-    await utils.waitForElement(xPleaseLoginForAdditionalFeatures);
-    await utils.closeDrawer();
+    const { clickOnElement, waitForElement, closeDrawer } = context;
+    await waitForElement(xAppTitle);
+    await clickOnElement(sMenuBtn);
+    await waitForElement(xPleaseLoginForAdditionalFeatures);
+    await closeDrawer();
   });
 
   it('should log in successfully', async () => {
+    const { page, clickOnElement, closeSnackbar, customConfig: { credentials } } = context;
     await page.click(sUserSettings);
 
-    await utils.clickOnElement(
+    await clickOnElement(
       xLoginOption,
       { waitForElement: sEmailInput },
     );
@@ -56,54 +47,59 @@ describe('Authentication', () => {
     await page.type(sEmailInput, credentials.email);
     await page.type(sPasswordInput, credentials.password);
 
-    await utils.clickOnElement(xLoginBtn);
+    await clickOnElement(xLoginBtn);
     const welcomeMessage = await page.waitForXPath(xWelcomeMessage);
     expect(welcomeMessage).toBeTruthy();
-    await utils.closeSnackbar();
+    await closeSnackbar();
   });
 
   it('should have access to the admin options', async () => {
+    const { page, closeDrawer } = context;
     await page.click(sMenuBtn);
     await page.waitForXPath(xPleaseLoginForAdditionalFeatures, { hidden: true });
-    await utils.closeDrawer();
+    await closeDrawer();
   });
 
   it('should log out successfully', async () => {
+    const { page, clickOnElement, closeSnackbar, customConfig: { credentials } } = context;
     await page.click(sUserSettings);
-    await utils.clickOnElement(xLogoutOption(credentials.email), {
+    await clickOnElement(xLogoutOption(credentials.email), {
       waitForElement: xGoodbyeMessage,
     });
-    await utils.closeSnackbar();
+    await closeSnackbar();
   });
 
   it('should login from a component that needs authentication', async () => {
-    await utils.clickOnElement(sMenuBtn);
+    const { page, clickOnElement, closeSnackbar, customConfig: { credentials } } = context;
+    await clickOnElement(sMenuBtn);
 
-    await utils.clickOnElement(xPleaseLoginForAdditionalFeatures, {
+    await clickOnElement(xPleaseLoginForAdditionalFeatures, {
       waitForElement: sEmailInput,
     });
 
     await page.type(sEmailInput, credentials.email);
     await page.type(sPasswordInput, credentials.password);
 
-    await utils.clickOnElement(xLoginBtn);
-    await utils.closeSnackbar();
+    await clickOnElement(xLoginBtn);
+    await closeSnackbar();
   });
 
   it('should be allowed to access my stories when logged in', async () => {
-    await utils.clickOnElement(sMenuBtn);
-    await utils.clickOnElement(xMyStoriesLink);
-    await utils.waitForElement(xCollectionsTableTitle);
+    const { page, clickOnElement, waitForElement } = context;
+    await clickOnElement(sMenuBtn);
+    await clickOnElement(xMyStoriesLink);
+    await waitForElement(xCollectionsTableTitle);
     expect(page.url().endsWith('/admin/stories')).toBe(true);
   });
 
   it('should redirect to landing if the user logs out from a page that needs authentication', async () => {
-    await utils.clickOnElement(
+    const { page, clickOnElement, waitForElement, customConfig: { credentials } } = context;
+    await clickOnElement(
       sUserSettings,
       { waitAfterVisible: 1000 }
     );
-    await utils.clickOnElement(xLogoutOption(credentials.email));
-    await utils.waitForElement(xAppTitle);
+    await clickOnElement(xLogoutOption(credentials.email));
+    await waitForElement(xAppTitle);
     expect(page.url().endsWith('/public')).toBe(true);
   });
 });

@@ -1,4 +1,4 @@
-const Utils = require('./utils/utils');
+const createContext = require('./utils/utils');
 const faker = require('faker');
 
 const sNewStoryBtn = '//button//*[name()="svg" and @title="New story"]';
@@ -22,75 +22,83 @@ const xNoStartSeqErrorText = '//li[text()="The story has no associated start seq
 const xNoEndSeqErrorText = '//li[text()="The story has no associated ending. You need at least one ending sequence"]';
 
 describe('AdminStory', () => {
-  let browser;
-  let page;
-  let credentials;
-  let utils;
-  let endpoint;
-
+  let context;
   let storyName;
 
   beforeAll(async () => {
-    const beforeAll = await Utils.beforeAll();
-    browser = beforeAll.browser;
-    page = beforeAll.page;
-    credentials = beforeAll.customConfig.credentials;
-    endpoint = beforeAll.customConfig.endpoint;
-
-    utils = new Utils(browser, page);
-
-    await page.goto(endpoint);
-    await utils.login(credentials);
+    context = await createContext({
+      navigateToEndpoint: true,
+      withLogin: true,
+    });
   });
 
   afterAll(async () => {
-    await utils.logout(credentials);
+    const { page, logout, customConfig: { credentials } } = context;
+    await logout(credentials);
     await page.close();
   });
 
   describe('Basic story', () => {
     it('should create a test story successfully', async () => {
+      const {
+        page,
+        clickOnElement,
+        closeSnackbar,
+        waitForElement,
+        customConfig: { endpoint },
+      } = context;
+
       await page.goto(`${endpoint}admin/stories`);
-      await utils.clickOnElement(sNewStoryBtn, {
+      await clickOnElement(sNewStoryBtn, {
         waitForElement: xCreateStoryModalTitle,
       });
 
       storyName = faker.random.words(5);
 
-      await utils.clickOnElement(xTagsInput, {
+      await clickOnElement(xTagsInput, {
         waitAfterVisible: 100,
       });
-      await utils.clickOnElement(xAdventureListItem);
-      await utils.clickOnElement(xCreateStoryModalTitle);
+      await clickOnElement(xAdventureListItem);
+      await clickOnElement(xCreateStoryModalTitle);
       await page.type(sNameInput, storyName);
       await page.type(sShortDescInput, faker.lorem.sentence());
       await page.type(sLongDescInput, faker.lorem.sentence());
 
-      await utils.clickOnElement(xSaveStoryBtn);
-      await utils.closeSnackbar();
-      await utils.waitForElement(xStoryTableRow(storyName));
+      await clickOnElement(xSaveStoryBtn);
+      await closeSnackbar();
+      await waitForElement(xStoryTableRow(storyName));
     });
 
     it('should view the name of the new story in the general tab', async () => {
-      await utils.clickOnElement(xStoryNameTableCell(storyName));
-      await utils.waitForElement(xStoryNameBreadcrumb(storyName));
+      const { clickOnElement, waitForElement } = context;
+      await clickOnElement(xStoryNameTableCell(storyName));
+      await waitForElement(xStoryNameBreadcrumb(storyName));
     });
 
     it('should not be able to publish the story with no start sequence and no end sequence', async () => {
-      await utils.clickOnElement(xPublishBtn);
-      await utils.clickOnElement(xYesBtn);
+      const { clickOnElement, waitForElement } = context;
+
+      await clickOnElement(xPublishBtn);
+      await clickOnElement(xYesBtn);
       await Promise.all([
-        utils.waitForElement(xNoStartSeqErrorText),
-        utils.waitForElement(xNoEndSeqErrorText),
+        waitForElement(xNoStartSeqErrorText),
+        waitForElement(xNoEndSeqErrorText),
       ]);
-      await utils.clickOnElement(xNoBtn);
+      await clickOnElement(xNoBtn);
     });
 
     it('should delete the created story', async () => {
+      const {
+        page,
+        clickOnElement,
+        waitForElement,
+        customConfig: { endpoint },
+      } = context;
+
       await page.goto(`${endpoint}admin/stories`);
-      await utils.clickOnElement(xStoryTableDeleteAction(storyName));
-      await utils.clickOnElement(xYesBtn);
-      await utils.waitForElement(xStoryDeletedMessage);
+      await clickOnElement(xStoryTableDeleteAction(storyName));
+      await clickOnElement(xYesBtn);
+      await waitForElement(xStoryDeletedMessage);
     });
   });
 

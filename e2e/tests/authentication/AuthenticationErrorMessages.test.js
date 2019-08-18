@@ -1,9 +1,8 @@
-const Utils = require('../../utils/utils');
+const createContext = require('../../utils/utils');
 const {
   sUserSettings,
   xLoginOption,
   xLoginBtn,
-  xCloseModalBtn,
   sEmailInput,
   sPasswordInput
 } = require('../../utils/selectorsAndXPaths');
@@ -13,31 +12,22 @@ const xFieldRequiredErrorMessage = '//p[contains(., "This field is required")]';
 const xWrongCredentialsErrorMessage = '//span[contains(., "Authentication failed. Username or password are incorrect")]';
 
 describe('Authentication errors', () => {
-  let browser;
-  let page;
-  let credentials;
-  let utils;
-  let endpoint;
+  let context;
 
   beforeAll(async () => {
-    const beforeAll = await Utils.beforeAll();
-    browser = beforeAll.browser;
-    page = beforeAll.page;
-    credentials = beforeAll.customConfig.credentials;
-    endpoint = beforeAll.customConfig.endpoint;
-
-    utils = new Utils(browser, page);
-    await page.goto(endpoint);
+    context = await createContext({ navigateToEndpoint: true });
   });
 
   afterAll(async () => {
-    await page.close();
+    await context.page.close();
   });
 
   it('should tell the user that the email is invalid and password is required', async () => {
+    const { page, clickOnElement, waitForElement, closeModal } = context;
+
     await page.click(sUserSettings);
 
-    await utils.clickOnElement(
+    await clickOnElement(
       xLoginOption,
       { waitForElement: sEmailInput },
     );
@@ -45,32 +35,31 @@ describe('Authentication errors', () => {
     await page.type(sEmailInput, 'invalid email');
     await page.type(sPasswordInput, '');
 
-    await utils.clickOnElement(xLoginBtn);
-    await page.waitForXPath(xWrongEmailFormatErrorMessage);
-    await page.waitForXPath(xFieldRequiredErrorMessage);
+    await clickOnElement(xLoginBtn);
+    await waitForElement(xWrongEmailFormatErrorMessage);
+    await waitForElement(xFieldRequiredErrorMessage);
 
-    await utils.clickOnElement(
-      xCloseModalBtn,
-    );
+    await closeModal();
   });
 
   it('should show error message if credentials are wrong', async () => {
-    await utils.clickOnElement(
+    const { page, clickOnElement, waitForElement} = context;
+
+    await clickOnElement(
       sUserSettings,
-      { waitAfterVisible: 1000 }
     );
 
-    await utils.clickOnElement(
+    await clickOnElement(
       xLoginOption,
       { waitForElement: sPasswordInput },
     );
 
-    await utils.waitForElement(sPasswordInput);
+    await waitForElement(sPasswordInput);
 
     await page.type(sEmailInput, 'bogusEmail@nonexistent.com');
     await page.type(sPasswordInput, 'this is not even true');
 
-    await utils.clickOnElement(xLoginBtn);
+    await clickOnElement(xLoginBtn);
     const wrongCredentialsMessage = await page.waitForXPath(xWrongCredentialsErrorMessage);
     expect(wrongCredentialsMessage).toBeTruthy();
   });
