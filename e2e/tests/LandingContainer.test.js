@@ -4,6 +4,7 @@ const DataMock = require('../utils/dataGenerator');
 const xStoryBoxes = '//div[contains(@class, "infinite-scroll-component")]/div[position() < last()]';
 const sQuickSearchInput = 'input[placeholder="Search..."]';
 const sProgressBar = '#nprogress';
+const sGithubOption = 'img[alt="GitHub"]';
 
 const QUICK_FILTER = 'stanley';
 
@@ -44,5 +45,12 @@ describe('LandingContainer guest', () => {
     const storyBoxes = await page.$x(xStoryBoxes);
 
     expect(storyBoxes.length).toEqual(1);
+  });
+
+  it('should see the GitHub menu option', async () => {
+    const { waitForElement, openDrawer } = context;
+
+    await openDrawer();
+    await waitForElement(sGithubOption);
   });
 });

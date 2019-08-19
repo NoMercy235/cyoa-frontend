@@ -7,6 +7,7 @@ module.exports = {
   xLoginBtn: '//button[contains(., "Login")]',
   xCloseModalBtn: '//button[contains(@aria-label, "Close")]',
   xAppTitle: '//h6[text()="Rigamo"]',
+  sDrawerBtn: 'button[aria-label="Open drawer"]',
 
   sSnackbarRoot: 'div[class*="MuiSnackbar-root"]',
   sSnackbarCloseBtn: 'div[class*="MuiSnackbarContent-action"] > button',

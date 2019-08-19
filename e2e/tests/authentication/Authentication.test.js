@@ -6,12 +6,11 @@ const {
   xLogoutOption,
   sEmailInput,
   sPasswordInput,
-  xAppTitle
+  xAppTitle,
 } = require('../../utils/selectorsAndXPaths');
 
 const xWelcomeMessage = '//span[contains(., "Welcome")]';
 const xGoodbyeMessage = '//span[contains(., "Goodbye")]';
-const sMenuBtn = 'button[aria-label="Open drawer"]';
 const xMyStoriesLink = '//div[contains(@class, "MuiButtonBase-root")]/div[contains(., "My stories")]';
 const xPleaseLoginForAdditionalFeatures = '//div[contains(@class, "MuiButtonBase-root")]/div[contains(., "Log in to use additional features")]';
 const xCollectionsTableTitle = '//h6[contains(., "Collections")]';
@@ -28,9 +27,9 @@ describe('Authentication happy path and restrictions', () => {
   });
 
   it('should not have access to the admin options', async () => {
-    const { clickOnElement, waitForElement, closeDrawer } = context;
+    const { waitForElement, openDrawer, closeDrawer } = context;
     await waitForElement(xAppTitle);
-    await clickOnElement(sMenuBtn);
+    await openDrawer();
     await waitForElement(xPleaseLoginForAdditionalFeatures);
     await closeDrawer();
   });
@@ -54,8 +53,8 @@ describe('Authentication happy path and restrictions', () => {
   });
 
   it('should have access to the admin options', async () => {
-    const { page, closeDrawer } = context;
-    await page.click(sMenuBtn);
+    const { page, openDrawer, closeDrawer } = context;
+    await openDrawer();
     await page.waitForXPath(xPleaseLoginForAdditionalFeatures, { hidden: true });
     await closeDrawer();
   });
@@ -70,8 +69,14 @@ describe('Authentication happy path and restrictions', () => {
   });
 
   it('should login from a component that needs authentication', async () => {
-    const { page, clickOnElement, closeSnackbar, customConfig: { credentials } } = context;
-    await clickOnElement(sMenuBtn);
+    const {
+      page,
+      clickOnElement,
+      closeSnackbar,
+      openDrawer,
+      customConfig: { credentials },
+    } = context;
+    await openDrawer();
 
     await clickOnElement(xPleaseLoginForAdditionalFeatures, {
       waitForElement: sEmailInput,
@@ -85,8 +90,8 @@ describe('Authentication happy path and restrictions', () => {
   });
 
   it('should be allowed to access my stories when logged in', async () => {
-    const { page, clickOnElement, waitForElement } = context;
-    await clickOnElement(sMenuBtn);
+    const { page, clickOnElement, waitForElement, openDrawer } = context;
+    await openDrawer();
     await clickOnElement(xMyStoriesLink);
     await waitForElement(xCollectionsTableTitle);
     expect(page.url().endsWith('/admin/stories')).toBe(true);
