@@ -15,6 +15,7 @@ import WarningIcon from '@material-ui/icons/Warning';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { BaseModel } from '../../../infrastructure/models/BaseModel';
+import { SNACKBAR_AUTOHIDE_DURATION } from '../../constants/global';
 
 import { styles } from './Snackbar.css';
 
@@ -45,7 +46,7 @@ const variantIcon = {
 
 class Snackbar extends React.Component {
   static defaultProps = {
-    autoHideDuration: 2000,
+    autoHideDuration: SNACKBAR_AUTOHIDE_DURATION,
   };
 
   state = {

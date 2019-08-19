@@ -1,5 +1,5 @@
-const createContext = require('./utils/utils');
-const DataMock = require('./utils/dataGenerator');
+const createContext = require('../utils/utils');
+const DataMock = require('../utils/dataGenerator');
 
 const xStoryBoxes = '//div[contains(@class, "infinite-scroll-component")]/div[position() < last()]';
 const sQuickSearchInput = 'input[placeholder="Search..."]';
