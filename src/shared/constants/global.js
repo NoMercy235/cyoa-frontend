@@ -6,3 +6,5 @@ export const SCREEN_MIN_WIDTH_LG = 1025;
 export const BORDER = '1px solid rgba(0, 0, 0, 0.2)';
 
 export const ONLINE_STATUS_POLLING_INTERVAL = 10000;
+
+export const APP_GITHUB_URL = 'https://github.com/NoMercy235/cyoa-frontend';

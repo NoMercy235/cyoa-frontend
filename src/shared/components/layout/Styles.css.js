@@ -37,6 +37,10 @@ export const styles = theme => ({
     padding: '0 8px',
     ...theme.mixins.toolbar,
   },
+  sideMenuIcon: {
+    height: theme.spacing(3),
+    width: theme.spacing(3),
+  },
   content: {
     display: 'flex',
     flexDirection: 'column',
