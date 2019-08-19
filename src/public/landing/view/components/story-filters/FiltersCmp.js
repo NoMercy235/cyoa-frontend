@@ -64,6 +64,9 @@ class FiltersCmp extends Component {
               input: classes.inputInput,
             }}
             value={quickSearchValue}
+            inputProps={{
+             'aria-label': 'Quick search',
+            }}
           />
         </div>
       </>

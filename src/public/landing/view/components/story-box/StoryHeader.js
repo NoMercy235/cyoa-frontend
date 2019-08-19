@@ -110,7 +110,7 @@ class StoryHeader extends Component {
         items={this.getMenuItems()}
         closeOnItemClick={false}
       >
-        <IconButton>
+        <IconButton aria-label="More story actions">
           <MoreVertIcon />
         </IconButton>
       </MenuDropdown>
