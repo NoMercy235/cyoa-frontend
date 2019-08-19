@@ -5,6 +5,7 @@ const {
   xLogoutOption,
   sEmailInput,
   sPasswordInput,
+  sDrawerBtn,
   sDrawerBackdrop,
   sSnackbarCloseBtn,
   sSnackbarRoot,
@@ -89,6 +90,10 @@ async function createContext (options) {
     await this.page.waitForSelector(sSnackbarRoot, { hidden: true });
   };
 
+  const openDrawer = async () => {
+    await clickOnElement(sDrawerBtn);
+  };
+
   const closeDrawer = async () => {
     await this.page.click(sDrawerBackdrop);
     await this.page.waitForSelector(sDrawerBackdrop, { hidden: true });
@@ -130,6 +135,7 @@ async function createContext (options) {
     clickByXPath,
     waitForElement,
     closeSnackbar,
+    openDrawer,
     closeDrawer,
     closeModal,
     fillInputElement,

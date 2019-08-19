@@ -18,9 +18,11 @@ import ArrowBack from '@material-ui/icons/ArrowBackOutlined';
 import ViewStoryIcon from '@material-ui/icons/Pageview';
 
 import { appStorePropTypes } from '../../store/AppStore';
-import { ADMIN_STORIES_ROUTE } from '../../constants/routes';
+import { ADMIN_STORIES_ROUTE, LANDING_ROUTE } from '../../constants/routes';
 import ttaLogo from '../../../assets/tta-logo.png';
+import gitHub from '../../../assets/github.png';
 import withAuthCmp from '../../hoc/withAuthCmp';
+import { APP_GITHUB_URL } from '../../constants/global';
 
 import { styles } from './Styles.css';
 
@@ -28,8 +30,23 @@ const publicMenu = [
   {
     name: 'home',
     label: 'Home',
-    route: '/',
+    route: LANDING_ROUTE,
     icon: <HomeIcon />,
+  },
+];
+
+const extraMenu = [
+  {
+    name: 'github',
+    label: 'Github',
+    onClick: () => {
+      window.open(APP_GITHUB_URL, "_blank")
+    },
+    icon: ({ classes }) => {
+      return (
+        <img className={classes.sideMenuIcon} alt="GitHub" src={gitHub}/>
+      );
+    },
   },
 ];
 
@@ -75,9 +92,13 @@ class SideMenu extends Component {
   };
 
   renderItem = (item) => {
+    const icon = typeof item.icon === 'function'
+      ? item.icon(this.props)
+      : item.icon;
+
     const Item = withRouter(({ history }) => (
-      <ListItem button onClick={this.onItemClick(item, history)}>
-        {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
+      <ListItem button onClick={item.onClick || this.onItemClick(item, history)}>
+        {item.icon && <ListItemIcon>{icon}</ListItemIcon>}
         <ListItemText primary={item.label} />
       </ListItem>
     ));
@@ -114,6 +135,10 @@ class SideMenu extends Component {
           <Divider />
           <List>
             {publicMenu.map(this.renderItem)}
+          </List>
+          <Divider />
+          <List>
+            {extraMenu.map(this.renderItem)}
           </List>
           <Divider />
           <List>
