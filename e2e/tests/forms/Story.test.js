@@ -1,4 +1,5 @@
-const createContext = require('./utils/utils');
+const createContext = require('../../utils/utils');
+const { xNameNotUniqueError } = require('../../utils/selectorsAndXPaths');
 const faker = require('faker');
 
 const sNewStoryBtn = '//button//*[name()="svg" and @title="New story"]';
@@ -13,6 +14,7 @@ const xStoryTableRow = storyName => `//tr[contains(@class, "MuiTableRow-root")]/
 const xStoryTableDeleteAction = storyName => `//tr[contains(@class, "MuiTableRow-root")]/td/span[text()="${storyName}"]/../../td[last()]/div/button[last()]/span`;
 const xYesBtn = '//button[contains(., "Yes")]';
 const xStoryDeletedMessage = '//span[contains(., "Story deleted!")]';
+const xStorySavedMessage = '//span[contains(., "Story saved!")]';
 
 const xStoryNameTableCell = storyName => `//td[contains(@class, "MuiTableCell-root")]/span[text()="${storyName}"]`;
 const xStoryNameBreadcrumb = storyName => `//div[contains(@class, "MuiChip-root")]/span[text()="${storyName}"]`;
@@ -21,7 +23,7 @@ const xNoBtn = '//button[contains(., "No")]';
 const xNoStartSeqErrorText = '//li[text()="The story has no associated start sequence"]';
 const xNoEndSeqErrorText = '//li[text()="The story has no associated ending. You need at least one ending sequence"]';
 
-describe('AdminStory', () => {
+describe('Story workflow', () => {
   let context;
   let storyName;
 
@@ -38,33 +40,44 @@ describe('AdminStory', () => {
     await page.close();
   });
 
+  async function createStory (context, enforceStoryName) {
+    const {
+      page,
+      clickOnElement,
+      customConfig: { endpoint },
+    } = context;
+
+    await page.goto(`${endpoint}admin/stories`);
+    await clickOnElement(sNewStoryBtn, {
+      waitForElement: xCreateStoryModalTitle,
+    });
+
+    const storyName = enforceStoryName || faker.random.words(5);
+
+    await clickOnElement(xTagsInput, {
+      waitAfterVisible: 100,
+    });
+    await clickOnElement(xAdventureListItem);
+    await clickOnElement(xCreateStoryModalTitle);
+    await page.type(sNameInput, storyName);
+    await page.type(sShortDescInput, faker.lorem.sentence());
+    await page.type(sLongDescInput, faker.lorem.sentence());
+
+    await clickOnElement(xSaveStoryBtn);
+
+    return storyName;
+  }
+
   describe('Basic story', () => {
     it('should create a test story successfully', async () => {
       const {
-        page,
-        clickOnElement,
         closeSnackbar,
         waitForElement,
-        customConfig: { endpoint },
       } = context;
 
-      await page.goto(`${endpoint}admin/stories`);
-      await clickOnElement(sNewStoryBtn, {
-        waitForElement: xCreateStoryModalTitle,
-      });
+      storyName = await createStory(context);
 
-      storyName = faker.random.words(5);
-
-      await clickOnElement(xTagsInput, {
-        waitAfterVisible: 100,
-      });
-      await clickOnElement(xAdventureListItem);
-      await clickOnElement(xCreateStoryModalTitle);
-      await page.type(sNameInput, storyName);
-      await page.type(sShortDescInput, faker.lorem.sentence());
-      await page.type(sLongDescInput, faker.lorem.sentence());
-
-      await clickOnElement(xSaveStoryBtn);
+      await waitForElement(xStorySavedMessage);
       await closeSnackbar();
       await waitForElement(xStoryTableRow(storyName));
     });
@@ -85,6 +98,16 @@ describe('AdminStory', () => {
         waitForElement(xNoEndSeqErrorText),
       ]);
       await clickOnElement(xNoBtn);
+    });
+
+    it('should not allow the creation of a story with the same name', async () => {
+      const { waitForElement, closeSnackbar, closeModal } = context;
+
+      await createStory(context, storyName);
+
+      await waitForElement(xNameNotUniqueError);
+      await closeSnackbar();
+      await closeModal();
     });
 
     it('should delete the created story', async () => {
