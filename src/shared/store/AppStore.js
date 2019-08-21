@@ -15,6 +15,7 @@ class AppStore {
   @observable canUseIdb;
   @observable isAuthModalOpen = false;
   @observable isKeepPlayerModalOpen = false;
+  @observable currentLoadingAnimation = [];
 
   @observable queryParams = {
     publicStories: new QueryParams({
@@ -59,6 +60,16 @@ class AppStore {
     this.isAuthModalOpen = state;
   };
 
+  @action addCurrentLoadingAnimation = currentLoadingAnimation => {
+    this.currentLoadingAnimation.push(currentLoadingAnimation);
+  };
+
+  @action removeCurrentLoadingAnimation = currentLoadingAnimation => {
+    this.currentLoadingAnimation = this.currentLoadingAnimation.filter(cla => {
+      return cla !== currentLoadingAnimation;
+    });
+  };
+
   @computed get isLoggedIn() {
     return !!this.user;
   }
@@ -91,6 +102,10 @@ export const appStorePropTypes = PropTypes.shape({
   setIsAuthModalOpen: PropTypes.func,
 
   isLoggedIn: PropTypes.bool,
+
+  currentLoadingAnimation: PropTypes.arrayOf(PropTypes.string),
+  addCurrentLoadingAnimation: PropTypes.func,
+  removeCurrentLoadingAnimation: PropTypes.func,
 });
 
 export const appStore = new AppStore();

@@ -13,6 +13,7 @@ import BasicEditAction from '../../../../../shared/components/form/BasicEditActi
 import { renderAttributesTableTitle } from './AttributesTableTitle';
 import YesNoCmp from '../../../../../shared/components/table/YesNoCmp';
 import withDisabledStoryPublished from '../../../../../shared/hoc/withDisabledStoryPublished';
+import { ATTRIBUTES_ADMIN_TABLE } from '../../../../../shared/constants/tables';
 
 import { styles as tableStyles } from '../../../../../shared/components/table/TableCmp.css';
 
@@ -81,6 +82,7 @@ class AttributesTableCmp extends Component {
 
     return (
       <TableCmp
+        id={ATTRIBUTES_ADMIN_TABLE}
         title={renderAttributesTableTitle()}
         columns={columns}
         data={data}

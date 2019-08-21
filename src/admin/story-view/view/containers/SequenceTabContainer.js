@@ -12,6 +12,7 @@ import { optionService } from '../../../../infrastructure/services/OptionService
 import ChapterListCmp from '../components/sequences/chapter-table/ChapterListCmp';
 import { chapterService } from '../../../../infrastructure/services/ChapterService';
 import { appStorePropTypes } from '../../../../shared/store/AppStore';
+import { SEQUENCES_ADMIN_TABLE } from '../../../../shared/constants/tables';
 
 import classes from './SequenceTabContainer.module.scss';
 
@@ -37,8 +38,18 @@ class SequenceTabContainer extends Component {
   };
 
   getSequences = async chapterId => {
-    const { appStore, storyViewStore, match } = this.props;
+    const {
+      appStore: {
+        queryParams,
+        addCurrentLoadingAnimation,
+        removeCurrentLoadingAnimation,
+      },
+      storyViewStore,
+      match,
+    } = this.props;
     const selectedChapterId = this.getSelectedChapterId();
+
+    addCurrentLoadingAnimation(SEQUENCES_ADMIN_TABLE);
 
     if (chapterId === undefined) {
       chapterId = selectedChapterId
@@ -47,13 +58,14 @@ class SequenceTabContainer extends Component {
     const params = { ':story': match.params.id };
     sequenceService.setNextRouteParams(params);
 
-    appStore.queryParams.sequences.addFilter(
+    queryParams.sequences.addFilter(
       { name: 'chapter', op: 'equals', value: chapterId },
       { allowEmpty: true }
     );
-    const { sequences, page, total } = await sequenceService.list(appStore.queryParams.sequences);
-    appStore.queryParams.sequences.setPagination({ page, total });
+    const { sequences, page, total } = await sequenceService.list(queryParams.sequences);
+    queryParams.sequences.setPagination({ page, total });
     storyViewStore.setSequences(sequences);
+    removeCurrentLoadingAnimation(SEQUENCES_ADMIN_TABLE);
   };
 
   onDeleteSequence = async sequenceId => {
@@ -150,10 +162,18 @@ class SequenceTabContainer extends Component {
   };
 
   onChangeSequencesPage = async currentPage => {
-    const { appStore: { queryParams } } = this.props;
+    const {
+      appStore: {
+        queryParams,
+        addCurrentLoadingAnimation,
+        removeCurrentLoadingAnimation,
+      },
+    } = this.props;
 
     queryParams.sequences.setPagination({ page: currentPage });
+    addCurrentLoadingAnimation(SEQUENCES_ADMIN_TABLE);
     await this.getSequences(this.getSelectedChapterId());
+    removeCurrentLoadingAnimation(SEQUENCES_ADMIN_TABLE);
   };
 
   componentDidMount () {

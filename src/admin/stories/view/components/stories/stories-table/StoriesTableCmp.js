@@ -16,6 +16,7 @@ import { ADMIN_STORY_VIEW_ROUTE, makePath } from '../../../../../../shared/const
 import { renderStoriesTableTitle } from './StoriesTableTitle';
 import YesNoCmp from '../../../../../../shared/components/table/YesNoCmp';
 import withDisabledStoryPublished from '../../../../../../shared/hoc/withDisabledStoryPublished';
+import { STORIES_ADMIN_TABLE } from '../../../../../../shared/constants/tables';
 
 import { styles as storiesTableStyles } from './StoriesTableCmp.css';
 import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
@@ -111,6 +112,7 @@ class StoriesTableCmp extends Component {
 
     return (
       <TableCmp
+        id={STORIES_ADMIN_TABLE}
         title={renderStoriesTableTitle()}
         columns={columns}
         data={data}

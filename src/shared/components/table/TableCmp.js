@@ -4,9 +4,12 @@ import classNames from 'classnames';
 import MUIDataTable from 'mui-datatables';
 import { withStyles, Paper, CircularProgress } from '@material-ui/core';
 import { MuiThemeProvider } from '@material-ui/core/styles';
+import { inject, observer } from 'mobx-react';
 
 import { getMuiTheme, styles as tableStyles } from './TableCmp.css';
 
+@inject('appStore')
+@observer
 class TableCmp extends Component {
   defaultOptions = {
     search: false,
@@ -24,8 +27,16 @@ class TableCmp extends Component {
     },
   };
 
+  shouldShowLoading = () => {
+    const { id, appStore: { currentLoadingAnimation } } = this.props;
+    return currentLoadingAnimation.includes(id);
+  };
+
   renderLoadingContainer = () => {
     const { classes } = this.props;
+
+    if (!this.shouldShowLoading()) return null;
+
     return (
       <div className={classes.loadingContainer}>
         <CircularProgress
@@ -58,6 +69,7 @@ class TableCmp extends Component {
 }
 
 TableCmp.propTypes = {
+  id: PropTypes.string.isRequired,
   tableRef: PropTypes.object,
   classes: PropTypes.object,
   className: PropTypes.string,
