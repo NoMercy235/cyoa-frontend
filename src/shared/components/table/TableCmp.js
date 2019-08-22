@@ -49,10 +49,10 @@ class TableCmp extends Component {
 
   render() {
     const options = Object.assign({}, this.defaultOptions, this.props.options);
-    const { tableRef, title, columns, data, classes, className } = this.props;
+    const { id, tableRef, title, columns, data, classes, className } = this.props;
 
     return (
-      <Paper className={classNames(classes.root, className)}>
+      <Paper id={id} className={classNames(classes.root, className)}>
         {this.renderLoadingContainer()}
         <MuiThemeProvider theme={getMuiTheme()}>
           <MUIDataTable
