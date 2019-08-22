@@ -2,6 +2,7 @@ version: '2'
 
 services:
   cyoa-frontend:
+    container_name: cyoa-frontend
     build:
       context: .
       dockerfile: Dockerfile
