@@ -1,8 +1,8 @@
 version: '2'
 
 services:
-  cyoa:
-    container_name: cyoa-frontend
+  rigamo:
+    container_name: rigamo-frontend
     build:
       context: .
       dockerfile: Dockerfile
