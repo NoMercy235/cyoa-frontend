@@ -28,6 +28,7 @@ export const styles = theme => ({
     height: '100%',
     width: '100%',
     overflow: 'auto',
+    position: 'relative',
 
     '& > div': {
       height: '100%',
@@ -50,5 +51,15 @@ export const styles = theme => ({
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
+  },
+  loadingContainer: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    background: 'rgba(0, 0, 0, 0.2)',
+    zIndex: 1000,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

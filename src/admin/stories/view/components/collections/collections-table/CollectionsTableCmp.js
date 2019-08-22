@@ -12,6 +12,7 @@ import SaveCollectionModal from '../save-collection/SaveCollectionModal';
 import BasicNewAction from '../../../../../../shared/components/form/BasicNewAction';
 import { storyStorePropTypes } from '../../../../stores/StoryStore';
 import { renderCollectionsTableTitle } from './CollectionsTableTitle';
+import { COLLECTIONS_ADMIN_TABLE } from '../../../../../../shared/constants/tables';
 
 import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
 import { styles as collectionsTableStyles } from './CollectionsTableCmp.css';
@@ -101,6 +102,7 @@ class CollectionsTableCmp extends Component {
 
     return (
       <TableCmp
+        id={COLLECTIONS_ADMIN_TABLE}
         title={renderCollectionsTableTitle()}
         columns={columns}
         data={data}

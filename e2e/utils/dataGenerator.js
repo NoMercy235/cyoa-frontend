@@ -21,6 +21,12 @@ class DataMock {
     });
   }
 
+  _matchesRegexp (regexp) {
+    return (req) => {
+      return !!(req.url().match(regexp));
+    };
+  };
+
   _handleRequest (match, response, config = {}) {
     this.handlers.push(req => {
       if (match(req)) {
@@ -73,6 +79,42 @@ class DataMock {
       },
       filteredStories,
       config
+    );
+  }
+
+  mockAdminStory (story) {
+    const regexp = createRegexp('api/story/[a-z0-9]+');
+
+    this._handleRequest(
+      this._matchesRegexp(regexp),
+      story,
+    );
+  }
+
+  mockAdminAttributes (attributes = []) {
+    const regexp = createRegexp('api/attribute/[a-z0-9]+');
+
+    this._handleRequest(
+      this._matchesRegexp(regexp),
+      attributes,
+    );
+  }
+
+  mockAdminSequences (sequences = []) {
+    const regexp = createRegexp('api/sequence/[a-z0-9]+?');
+
+    this._handleRequest(
+      this._matchesRegexp(regexp),
+      sequences,
+    );
+  }
+
+  mockAdminChapters (chapters = []) {
+    const regexp = createRegexp('api/chapter/[a-z0-9]+?');
+
+    this._handleRequest(
+      this._matchesRegexp(regexp),
+      chapters,
     );
   }
 }

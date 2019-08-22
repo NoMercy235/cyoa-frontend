@@ -15,6 +15,7 @@ import DeleteRow from '../../../../../../shared/components/table/actions/DeleteR
 import { renderOptionTableTitle } from './OptionTableTitle';
 import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
 import withDisabledStoryPublished from '../../../../../../shared/hoc/withDisabledStoryPublished';
+import { OPTIONS_ADMIN_TABLE } from '../../../../../../shared/constants/tables';
 
 import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
 
@@ -140,6 +141,7 @@ class OptionTableCmp extends Component {
 
     return (
       <TableCmp
+        id={OPTIONS_ADMIN_TABLE}
         title={renderOptionTableTitle()}
         columns={columns}
         data={data}

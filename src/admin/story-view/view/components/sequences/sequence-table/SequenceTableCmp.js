@@ -17,6 +17,7 @@ import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import BasicReorderAction from '../../../../../../shared/components/form/BasicReorderAction';
 import { parseContent } from '../../../../../../shared/utilities';
 import withDisabledStoryPublished from '../../../../../../shared/hoc/withDisabledStoryPublished';
+import { SEQUENCES_ADMIN_TABLE } from '../../../../../../shared/constants/tables';
 
 import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
 import { styles as customStyles } from './SequenceTableCmp.css';
@@ -185,6 +186,7 @@ class SequenceTableCmp extends Component {
 
     return (
       <TableCmp
+        id={SEQUENCES_ADMIN_TABLE}
         tableRef={tableRef}
         className={className}
         title={renderSequenceTableTitle()}
