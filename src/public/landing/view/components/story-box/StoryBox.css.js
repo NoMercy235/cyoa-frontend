@@ -40,6 +40,13 @@ export const styles = theme => ({
       alignSelf: 'flex-start',
     },
   },
+  storySummary: {
+    display: 'flex',
+    flexDirection: 'column',
+    [`@media (max-width: ${SCREEN_MAX_WIDTH_SM}px)`]: {
+      borderBottom: BORDER,
+    },
+  },
   storyContent: {
     display: 'flex',
     flexDirection: 'column',

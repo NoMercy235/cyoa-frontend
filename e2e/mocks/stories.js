@@ -14,6 +14,7 @@ const landingStories = [{
   'tagsName': ['Psychological'],
   'tags': ['5c697af7d75ba3042e33b4ae'],
   'chapters': [],
+  'readTimes': 200,
 }, {
   '_id': '5c697c569f7a77001c330aa6',
   'updated_at': '2019-04-14T14:30:35.454Z',
@@ -30,6 +31,7 @@ const landingStories = [{
   'tagsName': ['Adventure', 'Horror', 'Mystery'],
   'tags': ['5c697af6d75ba3042e33b4a9', '5c697af7d75ba3042e33b4ac', '5c697af7d75ba3042e33b4ad'],
   'chapters': ['5cb3440ba701c8001c5431e4'],
+  'readTimes': 37,
 }];
 
 const landingPagination = {

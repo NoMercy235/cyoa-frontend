@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { withStyles, Card, CardContent, CardMedia, Collapse } from '@material-ui/core';
+import {
+  withStyles,
+  Card,
+  CardContent,
+  CardMedia,
+  Collapse,
+  List,
+  ListItem,
+  ListItemText,
+} from '@material-ui/core';
 
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import StoryHeader from './StoryHeader';
@@ -41,37 +50,71 @@ class StoryBox extends Component {
     await this.isStoryOffline();
   }
 
-  render() {
+  renderStorySummarySection = () => {
+    const { story: { humanReadTimes }, classes } = this.props;
+
+    return (
+      <div className={classes.storySummary}>
+        <List className={classes.root}>
+          <ListItem divider={true}>
+            <ListItemText primary="Statistics" />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary={`Read: ${humanReadTimes} times`} />
+          </ListItem>
+        </List>
+      </div>
+    );
+  };
+
+  renderStoryCoverSection = () => {
+    const { story, classes } = this.props;
+    return (
+      <div className={classes.storyCover}>
+        <CardMedia
+          component='img'
+          image={story.coverPic || notFoundImg}
+          title={story.name}
+        />
+        {this.renderStorySummarySection()}
+      </div>
+    );
+  };
+
+  renderStoryContentSection = () => {
     const { story, classes } = this.props;
     const { expanded, isAvailableOffline } = this.state;
+
+    return (
+      <div className={classes.storyContent}>
+        <StoryHeader
+          story={story}
+          isAvailableOffline={isAvailableOffline}
+          makeStoryAvailableOffline={this.makeStoryAvailableOffline}
+        />
+        <CardContent className={classes.cardContent}>
+          {parseContent(story.shortDescription)}
+        </CardContent>
+        <StoryActions
+          story={story}
+          expanded={expanded}
+          isAvailableOffline={isAvailableOffline}
+          handleExpandClick={this.handleExpandClick}
+        />
+      </div>
+    );
+  };
+
+  render() {
+    const { story, classes } = this.props;
+    const { expanded } = this.state;
 
     return (
       <>
         <Card className={classes.card}>
           <div className={classes.visibleContent}>
-            <div className={classes.storyCover}>
-              <CardMedia
-                component='img'
-                image={story.coverPic || notFoundImg}
-                title={story.name}
-              />
-            </div>
-            <div className={classes.storyContent}>
-              <StoryHeader
-                story={story}
-                isAvailableOffline={isAvailableOffline}
-                makeStoryAvailableOffline={this.makeStoryAvailableOffline}
-              />
-              <CardContent className={classes.cardContent}>
-                {parseContent(story.shortDescription)}
-              </CardContent>
-              <StoryActions
-                story={story}
-                expanded={expanded}
-                isAvailableOffline={isAvailableOffline}
-                handleExpandClick={this.handleExpandClick}
-              />
-            </div>
+            {this.renderStoryCoverSection()}
+            {this.renderStoryContentSection()}
           </div>
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <div className={classes.expandedContainer}>

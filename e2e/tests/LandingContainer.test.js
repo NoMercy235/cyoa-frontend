@@ -2,6 +2,7 @@ const createContext = require('../utils/utils');
 const DataMock = require('../utils/dataGenerator');
 
 const xStoryBoxes = '//div[contains(@class, "infinite-scroll-component")]/div[position() < last()]';
+const xStoryReadTimes = '//li/div/span[starts-with(text(), "Read: ")]';
 const sQuickSearchInput = 'input[placeholder="Search..."]';
 const sProgressBar = '#nprogress';
 const sGithubOption = 'img[alt="GitHub"]';
@@ -34,6 +35,11 @@ describe('LandingContainer guest', () => {
     await waitForElement(xStoryBoxes);
     const storyBoxes = await page.$x(xStoryBoxes);
     expect(storyBoxes.length).toEqual(2);
+  });
+
+  it('should see the read times for both stories', async () => {
+    const { waitForElement } = context;
+    await waitForElement(xStoryReadTimes);
   });
 
   it('should quick search with the string stanley and see only one story', async () => {

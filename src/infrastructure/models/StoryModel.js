@@ -4,6 +4,7 @@ import { BaseModel } from './BaseModel';
 import { ERRORS } from '../../shared/constants/errors';
 import { openIdb, StoresEnum } from '../../shared/idb';
 import { publicStoryService } from '../services/StoryService';
+import { convertNumberToHuman } from '../../shared/utilities';
 
 export class StoryModel extends BaseModel {
   _id = '';
@@ -20,6 +21,7 @@ export class StoryModel extends BaseModel {
   published = false;
   coverPic = '';
   isAvailableOffline = false;
+  readTimes = 0;
 
   constructor(metadata) {
     super();
@@ -37,6 +39,10 @@ export class StoryModel extends BaseModel {
   get createdAtShort() {
     if (!this.created_at) return '';
     return this.created_at.format('DD-MM-YYYY');
+  }
+
+  get humanReadTimes() {
+    return convertNumberToHuman(this.readTimes);
   }
 
   isOffline = async () => {
