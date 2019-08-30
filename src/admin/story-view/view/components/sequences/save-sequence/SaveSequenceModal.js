@@ -3,7 +3,6 @@ import * as PropTypes from 'prop-types';
 import { withStyles, Dialog } from '@material-ui/core';
 import { Formik } from 'formik';
 import { inject } from 'mobx-react';
-import { withRouter } from 'react-router-dom';
 
 import { DialogTitle } from '../../../../../../shared/components/dialog/Title';
 import { DialogContent } from '../../../../../../shared/components/dialog/Content';
@@ -63,8 +62,8 @@ class SaveSequenceModal extends Component {
   };
 
   updateStoryStartSeq = async seq => {
-    const { storyViewStore, match } = this.props;
-    storyService.update(match.params.id, { startSeq: seq._id });
+    const { storyViewStore, story } = this.props;
+    storyService.update(story._id, { startSeq: seq._id });
     // This does trigger the render function a second time (after the
     // update or addition of a new sequence) but it shouldn't affect
     // performance as there are not many things rendered and this
@@ -84,13 +83,12 @@ class SaveSequenceModal extends Component {
     return resource;
   };
 
-  onClose = (resetForm) => () => {
-    resetForm(this.getInitialValues());
+  onClose = () => {
     this.props.onClose();
   };
 
-  onSubmit = async (values, { setSubmitting, resetForm }) => {
-    const { sequence, onSuccess } = this.props;
+  onSubmit = async (values, { setSubmitting }) => {
+    const { story, sequence, onSuccess } = this.props;
     try {
       let seq = {};
       if (values._id) {
@@ -103,12 +101,12 @@ class SaveSequenceModal extends Component {
         seq = await this.saveSequence(values);
       }
 
-      if (values.isStartSeq) {
+      if (values.isStartSeq && story.startSeq !== values._id) {
         await this.updateStoryStartSeq(seq);
       }
 
       onSuccess && await onSuccess();
-      this.onClose(resetForm)();
+      this.onClose();
     } finally {
       setSubmitting(false);
     }
@@ -130,11 +128,11 @@ class SaveSequenceModal extends Component {
     return (
       <Dialog
         open={open}
-        onClose={this.onClose(formik.resetForm)}
+        onClose={this.onClose}
         classes={{ paper: classes.dialogSize }}
       >
         <DialogTitle
-          onClose={this.onClose(formik.resetForm)}
+          onClose={this.onClose}
         >
           {this.renderTitle()}
         </DialogTitle>
@@ -149,7 +147,7 @@ class SaveSequenceModal extends Component {
         <DialogActions>
           <BasicFormActions
             formik={formik}
-            onClose={this.onClose(formik.resetForm)}
+            onClose={this.onClose}
           />
         </DialogActions>
       </Dialog>
@@ -175,7 +173,6 @@ class SaveSequenceModal extends Component {
 }
 
 SaveSequenceModal.propTypes = {
-  match: PropTypes.object,
   classes: PropTypes.object,
   story: PropTypes.instanceOf(StoryModel).isRequired,
   selectedChapterId: PropTypes.string.isRequired,
@@ -191,5 +188,5 @@ export default withStyles(theme => ({
   ...styles(theme),
   ...dialogDefaultCss(theme),
 }))(
-  withRouter(SaveSequenceModal),
+  SaveSequenceModal,
 );

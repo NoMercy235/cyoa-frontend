@@ -52,12 +52,12 @@ class BasicEditAction extends Component {
             <EditIcon fontSize="small" />
           </Tooltip>
         </IconButton>
-        <ModalComponent
+        {modalOpen && <ModalComponent
           open={modalOpen}
           onClose={this.onHideModal}
           {...resourceProp}
           {...innerProps}
-        />
+        />}
       </>
     );
   }
