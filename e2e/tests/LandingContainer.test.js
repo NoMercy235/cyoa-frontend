@@ -6,6 +6,7 @@ const xStoryReadTimes = '//li/div/span[starts-with(text(), "Read: ")]';
 const sQuickSearchInput = 'input[placeholder="Search..."]';
 const sProgressBar = '#nprogress';
 const sGithubOption = 'img[alt="GitHub"]';
+const xReadStoryBtn = '//button[.="Read"]';
 
 const QUICK_FILTER = 'stanley';
 
@@ -54,9 +55,23 @@ describe('LandingContainer guest', () => {
   });
 
   it('should see the GitHub menu option', async () => {
-    const { waitForElement, openDrawer } = context;
+    const { waitForElement, closeDrawer, openDrawer } = context;
 
     await openDrawer();
     await waitForElement(sGithubOption);
+    await closeDrawer();
+  });
+
+  it('should not be able to read a story in offline mode', async () => {
+    const { page, clickOnElement, switchNetwork } = context;
+
+    await switchNetwork(false);
+
+    const previousUrl = await page.url();
+    await clickOnElement(xReadStoryBtn);
+    const currentUrl = await page.url();
+
+    expect(previousUrl).toEqual(currentUrl);
+    await switchNetwork(true);
   });
 });

@@ -114,6 +114,26 @@ async function createContext (options) {
     );
   };
 
+  const switchNetwork = async (online) => {
+    const client = await this.page.target().createCDPSession();
+
+    if (online) {
+      await client.send('Network.emulateNetworkConditions', {
+        'offline': false,
+        'downloadThroughput': 30 * 1024 * 1024 / 8,
+        'uploadThroughput': 15 * 1024 * 1024 / 8,
+        'latency': 2
+      });
+    } else {
+      await client.send('Network.emulateNetworkConditions', {
+        'offline': true,
+        'downloadThroughput': 50 * 1024 / 8,
+        'uploadThroughput': 20 * 1024 / 8,
+        'latency': 500
+      });
+    }
+  };
+
   if (options.navigateToEndpoint) {
     await this.page.goto(this.customConfig.endpoint);
   }
@@ -139,6 +159,7 @@ async function createContext (options) {
     closeDrawer,
     closeModal,
     fillInputElement,
+    switchNetwork,
     ...context,
   };
 }
