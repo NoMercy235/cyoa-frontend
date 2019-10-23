@@ -21,7 +21,7 @@ class StoryActions extends Component {
     history.push(url);
   };
 
-  getReadBtn = () => {
+  renderReadButton = () => {
     const { classes, isAvailableOffline } = this.props;
 
     const StoryBtn = isAvailableOffline ? Button : ReadStoryButton;
@@ -60,7 +60,7 @@ class StoryActions extends Component {
 
     return (
       <CardActions className={classes.actions} disableSpacing>
-        {this.getReadBtn()}
+        {this.renderReadButton()}
         <ShareButton text={makeReadStoryPath(story._id, true)}/>
         {this.renderIconButton()}
       </CardActions>
