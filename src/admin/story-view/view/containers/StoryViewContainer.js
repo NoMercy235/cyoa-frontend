@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
+import { Helmet } from 'react-helmet';
 
 import StoryView from '../components/StoryView';
 import { storyService } from '../../../../infrastructure/services/StoryService';
@@ -50,6 +51,9 @@ class StoryViewContainer extends Component {
 
     return (
       <>
+        <Helmet>
+          <title>Rigamo | Admin | {currentStory.name}</title>
+        </Helmet>
         <StoryView
           story={currentStory}
           getAttributes={this.getAttributes}

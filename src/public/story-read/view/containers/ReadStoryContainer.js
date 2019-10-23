@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
+import { Helmet } from "react-helmet";
 
 import { publicStoryService } from '../../../../infrastructure/services/StoryService';
 import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
@@ -265,12 +266,17 @@ class ReadStoryContainer extends Component {
   };
 
   render() {
-    const { canRender } = this.state;
+    const { canRender, story }  = this.state;
+
+    if (!canRender) return null;
 
     return (
       <>
+        <Helmet>
+          <title>Rigamo | {story.name}</title>
+        </Helmet>
         <Breadcrumb/>
-        {canRender && this.renderSequence()}
+        {this.renderSequence()}
         {this.renderKeepPlayerModa()}
       </>
     );

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
+import { Helmet } from 'react-helmet';
 
 import CollectionsTableCmp from '../components/collections/collections-table/CollectionsTableCmp';
 import StoriesTableCmp from '../components/stories/stories-table/StoriesTableCmp';
@@ -80,6 +81,9 @@ class StoryContainer extends Component {
 
     return (
       <>
+        <Helmet>
+          <title>Rigamo | Admin stories</title>
+        </Helmet>
         <Breadcrumb/>
         <div className={classes.tableContainer}>
           <div className={classes.collectionsContainer}>
