@@ -19,7 +19,7 @@ async function createContext (options) {
 
   async function beforeAll () {
     const browser = global.__BROWSER__;
-    const page = await browser.newPage();
+    const page = await (await browser.createIncognitoBrowserContext()).newPage();
     const customConfig = global.__CUSTOM_CONFIG__;
 
     return { browser, page, customConfig };

@@ -4,7 +4,7 @@ const {
 } = require('../mocks/stories');
 
 function createRegexp (stringToGoIntoTheRegex) {
-  const parsed = stringToGoIntoTheRegex.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+  const parsed = stringToGoIntoTheRegex.replace(/[\\?]/g, '\\$&');
   // We need to match anything other query params that go after it
   return new RegExp(`${parsed}[\\S]+`);
 }
