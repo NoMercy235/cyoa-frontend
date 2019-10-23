@@ -21,7 +21,7 @@ class GeneralTab extends Component {
         </Typography>
         <div className={styles.longDescriptionContainer}>
           <img
-            alt="Cover"
+            alt={story.name}
             className={styles.coverPic}
             src={story.coverPic || notFoundImg}
           />

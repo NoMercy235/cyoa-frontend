@@ -78,7 +78,7 @@ class Header extends Component {
     return (
       <>
         <img
-          alt="Cover"
+          alt="Time Travelers Anonymous logo"
           src={ttaLogo}
           className={classNames(classes.headerLogo, classes.clickable)}
           onClick={this.goToLanding}

@@ -29,7 +29,7 @@ class NotFoundCmp extends Component {
     return (
       <div className={styles.container}>
         <img
-          alt="NotFoundSad"
+          alt="No result was found"
           src={sadFace}
         />
         <Typography

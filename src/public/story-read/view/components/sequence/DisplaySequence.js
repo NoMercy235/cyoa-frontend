@@ -41,12 +41,12 @@ class DisplaySequence extends Component {
   };
 
   renderPicture = () => {
-    const { seq } = this.props;
+    const { seq, story } = this.props;
     return seq.scenePic && (
       <img
         className={styles.scenePic}
         src={seq.scenePic}
-        alt=""
+        alt={story.name}
       />
     );
   };

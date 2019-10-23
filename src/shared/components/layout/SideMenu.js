@@ -44,7 +44,7 @@ const extraMenu = [
     },
     icon: ({ classes }) => {
       return (
-        <img className={classes.sideMenuIcon} alt="GitHub" src={gitHub}/>
+        <img className={classes.sideMenuIcon} alt="Link to GitHub project" src={gitHub}/>
       );
     },
   },
@@ -75,7 +75,7 @@ class SideMenu extends Component {
     return (
       <div className={classes.logoContainer}>
         <img
-          alt="Cover"
+          alt="Time Travelers Anonymous logo"
           src={ttaLogo}
           className={classes.logoImg}
         />

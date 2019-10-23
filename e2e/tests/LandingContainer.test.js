@@ -5,7 +5,7 @@ const xStoryBoxes = '//div[contains(@class, "infinite-scroll-component")]/div[po
 const xStoryReadTimes = '//li/div/span[starts-with(text(), "Read: ")]';
 const sQuickSearchInput = 'input[placeholder="Search..."]';
 const sProgressBar = '#nprogress';
-const sGithubOption = 'img[alt="GitHub"]';
+const sGithubOption = 'img[alt="Link to GitHub project"]';
 const xReadStoryBtn = '//button[.="Read"]';
 
 const QUICK_FILTER = 'stanley';
