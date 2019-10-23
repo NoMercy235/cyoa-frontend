@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import { Tooltip, Typography } from '@material-ui/core';
+import { Tooltip, Typography, withStyles } from '@material-ui/core';
 
 import { appStorePropTypes } from '../store/AppStore';
+
+const styles = () => ({
+  disabled: {
+    cursor: 'not-allowed'
+  },
+});
 
 export default function withOnlineCheck(WrappedCmp) {
   @inject('appStore')
@@ -52,9 +58,16 @@ export default function withOnlineCheck(WrappedCmp) {
     };
 
     renderDisabledWrappedCmp = () => {
+      const { classes } = this.props;
+
       return (
         <Tooltip title={this.renderTooltip()}>
-          <div { ...this.getNewProps() }>
+          <div
+            className={classes.disabled}
+            { ...this.getNewProps() }
+            // The onClick event will be overwritten here for disabled components
+            onClick={() => {}}
+          >
             {this.renderWrappedCmp()}
           </div>
         </Tooltip>
@@ -76,5 +89,5 @@ export default function withOnlineCheck(WrappedCmp) {
     appStore: appStorePropTypes,
   };
 
-  return OnlineCheckedComponent;
+  return withStyles(styles)(OnlineCheckedComponent);
 }
