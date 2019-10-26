@@ -28,12 +28,21 @@
   workbox.precaching.precacheAndRoute([]);
 
   /* custom cache rules*/
+  /* This is causing issues
   workbox.routing.registerNavigationRoute(
     '/index.html',
     {
       blacklist: [/^\/_/, /\/[^\/]+\.[^\/]+$/],
     }
   );
+  */
+
+  // This should fix the issue where index.html remains precached wrongly
+  workbox.routing.registerRoute(
+    ({ event, url }) => event.request.mode === 'navigate' && url.startsWith('/index.html'),
+    new workbox.strategies.NetworkFirst()
+  );
+
 
   const matchCb = ({ url }) => {
     return [
