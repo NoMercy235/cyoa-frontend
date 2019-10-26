@@ -3,6 +3,7 @@
 .tablesContainer {
   padding: 24px 2px 2px 2px;
   display: flex;
+  height: 100%;
 
   .chaptersList {
     flex: 1 1;
@@ -16,6 +17,10 @@
 
   @media screen and (max-width:1070px) {
     flex-direction: column;
+
+    .chaptersList {
+      margin-bottom: 10px;
+    }
   }
 
   @media screen and (min-width:1071px) {
