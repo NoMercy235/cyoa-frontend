@@ -48,10 +48,6 @@ class FiltersCmp extends Component {
 
     return (
       <>
-        {filterType === FiltersType.Advanced
-          ? withBadge(this.renderFilterIcon(), classes)
-          : this.renderFilterIcon()
-        }
         <div className={classes.search}>
           <div className={classes.searchIcon}>
             <SearchIcon />
@@ -69,6 +65,10 @@ class FiltersCmp extends Component {
             }}
           />
         </div>
+        {filterType === FiltersType.Advanced
+          ? withBadge(this.renderFilterIcon(), classes)
+          : this.renderFilterIcon()
+        }
       </>
     );
   }
