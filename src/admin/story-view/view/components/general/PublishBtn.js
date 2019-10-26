@@ -32,14 +32,14 @@ class PublishBtn extends Component {
   };
 
   onChangePublishState = (published, message) => async () => {
-    const { story } = this.props;
+    const { story, onPublishStateChanged } = this.props;
 
     const dbStory = await this.snackbarRef.current.executeAndShowSnackbar(
       storyService.publish,
       [story._id, published ],
       { variant: SnackbarEnum.Variants.Success, message }
     );
-    this.props.storyViewStore.setCurrentStory(dbStory);
+    await onPublishStateChanged(dbStory);
   };
 
   renderErrors = () => {
@@ -132,6 +132,7 @@ class PublishBtn extends Component {
 
 PublishBtn.propTypes = {
   story: PropTypes.shape(StoryModel).isRequired,
+  onPublishStateChanged: PropTypes.func.isRequired,
 
   storyViewStore: storyViewStorePropTypes,
 };

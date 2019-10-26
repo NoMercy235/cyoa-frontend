@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Card, CardActions, CardContent, CardHeader } from '@material-ui/core';
+import { inject, observer } from 'mobx-react';
 
 import GeneralTab from '../components/general/GeneralTab';
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
@@ -9,7 +10,13 @@ import { renderGeneralTitle } from '../components/general/GeneralTitle';
 
 import styles from './GeneralTabContainer.module.scss';
 
+@inject('storyViewStore')
+@observer
 class GeneralTabContainer extends Component {
+  onPublishStateChanged = (story) => {
+    this.props.storyViewStore.setCurrentStory(story);
+  };
+
   render() {
     const { story } = this.props;
 
@@ -20,7 +27,10 @@ class GeneralTabContainer extends Component {
           <GeneralTab story={story}/>
         </CardContent>
         <CardActions disableSpacing>
-          <PublishBtn story={story}/>
+          <PublishBtn
+            story={story}
+            onPublishStateChanged={this.onPublishStateChanged}
+          />
         </CardActions>
       </Card>
     );

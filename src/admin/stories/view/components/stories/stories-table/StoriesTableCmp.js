@@ -17,6 +17,7 @@ import { renderStoriesTableTitle } from './StoriesTableTitle';
 import YesNoCmp from '../../../../../../shared/components/table/YesNoCmp';
 import withDisabledStoryPublished from '../../../../../../shared/hoc/withDisabledStoryPublished';
 import { STORIES_ADMIN_TABLE } from '../../../../../../shared/constants/tables';
+import PublishBtn from '../../../../../story-view/view/components/general/PublishBtn';
 
 import { styles as storiesTableStyles } from './StoriesTableCmp.css';
 import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
@@ -66,9 +67,11 @@ class StoriesTableCmp extends Component {
   };
 
   getActions = row => {
+    const { classes, onChangePublishState } = this.props;
     return (
-      <div key={row._id} className={this.props.classes.actionsContainer}>
+      <div key={row._id} className={classes.actionsContainer}>
         {this.renderSeeIcon(row)}
+        <PublishBtn story={row} onPublishStateChanged={onChangePublishState}/>
         <BasicEditBtnWithDisabledState
           resourceName="story"
           resource={row}
@@ -126,6 +129,7 @@ StoriesTableCmp.propTypes = {
   classes: PropTypes.object,
   stories: PropTypes.arrayOf(PropTypes.shape(StoryModel)),
   onDeleteStory: PropTypes.func.isRequired,
+  onChangePublishState: PropTypes.func.isRequired,
 };
 
 export default withStyles(theme => ({

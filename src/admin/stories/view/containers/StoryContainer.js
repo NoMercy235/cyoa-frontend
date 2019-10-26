@@ -17,6 +17,10 @@ import classes from './StoryContainer.module.scss';
 class StoryContainer extends Component {
   snackbarRef = React.createRef();
 
+  onChangePublishState = (story) => {
+    this.props.storyStore.updateStory(story._id, story);
+  };
+
   async fetchStories(filters) {
     const stories = (await storyService.list(filters));
     this.props.storyStore.setStories(stories);
@@ -97,6 +101,7 @@ class StoryContainer extends Component {
             <StoriesTableCmp
               stories={stories}
               onDeleteStory={this.onDeleteStory}
+              onChangePublishState={this.onChangePublishState}
             />
           </div>
         </div>
