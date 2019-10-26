@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import { withStyles, Tooltip } from '@material-ui/core';
 import { observer } from 'mobx-react';
 import ForwardIcon from '@material-ui/icons/Forward';
-import BlockIcon from '@material-ui/icons/Block';
+import FlagIcon from '@material-ui/icons/Flag';
 
 import TableCmp from '../../../../../../shared/components/table/TableCmp';
 import DeleteRow from '../../../../../../shared/components/table/actions/DeleteRow';
@@ -122,7 +122,7 @@ class SequenceTableCmp extends Component {
     } else if (seq.isEnding) {
       return (
         <Tooltip title="Ending sequence">
-          <BlockIcon color="secondary"/>
+          <FlagIcon color="secondary"/>
         </Tooltip>
       );
     } else {
