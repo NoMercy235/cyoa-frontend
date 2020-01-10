@@ -45,6 +45,8 @@ class Header extends Component {
     localStorage.removeItem('jwt');
     if (!window.location.pathname.startsWith('/public')) {
       history.replace('/');
+    } else if (window.location.pathname.startsWith('/public/read/')) {
+      appStore.isKeepPlayerModalOpen = true;
     }
   };
 
