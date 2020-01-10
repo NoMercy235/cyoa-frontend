@@ -74,7 +74,7 @@ class AppStore {
     return !!this.user;
   }
 
-  getUserId() {
+  getUserId = () => {
     return this.isLoggedIn
       ? this.user._id
       : this.localId;

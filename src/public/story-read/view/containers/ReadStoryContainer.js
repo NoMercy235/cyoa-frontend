@@ -18,6 +18,8 @@ import OfflineStoryUnavailable from '../components/OfflineStoryUnavailable';
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
 import StoryFinished from '../components/story-finished/StoryFinished';
 import ConfirmationModal from '../../../../shared/components/confirmation/ConfirmationModal';
+import StoryRating from '../components/story-rating/StoryRating';
+import { ratingService } from '../../../../infrastructure/services/RatingService';
 
 @inject('appStore')
 @observer
@@ -29,6 +31,7 @@ class ReadStoryContainer extends Component {
     chapters: [],
     player: null,
     currentSequence: null,
+    currentRating: undefined,
 
     unavailableOffline: false,
   };
@@ -177,6 +180,24 @@ class ReadStoryContainer extends Component {
     appStore.isKeepPlayerModalOpen = false;
   };
 
+  onInitStoryRating = async () => {
+    const {
+      match,
+      appStore: { getUserId }
+    } = this.props;
+
+    const storyId = match.params.storyId;
+
+    const rating = await ratingService.get(getUserId(), storyId);
+    this.setState({ currentRating: rating });
+  };
+
+  onStoryRatingChange = async (rating) => {
+    const { story } = this.state;
+    const { appStore: { getUserId } } = this.props;
+    await ratingService.update(getUserId(), story._id, rating);
+  };
+
   async componentDidMount () {
     const { match, appStore } = this.props;
 
@@ -223,6 +244,20 @@ class ReadStoryContainer extends Component {
     );
   };
 
+  renderStoryRating = () => {
+    const { player, story, currentRating = { rating: 0 } } = this.state;
+
+    return (
+      <StoryRating
+        initialValue={currentRating.rating}
+        player={player}
+        story={story}
+        onInit={this.onInitStoryRating}
+        onChange={this.onStoryRatingChange}
+      />
+    );
+  };
+
   renderSequence = () => {
     const {
       story,
@@ -232,9 +267,15 @@ class ReadStoryContainer extends Component {
       isFinished,
       unavailableOffline,
     } = this.state;
+    const { appStore: { isLoggedIn } } = this.props;
 
     if (isFinished) {
-      return this.renderFinished();
+      return (
+        <>
+          {this.renderFinished()}
+          {isLoggedIn && this.renderStoryRating()}
+        </>
+      );
     }
 
     if (unavailableOffline) {
