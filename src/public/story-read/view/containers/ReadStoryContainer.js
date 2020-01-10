@@ -163,11 +163,12 @@ class ReadStoryContainer extends Component {
       ':story': match.params.storyId,
     };
     playerService.setNextRouteParams(params);
-    await playerService.set({
+    const newPlayer = await playerService.set({
       lastStorySequence: player.lastStorySequence,
       attributes: player.attributes,
     });
     appStore.isKeepPlayerModalOpen = false;
+    this.setState({ player: newPlayer });
   };
 
   onKeepPlayerReject = async () => {
@@ -293,12 +294,17 @@ class ReadStoryContainer extends Component {
     );
   };
 
-  renderKeepPlayerModa = () => {
+  renderKeepPlayerModal = () => {
     const { appStore } = this.props;
+
+    const text = appStore.isLoggedIn
+      ? 'If you keep the current player, it will replace your cloud save, if any. Otherwise, your current progress will be replaced by the cloud save.'
+      : 'You can keep the current player or discard it to load the local one';
+
     return (
       <ConfirmationModal
         title="Keep current player?"
-        description="If you keep the current player, it will replace your cloud save, if any. Otherwise, your current progress will be replaced by the cloud save."
+        description={text}
         open={appStore.isKeepPlayerModalOpen}
         onAccept={this.onKeepPlayerAccept}
         onClose={this.onKeepPlayerReject}
@@ -318,7 +324,7 @@ class ReadStoryContainer extends Component {
         </Helmet>
         <Breadcrumb/>
         {this.renderSequence()}
-        {this.renderKeepPlayerModa()}
+        {this.renderKeepPlayerModal()}
       </>
     );
   }
