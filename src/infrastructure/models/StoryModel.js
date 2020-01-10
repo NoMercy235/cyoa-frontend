@@ -22,6 +22,7 @@ export class StoryModel extends BaseModel {
   coverPic = '';
   isAvailableOffline = false;
   readTimes = 0;
+  rating = 0;
 
   constructor(metadata) {
     super();
