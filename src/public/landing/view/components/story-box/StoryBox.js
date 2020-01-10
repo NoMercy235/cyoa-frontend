@@ -8,7 +8,7 @@ import {
   Collapse,
   List,
   ListItem,
-  ListItemText,
+  ListItemText, Typography,
 } from '@material-ui/core';
 import classNames from 'classnames';
 
@@ -54,7 +54,7 @@ class StoryBox extends Component {
   renderStorySummarySection = () => {
     const {
       classes,
-      story: { rating, humanReadTimes }
+      story: { rating, ratingTimes, humanReadTimes }
     } = this.props;
 
     return (
@@ -62,11 +62,25 @@ class StoryBox extends Component {
         <ListItem divider={true}>
           <ListItemText primary="Statistics" />
         </ListItem>
-        <ListItem>
-          <ListItemText primary={`Read: ${humanReadTimes} times`} />
+        <ListItem className={classes.summaryListItem}>
+          <ListItemText primary={<>Read: <b>{humanReadTimes}</b> times</>} />
         </ListItem>
-        <ListItem>
-          <ListItemText primary={`Rating: ${rating}`} />
+        <ListItem className={classes.summaryListItem}>
+          <ListItemText
+            primary={(
+              <>
+                Rating:&nbsp;<b>{rating}</b>&nbsp;
+                <i>
+                  <Typography
+                    color={'textSecondary'}
+                    variant="caption"
+                  >
+                    ({ratingTimes} {ratingTimes === 1 ? 'vote' : 'votes'})
+                  </Typography>
+                </i>
+              </>
+            )}
+          />
         </ListItem>
       </List>
     );

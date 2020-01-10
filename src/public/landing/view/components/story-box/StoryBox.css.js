@@ -45,9 +45,16 @@ export const styles = theme => ({
     flexDirection: 'column',
     paddingTop: 0,
     paddingBottom: 0,
+    '& > li:nth-of-type(2)': {
+      paddingTop: theme.spacing(1),
+    },
     [`@media (max-width: ${SCREEN_MAX_WIDTH_SM}px)`]: {
       borderBottom: BORDER,
     },
+  },
+  summaryListItem: {
+    paddingTop: theme.spacing(0.5),
+    paddingBottom: theme.spacing(0.5),
   },
   storyContent: {
     display: 'flex',
