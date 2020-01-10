@@ -123,7 +123,7 @@ class StoryHeader extends Component {
 
     return (
       <>
-        By <b>{story.authorShort}</b> on {story.createdAtShort} <i>({tags})</i>.
+        By <b>{story.authorShort}</b> on {story.createdAtShort} <i>({tags})</i>
       </>
     );
   };

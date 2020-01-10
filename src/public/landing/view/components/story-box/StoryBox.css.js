@@ -43,6 +43,8 @@ export const styles = theme => ({
   storySummary: {
     display: 'flex',
     flexDirection: 'column',
+    paddingTop: 0,
+    paddingBottom: 0,
     [`@media (max-width: ${SCREEN_MAX_WIDTH_SM}px)`]: {
       borderBottom: BORDER,
     },

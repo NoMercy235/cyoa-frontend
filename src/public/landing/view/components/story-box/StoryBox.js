@@ -10,6 +10,7 @@ import {
   ListItem,
   ListItemText,
 } from '@material-ui/core';
+import classNames from 'classnames';
 
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import StoryHeader from './StoryHeader';
@@ -51,19 +52,23 @@ class StoryBox extends Component {
   }
 
   renderStorySummarySection = () => {
-    const { story: { humanReadTimes }, classes } = this.props;
+    const {
+      classes,
+      story: { rating, humanReadTimes }
+    } = this.props;
 
     return (
-      <div className={classes.storySummary}>
-        <List className={classes.root}>
-          <ListItem divider={true}>
-            <ListItemText primary="Statistics" />
-          </ListItem>
-          <ListItem>
-            <ListItemText primary={`Read: ${humanReadTimes} times`} />
-          </ListItem>
-        </List>
-      </div>
+      <List className={classNames(classes.root, classes.storySummary)}>
+        <ListItem divider={true}>
+          <ListItemText primary="Statistics" />
+        </ListItem>
+        <ListItem>
+          <ListItemText primary={`Read: ${humanReadTimes} times`} />
+        </ListItem>
+        <ListItem>
+          <ListItemText primary={`Rating: ${rating}`} />
+        </ListItem>
+      </List>
     );
   };
 
