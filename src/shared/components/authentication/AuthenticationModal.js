@@ -27,6 +27,7 @@ import { dialogDefaultCss } from '../dialog/Dialog.css';
 @observer
 class AuthenticationModal extends Component {
   state = {
+    registeredSuccessfully: false,
     isLoggingIn: true,
     errorMessage: '',
   };
@@ -35,11 +36,15 @@ class AuthenticationModal extends Component {
   onClose = () => {
     const { appStore, onClose } = this.props;
 
-    this.formik.resetForm();
-    this.setState({ isLoggingIn: true, errorMessage: '' });
-
     appStore.setIsAuthModalOpen(false);
     onClose && onClose();
+
+    this.formik.resetForm();
+    this.setState({
+      registeredSuccessfully: false,
+      isLoggingIn: true,
+      errorMessage: '',
+    });
   };
 
   onAskIfShouldReplacePlayer = () => {
@@ -63,7 +68,8 @@ class AuthenticationModal extends Component {
     onSuccess && onSuccess();
   };
 
-  authenticate = response => {
+  login = async (values) => {
+    const response = await authService.login(values);
     const { appStore } = this.props;
 
     localStorage.setItem('jwt', response.token);
@@ -74,14 +80,11 @@ class AuthenticationModal extends Component {
     this.onClose();
   };
 
-  login = async (values) => {
-    const response = await authService.login(values);
-    this.authenticate(response);
-  };
-
   register = async (values) => {
-    const response = await authService.register(values);
-    this.authenticate(response);
+    await authService.register(values);
+    this.setState({
+      registeredSuccessfully: true,
+    })
   };
 
   renderTitle() {
@@ -94,6 +97,12 @@ class AuthenticationModal extends Component {
     return this.state.isLoggingIn
       ? 'Login'
       : 'Register';
+  }
+
+  renderCancelText() {
+    return this.state.registeredSuccessfully
+      ? 'Ok'
+      : 'Cancel';
   }
 
   onHelperTextClick = (formik, metadata) => () => {
@@ -147,9 +156,35 @@ class AuthenticationModal extends Component {
     return model.checkErrors({ isLoggingIn: this.state.isLoggingIn });
   };
 
-  renderForm = isAuthModalOpen => formik => {
-    const { classes } = this.props;
+  renderForm = (formik) => {
     const { isLoggingIn } = this.state;
+
+    return (
+      <>
+        {isLoggingIn
+          ? <LoginForm formik={formik} />
+          : <RegisterForm formik={formik} />
+        }
+        {this.renderErrorText()}
+        {this.renderHelperText(formik)}
+      </>
+    );
+  };
+
+  renderRegisteredSuccessfully = () => {
+    return (
+      <Typography
+        variant="h6"
+        color="inherit"
+      >
+        Registration complete! Please verify your email before attempting to login.
+      </Typography>
+    );
+  };
+
+  renderModal = isAuthModalOpen => formik => {
+    const { classes } = this.props;
+    const { registeredSuccessfully } = this.state;
     this.formik = formik;
 
     return (
@@ -162,18 +197,19 @@ class AuthenticationModal extends Component {
           {this.renderTitle()}
         </DialogTitle>
         <DialogContent>
-          {isLoggingIn
-            ? <LoginForm formik={formik} />
-            : <RegisterForm formik={formik} />
+          {registeredSuccessfully
+            ? this.renderRegisteredSuccessfully()
+            : this.renderForm(formik)
           }
-          {this.renderErrorText()}
-          {this.renderHelperText(formik)}
         </DialogContent>
         <DialogActions>
           <AuthenticationActions
             formik={formik}
+            registeredSuccessfully={registeredSuccessfully}
             okText={this.renderOkText()}
-            onClose={this.onClose}/>
+            cancelText={this.renderCancelText()}
+            onClose={this.onClose}
+          />
         </DialogActions>
       </Dialog>
     );
@@ -190,7 +226,7 @@ class AuthenticationModal extends Component {
           onSubmit={this.onSubmit}
           validate={this.validate}
         >
-          {this.renderForm(appStore.isAuthModalOpen)}
+          {this.renderModal(appStore.isAuthModalOpen)}
         </Formik>
         <Snackbar innerRef={this.snackbarRef}/>
       </>

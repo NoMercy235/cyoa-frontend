@@ -28,6 +28,11 @@ class AuthenticationService extends BaseService {
       throw e;
     }
   }
+
+  async verifyEmail (token) {
+    const res = await this.client.get(`auth/verifyEmail/${token}`);
+    return res.data;
+  }
 }
 
 export const authService = new AuthenticationService();

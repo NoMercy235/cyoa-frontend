@@ -4,32 +4,42 @@ import { Button } from '@material-ui/core';
 
 class AuthenticationActions extends Component {
   render() {
-    const { formik } = this.props;
+    const {
+      formik,
+      cancelText,
+      okText,
+      registeredSuccessfully,
+      onClose
+    } = this.props;
 
     return (
       <>
         <Button
           color="secondary"
-          onClick={this.props.onClose}
+          onClick={onClose}
           disabled={formik.isSubmitting}
         >
-          Cancel
+          {cancelText}
         </Button>
-        <Button
-          type="submit"
-          disabled={formik.isSubmitting}
-          onClick={formik.submitForm}
-        >
-          {this.props.okText}
-        </Button>
+        {!registeredSuccessfully && (
+          <Button
+            type="submit"
+            disabled={formik.isSubmitting}
+            onClick={formik.submitForm}
+          >
+            {okText}
+          </Button>
+        )}
       </>
     );
   }
 }
 
 AuthenticationActions.propTypes = {
+  registeredSuccessfully: PropTypes.bool.isRequired,
   formik: PropTypes.object.isRequired,
   okText: PropTypes.string.isRequired,
+  cancelText: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

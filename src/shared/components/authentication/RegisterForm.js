@@ -39,7 +39,7 @@ class RegisterForm extends Component {
     return (
       <TextField
         {...field}
-        label="Email"
+        label="Email (will be used for verification)"
         fullWidth
         value={formik.values.email}
         {...hasError(formik, 'email')}

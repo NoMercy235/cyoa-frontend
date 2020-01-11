@@ -7,6 +7,8 @@ export const ADMIN_STORY_VIEW_ROUTE = '/admin/stories/:id';
 
 export const NOT_FOUND_ROUTE = '/404';
 
+export const EMAIL_VERIFY_ROUTE = '/verify/:token';
+
 export const makeRegexForPath = path => {
   return new RegExp(
     path
