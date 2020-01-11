@@ -107,7 +107,10 @@ class AuthenticationModal extends Component {
 
   onHelperTextClick = (formik, metadata) => () => {
     formik.resetForm();
-    this.setState(metadata);
+    this.setState({
+      ...metadata,
+      errorMessage: '',
+    });
   };
 
   renderErrorText () {
