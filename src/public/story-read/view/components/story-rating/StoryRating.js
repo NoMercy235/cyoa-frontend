@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CircularProgress,
   Typography,
 } from '@material-ui/core';
 
@@ -12,6 +11,7 @@ import { PlayerModel } from '../../../../../infrastructure/models/PlayerModel';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import Rating from '../../../../../shared/components/rating/Rating';
 import { STORY_RATING_LABELS } from '../../../../../shared/constants/global';
+import LoadingCmp from '../../../../../shared/components/loading/LoadingCmp';
 
 class StoryRating extends Component {
   state = {
@@ -62,7 +62,7 @@ class StoryRating extends Component {
 
         {shouldShowLoading
           ? (
-            <CircularProgress
+            <LoadingCmp
               thickness={5}
               size={20}
             />

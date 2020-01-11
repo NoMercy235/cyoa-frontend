@@ -17,6 +17,7 @@ import DisplaySequenceTitle from './DisplaySequenceTitle';
 import { parseContent } from '../../../../../shared/utilities';
 import { ChapterModel } from '../../../../../infrastructure/models/ChapterModel';
 import { SequenceModel } from '../../../../../infrastructure/models/SequenceModel';
+import LoadingCmp from '../../../../../shared/components/loading/LoadingCmp';
 
 import styles from './DisplaySequence.module.scss';
 
@@ -55,16 +56,15 @@ class DisplaySequence extends Component {
     return parseContent(this.props.seq.content);
   };
 
-  async componentDidUpdate () {
+  componentDidUpdate () {
     this.scrollToCardTop();
   }
 
-  render() {
+  renderSequence = () => {
     const { onOptionClick, player, seq } = this.props;
 
     return (
-      <RootRef rootRef={this.cardRef}>
-        <Card classes={{ root: styles.card }}>
+        <>
           <CardHeader title={this.renderTitle()}/>
           <CardContent>
             {this.renderPicture()}
@@ -88,6 +88,20 @@ class DisplaySequence extends Component {
               )}
             </List>
           </CardActions>
+        </>
+      );
+  };
+
+  render() {
+    const { showLoading } = this.props;
+
+    return (
+      <RootRef rootRef={this.cardRef}>
+        <Card classes={{ root: styles.card }}>
+          {showLoading
+            ? <LoadingCmp className={styles.loadingContainer}/>
+            : this.renderSequence()
+          }
         </Card>
       </RootRef>
     );
@@ -99,6 +113,7 @@ DisplaySequence.propTypes = {
   chapters: PropTypes.arrayOf(PropTypes.instanceOf(ChapterModel)).isRequired,
   seq: PropTypes.instanceOf(SequenceModel).isRequired,
   player: PropTypes.instanceOf(PlayerModel).isRequired,
+  showLoading: PropTypes.bool.isRequired,
   onOptionClick: PropTypes.func.isRequired,
 };
 

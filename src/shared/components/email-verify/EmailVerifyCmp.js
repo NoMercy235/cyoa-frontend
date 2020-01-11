@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { CircularProgress, Typography } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 
 import { authService } from '../../../infrastructure/services/AuthenticationService';
+import LoadingCmp from '../loading/LoadingCmp';
 
 import classes from './EmailVerifyCmp.module.scss';
 
@@ -28,13 +28,9 @@ class NotFoundCmp extends Component {
   render() {
     return (
       <div className={classes.container}>
-        <Typography
-          variant="h4"
-          color="inherit"
-        >
-          Verifying email!
-        </Typography>
-        <CircularProgress
+        <LoadingCmp
+          text="Verifying email!"
+          textVariant="h4"
           thickness={5}
           size={150}
         />

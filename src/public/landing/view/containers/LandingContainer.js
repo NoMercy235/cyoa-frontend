@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { CircularProgress } from '@material-ui/core';
 
 import { publicStoryService } from '../../../../infrastructure/services/StoryService';
 import { FiltersType, publicStoryStorePropTypes } from '../../stores/PublicStoryStore';
@@ -13,6 +12,7 @@ import StoryBox from '../components/story-box/StoryBox';
 import { SnackbarEnum } from '../../../../shared/components/snackbar/Snackbar';
 import Snackbar from '../../../../shared/components/snackbar/Snackbar';
 import { StoryListEnd } from '../components/story-list-end/StoryListEnd';
+import LoadingCmp from '../../../../shared/components/loading/LoadingCmp';
 
 import styles from './LandingContainer.module.scss';
 
@@ -129,7 +129,7 @@ class LandingContainer extends Component {
               dataLength={stories.length}
               next={this.getNextStories}
               hasMore={!reachedEnd}
-              loader={<CircularProgress/>}
+              loader={<LoadingCmp/>}
               endMessage={<StoryListEnd/>}
               scrollableTarget="storiesContainer"
             >

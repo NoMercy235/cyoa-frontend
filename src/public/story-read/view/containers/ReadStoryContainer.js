@@ -20,6 +20,7 @@ import StoryFinished from '../components/story-finished/StoryFinished';
 import ConfirmationModal from '../../../../shared/components/confirmation/ConfirmationModal';
 import StoryRating from '../components/story-rating/StoryRating';
 import { ratingService } from '../../../../infrastructure/services/RatingService';
+import LoadingCmp from '../../../../shared/components/loading/LoadingCmp';
 
 @inject('appStore')
 @observer
@@ -27,6 +28,7 @@ class ReadStoryContainer extends Component {
   state = {
     canRender: false,
     isFinished: false,
+    showLoading: false,
     story: null,
     chapters: [],
     player: null,
@@ -77,6 +79,7 @@ class ReadStoryContainer extends Component {
       this.setState({ isFinished: true });
       return;
     }
+    this.setState({ showLoading: true });
 
     // If the story has offline mode available, the attributes should
     // be an empty array anyway.
@@ -100,8 +103,12 @@ class ReadStoryContainer extends Component {
     }
     // If the player lost, there's no need to get a new sequence.
     // We already have the linked ending of the attribute
-    if (hasLostAttr) return;
+    if (hasLostAttr) {
+      this.setState({ showLoading: false });
+      return;
+    }
     await this.getSequence(option.nextSeq);
+    this.setState({ showLoading: false });
   };
 
   getStory = async storyId => {
@@ -267,6 +274,7 @@ class ReadStoryContainer extends Component {
       currentSequence,
       isFinished,
       unavailableOffline,
+      showLoading,
     } = this.state;
     const { appStore: { isLoggedIn } } = this.props;
 
@@ -289,6 +297,7 @@ class ReadStoryContainer extends Component {
         chapters={chapters}
         seq={currentSequence}
         player={player}
+        showLoading={showLoading}
         onOptionClick={this.onOptionClick}
       />
     );
@@ -315,7 +324,7 @@ class ReadStoryContainer extends Component {
   render() {
     const { canRender, story }  = this.state;
 
-    if (!canRender) return null;
+    if (!canRender) return <LoadingCmp/>;
 
     return (
       <>
