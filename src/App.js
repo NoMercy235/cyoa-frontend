@@ -9,8 +9,14 @@ import { storyStore } from './admin/stories/stores/StoryStore';
 import { storyViewStore } from './admin/story-view/stores/StoryViewStore';
 import { publicStoryStore } from './public/landing/stores/PublicStoryStore';
 import { getMainMuiTheme } from './shared/utilities';
+import { socket } from './infrastructure/sockets/setup'
+import { SocketEvents } from './shared/constants/events';
 
 import './App.scss';
+
+socket.on(SocketEvents.SendUsersOnline, data => {
+  appStore.setOnlineUsers(data.onlineUsers);
+});
 
 class App extends Component {
   render() {

@@ -19,7 +19,7 @@ import { AuthenticationModel } from '../../../infrastructure/models/Authenticati
 import { SnackbarEnum } from '../snackbar/Snackbar';
 import Snackbar from '../snackbar/Snackbar';
 import { makeRegexForPath, READ_STORY_ROUTE } from '../../constants/routes';
-import { BROADCAST_CHANNEL_NAME, BroadcastEvents } from '../../constants/global';
+import { BROADCAST_CHANNEL_NAME, BroadcastEvents } from '../../constants/events';
 
 import { styles } from './Authentication.css';
 import { dialogDefaultCss } from '../dialog/Dialog.css';

@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { withStyles, Typography } from '@material-ui/core';
 
 import { appStorePropTypes } from '../../store/AppStore';
-import { BROADCAST_CHANNEL_NAME, BroadcastEvents } from '../../constants/global';
+import { BROADCAST_CHANNEL_NAME, BroadcastEvents } from '../../constants/events';
 
 import { styles } from './Authentication.css';
 

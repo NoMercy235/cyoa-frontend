@@ -5,9 +5,11 @@ import { inject, observer } from 'mobx-react';
 import {
   withStyles,
   AppBar,
+  Badge,
   CssBaseline,
   IconButton,
   Toolbar,
+  Tooltip,
   Typography,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -58,6 +60,20 @@ class Header extends Component {
     return [
       this.renderAuthBtn(),
     ].filter(el => el);
+  };
+
+  renderUsersOnline = () => {
+    const { appStore } = this.props;
+
+    return (
+      <Tooltip title="Users online">
+        <div>
+          <Badge color="secondary" variant="dot">
+            {appStore.onlineUsers}
+          </Badge>
+        </div>
+      </Tooltip>
+    );
   };
 
   renderSettings = () => {
@@ -124,6 +140,7 @@ class Header extends Component {
             </IconButton>
             {this.renderAppTitle()}
             {HeaderCmp && <HeaderCmp />}
+            {this.renderUsersOnline()}
             {this.renderSettings()}
           </Toolbar>
         </AppBar>

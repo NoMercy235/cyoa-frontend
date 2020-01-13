@@ -11,6 +11,7 @@ const makeRandomId = function () {
 class AppStore {
   @observable HeaderCmp;
   @observable user;
+  @observable onlineUsers = 0;
   @observable onlineStatus = true;
   @observable canUseIdb;
   @observable isAuthModalOpen = false;
@@ -38,6 +39,10 @@ class AppStore {
 
   @action setUser = user => {
     this.user = user;
+  };
+
+  @action setOnlineUsers = onlineUsers => {
+    this.onlineUsers = onlineUsers;
   };
 
   @action loadHeader = cmp => {
@@ -83,11 +88,14 @@ class AppStore {
 
 export const appStorePropTypes = PropTypes.shape({
   user: PropTypes.instanceOf(UserModel),
+  onlineUsers: PropTypes.number,
 
   generateLocalId: PropTypes.func,
 
   setUser: PropTypes.func,
   getUserId: PropTypes.func,
+
+  setOnlineUsers: PropTypes.func,
 
   loadHeader: PropTypes.func,
   unloadHeader: PropTypes.func,
