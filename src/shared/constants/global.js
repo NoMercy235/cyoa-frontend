@@ -23,3 +23,9 @@ export const STORY_RATING_LABELS = {
   9: 'Great',
   10: 'Masterpiece',
 };
+
+export const BROADCAST_CHANNEL_NAME = 'rigamo-channel';
+export const BroadcastEvents = {
+  Login: 'BE_LOGIN',
+  Logout: 'BE_LOGOUT',
+};

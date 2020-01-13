@@ -19,9 +19,12 @@ import { AuthenticationModel } from '../../../infrastructure/models/Authenticati
 import { SnackbarEnum } from '../snackbar/Snackbar';
 import Snackbar from '../snackbar/Snackbar';
 import { makeRegexForPath, READ_STORY_ROUTE } from '../../constants/routes';
+import { BROADCAST_CHANNEL_NAME, BroadcastEvents } from '../../constants/global';
 
 import { styles } from './Authentication.css';
 import { dialogDefaultCss } from '../dialog/Dialog.css';
+
+const RigamoBC = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
 
 @inject('appStore')
 @observer
@@ -32,6 +35,13 @@ class AuthenticationModal extends Component {
     errorMessage: '',
   };
   snackbarRef = React.createRef();
+
+  componentDidMount () {
+    RigamoBC.onmessage = async ({ data: { type, payload } }) => {
+      if (type !== BroadcastEvents.Login) return;
+      await this.login(payload);
+    }
+  }
 
   onClose = () => {
     const { appStore, onClose } = this.props;
@@ -68,8 +78,7 @@ class AuthenticationModal extends Component {
     onSuccess && onSuccess();
   };
 
-  login = async (values) => {
-    const response = await authService.login(values);
+  login = async (response) => {
     const { appStore } = this.props;
 
     localStorage.setItem('jwt', response.token);
@@ -78,6 +87,16 @@ class AuthenticationModal extends Component {
     );
     this.onSuccess();
     this.onClose();
+  };
+
+  loginBroadcast = async values => {
+    const response = await authService.login(values);
+
+    this.login(response);
+    RigamoBC.postMessage({
+      type: BroadcastEvents.Login,
+      payload: response,
+    });
   };
 
   register = async (values) => {
@@ -145,7 +164,7 @@ class AuthenticationModal extends Component {
   onSubmit = async (values, { setSubmitting }) => {
     try {
       this.state.isLoggingIn
-        ? await this.login(values)
+        ? await this.loginBroadcast(values)
         : await this.register(values);
     } catch (e) {
       this.setState({ errorMessage: e.message });

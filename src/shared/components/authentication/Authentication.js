@@ -5,18 +5,34 @@ import { withRouter } from 'react-router-dom';
 import { withStyles, Typography } from '@material-ui/core';
 
 import { appStorePropTypes } from '../../store/AppStore';
+import { BROADCAST_CHANNEL_NAME, BroadcastEvents } from '../../constants/global';
 
 import { styles } from './Authentication.css';
+
+const RigamoBC = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
 
 @inject('appStore')
 @observer
 class Authentication extends Component {
+  componentDidMount () {
+    RigamoBC.onmessage = ({ data: { type } }) => {
+      if (type !== BroadcastEvents.Logout) return;
+      this.onLogoutClick();
+    }
+  }
+
   onLoginClick = () => {
     this.props.appStore.setIsAuthModalOpen(true);
   };
 
-  onLogoutClick = history => () => {
-    this.props.onHandleLogout(history);
+  onLogoutClick = () => {
+    const { history, onHandleLogout } = this.props;
+    onHandleLogout(history);
+  };
+
+  onLogoutClickBroadcast = () => {
+    this.onLogoutClick();
+    RigamoBC.postMessage({ type: BroadcastEvents.Logout });
   };
 
   renderLogin = () => {
@@ -33,16 +49,15 @@ class Authentication extends Component {
 
   renderLogout = () => {
     const { user } = this.props.appStore;
-    const Logout = withRouter(({ history }) => (
+    return (
       <Typography
         variant="button"
-        onClick={this.onLogoutClick(history)}
+        onClick={this.onLogoutClickBroadcast}
         color="inherit"
       >
         Logout ({user.email})
       </Typography>
-    ));
-    return <Logout />;
+    );
   };
 
   render() {
@@ -65,4 +80,6 @@ Authentication.propTypes = {
   appStore: appStorePropTypes,
 };
 
-export default withStyles(styles)(Authentication);
+export default withStyles(styles)(
+  withRouter(Authentication)
+);
