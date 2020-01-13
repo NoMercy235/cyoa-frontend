@@ -4,8 +4,8 @@ Rigamo brings some much needed attention to the world of stories told in the "ch
 
 ## The Time Travelers Anonymous team
 
-This whole idea started from the adventurous group of travelers founded on [Habitica](https://habitica.co "Habitica") and lead by the migthy warrior, Tuesday.
+This whole idea started from the adventurous group of travelers founded on [Habitica](https://habitica.co "Habitica") and lead by the mighty warrior, Tuesday.
 
 #### Disclaimer
 
-I started this project as a means to have some sort of "portofolio" which shows some of the technologies I've dealth with and they way I structure/build things. Therefore, it will almost always be a work in progress, since it mostly serves as a place for me to test out new technologies/architectures/stuff.
+I started this project as a means to have some sort of "portofolio" which shows some of the technologies I've dealt with and the way I structure/build things. Therefore, it will almost always be a work in progress, since it mostly serves as a place for me to test out new technologies/architectures/stuff.
