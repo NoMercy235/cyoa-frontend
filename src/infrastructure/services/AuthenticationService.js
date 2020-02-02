@@ -24,7 +24,6 @@ class AuthenticationService extends BaseService {
       await this.client.get('auth/checkToken');
     } catch (e) {
       localStorage.removeItem('jwt');
-      localStorage.removeItem('user');
       throw e;
     }
   }
