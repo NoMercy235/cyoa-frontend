@@ -14,7 +14,7 @@ import { SocketEvents } from './shared/constants/events';
 
 import './App.scss';
 
-socket.on(SocketEvents.SendUsersOnline, data => {
+socket.on(SocketEvents.UsersOnline, data => {
   appStore.setOnlineUsers(data.onlineUsers);
 });
 

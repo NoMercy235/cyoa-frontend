@@ -9,5 +9,5 @@ export const SocketEvents = {
   Disconnected: 'disconnected',
   UserOnline: 'USER_ONLINE',
   UserOffline: 'USER_OFFLINE',
-  SendUsersOnline: 'SEND_USERS_ONLINE',
+  UsersOnline: 'USERS_ONLINE',
 };
