@@ -8,7 +8,13 @@ import { appStorePropTypes } from '../../store/AppStore';
 import withAuth from '../../hoc/withAuthRoute';
 import { tagService } from '../../../infrastructure/services/TagService';
 import PublicRoute from '../../../public/PublicRoute';
-import { ADMIN_ROUTE, EMAIL_VERIFY_ROUTE, LANDING_ROUTE, NOT_FOUND_ROUTE } from '../../constants/routes';
+import {
+  ADMIN_ROUTE,
+  EMAIL_VERIFY_ROUTE,
+  LANDING_ROUTE,
+  NOT_FOUND_ROUTE,
+  RECOVER_PASSWORD_ROUTE
+} from '../../constants/routes';
 import { userService } from '../../../infrastructure/services/UserService';
 import { authService } from '../../../infrastructure/services/AuthenticationService';
 import Snackbar, { SnackbarEnum } from '../snackbar/Snackbar';
@@ -18,6 +24,7 @@ import { configureIdb } from '../../idb';
 import AuthenticationModal from '../authentication/AuthenticationModal';
 import { TagModel } from '../../../infrastructure/models/TagModel';
 import EmailVerifyCmp from '../email-verify/EmailVerifyCmp';
+import RecoverPasswordContainer from '../recover-password/RecoverPasswordContainer';
 
 const LazyAdminRoute = React.lazy(() => import('../../../admin/AdminRoute'));
 
@@ -118,6 +125,7 @@ class IndexRoute extends Component {
             <Route path={ADMIN_ROUTE} component={withAuth(LazyAdminRoute)} />
             <Route path={NOT_FOUND_ROUTE} component={NotFoundCmp} />
             <Route path={EMAIL_VERIFY_ROUTE} component={EmailVerifyCmp} />
+            <Route path={RECOVER_PASSWORD_ROUTE} component={RecoverPasswordContainer} />
             <Redirect exact path='/' to={LANDING_ROUTE} />
           </Switch>
         </Suspense>
