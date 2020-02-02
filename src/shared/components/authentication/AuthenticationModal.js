@@ -244,7 +244,7 @@ class AuthenticationModal extends Component {
     }
 
     const ignoreFields = formState === FormStates.Login
-      ? ['firstName', 'lastName']
+      ? ['firstName', 'lastName', 'repeatPassword']
       : [];
     return model.checkErrors(ignoreFields);
   };
