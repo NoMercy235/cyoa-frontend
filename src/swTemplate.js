@@ -39,7 +39,9 @@
 
   // This should fix the issue where index.html remains precached wrongly
   workbox.routing.registerRoute(
-    ({ event, url }) => event.request.mode === 'navigate' && url.startsWith('/index.html'),
+    ({ event, url }) => {
+      return event.request.mode === 'navigate' && url.pathname.startsWith('/index.html')
+    },
     new workbox.strategies.NetworkFirst()
   );
 
