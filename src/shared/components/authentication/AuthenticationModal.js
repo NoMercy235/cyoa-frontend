@@ -243,9 +243,10 @@ class AuthenticationModal extends Component {
       return AuthenticationModel.validateEmail(values.email);
     }
 
-    return model.checkErrors({
-      isLoggingIn: formState === FormStates.Login
-    });
+    const ignoreFields = formState === FormStates.Login
+      ? ['firstName', 'lastName']
+      : [];
+    return model.checkErrors(ignoreFields);
   };
 
   renderActionCompleted = (message) => {

@@ -5,9 +5,13 @@ import { Formik } from 'formik';
 import { authService } from '../../../infrastructure/services/AuthenticationService';
 import RecoverPasswordCmp from './RecoverPasswordCmp';
 import { LANDING_ROUTE, routeWithQueryParams } from '../../constants/routes';
+import { AuthenticationModel } from '../../../infrastructure/models/AuthenticationModel';
+import Snackbar, { SnackbarEnum } from '../snackbar/Snackbar';
 
 class RecoverPasswordContainer extends Component {
-  onSubmit = async ({ newPassword: password }) => {
+  snackbarRef = React.createRef();
+
+  onSubmit = async ({ password }, { setSubmitting }) => {
     const {
       match: {
         params: {
@@ -17,12 +21,22 @@ class RecoverPasswordContainer extends Component {
       },
       history
     } = this.props;
-    await authService.recoverPassword({ token, email, password });
-    history.push(routeWithQueryParams(LANDING_ROUTE, { recoverPasswordSuccess: true }));
+    try {
+      await authService.recoverPassword({ token, email, password });
+      history.push(routeWithQueryParams(LANDING_ROUTE, { recoverPasswordSuccess: true }));
+    } catch (e) {
+      this.snackbarRef.current.showSnackbar({
+        variant: SnackbarEnum.Variants.Error,
+        message: 'Your request could not be completed',
+      })
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  validate = ({ newPassword, newPasswordRepeat }) => {
-    return newPassword && newPasswordRepeat && newPassword === newPasswordRepeat;
+  validate = (values) => {
+    const model = new AuthenticationModel(values);
+    return model.checkErrors(['email', 'firstName', 'lastName']);
   };
 
   renderForm = formik => {
@@ -38,12 +52,13 @@ class RecoverPasswordContainer extends Component {
     return (
       <>
         <Formik
-          initialValues={{ newPassword: '', newPasswordRepeat: '' }}
+          initialValues={{ password: '', repeatPassword: '' }}
           onSubmit={this.onSubmit}
           validate={this.validate}
         >
           {this.renderForm}
         </Formik>
+        <Snackbar innerRef={this.snackbarRef}/>
       </>
     );
   }

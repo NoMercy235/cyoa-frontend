@@ -6,7 +6,7 @@ import { Button, TextField } from '@material-ui/core';
 import { hasError } from '../form/helpers';
 
 class RecoverPasswordCmp extends Component {
-  renderNewPasswordField = ({ field }) => {
+  renderPasswordField = ({ field }) => {
     const { formik } = this.props;
     return (
       <TextField
@@ -14,13 +14,13 @@ class RecoverPasswordCmp extends Component {
         type="password"
         label="New password"
         fullWidth
-        value={formik.values.newPassword}
-        {...hasError(formik, 'newPassword')}
+        value={formik.values.password}
+        {...hasError(formik, 'password')}
       />
     );
   };
 
-  renderNewPasswordRepeatField = ({ field }) => {
+  renderRepeatPasswordField = ({ field }) => {
     const { formik } = this.props;
     return (
       <TextField
@@ -28,8 +28,8 @@ class RecoverPasswordCmp extends Component {
         type="password"
         label="Repeat password"
         fullWidth
-        value={formik.values.newPasswordRepeat}
-        {...hasError(formik, 'newPasswordRepeat')}
+        value={formik.values.repeatPassword}
+        {...hasError(formik, 'repeatPassword')}
       />
     );
   };
@@ -40,14 +40,14 @@ class RecoverPasswordCmp extends Component {
     return (
       <Form noValidate>
         <Field
-          name="newPassword"
+          name="password"
           required
-          render={this.renderNewPasswordField}
+          render={this.renderPasswordField}
         />
         <Field
-          name="newPasswordRepeat"
+          name="repeatPassword"
           required
-          render={this.renderNewPasswordRepeatField}
+          render={this.renderRepeatPasswordField}
         />
         <Button
           type="submit"
