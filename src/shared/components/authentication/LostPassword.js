@@ -3,21 +3,21 @@ import { withStyles, Typography } from '@material-ui/core';
 
 import { styles } from './Authentication.css';
 
-export const NoAccount = withStyles(styles)(props => {
+export const LostPassword = withStyles(styles)(props => {
   const { classes, onHandleClick } = props;
-  const here = (
+  const Recover = (
     <span
       className={classes.here}
       onClick={onHandleClick}
     >
-      here
+      Recover
     </span>
   );
   return (
     <Typography
       variant="caption"
       color="inherit">
-      No account? Register {here}!
+      Lost password? {Recover}!
     </Typography>
   );
 });

@@ -8,7 +8,7 @@ class AuthenticationActions extends Component {
       formik,
       cancelText,
       okText,
-      registeredSuccessfully,
+      showAsConfirm,
       onClose
     } = this.props;
 
@@ -21,7 +21,7 @@ class AuthenticationActions extends Component {
         >
           {cancelText}
         </Button>
-        {!registeredSuccessfully && (
+        {!showAsConfirm && (
           <Button
             type="submit"
             disabled={formik.isSubmitting}
@@ -36,9 +36,9 @@ class AuthenticationActions extends Component {
 }
 
 AuthenticationActions.propTypes = {
-  registeredSuccessfully: PropTypes.bool.isRequired,
+  showAsConfirm: PropTypes.bool.isRequired,
   formik: PropTypes.object.isRequired,
-  okText: PropTypes.string.isRequired,
+  okText: PropTypes.string,
   cancelText: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
 };

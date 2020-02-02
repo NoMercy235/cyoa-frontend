@@ -20,19 +20,28 @@ import { SnackbarEnum } from '../snackbar/Snackbar';
 import Snackbar from '../snackbar/Snackbar';
 import { makeRegexForPath, READ_STORY_ROUTE } from '../../constants/routes';
 import { BROADCAST_CHANNEL_NAME, BroadcastEvents } from '../../constants/events';
+import { LostPassword } from './LostPassword';
+import LostPasswordForm from './LostPasswordForm';
 
 import { styles } from './Authentication.css';
 import { dialogDefaultCss } from '../dialog/Dialog.css';
 
 const RigamoBC = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
 
+const FormStates = {
+  Login: 'login',
+  Register: 'register',
+  LostPassword: 'lostPassword',
+  SuccessRegister: 'successRegister',
+  SuccessLostPassword: 'successLostPassword',
+};
+
 @inject('appStore')
 @observer
 class AuthenticationModal extends Component {
   state = {
-    registeredSuccessfully: false,
-    isLoggingIn: true,
     errorMessage: '',
+    formState: FormStates.Login,
   };
   snackbarRef = React.createRef();
 
@@ -51,8 +60,7 @@ class AuthenticationModal extends Component {
 
     this.formik.resetForm();
     this.setState({
-      registeredSuccessfully: false,
-      isLoggingIn: true,
+      formState: FormStates.Login,
       errorMessage: '',
     });
   };
@@ -102,26 +110,55 @@ class AuthenticationModal extends Component {
   register = async (values) => {
     await authService.register(values);
     this.setState({
-      registeredSuccessfully: true,
+      formState: FormStates.SuccessRegister,
+    })
+  };
+
+  lostPassword = async (values) => {
+    await authService.lostPassword(values);
+    this.setState({
+      formState: FormStates.SuccessLostPassword,
     })
   };
 
   renderTitle() {
-    return this.state.isLoggingIn
-      ? 'Login to your account'
-      : 'Register a new account';
+    switch (this.state.formState) {
+      case FormStates.Login:
+        return 'Login to your account';
+      case FormStates.Register:
+        return 'Register a new account';
+      case FormStates.LostPassword:
+        return 'Recover your password';
+      case FormStates.SuccessRegister:
+      case FormStates.SuccessLostPassword:
+        return 'Action completed';
+      default:
+    }
   }
 
   renderOkText() {
-    return this.state.isLoggingIn
-      ? 'Login'
-      : 'Register';
+    switch (this.state.formState) {
+      case FormStates.Login:
+        return 'Login';
+      case FormStates.Register:
+        return 'Register';
+      case FormStates.LostPassword:
+        return 'Submit';
+      default:
+    }
   }
 
   renderCancelText() {
-    return this.state.registeredSuccessfully
-      ? 'Ok'
-      : 'Cancel';
+    switch (this.state.formState) {
+      case FormStates.Login:
+      case FormStates.Register:
+      case FormStates.LostPassword:
+        return 'Cancel';
+      case FormStates.SuccessRegister:
+      case FormStates.SuccessLostPassword:
+        return 'Ok';
+      default:
+    }
   }
 
   onHelperTextClick = (formik, metadata) => () => {
@@ -150,22 +187,47 @@ class AuthenticationModal extends Component {
   }
 
   renderHelperText(formik) {
-    if (this.state.isLoggingIn) {
-      return <NoAccount
-        onHandleClick={this.onHelperTextClick(formik, { isLoggingIn: false })}
-      />;
-    } else {
-      return <HasAccount
-        onHandleClick={this.onHelperTextClick(formik,{ isLoggingIn: true })}
-      />;
+    const { formState } = this.state;
+
+    switch (formState) {
+      case FormStates.Login:
+        return (
+          <>
+            <NoAccount
+              onHandleClick={this.onHelperTextClick(formik, { formState: FormStates.Register })}
+            />
+            <LostPassword
+              onHandleClick={this.onHelperTextClick(formik, { formState: FormStates.LostPassword })}
+            />
+          </>
+        );
+      case FormStates.Register:
+        return (
+          <HasAccount
+            onHandleClick={this.onHelperTextClick(formik,{ formState: FormStates.Login })}
+          />
+        );
+      case FormStates.LostPassword:
+        return (
+          <HasAccount
+            onHandleClick={this.onHelperTextClick(formik,{ formState: FormStates.Login })}
+          />
+        );
+      default:
     }
   }
 
   onSubmit = async (values, { setSubmitting }) => {
     try {
-      this.state.isLoggingIn
-        ? await this.loginBroadcast(values)
-        : await this.register(values);
+      switch (this.state.formState) {
+        case FormStates.Login:
+          return await this.loginBroadcast(values);
+        case FormStates.Register:
+          return await this.register(values);
+        case FormStates.LostPassword:
+          return await this.lostPassword(values);
+        default:
+      }
     } catch (e) {
       this.setState({ errorMessage: e.message });
     } finally {
@@ -174,39 +236,71 @@ class AuthenticationModal extends Component {
   };
 
   validate = values => {
+    const { formState } = this.state;
     const model = new AuthenticationModel(values);
-    return model.checkErrors({ isLoggingIn: this.state.isLoggingIn });
+
+    if (formState === FormStates.LostPassword) {
+      return AuthenticationModel.validateEmail(values.email);
+    }
+
+    return model.checkErrors({
+      isLoggingIn: formState === FormStates.Login
+    });
   };
 
-  renderForm = (formik) => {
-    const { isLoggingIn } = this.state;
-
-    return (
-      <>
-        {isLoggingIn
-          ? <LoginForm formik={formik} />
-          : <RegisterForm formik={formik} />
-        }
-        {this.renderErrorText()}
-        {this.renderHelperText(formik)}
-      </>
-    );
-  };
-
-  renderRegisteredSuccessfully = () => {
+  renderActionCompleted = (message) => {
     return (
       <Typography
         variant="h6"
         color="inherit"
       >
-        Registration complete! Please verify your email before attempting to login.
+        {message}
       </Typography>
+    );
+  };
+
+  renderForm = (formik) => {
+    switch (this.state.formState) {
+      case FormStates.Login:
+        return <LoginForm formik={formik} />;
+      case FormStates.Register:
+        return <RegisterForm formik={formik} />;
+      case FormStates.LostPassword:
+        return <LostPasswordForm formik={formik} />;
+      default:
+    }
+  };
+
+  renderContent = (formik) => {
+    const { classes } = this.props;
+    const { formState } = this.state;
+
+    if (formState === FormStates.SuccessRegister) {
+      return this.renderActionCompleted(
+        'Registration complete! Please verify your email before attempting to login.'
+      );
+    }
+
+    if (formState === FormStates.SuccessLostPassword) {
+      return this.renderActionCompleted(
+        'The password recovery request was sent to the provided email! Please follow the instructions there to proceed,'
+      );
+    }
+
+    return (
+      <>
+        {this.renderForm(formik)}
+        {this.renderErrorText()}
+        <div className={classes.helperTextContainer}>
+          {this.renderHelperText(formik)}
+        </div>
+      </>
     );
   };
 
   renderModal = isAuthModalOpen => formik => {
     const { classes } = this.props;
-    const { registeredSuccessfully } = this.state;
+    const { formState } = this.state;
     this.formik = formik;
 
     return (
@@ -219,15 +313,14 @@ class AuthenticationModal extends Component {
           {this.renderTitle()}
         </DialogTitle>
         <DialogContent>
-          {registeredSuccessfully
-            ? this.renderRegisteredSuccessfully()
-            : this.renderForm(formik)
-          }
+          {this.renderContent(formik)}
         </DialogContent>
         <DialogActions>
           <AuthenticationActions
             formik={formik}
-            registeredSuccessfully={registeredSuccessfully}
+            showAsConfirm={
+              formState === FormStates.SuccessRegister || formState === FormStates.SuccessLostPassword
+            }
             okText={this.renderOkText()}
             cancelText={this.renderCancelText()}
             onClose={this.onClose}

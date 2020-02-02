@@ -19,6 +19,15 @@ class AuthenticationService extends BaseService {
     }
   }
 
+  async lostPassword({ email }) {
+    try {
+      const response = await this.client.get(`auth/lostPassword/${encodeURIComponent(email)}`);
+      return response.data;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   async checkToken() {
     try {
       await this.client.get('auth/checkToken');

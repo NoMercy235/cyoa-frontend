@@ -15,7 +15,6 @@ export const HasAccount = withStyles(styles)(props => {
   );
   return (
     <Typography
-      className={classes.helperText}
       variant="caption"
       color="inherit">
       Already have an account? Login {here}!

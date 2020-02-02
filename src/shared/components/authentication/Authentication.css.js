@@ -3,10 +3,10 @@ export const styles = theme => ({
     marginTop: theme.spacing(2),
     display: 'block',
   },
-  helperText: {
-    marginTop: theme.spacing(1),
-    float: 'right',
-    display: 'block',
+  helperTextContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
   },
   here: {
     color: theme.palette.primary.dark,
