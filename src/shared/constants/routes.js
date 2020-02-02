@@ -10,6 +10,14 @@ export const NOT_FOUND_ROUTE = '/404';
 export const EMAIL_VERIFY_ROUTE = '/verify/:token';
 export const RECOVER_PASSWORD_ROUTE = '/recover/:email/:token';
 
+export const routeWithQueryParams = (route, queryParams) => {
+  return Object
+    .entries(queryParams)
+    .reduce((currentRoute, [key, value]) => {
+      return `${currentRoute}${key}=${value}&`
+    }, `${route}?`);
+};
+
 export const makeRegexForPath = path => {
   return new RegExp(
     path

@@ -20,6 +20,7 @@
     "mui-datatables": "^2.6.2",
     "node-sass": "^4.12.0",
     "prop-types": "^15.7.2",
+    "query-string": "^6.10.1",
     "react": "^16.8.6",
     "react-detect-offline": "^2.4.0",
     "react-dom": "^16.8.6",

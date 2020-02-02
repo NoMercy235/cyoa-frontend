@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { withRouter } from 'react-router-dom';
+import * as queryString from 'query-string';
 
 import { publicStoryService } from '../../../../infrastructure/services/StoryService';
 import { FiltersType, publicStoryStorePropTypes } from '../../stores/PublicStoryStore';
@@ -93,7 +95,19 @@ class LandingContainer extends Component {
   };
 
   async componentDidMount () {
-    const { appStore } = this.props;
+    const {
+      appStore,
+      location: { search },
+    } = this.props;
+
+    const qs = queryString.parse(search);
+
+    if (qs.recoverPasswordSuccess) {
+      this.snackbarRef.current.showSnackbar({
+        variant: SnackbarEnum.Variants.Success,
+        message: 'Password successfully changed! Please login to your account.'
+      });
+    }
 
     appStore.loadHeader(FiltersContainer);
     await this.getNextStories(false);
@@ -154,4 +168,4 @@ LandingContainer.propTypes = {
   appStore: appStorePropTypes,
 };
 
-export default LandingContainer;
+export default withRouter(LandingContainer);

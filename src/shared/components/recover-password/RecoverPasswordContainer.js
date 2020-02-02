@@ -3,12 +3,10 @@ import { withRouter } from 'react-router-dom';
 import { Formik } from 'formik';
 
 import { authService } from '../../../infrastructure/services/AuthenticationService';
-import Snackbar, { SnackbarEnum } from '../snackbar/Snackbar';
 import RecoverPasswordCmp from './RecoverPasswordCmp';
+import { LANDING_ROUTE, routeWithQueryParams } from '../../constants/routes';
 
 class RecoverPasswordContainer extends Component {
-  snackbarRef = React.createRef();
-
   onSubmit = async ({ newPassword: password }) => {
     const {
       match: {
@@ -17,15 +15,10 @@ class RecoverPasswordContainer extends Component {
           token
         }
       },
+      history
     } = this.props;
-    await this.snackbarRef.current.executeAndShowSnackbar(
-      authService.recoverPassword,
-      [{ token, email, password }],
-      {
-        variant: SnackbarEnum.Variants.Success,
-        message: 'Password changed!',
-      },
-    );
+    await authService.recoverPassword({ token, email, password });
+    history.push(routeWithQueryParams(LANDING_ROUTE, { recoverPasswordSuccess: true }));
   };
 
   validate = ({ newPassword, newPasswordRepeat }) => {
@@ -34,7 +27,10 @@ class RecoverPasswordContainer extends Component {
 
   renderForm = formik => {
     return (
-      <RecoverPasswordCmp formik={formik}/>
+      <RecoverPasswordCmp
+        formik={formik}
+        onSuccess={this.onSuccess}
+      />
     );
   };
 
@@ -48,7 +44,6 @@ class RecoverPasswordContainer extends Component {
         >
           {this.renderForm}
         </Formik>
-        <Snackbar innerRef={this.snackbarRef}/>
       </>
     );
   }
