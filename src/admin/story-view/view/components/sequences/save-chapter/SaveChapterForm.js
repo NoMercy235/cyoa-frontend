@@ -12,7 +12,7 @@ import { styles } from './SaveChapter.css';
 class SaveChapterForm extends Component {
   getChapters = () => {
     return this.props.chapters.map(c => {
-      return { id: c.id, name: c.name };
+      return { _id: c._id, name: c.name };
     });
   };
 

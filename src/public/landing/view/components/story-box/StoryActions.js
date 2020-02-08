@@ -17,7 +17,7 @@ const ReadStoryButton = withOnlineCheck(Button);
 
 class StoryActions extends Component {
   goToReadStory = history => () => {
-    const url = makeReadStoryPath(this.props.story.id);
+    const url = makeReadStoryPath(this.props.story._id);
     history.push(url);
   };
 
@@ -61,7 +61,7 @@ class StoryActions extends Component {
     return (
       <CardActions className={classes.actions} disableSpacing>
         {this.renderReadButton()}
-        <ShareButton text={makeReadStoryPath(story.id, true)}/>
+        <ShareButton text={makeReadStoryPath(story._id, true)}/>
         {this.renderIconButton()}
       </CardActions>
     );

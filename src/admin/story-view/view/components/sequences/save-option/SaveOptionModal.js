@@ -29,7 +29,7 @@ class SaveOptionModal extends Component {
 
   onSearchRequest = async (searchQuery) => {
     sequenceService.setNextRouteParams(
-      { ':story': this.props.storyViewStore.currentStory.id }
+      { ':story': this.props.storyViewStore.currentStory._id }
     );
     const { sequences } = (await debouncedSequenceList({
       filters: {
@@ -48,7 +48,7 @@ class SaveOptionModal extends Component {
     }));
 
     return sequences.map(s => {
-      return { value: s.id, label: s.name };
+      return { value: s._id, label: s.name };
     });
   };
 
@@ -81,7 +81,7 @@ class SaveOptionModal extends Component {
     this.setParams();
     const option = await this.snackbarRef.current.executeAndShowSnackbar(
       optionService.update,
-      [values.id, OptionModel.forApi(values)],
+      [values._id, OptionModel.forApi(values)],
       {
         variant: SnackbarEnum.Variants.Success,
         message: 'Option updated!',
@@ -89,7 +89,7 @@ class SaveOptionModal extends Component {
     );
     this.props.storyViewStore.updateOption(
       this.props.sequenceId,
-      values.id,
+      values._id,
       option
     );
   };
@@ -100,7 +100,7 @@ class SaveOptionModal extends Component {
     // Here we don't need any parsing, because, by default, the nextSeq's value is an
     // empty string and that's a valid value.
     return option || new OptionModel({
-      story: storyViewStore.currentStory.id,
+      story: storyViewStore.currentStory._id,
       consequences: storyViewStore.currentStory.isAvailableOffline
         ? []
         : [new ConsequenceModel()],
@@ -114,7 +114,7 @@ class SaveOptionModal extends Component {
 
   onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      if (values.id) {
+      if (values._id) {
         await this.updateOption(values);
       } else {
         await this.saveOption(values);

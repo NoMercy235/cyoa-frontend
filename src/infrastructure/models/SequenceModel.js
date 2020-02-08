@@ -3,6 +3,7 @@ import { observable } from 'mobx';
 import { ERRORS } from '../../shared/constants/errors';
 
 export class SequenceModel extends BaseModel {
+  _id = '';
   chapter = '';
   name = '';
   scenePic = '';

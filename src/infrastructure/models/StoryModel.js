@@ -7,6 +7,7 @@ import { publicStoryService } from '../services/StoryService';
 import { convertNumberToHuman } from '../../shared/utilities';
 
 export class StoryModel extends BaseModel {
+  _id = '';
   name = '';
   shortDescription = '';
   longDescription = '';
@@ -48,7 +49,7 @@ export class StoryModel extends BaseModel {
   isOffline = async () => {
     if (!this.isAvailableOffline) return false;
     const db = await openIdb();
-    return !!(await db.get(StoresEnum.Stories, this.id));
+    return !!(await db.get(StoresEnum.Stories, this._id));
   };
 
   checkErrors() {
@@ -69,15 +70,15 @@ export class StoryModel extends BaseModel {
   // that calls them at compile time. Doing so would crash the app since the function's
   // argument is undefined.
   saveOffline = async () => {
-    const offlineStory = await publicStoryService.getOfflineStory(this.id);
+    const offlineStory = await publicStoryService.getOfflineStory(this._id);
     const db = await openIdb();
     offlineStory.updated = moment.utc().local().format('YYYY-MM-DD HH:mm:ss');
-    await db.put(StoresEnum.Stories, offlineStory, offlineStory.story.id);
+    await db.put(StoresEnum.Stories, offlineStory, offlineStory.story._id);
   };
 
   removeOffline = async () => {
     const db = await openIdb();
-    await db.delete(StoresEnum.Stories, this.id);
+    await db.delete(StoresEnum.Stories, this._id);
   };
 
   static forApi(story) {

@@ -45,13 +45,13 @@ class SaveStoryModal extends Component {
   updateStory = async values => {
     const story = await this.snackbarRef.current.executeAndShowSnackbar(
       storyService.update,
-      [values.id, StoryModel.forApi(values)],
+      [values._id, StoryModel.forApi(values)],
       {
         variant: SnackbarEnum.Variants.Success,
         message: 'Story updated!',
       },
     );
-    this.props.storyStore.updateStory(values.id, story);
+    this.props.storyStore.updateStory(values._id, story);
   };
 
   getInitialValues = () => {
@@ -67,11 +67,11 @@ class SaveStoryModal extends Component {
   onSubmit = async (values, { setSubmitting, resetForm }) => {
     values.tagsName = TagModel.get()
       .filter(
-        tt => values.tags.find(t => tt.id === t)
+        tt => values.tags.find(t => tt._id === t)
       )
       .map(tt => tt.name);
     try {
-      if (values.id) {
+      if (values._id) {
         await this.updateStory(values);
       } else {
         await this.saveStory(values);

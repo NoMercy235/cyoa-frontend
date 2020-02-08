@@ -51,7 +51,7 @@ export const getStoryStoreIdInIdb = async storyId => {
 export const getSeqById = async (storyId, seqId, instanced = true) => {
   const db = await openIdb();
   const storyStore = await db.get(StoresEnum.Stories, storyId);
-  let seq = storyStore.sequences.find(s => s.id === seqId);
+  let seq = storyStore.sequences.find(s => s._id === seqId);
   seq.options = storyStore.options.filter(o => o.sequence === seqId);
   if (instanced) {
     // The warning is an IDE bug

@@ -35,18 +35,18 @@ class AttributesTableCmp extends Component {
     const { classes, onEditAttribute } = this.props;
 
     return (
-      <div key={row.id} className={classes.actionsContainer}>
-        <ViewRow onClick={this.onSelectAttribute(row.id)}/>
+      <div key={row._id} className={classes.actionsContainer}>
+        <ViewRow onClick={this.onSelectAttribute(row._id)}/>
         <BasicEditBtnWithDisabledState
           resourceName="attribute"
           resource={row}
           modalComponent={SaveAttributeModal}
-          getBeforeModal={onEditAttribute(row.id)}
+          getBeforeModal={onEditAttribute(row._id)}
         />
         <BasicDeleteBtnWithDisabledState
           title="Delete confirmation"
           description="Are you sure you want to delete this attribute?"
-          onClick={this.onDeleteAttribute(row.id)}
+          onClick={this.onDeleteAttribute(row._id)}
         />
       </div>
     );

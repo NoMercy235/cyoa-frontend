@@ -71,7 +71,7 @@ class SequenceTabContainer extends Component {
   onDeleteSequence = async sequenceId => {
     const { story } = this.props;
 
-    const params = { ':story': story.id };
+    const params = { ':story': story._id };
     sequenceService.setNextRouteParams(params);
     await this.snackbarRef.current.executeAndShowSnackbar(
       sequenceService.delete,
@@ -90,7 +90,7 @@ class SequenceTabContainer extends Component {
 
     const option = await optionService.get(optionId);
     option.nextSeq = {
-      value: option.nextSeq.id,
+      value: option.nextSeq._id,
       label: option.nextSeq.name,
     };
     return option;
@@ -111,7 +111,7 @@ class SequenceTabContainer extends Component {
   };
 
   onUpdateSequence = async (sequence, ahead) => {
-    const params = { ':story': this.props.story.id };
+    const params = { ':story': this.props.story._id };
     sequenceService.setNextRouteParams(params);
     await sequenceService.updateOrder(sequence, ahead);
     await this.getSequences();
@@ -178,7 +178,7 @@ class SequenceTabContainer extends Component {
 
   componentDidMount () {
     const { appStore, story } = this.props;
-    const params = { ':story': story.id };
+    const params = { ':story': story._id };
     chapterService.setNextRouteParams(params);
 
     // Set the default sort. This can't be changed from the UI yet.

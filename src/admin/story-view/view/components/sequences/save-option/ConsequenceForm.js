@@ -13,7 +13,7 @@ import { styles } from './SaveOption.css';
 class ConsequenceForm extends Component {
   getAttributes = () => {
     return this.props.attributes.map(a => {
-      return { id: a.name, name: a.name };
+      return { _id: a.name, name: a.name };
     });
   };
 

@@ -25,7 +25,7 @@ class StoryStore {
     setTimeout(() => runInAction(() => {
       this.stories = this.stories
         .map(s => {
-          if (s.id !== id) return s;
+          if (s._id !== id) return s;
           if (s.fromCollection !== newStory.fromCollection) return null;
           return newStory;
         })
@@ -34,7 +34,7 @@ class StoryStore {
   };
 
   @action removeStory = storyId => {
-    this.stories = this.stories.filter(c => c.id !== storyId);
+    this.stories = this.stories.filter(c => c._id !== storyId);
   };
 
   @action setCollections = collections => {
@@ -47,13 +47,13 @@ class StoryStore {
 
   @action updateCollection = (id, newCollection) => {
     this.collections = this.collections.map(c => {
-      if (c.id !== id) return c;
+      if (c._id !== id) return c;
       return newCollection;
     });
   };
 
   @action removeCollection = colId => {
-    this.collections = this.collections.filter(c => c.id !== colId);
+    this.collections = this.collections.filter(c => c._id !== colId);
   };
 
   @action setSelectedCollection = value => {

@@ -57,7 +57,7 @@ class OptionTableCmp extends Component {
   }
 
   getOptions = async () => {
-    const { sequence: { id } } = this.props;
+    const { sequence: { _id: id } } = this.props;
     const params = { ':sequence': id };
     optionService.setNextRouteParams(params);
     const options = await optionService.list();
@@ -65,11 +65,11 @@ class OptionTableCmp extends Component {
   };
 
   onEditOption = id => async () => {
-    return await this.props.onEditOption(this.props.sequence.id, id);
+    return await this.props.onEditOption(this.props.sequence._id, id);
   };
 
   onDeleteOption = id => () => {
-    this.props.onDeleteOption(this.props.sequence.id, id);
+    this.props.onDeleteOption(this.props.sequence._id, id);
   };
 
   getActions = row => {
@@ -83,22 +83,22 @@ class OptionTableCmp extends Component {
     // automatically.
     if (!(row instanceof OptionModel)) return '';
 
-    const { classes, sequence: { id: seqId } } = this.props;
+    const { classes, sequence: { _id: seqId } } = this.props;
 
     return (
-      <div key={row.id} className={classes.actionsContainer}>
+      <div key={row._id} className={classes.actionsContainer}>
         <BasicEditBtnWithDisabledState
           ref={this.editRef}
           resourceName="option"
           resource={row}
           modalComponent={SaveOptionModal}
           innerProps={{ sequenceId: seqId }}
-          getBeforeModal={this.onEditOption(row.id)}
+          getBeforeModal={this.onEditOption(row._id)}
         />
         <BasicDeleteBtnWithDisabledState
           title="Delete confirmation"
           description="Are you sure you want to delete this attribute?"
-          onClick={this.onDeleteOption(row.id)}
+          onClick={this.onDeleteOption(row._id)}
         />
       </div>
     );
@@ -133,7 +133,7 @@ class OptionTableCmp extends Component {
           <BasicNewBtnWithDisabledState
             tooltip="New option"
             modalComponent={SaveOptionModal}
-            innerProps={{ sequenceId: sequence.id }}
+            innerProps={{ sequenceId: sequence._id }}
           />
         );
       },

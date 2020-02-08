@@ -72,11 +72,11 @@ class Select extends Component {
           }
           renderValue={selectedItems => {
             if (!Array.isArray(selectedItems)) {
-              return items.find(t => t.id === selectedItems).name;
+              return items.find(t => t._id === selectedItems).name;
             }
             return selectedItems
               .map(s => {
-                return items.find(t => t.id === s);
+                return items.find(t => t._id === s);
               })
               .map(t => t.name)
               .join(', ');
@@ -85,9 +85,9 @@ class Select extends Component {
         >
           {items.map(item => {
             return (
-              <MenuItem key={item.id} value={item.id}>
+              <MenuItem key={item._id} value={item._id}>
                 {multiple && <Checkbox
-                  checked={!!selected.find(t => t === item.id)}
+                  checked={!!selected.find(t => t === item._id)}
                 />}
                 <ListItemText primary={item.name} />
               </MenuItem>
@@ -108,10 +108,10 @@ class Select extends Component {
 
 Select.propTypes = {
   formikField: PropTypes.object.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   helperText: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
+    _id: PropTypes.string,
     name: PropTypes.string,
   })),
   className: PropTypes.string,

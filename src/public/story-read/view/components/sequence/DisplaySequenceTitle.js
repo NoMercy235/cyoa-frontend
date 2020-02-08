@@ -14,7 +14,7 @@ class DisplaySequenceTitle extends Component {
   renderChapterName = () => {
     const { sequence, chapters, story } = this.props;
     const displayName = sequence.chapter
-      ? chapters.find(c => c.id === sequence.chapter).name
+      ? chapters.find(c => c._id === sequence.chapter).name
       : story.name;
     return (
       <span className={styles.displayName}>

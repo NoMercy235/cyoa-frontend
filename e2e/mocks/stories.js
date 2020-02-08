@@ -1,6 +1,5 @@
 const landingStories = [{
   '_id': '5cc239aab0bf2e0415090124',
-  'id': 'story-5cc239aab0bf2e0415090124',
   'updated_at': '2019-04-25T22:50:18.868Z',
   'created_at': '2019-04-25T22:50:18.325Z',
   'name': 'The Stanley Parable',
@@ -18,7 +17,6 @@ const landingStories = [{
   'readTimes': 200,
 }, {
   '_id': '5c697c569f7a77001c330aa6',
-  'id': 'story-5c697c569f7a77001c330aa6',
   'updated_at': '2019-04-14T14:30:35.454Z',
   'created_at': '2019-02-17T15:23:02.210Z',
   'authorShort': 'Time Travelers',

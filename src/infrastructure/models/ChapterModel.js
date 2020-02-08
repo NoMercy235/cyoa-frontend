@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { ERRORS } from '../../shared/constants/errors';
 
 export class ChapterModel extends BaseModel {
+  _id = '';
   name = '';
   description = '';
   created_at = '';

@@ -18,7 +18,7 @@ class StoryContainer extends Component {
   snackbarRef = React.createRef();
 
   onChangePublishState = (story) => {
-    this.props.storyStore.updateStory(story.id, story);
+    this.props.storyStore.updateStory(story._id, story);
   };
 
   async fetchStories(filters) {

@@ -20,14 +20,14 @@ class PlayerTabContainer extends Component {
   };
 
   onEditAttribute = id => {
-    const params = { ':story': this.props.story.id };
+    const params = { ':story': this.props.story._id };
     attributeService.setNextRouteParams(params);
 
     return async () => {
       const attr =  await attributeService.get(id);
       if (attr.linkedEnding) {
         attr.linkedEnding = {
-          value: attr.linkedEnding.id,
+          value: attr.linkedEnding._id,
           label: attr.linkedEnding.name,
         };
       }
@@ -36,7 +36,7 @@ class PlayerTabContainer extends Component {
   };
 
   onDeleteAttribute = async attributeId => {
-    const params = { ':story': this.props.story.id };
+    const params = { ':story': this.props.story._id };
     attributeService.setNextRouteParams(params);
     await this.snackbarRef.current.executeAndShowSnackbar(
       attributeService.delete,

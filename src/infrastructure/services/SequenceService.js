@@ -38,7 +38,7 @@ class SequenceService extends BaseService {
     const url = this.withRouteParams(this.updateOrderEndpoint);
     return this.client
       .put(url, {
-        seqId: sequence.id,
+        seqId: sequence._id,
         ahead,
       })
       .then(BaseService.onSuccess);

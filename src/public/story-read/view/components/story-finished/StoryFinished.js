@@ -19,7 +19,7 @@ import styles from './StoryFinished.module.scss';
 class StoryFinished extends Component {
   retry = async () => {
     const { onlineStatus, player } = this.props;
-    onlineStatus && await playerService.delete(player.id);
+    onlineStatus && await playerService.delete(player._id);
     window.location.reload();
   };
 

@@ -23,7 +23,7 @@ class PublishBtn extends Component {
   onCheckIfCanPublish = async () => {
     const { story } = this.props;
     try {
-      await storyService.checkIfCanPublish(story.id);
+      await storyService.checkIfCanPublish(story._id);
       return true;
     } catch (e) {
       this.setState({ errors: Object.keys(e) });
@@ -36,7 +36,7 @@ class PublishBtn extends Component {
 
     const dbStory = await this.snackbarRef.current.executeAndShowSnackbar(
       storyService.publish,
-      [story.id, published ],
+      [story._id, published ],
       { variant: SnackbarEnum.Variants.Success, message }
     );
     await onPublishStateChanged(dbStory);

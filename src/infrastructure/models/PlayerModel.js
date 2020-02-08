@@ -1,6 +1,7 @@
 import { BaseModel } from './BaseModel';
 
 export class PlayerModel extends BaseModel {
+  _id = '';
   player = '';
   story = '';
   lastStorySequence = '';

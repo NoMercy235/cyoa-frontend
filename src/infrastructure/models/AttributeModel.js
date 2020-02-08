@@ -2,6 +2,7 @@ import { BaseModel } from './BaseModel';
 import { ERRORS } from '../../shared/constants/errors';
 
 export class AttributeModel extends BaseModel {
+  _id = '';
   name = '';
   isImportant = false;
   description = '';

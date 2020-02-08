@@ -22,13 +22,13 @@ class StoryViewStore {
   @action updateAttribute = (id, newAttribute) => {
     this.attributes = this.attributes
       .map(a => {
-        if (a.id !== id) return a;
+        if (a._id !== id) return a;
         return newAttribute;
       });
   };
 
   @action removeAttribute = attributeId => {
-    this.attributes = this.attributes.filter(a => a.id !== attributeId);
+    this.attributes = this.attributes.filter(a => a._id !== attributeId);
   };
 
   @action setSequences = sequences => {
@@ -47,7 +47,7 @@ class StoryViewStore {
     setTimeout(() => runInAction(() => {
       this.sequences = this.sequences
         .map(s => {
-          if (s.id !== id) return s;
+          if (s._id !== id) return s;
           if (s.chapter !== newSequence.chapter) return null;
           return newSequence;
         })
@@ -58,14 +58,14 @@ class StoryViewStore {
   @action updateSequenceInPlace = (id, metadata) => {
     this.sequences = this.sequences
       .map(s => {
-        if (s.id !== id) return s;
+        if (s._id !== id) return s;
         s = Object.assign(s, metadata);
         return s;
       });
   };
 
   @action removeSequence = sequenceId => {
-    this.sequences = this.sequences.filter(a => a.id !== sequenceId);
+    this.sequences = this.sequences.filter(a => a._id !== sequenceId);
   };
 
   @action setOptionsToSequence = (sequenceId, options) => {
@@ -74,21 +74,21 @@ class StoryViewStore {
   };
 
   @action addOptionToSequence = (sequenceId, option) => {
-    const s = this.sequences.find(s => s.id === sequenceId);
+    const s = this.sequences.find(s => s._id === sequenceId);
     s.options.push(option);
   };
 
   @action updateOption = (sequenceId, optionId, option) => {
-    const seq = this.sequences.find(s => s.id === sequenceId);
+    const seq = this.sequences.find(s => s._id === sequenceId);
     seq.options = seq.options.map(o => {
-      if (o.id !== optionId) return o;
+      if (o._id !== optionId) return o;
       return option;
     });
   };
 
   @action removeOptionFromSequence = (sequenceId, optionId) => {
     const seq = this.getSequenceById(sequenceId);
-    seq.options = seq.options.filter(o => o.id !== optionId);
+    seq.options = seq.options.filter(o => o._id !== optionId);
   };
 
   @action setCurrentStory = story => {
@@ -112,7 +112,7 @@ class StoryViewStore {
   @action updateChapter = (id, newChapter) => {
     this.chapters = this.chapters
       .map(c => {
-        if (c.id !== id) return c;
+        if (c._id !== id) return c;
         return newChapter;
       });
   };
@@ -134,11 +134,11 @@ class StoryViewStore {
   }
 
   getSequenceById(sequenceId) {
-    return this.sequences.find(s => s.id === sequenceId);
+    return this.sequences.find(s => s._id === sequenceId);
   }
 
   getAttributeById(attributeId) {
-    return this.attributes.find(a => a.id === attributeId);
+    return this.attributes.find(a => a._id === attributeId);
   }
 }
 

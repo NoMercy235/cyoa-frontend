@@ -83,7 +83,7 @@ class DataMock {
   }
 
   mockAdminStory (story) {
-    const regexp = createRegexp('api/story/[a-z0-9\-]+');
+    const regexp = createRegexp('api/story/[a-z0-9]+');
 
     this._handleRequest(
       this._matchesRegexp(regexp),
@@ -92,7 +92,7 @@ class DataMock {
   }
 
   mockAdminAttributes (attributes = []) {
-    const regexp = createRegexp('api/attribute/[a-z0-9\-]+');
+    const regexp = createRegexp('api/attribute/[a-z0-9]+');
 
     this._handleRequest(
       this._matchesRegexp(regexp),
@@ -101,7 +101,7 @@ class DataMock {
   }
 
   mockAdminSequences (sequences = []) {
-    const regexp = createRegexp('api/sequence/[a-z0-9\-]+?');
+    const regexp = createRegexp('api/sequence/[a-z0-9]+?');
 
     this._handleRequest(
       this._matchesRegexp(regexp),
@@ -110,7 +110,7 @@ class DataMock {
   }
 
   mockAdminChapters (chapters = []) {
-    const regexp = createRegexp('api/chapter/[a-z0-9\-]+?');
+    const regexp = createRegexp('api/chapter/[a-z0-9]+?');
 
     this._handleRequest(
       this._matchesRegexp(regexp),

@@ -32,7 +32,7 @@ class StoriesTableCmp extends Component {
   };
 
   onSelect = (history, row) => () => {
-    const path = makePath(ADMIN_STORY_VIEW_ROUTE, { ':id': row.id });
+    const path = makePath(ADMIN_STORY_VIEW_ROUTE, { ':id': row._id });
     history.push(path);
   };
 
@@ -69,7 +69,7 @@ class StoriesTableCmp extends Component {
   getActions = row => {
     const { classes, onChangePublishState } = this.props;
     return (
-      <div key={row.id} className={classes.actionsContainer}>
+      <div key={row._id} className={classes.actionsContainer}>
         {this.renderSeeIcon(row)}
         <PublishBtn story={row} onPublishStateChanged={onChangePublishState}/>
         <BasicEditBtnWithDisabledState
@@ -81,7 +81,7 @@ class StoriesTableCmp extends Component {
         <BasicDeleteBtnWithDisabledState
           title="Delete confirmation"
           description="Are you sure you want to delete this story?"
-          onClick={this.onDeleteStory(row.id)}
+          onClick={this.onDeleteStory(row._id)}
           storyPublished={row.published}
         />
       </div>
