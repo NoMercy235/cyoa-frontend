@@ -1,7 +1,6 @@
 import { BaseModel } from './BaseModel';
 
 export class RatingModel extends BaseModel {
-  _id = '';
   rating = 0;
   user = '';
   story = '';

@@ -36,7 +36,7 @@ describe('Sequences admin table', () => {
       customConfig: { endpoint },
     } = context;
 
-    await page.goto(`${endpoint}admin/stories/${story._id}`);
+    await page.goto(`${endpoint}admin/stories/${story.id}`);
     await clickOnElement(xSequencesTab);
     await waitForElement(sSequencesTableHeader);
   });
@@ -64,11 +64,13 @@ describe('Sequences admin table', () => {
 
 const story = {
   "_id": "5d5da678594a1f18471e6f08",
+  "id": "story-5d5da678594a1f18471e6f08",
   "updated_at": "2019-08-21T20:16:10.316Z",
   "created_at": "2019-08-21T20:15:52.474Z",
   "authorShort": "sdasd dasdas",
   "author": {
     "_id": "5cc6cef8bc797b33bc17bee9",
+    "id": "user-5cc6cef8bc797b33bc17bee9",
     "email": "admin@askaround.com",
     "lastName": "dasdas",
     "firstName": "sdasd"
@@ -96,6 +98,7 @@ const sequences = {
   "data": [
     {
       "_id": "5d5da689594a1f18471e6f09",
+      "id": "sequence-5d5da689594a1f18471e6f09",
       "updated_at": "2019-08-21T20:16:34.806Z",
       "created_at": "2019-08-21T20:16:09.840Z",
       "hasScenePic": false,
@@ -106,6 +109,7 @@ const sequences = {
       "options": [
         {
           "_id": "5d5da6a2594a1f18471e6f0b",
+          "id": "option-5d5da6a2594a1f18471e6f0b",
           "updated_at": "2019-08-21T20:16:34.693Z",
           "created_at": "2019-08-21T20:16:34.693Z",
           "story": "5d5da678594a1f18471e6f08",
@@ -122,6 +126,7 @@ const sequences = {
     },
     {
       "_id": "5d5da692594a1f18471e6f0a",
+      "id": "option-5d5da692594a1f18471e6f0a",
       "updated_at": "2019-08-21T20:16:18.367Z",
       "created_at": "2019-08-21T20:16:18.367Z",
       "hasScenePic": false,
@@ -136,6 +141,7 @@ const sequences = {
     },
     {
       "_id": "5d5da7ed594a1f18471e6f0c",
+      "id": "option-5d5da7ed594a1f18471e6f0c",
       "updated_at": "2019-08-21T20:22:05.673Z",
       "created_at": "2019-08-21T20:22:05.673Z",
       "hasScenePic": false,
@@ -150,6 +156,7 @@ const sequences = {
     },
     {
       "_id": "5d5da7f4594a1f18471e6f0d",
+      "id": "option-5d5da7f4594a1f18471e6f0d",
       "updated_at": "2019-08-21T20:22:12.185Z",
       "created_at": "2019-08-21T20:22:12.185Z",
       "hasScenePic": false,
@@ -164,6 +171,7 @@ const sequences = {
     },
     {
       "_id": "5d5da7f9594a1f18471e6f0e",
+      "id": "option-5d5da7f9594a1f18471e6f0e",
       "updated_at": "2019-08-21T20:22:17.226Z",
       "created_at": "2019-08-21T20:22:17.226Z",
       "hasScenePic": false,
@@ -178,6 +186,7 @@ const sequences = {
     },
     {
       "_id": "5d5da7ff594a1f18471e6f0f",
+      "id": "option-5d5da7ff594a1f18471e6f0f",
       "updated_at": "2019-08-21T20:22:23.205Z",
       "created_at": "2019-08-21T20:22:23.205Z",
       "hasScenePic": false,
@@ -192,6 +201,7 @@ const sequences = {
     },
     {
       "_id": "5d5da804594a1f18471e6f10",
+      "id": "option-5d5da804594a1f18471e6f10",
       "updated_at": "2019-08-21T20:22:28.705Z",
       "created_at": "2019-08-21T20:22:28.705Z",
       "hasScenePic": false,
@@ -206,6 +216,7 @@ const sequences = {
     },
     {
       "_id": "5d5da811594a1f18471e6f11",
+      "id": "option-5d5da811594a1f18471e6f11",
       "updated_at": "2019-08-21T20:22:41.439Z",
       "created_at": "2019-08-21T20:22:41.439Z",
       "hasScenePic": false,
@@ -220,6 +231,7 @@ const sequences = {
     },
     {
       "_id": "5d5da81c594a1f18471e6f12",
+      "id": "option-5d5da81c594a1f18471e6f12",
       "updated_at": "2019-08-21T20:22:52.997Z",
       "created_at": "2019-08-21T20:22:52.997Z",
       "hasScenePic": false,
@@ -234,6 +246,7 @@ const sequences = {
     },
     {
       "_id": "5d5da823594a1f18471e6f13",
+      "id": "option-5d5da823594a1f18471e6f13",
       "updated_at": "2019-08-21T20:22:59.566Z",
       "created_at": "2019-08-21T20:22:59.566Z",
       "hasScenePic": false,
@@ -248,6 +261,7 @@ const sequences = {
     },
     {
       "_id": "5d5da823594a1f18471e6f14",
+      "id": "option-5d5da823594a1f18471e6f14",
       "updated_at": "2019-08-21T20:22:59.566Z",
       "created_at": "2019-08-21T20:22:59.566Z",
       "hasScenePic": false,

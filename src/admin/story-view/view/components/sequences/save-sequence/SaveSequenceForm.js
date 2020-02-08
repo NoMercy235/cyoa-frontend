@@ -18,7 +18,7 @@ class SaveSequenceForm extends Component {
 
   getChapters = () => {
     return this.props.chapters.map(c => {
-      return { _id: c._id, name: c.name };
+      return { id: c.id, name: c.name };
     });
   };
 

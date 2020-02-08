@@ -51,9 +51,9 @@ class CollectionsTableCmp extends Component {
     return (
       <span
         className={classes.clickableText}
-        onClick={this.onChangeCollection(row._id)}
+        onClick={this.onChangeCollection(row.id)}
       >
-        {selectedCollection === row._id && <SelectedIcon/>}
+        {selectedCollection === row.id && <SelectedIcon/>}
         {row.name}
       </span>
     );
@@ -63,7 +63,7 @@ class CollectionsTableCmp extends Component {
     if (!index) return '';
     const { classes } = this.props;
     return (
-      <div key={row._id} className={classes.actionsContainer}>
+      <div key={row.id} className={classes.actionsContainer}>
         <BasicEditAction
           resourceName="collection"
           resource={row}
@@ -72,7 +72,7 @@ class CollectionsTableCmp extends Component {
         <DeleteRow
           title="Delete confirmation"
           description="Are you sure you want to delete this collection?"
-          onClick={this.onDeleteCollection(row._id)}
+          onClick={this.onDeleteCollection(row.id)}
         />
       </div>
     );

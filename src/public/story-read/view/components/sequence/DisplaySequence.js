@@ -74,7 +74,7 @@ class DisplaySequence extends Component {
             <List className={styles.optionsContainer}>
               {!seq.isEnding && seq.options.map(o => (
                 <OptionChoice
-                  key={o._id}
+                  key={o.id}
                   option={o}
                   player={player}
                   onOptionClick={onOptionClick}

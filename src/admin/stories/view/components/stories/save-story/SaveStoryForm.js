@@ -16,7 +16,7 @@ class SaveStoryForm extends Component {
 
   getCollections() {
     return this.props.collections.map(c => {
-      return { _id: c._id, name: c.name };
+      return { id: c.id, name: c.name };
     });
   }
 
@@ -73,7 +73,7 @@ class SaveStoryForm extends Component {
         {...field}
         checked={values.isAvailableOffline}
         value={values.isAvailableOffline}
-        disabled={!!values._id}
+        disabled={!!values.id}
       />
     );
   };
@@ -81,7 +81,7 @@ class SaveStoryForm extends Component {
   renderIsAvailableOfflineInfo = () => {
     const { formik } = this.props;
 
-    return !!formik.values._id && (
+    return !!formik.values.id && (
       <i>
         <Typography
           variant="caption"
@@ -96,7 +96,7 @@ class SaveStoryForm extends Component {
   renderIsAvailableOfflineWarning = () => {
     const { formik: { values } } = this.props;
 
-    return values.isAvailableOffline && !values._id && (
+    return values.isAvailableOffline && !values.id && (
       <Typography
         variant="caption"
         color="secondary"

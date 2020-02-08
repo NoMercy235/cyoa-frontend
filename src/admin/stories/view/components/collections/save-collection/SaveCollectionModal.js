@@ -39,13 +39,13 @@ class SaveCollectionModal extends Component {
   updateCollection = async values => {
     const collection = await this.snackbarRef.current.executeAndShowSnackbar(
       collectionService.update,
-      [values._id, CollectionModel.forApi(values)],
+      [values.id, CollectionModel.forApi(values)],
       {
         variant: SnackbarEnum.Variants.Success,
         message: 'Collection updated!',
       },
     );
-    this.props.storyStore.updateCollection(values._id, collection);
+    this.props.storyStore.updateCollection(values.id, collection);
   };
 
   getInitialValues = () => {
@@ -59,7 +59,7 @@ class SaveCollectionModal extends Component {
 
   onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      if (values._id) {
+      if (values.id) {
         await this.updateCollection(values);
       } else {
         await this.saveCollection(values);

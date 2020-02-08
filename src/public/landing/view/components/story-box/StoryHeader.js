@@ -46,7 +46,7 @@ class StoryHeader extends Component {
   };
 
   goToReadStory = history => () => {
-    const url = makeReadStoryPath(this.props.story._id);
+    const url = makeReadStoryPath(this.props.story.id);
     history.push(url);
   };
 

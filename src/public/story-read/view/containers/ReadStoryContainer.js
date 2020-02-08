@@ -92,7 +92,7 @@ class ReadStoryContainer extends Component {
       attributes,
     };
 
-    const params = { ':playerId': this.state.player._id };
+    const params = { ':playerId': this.state.player.id };
     playerService.setNextRouteParams(params);
     try {
       const player = await playerService.update(metadata);
@@ -122,7 +122,7 @@ class ReadStoryContainer extends Component {
     return await publicChapterService.list({});
   };
 
-  getSequence = async (seqId, storyId = this.state.story._id ) => {
+  getSequence = async (seqId, storyId = this.state.story.id ) => {
     const { appStore } = this.props;
     const params = { ':story': storyId };
     publicSequenceService.setNextRouteParams(params);
@@ -133,7 +133,7 @@ class ReadStoryContainer extends Component {
       if (!appStore.onlineStatus) {
         const offlineStoryStore = await this.getOfflineStoryStore();
         if (offlineStoryStore) {
-          const sequence = await getSeqById(offlineStoryStore.story._id, seqId);
+          const sequence = await getSeqById(offlineStoryStore.story.id, seqId);
           this.setState({ currentSequence: sequence });
         } else {
           this.setState({ unavailableOffline: true });
@@ -150,7 +150,7 @@ class ReadStoryContainer extends Component {
 
   initOfflineStory = async offlineStoryStore => {
     const { story } = offlineStoryStore;
-    const currentSequence = await getSeqById(story._id, story.startSeq);
+    const currentSequence = await getSeqById(story.id, story.startSeq);
 
     this.setState({
       canRender: true,
@@ -203,7 +203,7 @@ class ReadStoryContainer extends Component {
   onStoryRatingChange = async (rating) => {
     const { story } = this.state;
     const { appStore: { getUserId } } = this.props;
-    await ratingService.update(getUserId(), story._id, rating);
+    await ratingService.update(getUserId(), story.id, rating);
   };
 
   async componentDidMount () {

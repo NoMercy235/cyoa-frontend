@@ -55,7 +55,7 @@ class SequenceTableCmp extends Component {
     const { canReorder } = this.state;
 
     return (
-      <div key={row._id} className={classes.actionsContainer}>
+      <div key={row.id} className={classes.actionsContainer}>
         {canReorder && <BasicReorderAction
           onMoveUp={this.onMoveSeqUp(row)}
           onMoveDown={this.onMoveSeqDown(row)}
@@ -76,7 +76,7 @@ class SequenceTableCmp extends Component {
         <BasicDeleteBtnWithDisabledState
           title="Delete confirmation"
           description="Are you sure you want to delete this sequence?"
-          onClick={this.onDeleteSequence(row._id)}
+          onClick={this.onDeleteSequence(row.id)}
         />
       </div>
     );
@@ -92,7 +92,7 @@ class SequenceTableCmp extends Component {
     const colSpan = SequenceModel.getTableColumns().length;
     const rowSeqId = rowData[0];
 
-    const sequence = sequences.find(s => s._id === rowSeqId);
+    const sequence = sequences.find(s => s.id === rowSeqId);
 
     return sequence && (
       <tr>
@@ -110,7 +110,7 @@ class SequenceTableCmp extends Component {
     );
   };
 
-  isStartSeq = seq => this.props.story.startSeq === seq._id;
+  isStartSeq = seq => this.props.story.startSeq === seq.id;
 
   renderType = seq => {
     if (this.isStartSeq(seq)) {
@@ -145,7 +145,7 @@ class SequenceTableCmp extends Component {
 
     const data = sequences.map((s, i) => {
       return [
-        s._id,
+        s.id,
         s.name,
         this.renderType(s),
         this.getActions(s, i)];

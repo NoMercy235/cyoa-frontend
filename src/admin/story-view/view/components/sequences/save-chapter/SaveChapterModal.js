@@ -46,7 +46,7 @@ class SaveChapterModal extends Component {
   updateChapter = async values => {
     await this.snackbarRef.current.executeAndShowSnackbar(
       chapterService.update,
-      [values._id, ChapterModel.forApi(values, ['_id'])],
+      [values.id, ChapterModel.forApi(values, ['id'])],
       {
         variant: SnackbarEnum.Variants.Success,
         message: 'Chapter updated!',
@@ -68,7 +68,7 @@ class SaveChapterModal extends Component {
 
   onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      if (values._id) {
+      if (values.id) {
         await this.updateChapter(values);
       } else {
         await this.saveChapter(values);
@@ -117,7 +117,7 @@ class SaveChapterModal extends Component {
 
   componentDidMount () {
     this.mounted = true;
-    const params = { ':story': this.props.storyViewStore.currentStory._id };
+    const params = { ':story': this.props.storyViewStore.currentStory.id };
     chapterService.setNextRouteParams(params);
   }
 

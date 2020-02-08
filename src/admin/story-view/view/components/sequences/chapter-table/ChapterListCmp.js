@@ -20,7 +20,7 @@ class ChapterListCmp extends Component {
     const { classes, chapters, selectedChapterId, className } = this.props;
 
     const chaptersWithDefault = [
-      new ChapterModel({ _id: '', name: 'Default' }),
+      new ChapterModel({ id: '', name: 'Default' }),
       ...chapters,
     ];
 

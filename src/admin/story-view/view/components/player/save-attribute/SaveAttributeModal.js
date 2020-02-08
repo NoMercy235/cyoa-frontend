@@ -27,7 +27,7 @@ class SaveAttributeModal extends Component {
 
   onSequenceSearch = async (searchQuery) => {
     sequenceService.setNextRouteParams(
-      { ':story': this.props.storyViewStore.currentStory._id }
+      { ':story': this.props.storyViewStore.currentStory.id }
     );
 
     const { sequences } = (await debouncedSequenceList({
@@ -51,7 +51,7 @@ class SaveAttributeModal extends Component {
     }));
 
     return sequences.map(s => {
-      return { value: s._id, label: s.name };
+      return { value: s.id, label: s.name };
     });
   };
 
@@ -74,13 +74,13 @@ class SaveAttributeModal extends Component {
   updateAttribute = async values => {
     const attribute = await this.snackbarRef.current.executeAndShowSnackbar(
       attributeService.update,
-      [values._id, AttributeModel.forApi(values)],
+      [values.id, AttributeModel.forApi(values)],
       {
         variant: SnackbarEnum.Variants.Success,
         message: 'Attribute updated!',
       },
     );
-    this.props.storyViewStore.updateAttribute(values._id, attribute);
+    this.props.storyViewStore.updateAttribute(values.id, attribute);
   };
 
   getInitialValues = () => {
@@ -94,7 +94,7 @@ class SaveAttributeModal extends Component {
 
   onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      if (values._id) {
+      if (values.id) {
         await this.updateAttribute(values);
       } else {
         await this.saveAttribute(values);

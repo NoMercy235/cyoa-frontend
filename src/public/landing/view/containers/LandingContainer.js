@@ -149,7 +149,7 @@ class LandingContainer extends Component {
             >
               {stories.map(s => (
                 <StoryBox
-                  key={s._id}
+                  key={s.id}
                   story={s}
                   makeStoryAvailableOffline={this.makeStoryAvailableOffline}
                 />

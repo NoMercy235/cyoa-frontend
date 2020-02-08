@@ -30,20 +30,20 @@ class ChapterItem extends Component {
   };
 
   handleClick = () => {
-    this.props.onClick(this.props.chapter._id);
+    this.props.onClick(this.props.chapter.id);
   };
 
   isDefaultChapter = () => {
-    return !this.props.chapter._id;
+    return !this.props.chapter.id;
   };
 
   onDeleteRow = () => {
-    this.props.onDeleteRow(this.props.chapter._id);
+    this.props.onDeleteRow(this.props.chapter.id);
   };
 
   renderIsSelected = () => {
     const { chapter, selectedChapterId } = this.props;
-    if (chapter._id !== selectedChapterId) return null;
+    if (chapter.id !== selectedChapterId) return null;
     return <SelectedIcon/>;
   };
 

@@ -4,7 +4,6 @@ import { Utils } from '@nomercy235/utils';
 import { ConsequenceModel } from './ConsequenceModel';
 
 export class OptionModel extends BaseModel {
-  _id = '';
   action = '';
   sequence = '';
   nextSeq = '';

@@ -3,7 +3,6 @@ import * as moment from 'moment';
 import { ERRORS } from '../../shared/constants/errors';
 
 export class CollectionModel extends BaseModel {
-  _id = '';
   name = '';
   description = '';
   created_at = '';

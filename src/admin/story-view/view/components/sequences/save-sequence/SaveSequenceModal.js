@@ -24,9 +24,9 @@ class SaveSequenceModal extends Component {
   snackbarRef = React.createRef();
 
   getSequence = async () => {
-    const params = { ':story': this.props.story._id };
+    const params = { ':story': this.props.story.id };
     sequenceService.setNextRouteParams(params);
-    return await sequenceService.get(this.props.sequence._id);
+    return await sequenceService.get(this.props.sequence.id);
   };
 
   renderTitle() {
@@ -34,7 +34,7 @@ class SaveSequenceModal extends Component {
   }
 
   sendRequest = async (method, args, message) => {
-    const params = { ':story': this.props.story._id };
+    const params = { ':story': this.props.story.id };
     sequenceService.setNextRouteParams(params);
     return await this.snackbarRef.current.executeAndShowSnackbar(
       method,
@@ -54,22 +54,22 @@ class SaveSequenceModal extends Component {
   updateSequence = async values => {
     const sequence = await this.sendRequest(
       sequenceService.update,
-      [values._id, SequenceModel.forApi(values)],
+      [values.id, SequenceModel.forApi(values)],
       'Sequence updated!',
     );
-    this.props.storyViewStore.updateSequence(values._id, sequence);
+    this.props.storyViewStore.updateSequence(values.id, sequence);
     return sequence;
   };
 
   updateStoryStartSeq = async seq => {
     const { storyViewStore, story } = this.props;
-    storyService.update(story._id, { startSeq: seq._id });
+    storyService.update(story.id, { startSeq: seq.id });
     // This does trigger the render function a second time (after the
     // update or addition of a new sequence) but it shouldn't affect
     // performance as there are not many things rendered and this
     // method should not be called often.
     storyViewStore.updateCurrentStory(
-      { startSeq: seq._id }
+      { startSeq: seq.id }
     );
   };
 
@@ -91,7 +91,7 @@ class SaveSequenceModal extends Component {
     const { story, sequence, onSuccess } = this.props;
     try {
       let seq = {};
-      if (values._id) {
+      if (values.id) {
         // Don't send the scenePic on request if it hasn't been changed.
         if (values.scenePic === sequence.scenePic) {
           delete values.scenePic;
@@ -101,7 +101,7 @@ class SaveSequenceModal extends Component {
         seq = await this.saveSequence(values);
       }
 
-      if (values.isStartSeq && story.startSeq !== values._id) {
+      if (values.isStartSeq && story.startSeq !== values.id) {
         await this.updateStoryStartSeq(seq);
       }
 

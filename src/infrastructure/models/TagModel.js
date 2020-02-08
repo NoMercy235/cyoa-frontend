@@ -2,8 +2,6 @@ import { BaseModel } from './BaseModel';
 
 export class TagModel extends BaseModel {
   static tags;
-
-  _id;
   name;
 
   constructor (metadata) {
