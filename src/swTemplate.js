@@ -9,7 +9,7 @@
   }
 
   importScripts(
-    'https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js'
+    'https://storage.googleapis.com/workbox-cdn/releases/5.0.0/workbox-sw.js'
   );
 
   const { workbox } = this;
@@ -25,10 +25,12 @@
   });
 
   /* injection point for manifest files.  */
-  workbox.precaching.precacheAndRoute([]);
+  workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
 
-  /* custom cache rules*/
-  workbox.routing.registerNavigationRoute('/index.html');
+  /* respond with index.html on every navigation request */
+  const handler = workbox.precaching.createHandlerBoundToURL('/index.html');
+  const navRoute = new workbox.routing.NavigationRoute(handler);
+  workbox.routing.registerRoute(navRoute);
 
   const matchCb = ({ url }) => {
     return [
@@ -63,15 +65,6 @@ function configureGoogleCache (workbox) {
     /^https:\/\/fonts\.gstatic\.com/,
     new workbox.strategies.CacheFirst({
       cacheName: 'google-fonts-webfonts',
-      plugins: [
-        new workbox.cacheableResponse.Plugin({
-          statuses: [0, 200],
-        }),
-        new workbox.expiration.Plugin({
-          maxAgeSeconds: 60 * 60 * 24 * 365,
-          maxEntries: 30,
-        }),
-      ],
     })
   );
 }
