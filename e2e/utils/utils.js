@@ -19,9 +19,8 @@ async function createContext (options) {
 
   async function beforeAll () {
     const browser = global.__BROWSER__;
-    const page = await (await browser.createIncognitoBrowserContext()).newPage();
+    const page = await browser.newPage();
     const customConfig = global.__CUSTOM_CONFIG__;
-
     return { browser, page, customConfig };
   }
 
@@ -46,6 +45,13 @@ async function createContext (options) {
   };
 
   const logout = async (credentials) => {
+    try {
+      await waitForElement(sUserSettings, { timeout: 0 });
+    } catch (e) {
+      // Already logged out. Nothing to do.
+      return ;
+    }
+
     await clickOnElement(sUserSettings);
     await clickOnElement(xLogoutOption(credentials.email));
     await closeSnackbar();

@@ -25,7 +25,9 @@ describe('LandingContainer guest', () => {
   });
 
   afterAll(async () => {
-    await context.page.close();
+    const { page, logout, customConfig: { credentials } } = context;
+    await logout(credentials);
+    await page.close();
   });
 
   it('should see two stories', async () => {
