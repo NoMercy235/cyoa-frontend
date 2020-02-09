@@ -62,13 +62,15 @@ class SaveSequenceForm extends Component {
 
   renderChapterField = ({ field }) => {
     const { formik, classes } = this.props;
+    const chapters = this.getChapters();
     return (
       <Select
         className={classes.chapterField}
         formikField={field}
         label="Chapter"
         fullWidth
-        items={this.getChapters()}
+        items={chapters}
+        disabled={!chapters.length}
         {...hasError(formik, 'chapter')}
       />
     );

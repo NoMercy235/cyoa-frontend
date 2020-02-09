@@ -40,13 +40,15 @@ class SaveStoryForm extends Component {
 
   renderCollectionField = ({ field }) => {
     const { formik, classes } = this.props;
+    const collections = this.getCollections();
     return (
       <Select
         className={classes.fromCollection}
         formikField={field}
         label="Collection"
         fullWidth
-        items={this.getCollections()}
+        items={collections}
+        disabled={!collections.length}
         {...hasError(formik, 'fromCollection')}
       />
     );

@@ -40,15 +40,15 @@ class Select extends Component {
   onClear = () => {
     const { formikField, multiple } = this.props;
     const value = multiple ? [] : '';
-    this.handleChange({ target: { value, name: formikField.name }});
+    this.handleChange({ target: { value, name: formikField.name } });
   };
 
-  static getDerivedStateFromProps(nextProps){
-    return { selected: nextProps.formikField.value};
+  static getDerivedStateFromProps(nextProps) {
+    return { selected: nextProps.formikField.value };
   }
 
   render() {
-    const { className, label, items, formikField, helperText, classes, multiple } = this.props;
+    const { className, label, items, disabled, formikField, helperText, classes, multiple } = this.props;
     const { selected } = this.state;
 
     return (
@@ -60,6 +60,8 @@ class Select extends Component {
           onChange={this.handleChange}
           input={
             <Input
+              classes={{ disabled: classes.fieldDisabled }}
+              disabled={disabled}
               id="select-multiple-checkbox"
               {...formikField}
               error={!!helperText}
@@ -114,6 +116,7 @@ Select.propTypes = {
     _id: PropTypes.string,
     name: PropTypes.string,
   })),
+  disabled: PropTypes.bool,
   className: PropTypes.string,
   multiple: PropTypes.bool,
   classes: PropTypes.object.isRequired,
@@ -122,5 +125,8 @@ Select.propTypes = {
 export default withStyles(theme => ({
   helperText: {
     color: theme.palette.error.main,
+  },
+  fieldDisabled: {
+    backgroundColor: 'rgba(0,0,0,0.06)',
   },
 }))(Select);
