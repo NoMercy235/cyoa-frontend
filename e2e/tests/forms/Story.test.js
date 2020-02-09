@@ -1,15 +1,7 @@
 const createContext = require('../../utils/utils');
 const { xNameNotUniqueError } = require('../../utils/selectorsAndXPaths');
-const faker = require('faker');
+const { createStory, deleteStory } = require('../steps/AdminStory.steps');
 
-const sNewStoryBtn = '//button//*[name()="svg" and @title="New story"]';
-const xCreateStoryModalTitle = '//h6[contains(., "Create story")]';
-const xTagsInput = '//div[contains(@class, "MuiSelect-root")]/input[@name="tags"]/..';
-const sNameInput = 'input[name="name"]';
-const sShortDescInput = 'textarea[name="shortDescription"]';
-const sLongDescInput = 'textarea[name="longDescription"]';
-const xAdventureListItem = '//li[contains(., "Adventure")]';
-const xSaveStoryBtn = '//button[contains(., "Save")]';
 const xStoryTableRow = storyName => `//tr[contains(@class, "MuiTableRow-root")]/td/span[text()="${storyName}"]`;
 const xStoryTableDeleteAction = storyName => `//tr[contains(@class, "MuiTableRow-root")]/td/span[text()="${storyName}"]/../../td[last()]/div/button[last()]/span`;
 const xYesBtn = '//button[contains(., "Yes")]';
@@ -40,45 +32,13 @@ describe('Story workflow', () => {
     await page.close();
   });
 
-  async function createStory (context, enforceStoryName) {
-    const {
-      page,
-      clickOnElement,
-      customConfig: { endpoint },
-    } = context;
-
-    await page.goto(`${endpoint}admin/stories`);
-    await clickOnElement(sNewStoryBtn, {
-      waitForElement: xCreateStoryModalTitle,
-    });
-
-    const storyName = enforceStoryName || faker.random.words(5);
-
-    await clickOnElement(xTagsInput, {
-      waitAfterVisible: 100,
-    });
-    await clickOnElement(xAdventureListItem);
-    await clickOnElement(xCreateStoryModalTitle);
-    await page.type(sNameInput, storyName);
-    await page.type(sShortDescInput, faker.lorem.sentence());
-    await page.type(sLongDescInput, faker.lorem.sentence());
-
-    await clickOnElement(xSaveStoryBtn);
-
-    return storyName;
-  }
-
   describe('Basic story', () => {
     it('should create a test story successfully', async () => {
       const {
-        closeSnackbar,
         waitForElement,
       } = context;
 
       storyName = await createStory(context);
-
-      await waitForElement(xStorySavedMessage);
-      await closeSnackbar();
       await waitForElement(xStoryTableRow(storyName));
     });
 
@@ -103,7 +63,7 @@ describe('Story workflow', () => {
     it('should not allow the creation of a story with the same name', async () => {
       const { waitForElement, closeSnackbar, closeModal } = context;
 
-      await createStory(context, storyName);
+      await createStory(context, { name: storyName }, { keepSnackbar: true });
 
       await waitForElement(xNameNotUniqueError);
       await closeSnackbar();
@@ -112,15 +72,10 @@ describe('Story workflow', () => {
 
     it('should delete the created story', async () => {
       const {
-        page,
-        clickOnElement,
         waitForElement,
-        customConfig: { endpoint },
       } = context;
 
-      await page.goto(`${endpoint}admin/stories`);
-      await clickOnElement(xStoryTableDeleteAction(storyName));
-      await clickOnElement(xYesBtn);
+      await deleteStory(storyName, context, { keepSnackbar: true });
       await waitForElement(xStoryDeletedMessage);
     });
   });

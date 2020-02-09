@@ -91,6 +91,24 @@ class DataMock {
     );
   }
 
+  mockAdminCollections (collections) {
+    const regexp = createRegexp('api/collection');
+
+    this._handleRequest(
+      this._matchesRegexp(regexp),
+      collections,
+    );
+  }
+
+  mockAdminStories (stories) {
+    const regexp = createRegexp('api/story');
+
+    this._handleRequest(
+      this._matchesRegexp(regexp),
+      stories,
+    );
+  }
+
   mockAdminAttributes (attributes = []) {
     const regexp = createRegexp('api/attribute/[a-z0-9]+');
 

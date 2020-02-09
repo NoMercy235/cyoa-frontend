@@ -1,5 +1,6 @@
 const createContext = require('../../utils/utils');
 const DataMock = require('../../utils/dataGenerator');
+const { testAccountCredentials } = require('../../utils/helpers');
 
 const xSequencesTab = '//button[.="Sequences"]';
 const sSequencesTableHeader = 'div[id="sequencesAdminTable"]';
@@ -25,7 +26,9 @@ describe('Sequences admin table', () => {
   });
 
   afterAll(async () => {
-    await context.page.close();
+    const { page, logout, customConfig: { credentials } } = context;
+    await logout(credentials);
+    await page.close();
   });
 
   it('should see the table', async () => {
@@ -66,13 +69,8 @@ const story = {
   "_id": "5d5da678594a1f18471e6f08",
   "updated_at": "2019-08-21T20:16:10.316Z",
   "created_at": "2019-08-21T20:15:52.474Z",
-  "authorShort": "sdasd dasdas",
-  "author": {
-    "_id": "5cc6cef8bc797b33bc17bee9",
-    "email": "admin@askaround.com",
-    "lastName": "dasdas",
-    "firstName": "sdasd"
-  },
+  "authorShort": testAccountCredentials.shortName,
+  "author": testAccountCredentials,
   "name": "A new story",
   "shortDescription": "qwe",
   "longDescription": "qwe",

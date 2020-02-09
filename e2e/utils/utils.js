@@ -31,6 +31,12 @@ async function createContext (options) {
 
   const login = async (credentials) => {
     await this.page.click(sUserSettings);
+    try {
+      await waitForElement(xLoginOption, { timeout: 0 });
+    } catch (e) {
+      // Already logged in. Nothing to do.
+      return ;
+    }
 
     await clickOnElement(
       xLoginOption,
@@ -145,6 +151,11 @@ async function createContext (options) {
   }
 
   if (options.withLogin) {
+    // navigate to the endpoint even if the option was not provided
+    // because we have to, in order to login
+    if (!options.navigateToEndpoint) {
+      await this.page.goto(this.customConfig.endpoint);
+    }
     await login(context.customConfig.credentials);
   }
 

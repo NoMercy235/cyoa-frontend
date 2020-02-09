@@ -6,7 +6,7 @@ const xStoryReadTimes = '//li/div/span[starts-with(text(), "Read: ")]';
 const sQuickSearchInput = 'input[placeholder="Search..."]';
 const sProgressBar = '#nprogress';
 const sGithubOption = 'img[alt="Link to GitHub project"]';
-const xReadStoryBtn = '//button[.="Read"]';
+const xReadStoryBtn = '//div[contains(@class, "StoryBox")]//button[.="Read"]';
 
 const QUICK_FILTER = 'stanley';
 
@@ -64,6 +64,8 @@ describe('LandingContainer guest', () => {
     await closeDrawer();
   });
 
+  // This test makes puppeteer wait for quite some time for no reason apparently
+  // But it passes eventually.
   it('should not be able to read a story in offline mode', async () => {
     const { page, clickOnElement, switchNetwork } = context;
 
