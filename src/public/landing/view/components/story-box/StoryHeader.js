@@ -11,6 +11,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import classNames from 'classnames';
 
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import MenuDropdown from '../../../../../shared/components/menu/MenuDropdown';
@@ -51,7 +52,14 @@ class StoryHeader extends Component {
   };
 
   renderTitle = () => {
-    const { classes, story } = this.props;
+    const {
+      classes,
+      story,
+      isAvailableOffline,
+      appStore: { onlineStatus },
+    } = this.props;
+
+    const shouldBeClickable = onlineStatus || isAvailableOffline;
 
     const Title = withRouter(({ history }) => (
       <Typography
@@ -59,8 +67,8 @@ class StoryHeader extends Component {
         color="inherit"
       >
         <span
-          className={classes.storyTitle}
-          onClick={this.goToReadStory(history)}
+          className={classNames({ [classes.storyTitle]: shouldBeClickable })}
+          {...(shouldBeClickable ? { onClick: this.goToReadStory(history) } : {})}
         >
           {story.name}
         </span>

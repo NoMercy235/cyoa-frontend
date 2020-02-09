@@ -1,12 +1,14 @@
 const createContext = require('../utils/utils');
 const DataMock = require('../utils/dataGenerator');
+const { landingStories } = require('../mocks/stories');
 
 const xStoryBoxes = '//div[contains(@class, "infinite-scroll-component")]/div[position() < last()]';
 const xStoryReadTimes = '//li/div/span[starts-with(text(), "Read: ")]';
 const sQuickSearchInput = 'input[placeholder="Search..."]';
 const sProgressBar = '#nprogress';
 const sGithubOption = 'img[alt="Link to GitHub project"]';
-const xReadStoryBtn = '//div[contains(@class, "StoryBox")]//button[.="Read"]';
+const xReadStoryBtn = '//button[.="Read"]';
+const xReadStoryTitle = storyName => `//div[contains(@class, "StoryBox")]//span[.="${storyName}"]`;
 
 const QUICK_FILTER = 'stanley';
 
@@ -73,6 +75,7 @@ describe('LandingContainer guest', () => {
 
     const previousUrl = await page.url();
     await clickOnElement(xReadStoryBtn);
+    await clickOnElement(xReadStoryTitle(landingStories[0].name));
     const currentUrl = await page.url();
 
     expect(previousUrl).toEqual(currentUrl);

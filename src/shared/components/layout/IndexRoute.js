@@ -35,6 +35,7 @@ class IndexRoute extends Component {
     canRender: false,
   };
   snackbarRef = React.createRef();
+  detectorRef = React.createRef();
 
   getTags = async () => {
     const tags = await tagService.list();
@@ -89,17 +90,21 @@ class IndexRoute extends Component {
   };
 
   async componentDidMount () {
+    const { appStore } = this.props;
+
     await this.setIdbStatus();
     await Promise.all([
       this.getTags(),
       this.getUser(),
     ]);
     this.setState({ canRender: true });
+    appStore.setOnlineStatus(this.detectorRef.current.state.online);
   }
 
   renderOnlineStatusDetector = () => {
     return (
       <Detector
+        ref={this.detectorRef}
         onChange={this.updateOnlineStatus}
         polling={{ interval: ONLINE_STATUS_POLLING_INTERVAL }}
         render={() => ''}
