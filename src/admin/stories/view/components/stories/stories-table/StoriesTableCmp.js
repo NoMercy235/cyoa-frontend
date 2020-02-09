@@ -67,7 +67,7 @@ class StoriesTableCmp extends Component {
   };
 
   getActions = row => {
-    const { classes, onChangePublishState } = this.props;
+    const { classes, onStorySaved, onChangePublishState } = this.props;
     return (
       <div key={row._id} className={classes.actionsContainer}>
         {this.renderSeeIcon(row)}
@@ -77,6 +77,9 @@ class StoriesTableCmp extends Component {
           resource={row}
           modalComponent={SaveStoryModal}
           storyPublished={row.published}
+          innerProps={{
+            onSuccess: onStorySaved
+          }}
         />
         <BasicDeleteBtnWithDisabledState
           title="Delete confirmation"
@@ -89,7 +92,7 @@ class StoriesTableCmp extends Component {
   };
 
   render() {
-    const { stories } = this.props;
+    const { stories, onStorySaved } = this.props;
     const columns = StoryModel.getTableColumns();
 
     const data = stories.map(s => {
@@ -108,6 +111,9 @@ class StoriesTableCmp extends Component {
           <BasicNewAction
             tooltip="New story"
             modalComponent={SaveStoryModal}
+            innerProps={{
+              onSuccess: onStorySaved,
+            }}
           />
         );
       },
@@ -128,6 +134,7 @@ class StoriesTableCmp extends Component {
 StoriesTableCmp.propTypes = {
   classes: PropTypes.object,
   stories: PropTypes.arrayOf(PropTypes.shape(StoryModel)),
+  onStorySaved: PropTypes.func.isRequired,
   onDeleteStory: PropTypes.func.isRequired,
   onChangePublishState: PropTypes.func.isRequired,
 };

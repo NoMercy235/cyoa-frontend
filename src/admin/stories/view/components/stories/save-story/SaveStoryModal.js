@@ -28,8 +28,7 @@ class SaveStoryModal extends Component {
   }
 
   saveStory = async values => {
-    const { storyStore } = this.props;
-    const story = await this.snackbarRef.current.executeAndShowSnackbar(
+    return await this.snackbarRef.current.executeAndShowSnackbar(
       storyService.save,
       [StoryModel.forApi(values)],
       {
@@ -37,12 +36,10 @@ class SaveStoryModal extends Component {
         message: 'Story saved!',
       },
     );
-    if (story.fromCollection === storyStore.getSelectedCollection) {
-      storyStore.addStory(story);
-    }
   };
 
   updateStory = async values => {
+    const { storyStore } = this.props;
     const story = await this.snackbarRef.current.executeAndShowSnackbar(
       storyService.update,
       [values._id, StoryModel.forApi(values)],
@@ -51,12 +48,13 @@ class SaveStoryModal extends Component {
         message: 'Story updated!',
       },
     );
-    this.props.storyStore.updateStory(values._id, story);
+    storyStore.updateStory(values._id, story);
+    return story;
   };
 
   getInitialValues = () => {
-    return this.props.story ||
-      new StoryModel({ fromCollection: this.props.storyStore.getSelectedCollection });
+    const { story, storyStore: { selectedCollection: fromCollection } } = this.props;
+    return story || new StoryModel({ fromCollection });
   };
 
   onClose = (resetForm) => () => {
@@ -65,17 +63,18 @@ class SaveStoryModal extends Component {
   };
 
   onSubmit = async (values, { setSubmitting, resetForm }) => {
+    const { onSuccess } = this.props;
+
     values.tagsName = TagModel.get()
       .filter(
         tt => values.tags.find(t => tt._id === t)
       )
       .map(tt => tt.name);
     try {
-      if (values._id) {
-        await this.updateStory(values);
-      } else {
-        await this.saveStory(values);
-      }
+      const story = values._id
+        ? await this.updateStory(values)
+        : await this.saveStory(values);
+      onSuccess && await onSuccess(story);
       this.onClose(resetForm)();
     } finally {
       setSubmitting(false);
@@ -139,6 +138,7 @@ SaveStoryModal.propTypes = {
   classes: PropTypes.object,
   story: PropTypes.instanceOf(StoryModel),
   open: PropTypes.bool.isRequired,
+  onSuccess: PropTypes.func,
   onClose: PropTypes.func.isRequired,
   storyStore: storyStorePropTypes,
 };

@@ -44,6 +44,7 @@ class StoryContainer extends Component {
   }
 
   onChangeCollection = (colId) => {
+    this.props.storyStore.setSelectedCollection(colId);
     this.fetchStories(this.getStoryFilter(colId));
   };
 
@@ -57,6 +58,16 @@ class StoryContainer extends Component {
       },
     );
     this.props.storyStore.removeCollection(colId);
+  };
+
+  onStorySaved = (story) => {
+    const { storyStore } = this.props;
+
+    if (story.fromCollection === storyStore.selectedCollection) {
+      this.fetchStories(this.getStoryFilter(story.fromCollection));
+    } else {
+      this.onChangeCollection(story.fromCollection);
+    }
   };
 
   onDeleteStory = async storyId => {
@@ -81,7 +92,13 @@ class StoryContainer extends Component {
   }
 
   render() {
-    const { stories, collections } = this.props.storyStore;
+    const {
+      storyStore: {
+        stories,
+        collections,
+        selectedCollection
+      }
+    } = this.props;
 
     return (
       <>
@@ -93,6 +110,7 @@ class StoryContainer extends Component {
           <div className={classes.collectionsContainer}>
             <CollectionsTableCmp
               collections={collections}
+              selectedCollection={selectedCollection}
               onChangeCollection={this.onChangeCollection}
               onDeleteCollection={this.onDeleteCollection}
             />
@@ -100,6 +118,7 @@ class StoryContainer extends Component {
           <div className={classes.storiesContainer}>
             <StoriesTableCmp
               stories={stories}
+              onStorySaved={this.onStorySaved}
               onDeleteStory={this.onDeleteStory}
               onChangePublishState={this.onChangePublishState}
             />

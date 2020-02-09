@@ -21,7 +21,8 @@ class BasicNewAction extends Component {
   render() {
     const {
       className,
-      tooltip, innerProps,
+      tooltip,
+      innerProps,
       modalComponent: ModalComponent,
       disabled,
     } = this.props;

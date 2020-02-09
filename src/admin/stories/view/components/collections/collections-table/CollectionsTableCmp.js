@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
 import { withStyles } from '@material-ui/core';
 import SelectedIcon from '@material-ui/icons/KeyboardArrowRight';
 
@@ -10,44 +10,36 @@ import DeleteRow from '../../../../../../shared/components/table/actions/DeleteR
 import BasicEditAction from '../../../../../../shared/components/form/BasicEditAction';
 import SaveCollectionModal from '../save-collection/SaveCollectionModal';
 import BasicNewAction from '../../../../../../shared/components/form/BasicNewAction';
-import { storyStorePropTypes } from '../../../../stores/StoryStore';
 import { renderCollectionsTableTitle } from './CollectionsTableTitle';
 import { COLLECTIONS_ADMIN_TABLE } from '../../../../../../shared/constants/tables';
 
 import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
 import { styles as collectionsTableStyles } from './CollectionsTableCmp.css';
 
-@inject('storyStore')
 @observer
 class CollectionsTableCmp extends Component {
-  state = {
-    selectedCollection: '',
-  };
-
-  setSelectedCollection = id => {
-    const { storyStore } = this.props;
-    this.setState({ selectedCollection: id });
-    storyStore.setSelectedCollection(id);
-  };
-
   onChangeCollection = id => () => {
-    const { onChangeCollection } = this.props;
-    onChangeCollection(id);
-    this.setSelectedCollection(id);
+    this.props.onChangeCollection(id);
   };
 
   onDeleteCollection = id => async () => {
-    const { onDeleteCollection } = this.props;
-    const { selectedCollection } = this.state;
+    const {
+      selectedCollection,
+      onDeleteCollection,
+    } = this.props;
     await onDeleteCollection(id);
+    // If the deleted collection is the currentSelected one, set the
+    // current selection to Default
     if (id === selectedCollection) {
       this.onChangeCollection('')();
     }
   };
 
   renderName = row => {
-    const { classes } = this.props;
-    const { selectedCollection } = this.state;
+    const {
+      selectedCollection,
+      classes,
+    } = this.props;
     return (
       <span
         className={classes.clickableText}
@@ -115,10 +107,9 @@ class CollectionsTableCmp extends Component {
 CollectionsTableCmp.propTypes = {
   classes: PropTypes.object,
   collections: PropTypes.arrayOf(PropTypes.instanceOf(CollectionModel)),
+  selectedCollection: PropTypes.string,
   onChangeCollection: PropTypes.func.isRequired,
   onDeleteCollection: PropTypes.func.isRequired,
-
-  storyStore: storyStorePropTypes,
 };
 
 export default withStyles(theme => ({
