@@ -40,11 +40,11 @@ class Select extends Component {
   onClear = () => {
     const { formikField, multiple } = this.props;
     const value = multiple ? [] : '';
-    this.handleChange({ target: { value, name: formikField.name } });
+    this.handleChange({ target: { value, name: formikField.name }});
   };
 
-  static getDerivedStateFromProps(nextProps) {
-    return { selected: nextProps.formikField.value };
+  static getDerivedStateFromProps(nextProps){
+    return { selected: nextProps.formikField.value};
   }
 
   render() {
