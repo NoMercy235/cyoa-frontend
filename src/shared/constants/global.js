@@ -23,3 +23,5 @@ export const STORY_RATING_LABELS = {
   9: 'Great',
   10: 'Masterpiece',
 };
+
+export const LANDING_PAGE_STORIES_CONTAINER_ID = 'storiesContainer';

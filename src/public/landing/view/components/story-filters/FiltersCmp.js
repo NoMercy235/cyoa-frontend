@@ -1,28 +1,16 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { withStyles, Badge, IconButton, InputBase, Tooltip } from '@material-ui/core';
+import { withStyles, IconButton, InputBase, Tooltip } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/FilterList';
 import { FiltersType } from '../../../stores/PublicStoryStore';
 
 import { styles } from './Filters.css';
 
-const withBadge = (Cmp, classes) => {
-  return (
-    <Badge
-      variant="dot"
-      color="secondary"
-      badgeContent="A"
-      className={classes.advancedFiltersBadge}
-    >
-      {Cmp}
-    </Badge>
-  );
-};
-
 class FiltersCmp extends Component {
   renderFilterIcon = () => {
     const {
+      filterType,
       onOpenAdvancedFilters,
     } = this.props;
 
@@ -30,7 +18,7 @@ class FiltersCmp extends Component {
       <Tooltip title="Advanced Filters">
         <IconButton
           onClick={onOpenAdvancedFilters}
-          color="inherit"
+          color={filterType === FiltersType.Advanced ? "secondary" : "inherit"}
         >
           <FilterIcon />
         </IconButton>
@@ -41,7 +29,6 @@ class FiltersCmp extends Component {
   render() {
     const {
       classes,
-      filterType,
       quickSearchValue,
       onQuickSearch,
     } = this.props;
@@ -65,10 +52,7 @@ class FiltersCmp extends Component {
             }}
           />
         </div>
-        {filterType === FiltersType.Advanced
-          ? withBadge(this.renderFilterIcon(), classes)
-          : this.renderFilterIcon()
-        }
+        {this.renderFilterIcon()}
       </>
     );
   }

@@ -8,6 +8,7 @@ import { FiltersType, publicStoryStorePropTypes } from '../../stores/PublicStory
 import AdvancedFiltersCmp from '../components/story-filters/AdvancedFilters';
 import { debounced } from '../../../../shared/utilities';
 import { appStorePropTypes } from '../../../../shared/store/AppStore';
+import { LANDING_PAGE_STORIES_CONTAINER_ID } from '../../../../shared/constants/global';
 
 const advancedFilterInitialValues = {
   tags: [],
@@ -27,9 +28,6 @@ class FiltersContainer extends Component {
 
   onBeforeSearch = type => {
     const { appStore, publicStoryStore } = this.props;
-    // We reset the stories to avoid problems with infinite scroll trigger
-    // when the new stories come in.
-    publicStoryStore.setStories([]);
     appStore.queryParams.publicStories.reset();
     publicStoryStore.filterType = type;
     publicStoryStore.reachedEnd = true;
@@ -61,6 +59,7 @@ class FiltersContainer extends Component {
       value,
       appStore.queryParams.publicStories
     );
+    document.getElementById(LANDING_PAGE_STORIES_CONTAINER_ID).scrollTop = 0;
 
     this.onAfterSearch(stories);
   };

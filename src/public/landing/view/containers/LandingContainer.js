@@ -15,6 +15,7 @@ import { SnackbarEnum } from '../../../../shared/components/snackbar/Snackbar';
 import Snackbar from '../../../../shared/components/snackbar/Snackbar';
 import { StoryListEnd } from '../components/story-list-end/StoryListEnd';
 import LoadingCmp from '../../../../shared/components/loading/LoadingCmp';
+import { LANDING_PAGE_STORIES_CONTAINER_ID } from '../../../../shared/constants/global';
 
 import styles from './LandingContainer.module.scss';
 
@@ -136,16 +137,16 @@ class LandingContainer extends Component {
     return (
       <>
         <Breadcrumb/>
-        <div id="storiesContainer" className={styles.storiesContainer}>
+        <div id={LANDING_PAGE_STORIES_CONTAINER_ID} className={styles.storiesContainer}>
           <NoResultsFound show={initialRequestDone && !hasStories}/>
           {(!initialRequestDone || hasStories) && (
-              <InfiniteScroll
+            <InfiniteScroll
               dataLength={stories.length}
               next={this.getNextStories}
               hasMore={!reachedEnd}
               loader={<LoadingCmp/>}
               endMessage={<StoryListEnd/>}
-              scrollableTarget="storiesContainer"
+              scrollableTarget={LANDING_PAGE_STORIES_CONTAINER_ID}
             >
               {stories.map(s => (
                 <StoryBox
