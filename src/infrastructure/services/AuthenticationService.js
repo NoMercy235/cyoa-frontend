@@ -41,6 +41,11 @@ class AuthenticationService extends BaseService {
     try {
       await this.client.get('auth/checkToken');
     } catch (e) {
+      if (!e.status) {
+        // A network error occurred. The use most likely lost internet access, so
+        // we don't remove the JWT token yet.
+        return ;
+      }
       localStorage.removeItem('jwt');
       throw e;
     }

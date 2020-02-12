@@ -36,7 +36,7 @@
     "start-https": "HTTPS=true react-app-rewired start",
     "start-http-prod": "npm run build && npm run http-server",
     "start-http-prod-no-build": "npm run build-sw && npm run http-server",
-    "http-server": "npx http-server-spa ./build index.html 3000",
+    "http-server": "npx http-server-spa ./build index.html 3001",
     "start-https-prod": "npm run build && npm run https-server",
     "https-server": "PORT=3000 npx https-localhost build/",
     "build": "react-app-rewired build && npm run clean-cra-sw && npm run build-sw",
