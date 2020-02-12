@@ -128,5 +128,8 @@ export default withStyles(theme => ({
   },
   fieldDisabled: {
     backgroundColor: 'rgba(0,0,0,0.06)',
+    '&:hover': {
+      cursor: 'not-allowed',
+    },
   },
 }))(Select);

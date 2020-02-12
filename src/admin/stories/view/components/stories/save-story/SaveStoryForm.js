@@ -141,7 +141,7 @@ class SaveStoryForm extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, collections } = this.props;
 
     return (
       <Form noValidate>
@@ -151,10 +151,12 @@ class SaveStoryForm extends Component {
             required
             render={this.renderTagsField}
           />
-          <Field
-            name="fromCollection"
-            render={this.renderCollectionField}
-          />
+          {!!collections.length && (
+            <Field
+              name="fromCollection"
+              render={this.renderCollectionField}
+            />
+          )}
         </div>
         <Field
           name="name"

@@ -129,15 +129,17 @@ class SaveSequenceForm extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, chapters } = this.props;
 
     return (
       <Form noValidate>
-        <Field
-          name="chapter"
-          required
-          render={this.renderChapterField}
-        />
+        {!!chapters.length && (
+          <Field
+            name="chapter"
+            required
+            render={this.renderChapterField}
+          />
+        )}
         <Field
           name="name"
           required
