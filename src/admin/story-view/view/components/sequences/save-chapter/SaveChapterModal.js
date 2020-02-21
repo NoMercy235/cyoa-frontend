@@ -14,6 +14,7 @@ import { chapterService } from '../../../../../../infrastructure/services/Chapte
 import SaveChapterForm from './SaveChapterForm';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
 import { appStorePropTypes } from '../../../../../../shared/store/AppStore';
+import { stopEvent } from '../../../../../../shared/utilities';
 
 import { styles } from './SaveChapter.css';
 
@@ -81,6 +82,7 @@ class SaveChapterModal extends Component {
     return (
       <Dialog
         open={open}
+        onClick={stopEvent}
         onClose={this.onClose(formik.resetForm)}
         classes={{ paper: classes.dialogSize }}
       >

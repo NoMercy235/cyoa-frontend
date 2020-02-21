@@ -143,3 +143,8 @@ export const convertNumberToHuman = (number) => {
 
   return String(number).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+
+export const stopEvent = (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+};

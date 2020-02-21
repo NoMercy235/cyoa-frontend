@@ -6,6 +6,7 @@ import { appStorePropTypes } from '../../store/AppStore';
 import { DialogTitle } from '../dialog/Title';
 import { DialogContent } from '../dialog/Content';
 import { DialogActions } from '../dialog/Actions';
+import { stopEvent } from '../../utilities';
 
 import { dialogDefaultCss } from '../dialog/Dialog.css';
 
@@ -36,6 +37,7 @@ class ConfirmationModal extends Component {
     return (
       <Dialog
         open={open}
+        onClick={stopEvent}
         onClose={this.onClose}
         classes={{ paper: classes.dialogSize }}
       >

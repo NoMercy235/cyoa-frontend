@@ -61,12 +61,14 @@ class SaveChapterForm extends Component {
   };
 
   render() {
+    // Parent chapter is flawed and this workflow will be reworked anyway
+    // so I'm commenting this for now
     return (
       <Form noValidate>
-        <Field
-          name="parentChapter"
-          render={this.renderParentChapterField}
-        />
+        {/*<Field*/}
+        {/*  name="parentChapter"*/}
+        {/*  render={this.renderParentChapterField}*/}
+        {/*/>*/}
         <Field
           name="name"
           required
