@@ -51,6 +51,8 @@ describe('LandingContainer guest', () => {
     const { page, waitForElement } = context;
 
     await page.type(sQuickSearchInput, QUICK_FILTER);
+    // Wait for the debounce to trigger
+    await page.waitFor(1000);
     await waitForElement(sProgressBar, { hidden: true });
     await waitForElement(xStoryBoxes);
     const storyBoxes = await page.$x(xStoryBoxes);
