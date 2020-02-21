@@ -4,7 +4,6 @@ import { inject, observer } from 'mobx-react';
 import { withRouter } from 'react-router-dom';
 
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
-import Snackbar, { SnackbarEnum } from '../../../../shared/components/snackbar/Snackbar';
 import SequenceTableCmp from '../components/sequences/sequence-table/SequenceTableCmp';
 import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
 import { sequenceService } from '../../../../infrastructure/services/SequenceService';
@@ -19,7 +18,6 @@ import classes from './SequenceTabContainer.module.scss';
 @inject('storyViewStore', 'appStore')
 @observer
 class SequenceTabContainer extends Component {
-  snackbarRef = React.createRef();
   tableRef = React.createRef();
 
   getSelectedChapterId = () => {
@@ -69,18 +67,14 @@ class SequenceTabContainer extends Component {
   };
 
   onDeleteSequence = async sequenceId => {
-    const { story } = this.props;
+    const { story, appStore } = this.props;
 
     const params = { ':story': story._id };
     sequenceService.setNextRouteParams(params);
-    await this.snackbarRef.current.executeAndShowSnackbar(
-      sequenceService.delete,
-      [sequenceId],
-      {
-        variant: SnackbarEnum.Variants.Success,
-        message: 'Sequence deleted!',
-      },
-    );
+    await sequenceService.delete(sequenceId);
+    appStore.showSuccessSnackbar({
+      message: 'Sequence deleted!',
+    });
     await this.getSequences();
   };
 
@@ -97,26 +91,23 @@ class SequenceTabContainer extends Component {
   };
 
   onDeleteOption = async (sequenceId, optionId) => {
+    const { storyViewStore, appStore } = this.props;
     const params = { ':sequence': sequenceId };
     optionService.setNextRouteParams(params);
-    await this.snackbarRef.current.executeAndShowSnackbar(
-      optionService.delete,
-      [optionId],
-      {
-        variant: SnackbarEnum.Variants.Success,
-        message: 'Option deleted!',
-      },
-    );
-    this.props.storyViewStore.removeOptionFromSequence(sequenceId, optionId);
+    await optionService.delete(optionId);
+    storyViewStore.removeOptionFromSequence(sequenceId, optionId);
+    appStore.showSuccessSnackbar({
+      message: 'Option deleted!',
+    });
   };
 
   onUpdateSequence = async (sequence, ahead) => {
-    const params = { ':story': this.props.story._id };
+    const { story, appStore } = this.props;
+    const params = { ':story': story._id };
     sequenceService.setNextRouteParams(params);
     await sequenceService.updateOrder(sequence, ahead);
     await this.getSequences();
-    this.snackbarRef.current.showSnackbar({
-      variant: SnackbarEnum.Variants.Success,
+    appStore.showSuccessSnackbar({
       message: 'Order has been updated',
     });
   };
@@ -146,14 +137,11 @@ class SequenceTabContainer extends Component {
   };
 
   onDeleteChapter = async (chapterId) => {
-    await this.snackbarRef.current.executeAndShowSnackbar(
-      chapterService.delete,
-      [chapterId],
-      {
-        variant: SnackbarEnum.Variants.Success,
-        message: 'Chapter deleted!',
-      },
-    );
+    const { appStore } = this.props;
+    await chapterService.delete(chapterId);
+    appStore.showSuccessSnackbar({
+      message: 'Chapter deleted!',
+    });
 
     await Promise.all([
       this.getChapters(),
@@ -207,33 +195,30 @@ class SequenceTabContainer extends Component {
     const selectedChapterId = this.getSelectedChapterId();
 
     return (
-      <>
-        <div className={classes.tablesContainer}>
-          <ChapterListCmp
-            className={classes.chaptersList}
-            chapters={chapters}
-            selectedChapterId={selectedChapterId}
-            onDeleteChapter={this.onDeleteChapter}
-            onChapterClick={this.onChangeChapter}
-          />
-          <SequenceTableCmp
-            tableRef={this.tableRef}
-            className={classes.sequencesTable}
-            story={story}
-            sequences={sequencesInOrder}
-            queryParams={queryParams.sequences}
-            selectedChapterId={selectedChapterId}
-            onDeleteSequence={this.onDeleteSequence}
-            onEditOption={this.onEditOption}
-            onDeleteOption={this.onDeleteOption}
-            onMoveSeqUp={this.onMoveSeqUp}
-            onMoveSeqDown={this.onMoveSeqDown}
-            onChangePage={this.onChangeSequencesPage}
-            onSequenceSave={this.getSequences}
-          />
-        </div>
-        <Snackbar innerRef={this.snackbarRef}/>
-      </>
+      <div className={classes.tablesContainer}>
+        <ChapterListCmp
+          className={classes.chaptersList}
+          chapters={chapters}
+          selectedChapterId={selectedChapterId}
+          onDeleteChapter={this.onDeleteChapter}
+          onChapterClick={this.onChangeChapter}
+        />
+        <SequenceTableCmp
+          tableRef={this.tableRef}
+          className={classes.sequencesTable}
+          story={story}
+          sequences={sequencesInOrder}
+          queryParams={queryParams.sequences}
+          selectedChapterId={selectedChapterId}
+          onDeleteSequence={this.onDeleteSequence}
+          onEditOption={this.onEditOption}
+          onDeleteOption={this.onDeleteOption}
+          onMoveSeqUp={this.onMoveSeqUp}
+          onMoveSeqDown={this.onMoveSeqDown}
+          onChangePage={this.onChangeSequencesPage}
+          onSequenceSave={this.getSequences}
+        />
+      </div>
     );
   }
 }

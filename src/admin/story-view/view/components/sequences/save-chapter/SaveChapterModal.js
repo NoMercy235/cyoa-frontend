@@ -7,20 +7,19 @@ import { inject } from 'mobx-react';
 import { DialogTitle } from '../../../../../../shared/components/dialog/Title';
 import { DialogContent } from '../../../../../../shared/components/dialog/Content';
 import { DialogActions } from '../../../../../../shared/components/dialog/Actions';
-import Snackbar, { SnackbarEnum } from '../../../../../../shared/components/snackbar/Snackbar';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 import { ChapterModel } from '../../../../../../infrastructure/models/ChapterModel';
 import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
 import { chapterService } from '../../../../../../infrastructure/services/ChapterService';
 import SaveChapterForm from './SaveChapterForm';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
+import { appStorePropTypes } from '../../../../../../shared/store/AppStore';
 
 import { styles } from './SaveChapter.css';
 
-@inject('storyViewStore')
+@inject('storyViewStore', 'appStore')
 class SaveChapterModal extends Component {
   mounted = false;
-  snackbarRef = React.createRef();
 
   renderTitle() {
     return this.props.chapter ? 'Edit chapter' : 'Create chapter';
@@ -32,26 +31,18 @@ class SaveChapterModal extends Component {
   };
 
   saveChapter = async values => {
-    await this.snackbarRef.current.executeAndShowSnackbar(
-      chapterService.save,
-      [ChapterModel.forApi(values)],
-      {
-        variant: SnackbarEnum.Variants.Success,
-        message: 'Chapter saved!',
-      },
-    );
+    await chapterService.save(ChapterModel.forApi(values));
+    this.props.appStore.showSuccessSnackbar({
+      message: 'Chapter saved!',
+    });
     await this.refreshChapters();
   };
 
   updateChapter = async values => {
-    await this.snackbarRef.current.executeAndShowSnackbar(
-      chapterService.update,
-      [values._id, ChapterModel.forApi(values, ['_id'])],
-      {
-        variant: SnackbarEnum.Variants.Success,
-        message: 'Chapter updated!',
-      },
-    );
+    await chapterService.update(values._id, ChapterModel.forApi(values));
+    this.props.appStore.showSuccessSnackbar({
+      message: 'Chapter updated!',
+    });
     await this.refreshChapters();
   };
 
@@ -136,7 +127,6 @@ class SaveChapterModal extends Component {
         >
           {this.renderForm}
         </Formik>
-        <Snackbar innerRef={this.snackbarRef}/>
       </>
     );
   }
@@ -148,6 +138,7 @@ SaveChapterModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   storyViewStore: storyViewStorePropTypes,
+  appStore: appStorePropTypes,
 };
 
 export default withStyles(theme => ({

@@ -3,12 +3,14 @@ import { action, computed, observable } from 'mobx';
 
 import { UserModel } from '../../infrastructure/models/UserModel';
 import { QueryParams } from '../utilities';
+import { SnackbarEnum } from '../components/snackbar/Snackbar';
 
 const makeRandomId = function () {
   return Math.random().toString().substring(2);
 };
 
 class AppStore {
+  @observable snackbarRef;
   @observable isWebSocketConnected;
   @observable HeaderCmp;
   @observable user;
@@ -29,6 +31,21 @@ class AppStore {
   };
 
   localId = '';
+
+  @action setSnackbarRef = ref => {
+    this.snackbarRef = ref;
+  };
+
+  showSnackbar = (metadata) => {
+    this.snackbarRef.current.showSnackbar(metadata);
+  };
+
+  showSuccessSnackbar = (metadata) => {
+    this.showSnackbar({
+      ...metadata,
+      variant: SnackbarEnum.Variants.Success,
+    });
+  };
 
   @action setIsWebSocketConnected = value => {
     this.isWebSocketConnected = value;
@@ -92,6 +109,10 @@ class AppStore {
 }
 
 export const appStorePropTypes = PropTypes.shape({
+  snackbarRef: PropTypes.object,
+  showSnackbar: PropTypes.func,
+  showSuccessSnackbar: PropTypes.func,
+
   isWebSocketConnected: PropTypes.bool,
   setIsWebSocketConnected: PropTypes.func,
 

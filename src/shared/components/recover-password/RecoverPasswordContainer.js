@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Formik } from 'formik';
+import { inject } from 'mobx-react';
 
 import { authService } from '../../../infrastructure/services/AuthenticationService';
 import RecoverPasswordCmp from './RecoverPasswordCmp';
 import { LANDING_ROUTE, routeWithQueryParams } from '../../constants/routes';
 import { AuthenticationModel } from '../../../infrastructure/models/AuthenticationModel';
-import Snackbar, { SnackbarEnum } from '../snackbar/Snackbar';
+import { SnackbarEnum } from '../snackbar/Snackbar';
+import { appStorePropTypes } from '../../store/AppStore';
 
+@inject('appStore')
 class RecoverPasswordContainer extends Component {
-  snackbarRef = React.createRef();
 
   onSubmit = async ({ password }, { setSubmitting }) => {
     const {
+      appStore,
       match: {
         params: {
           email,
@@ -25,7 +28,7 @@ class RecoverPasswordContainer extends Component {
       await authService.recoverPassword({ token, email, password });
       history.push(routeWithQueryParams(LANDING_ROUTE, { recoverPasswordSuccess: true }));
     } catch (e) {
-      this.snackbarRef.current.showSnackbar({
+      appStore.showSnackbar({
         variant: SnackbarEnum.Variants.Error,
         message: 'Your request could not be completed',
       })
@@ -50,18 +53,19 @@ class RecoverPasswordContainer extends Component {
 
   render() {
     return (
-      <>
-        <Formik
-          initialValues={{ password: '', repeatPassword: '' }}
-          onSubmit={this.onSubmit}
-          validate={this.validate}
-        >
-          {this.renderForm}
-        </Formik>
-        <Snackbar innerRef={this.snackbarRef}/>
-      </>
+      <Formik
+        initialValues={{ password: '', repeatPassword: '' }}
+        onSubmit={this.onSubmit}
+        validate={this.validate}
+      >
+        {this.renderForm}
+      </Formik>
     );
   }
 }
+
+RecoverPasswordContainer.propTypes = {
+  appStore: appStorePropTypes,
+};
 
 export default withRouter(RecoverPasswordContainer);

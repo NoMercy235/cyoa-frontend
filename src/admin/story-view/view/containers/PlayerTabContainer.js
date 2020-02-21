@@ -6,15 +6,13 @@ import AttributesTableCmp from '../components/player/AttributesTableCmp';
 import { attributeService } from '../../../../infrastructure/services/AttributeService';
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
 import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
-import Snackbar, { SnackbarEnum } from '../../../../shared/components/snackbar/Snackbar';
+import { appStorePropTypes } from '../../../../shared/store/AppStore';
 
 import classes from './PlayerTabContainer.module.scss';
 
-@inject('storyViewStore')
+@inject('storyViewStore', 'appStore')
 @observer
 class PlayerTabContainer extends Component {
-  snackbarRef = React.createRef();
-
   onSelectAttribute = id => {
     console.log('Selected: ', id);
   };
@@ -36,17 +34,14 @@ class PlayerTabContainer extends Component {
   };
 
   onDeleteAttribute = async attributeId => {
-    const params = { ':story': this.props.story._id };
+    const { story, storyViewStore, appStore } = this.props;
+    const params = { ':story': story._id };
     attributeService.setNextRouteParams(params);
-    await this.snackbarRef.current.executeAndShowSnackbar(
-      attributeService.delete,
-      [attributeId],
-      {
-        variant: SnackbarEnum.Variants.Success,
-        message: 'Attribute deleted!',
-      },
-    );
-    this.props.storyViewStore.removeAttribute(attributeId);
+    await attributeService.delete(attributeId);
+    storyViewStore.removeAttribute(attributeId);
+    appStore.showSuccessSnackbar({
+      message: 'Attribute deleted!',
+    });
   };
 
   componentDidMount () {
@@ -56,17 +51,14 @@ class PlayerTabContainer extends Component {
   render() {
     const { attributes } = this.props.storyViewStore;
     return (
-      <>
-        <div className={classes.tableContainer}>
-          <AttributesTableCmp
-            attributes={attributes}
-            onEditAttribute={this.onEditAttribute}
-            onSelectAttribute={this.onSelectAttribute}
-            onDeleteAttribute={this.onDeleteAttribute}
-          />
-        </div>
-        <Snackbar innerRef={this.snackbarRef}/>
-      </>
+      <div className={classes.tableContainer}>
+        <AttributesTableCmp
+          attributes={attributes}
+          onEditAttribute={this.onEditAttribute}
+          onSelectAttribute={this.onSelectAttribute}
+          onDeleteAttribute={this.onDeleteAttribute}
+        />
+      </div>
     );
   }
 }
@@ -76,6 +68,7 @@ PlayerTabContainer.propTypes = {
   getAttributes: PropTypes.func.isRequired,
 
   storyViewStore: storyViewStorePropTypes,
+  appStore: appStorePropTypes,
 };
 
 export default PlayerTabContainer;

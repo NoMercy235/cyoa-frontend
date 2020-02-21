@@ -7,16 +7,14 @@ import StoriesTableCmp from '../components/stories/stories-table/StoriesTableCmp
 import { storyService } from '../../../../infrastructure/services/StoryService';
 import { storyStorePropTypes } from '../../stores/StoryStore';
 import { collectionService } from '../../../../infrastructure/services/CollectionService';
-import Snackbar, { SnackbarEnum } from '../../../../shared/components/snackbar/Snackbar';
 import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
 
 import classes from './StoryContainer.module.scss';
+import { appStorePropTypes } from '../../../../shared/store/AppStore';
 
-@inject('storyStore')
+@inject('storyStore', 'appStore')
 @observer
 class StoryContainer extends Component {
-  snackbarRef = React.createRef();
-
   onChangePublishState = (story) => {
     this.props.storyStore.updateStory(story._id, story);
   };
@@ -49,15 +47,12 @@ class StoryContainer extends Component {
   };
 
   onDeleteCollection = async (colId) => {
-    await this.snackbarRef.current.executeAndShowSnackbar(
-      collectionService.delete,
-      [colId],
-      {
-        variant: SnackbarEnum.Variants.Success,
-        message: 'Collection deleted!',
-      },
-    );
-    this.props.storyStore.removeCollection(colId);
+    const { storyStore, appStore } = this.props;
+    await collectionService.delete(colId);
+    storyStore.removeCollection(colId);
+    appStore.showSuccessSnackbar({
+      message: 'Collection deleted!',
+    });
   };
 
   onStorySaved = (story) => {
@@ -71,15 +66,12 @@ class StoryContainer extends Component {
   };
 
   onDeleteStory = async storyId => {
-    await this.snackbarRef.current.executeAndShowSnackbar(
-      storyService.delete,
-      [storyId],
-      {
-        variant: SnackbarEnum.Variants.Success,
-        message: 'Story deleted!',
-      },
-    );
-    this.props.storyStore.removeStory(storyId);
+    const { storyStore, appStore } = this.props;
+    await storyService.delete(storyId);
+    storyStore.removeStory(storyId);
+    appStore.showSuccessSnackbar({
+      message: 'Story deleted!',
+    });
   };
 
   componentDidMount () {
@@ -124,7 +116,6 @@ class StoryContainer extends Component {
             />
           </div>
         </div>
-        <Snackbar innerRef={this.snackbarRef}/>
       </>
     );
   }
@@ -132,6 +123,7 @@ class StoryContainer extends Component {
 
 StoryContainer.propTypes = {
   storyStore: storyStorePropTypes,
+  appStore: appStorePropTypes,
 };
 
 export default StoryContainer;

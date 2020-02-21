@@ -21,8 +21,6 @@ import ttaLogo from '../../../../assets/tta-logo.png';
 import { LANDING_ROUTE } from '../../../constants/routes';
 import MenuDropdown from '../../menu/MenuDropdown';
 import Authentication from '../../authentication/Authentication';
-import { SnackbarEnum } from '../../snackbar/Snackbar';
-import Snackbar from '../../snackbar/Snackbar';
 import { addBroadcastListener } from '../../../BroadcastChannel';
 import { BroadcastEvents } from '../../../constants/events';
 
@@ -31,7 +29,6 @@ import { styles } from '../Styles.css';
 @inject('appStore')
 @observer
 class Header extends Component {
-  snackbarRef = React.createRef();
 
   componentDidMount () {
     addBroadcastListener(({ data: { type } }) => {
@@ -49,8 +46,7 @@ class Header extends Component {
 
     appStore.setUser(null);
     appStore.generateLocalId();
-    this.snackbarRef.current.showSnackbar({
-      variant: SnackbarEnum.Variants.Success,
+    appStore.showSuccessSnackbar({
       message: 'Goodbye!',
     });
     localStorage.removeItem('jwt');
@@ -157,7 +153,6 @@ class Header extends Component {
             {this.renderSettings()}
           </Toolbar>
         </AppBar>
-        <Snackbar innerRef={this.snackbarRef}/>
       </>
     );
   }

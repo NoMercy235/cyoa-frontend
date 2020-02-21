@@ -7,7 +7,6 @@ import { inject } from 'mobx-react';
 import { DialogTitle } from '../../../../../../shared/components/dialog/Title';
 import { DialogContent } from '../../../../../../shared/components/dialog/Content';
 import { DialogActions } from '../../../../../../shared/components/dialog/Actions';
-import Snackbar, { SnackbarEnum } from '../../../../../../shared/components/snackbar/Snackbar';
 import { storyViewStorePropTypes } from '../../../../stores/StoryViewStore';
 import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
 import { sequenceService } from '../../../../../../infrastructure/services/SequenceService';
@@ -15,13 +14,13 @@ import SaveSequenceForm from './SaveSequenceForm';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 import { storyService } from '../../../../../../infrastructure/services/StoryService';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
+import { appStorePropTypes } from '../../../../../../shared/store/AppStore';
 
 import { styles } from './SaveSequence.css';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
 
-@inject('storyViewStore')
+@inject('storyViewStore', 'appStore')
 class SaveSequenceModal extends Component {
-  snackbarRef = React.createRef();
 
   getSequence = async () => {
     const params = { ':story': this.props.story._id };
@@ -36,11 +35,9 @@ class SaveSequenceModal extends Component {
   sendRequest = async (method, args, message) => {
     const params = { ':story': this.props.story._id };
     sequenceService.setNextRouteParams(params);
-    return await this.snackbarRef.current.executeAndShowSnackbar(
-      method,
-      args,
-      { variant: SnackbarEnum.Variants.Success, message },
-    );
+    const result = await method(...args);
+    this.props.appStore.showSuccessSnackbar({ message });
+    return result;
   };
 
   saveSequence = async values => {
@@ -167,7 +164,6 @@ class SaveSequenceModal extends Component {
         >
           {this.renderForm}
         </Formik>
-        <Snackbar innerRef={this.snackbarRef}/>
       </>
     );
   }
@@ -183,6 +179,7 @@ SaveSequenceModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSuccess: PropTypes.func,
   storyViewStore: storyViewStorePropTypes,
+  appStore: appStorePropTypes,
 };
 
 export default withStyles(theme => ({

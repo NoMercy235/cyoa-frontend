@@ -8,46 +8,40 @@ import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import { DialogTitle } from '../../../../../../shared/components/dialog/Title';
 import { DialogContent } from '../../../../../../shared/components/dialog/Content';
 import { DialogActions } from '../../../../../../shared/components/dialog/Actions';
-import Snackbar, { SnackbarEnum } from '../../../../../../shared/components/snackbar/Snackbar';
 import SaveStoryForm from './SaveStoryForm';
 import { storyStorePropTypes } from '../../../../stores/StoryStore';
 import { storyService } from '../../../../../../infrastructure/services/StoryService';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 import { TagModel } from '../../../../../../infrastructure/models/TagModel';
 import { Dialog } from '../../../../../../shared/components/dialog/Dialog';
+import { appStorePropTypes } from '../../../../../../shared/store/AppStore';
 
 import { styles } from './SaveStory.css';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
 
-@inject('storyStore')
+@inject('storyStore', 'appStore')
 class SaveStoryModal extends Component {
-  snackbarRef = React.createRef();
-
   renderTitle() {
     return this.props.story ? 'Edit story' : 'Create story';
   }
 
   saveStory = async values => {
-    return await this.snackbarRef.current.executeAndShowSnackbar(
-      storyService.save,
-      [StoryModel.forApi(values)],
-      {
-        variant: SnackbarEnum.Variants.Success,
-        message: 'Story saved!',
-      },
-    );
+    const story = await storyService.save(StoryModel.forApi(values));
+    this.props.appStore.showSuccessSnackbar({
+      message: 'Story saved!',
+    });
+    return story;
   };
 
   updateStory = async values => {
-    const { storyStore } = this.props;
-    const story = await this.snackbarRef.current.executeAndShowSnackbar(
-      storyService.update,
-      [values._id, StoryModel.forApi(values)],
-      {
-        variant: SnackbarEnum.Variants.Success,
-        message: 'Story updated!',
-      },
+    const { storyStore, appStore } = this.props;
+    const story = await storyService.update(
+      values._id,
+      StoryModel.forApi(values)
     );
+    appStore.showSuccessSnackbar({
+      message: 'Story saved!',
+    });
     storyStore.updateStory(values._id, story);
     return story;
   };
@@ -128,7 +122,6 @@ class SaveStoryModal extends Component {
         >
           {this.renderForm}
         </Formik>
-        <Snackbar innerRef={this.snackbarRef}/>
       </>
     );
   }
@@ -141,6 +134,7 @@ SaveStoryModal.propTypes = {
   onSuccess: PropTypes.func,
   onClose: PropTypes.func.isRequired,
   storyStore: storyStorePropTypes,
+  appStore: appStorePropTypes,
 };
 
 export default withStyles(theme => ({

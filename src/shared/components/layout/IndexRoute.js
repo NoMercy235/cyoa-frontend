@@ -65,7 +65,7 @@ class IndexRoute extends Component {
       // TODO: investigate why
       if (!this.snackbarRef || !this.snackbarRef.current) return;
 
-      this.snackbarRef.current.showSnackbar({
+      appStore.showSnackbar({
         variant: SnackbarEnum.Variants.Error,
         message: 'Token has expired. Please relog.',
       });
@@ -78,7 +78,7 @@ class IndexRoute extends Component {
 
     const displayedStatus = status ? 'Online' : 'Offline';
 
-    this.snackbarRef.current.showSnackbar({
+    appStore.showSnackbar({
       variant: SnackbarEnum.Variants.Info,
       message: `You are now: ${displayedStatus}`,
       vertical: SnackbarEnum.Verticals.Bottom,
@@ -104,6 +104,7 @@ class IndexRoute extends Component {
     ]);
     this.setState({ canRender: true });
     appStore.setOnlineStatus(this.detectorRef.current.state.online);
+    appStore.setSnackbarRef(this.snackbarRef);
   }
 
   renderOnlineStatusDetector = () => {

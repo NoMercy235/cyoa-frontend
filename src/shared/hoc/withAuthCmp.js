@@ -5,8 +5,6 @@ export default function withAuthCmp(WrappedCmp) {
   @inject('appStore')
   @observer
   class AuthenticatedComponent extends Component {
-    snackbarRef = React.createRef();
-
     getNewProps = () => {
       const newProps = Object.assign({}, this.props);
       delete newProps.staticContext;

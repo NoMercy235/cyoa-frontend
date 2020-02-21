@@ -11,8 +11,6 @@ import { appStorePropTypes } from '../../../../shared/store/AppStore';
 import FiltersContainer from './FiltersContainer';
 import NoResultsFound from '../../../../shared/components/table/NoResultsFound';
 import StoryBox from '../components/story-box/StoryBox';
-import { SnackbarEnum } from '../../../../shared/components/snackbar/Snackbar';
-import Snackbar from '../../../../shared/components/snackbar/Snackbar';
 import { StoryListEnd } from '../components/story-list-end/StoryListEnd';
 import LoadingCmp from '../../../../shared/components/loading/LoadingCmp';
 import { LANDING_PAGE_STORIES_CONTAINER_ID } from '../../../../shared/constants/global';
@@ -25,7 +23,6 @@ class LandingContainer extends Component {
   state = {
     initialRequestDone: false,
   };
-  snackbarRef = React.createRef();
 
   getQuickStories = async () => {
     const { appStore } = this.props;
@@ -80,16 +77,15 @@ class LandingContainer extends Component {
   };
 
   makeStoryAvailableOffline = async (story, isAvailableOffline) => {
+    const { appStore } = this.props;
     if (isAvailableOffline) {
       await story.saveOffline();
-      this.snackbarRef.current.showSnackbar({
-        variant: SnackbarEnum.Variants.Success,
+      appStore.showSuccessSnackbar({
         message: 'Story is now available offline',
       });
     } else {
       await story.removeOffline();
-      this.snackbarRef.current.showSnackbar({
-        variant: SnackbarEnum.Variants.Success,
+      appStore.showSuccessSnackbar({
         message: 'Story no longer available offline',
       });
     }
@@ -104,8 +100,7 @@ class LandingContainer extends Component {
     const qs = queryString.parse(search);
 
     if (qs.recoverPasswordSuccess) {
-      this.snackbarRef.current.showSnackbar({
-        variant: SnackbarEnum.Variants.Success,
+      appStore.showSuccessSnackbar({
         message: 'Password successfully changed! Please login to your account.'
       });
     }
@@ -158,7 +153,6 @@ class LandingContainer extends Component {
             </InfiniteScroll>
           )}
         </div>
-        <Snackbar innerRef={this.snackbarRef}/>
       </>
     );
   }

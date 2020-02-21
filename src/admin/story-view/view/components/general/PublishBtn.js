@@ -6,19 +6,18 @@ import { Button } from '@material-ui/core';
 import { storyService } from '../../../../../infrastructure/services/StoryService';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import { storyViewStorePropTypes } from '../../../stores/StoryViewStore';
-import Snackbar, { SnackbarEnum } from '../../../../../shared/components/snackbar/Snackbar';
 import { withModal } from '../../../../../shared/hoc/withModal';
 import { BACKEND_ERRORS } from '../../../../../shared/constants/errors';
+import { appStorePropTypes } from '../../../../../shared/store/AppStore';
 
 import styles from './GeneralTab.module.scss';
 
 const HOCButton = withModal(Button);
 
-@inject('storyViewStore')
+@inject('storyViewStore', 'appStore')
 @observer
 class PublishBtn extends Component {
   state = { errors: [] };
-  snackbarRef = React.createRef();
 
   onCheckIfCanPublish = async () => {
     const { story } = this.props;
@@ -32,14 +31,10 @@ class PublishBtn extends Component {
   };
 
   onChangePublishState = (published, message) => async () => {
-    const { story, onPublishStateChanged } = this.props;
-
-    const dbStory = await this.snackbarRef.current.executeAndShowSnackbar(
-      storyService.publish,
-      [story._id, published ],
-      { variant: SnackbarEnum.Variants.Success, message }
-    );
+    const { story, onPublishStateChanged, appStore } = this.props;
+    const dbStory = await storyService.publish(story._id, published);
     await onPublishStateChanged(dbStory);
+    appStore.showSuccessSnackbar({ message });
   };
 
   renderErrors = () => {
@@ -121,12 +116,9 @@ class PublishBtn extends Component {
   render() {
     const { story } = this.props;
 
-    return (
-      <>
-        {story.published ? this.renderUnpublishButton() : this.renderPublishButton()}
-        <Snackbar innerRef={this.snackbarRef}/>
-      </>
-    );
+    return story.published
+      ? this.renderUnpublishButton()
+      : this.renderPublishButton();
   }
 }
 
@@ -135,6 +127,7 @@ PublishBtn.propTypes = {
   onPublishStateChanged: PropTypes.func.isRequired,
 
   storyViewStore: storyViewStorePropTypes,
+  appStore: appStorePropTypes,
 };
 
 export default PublishBtn;

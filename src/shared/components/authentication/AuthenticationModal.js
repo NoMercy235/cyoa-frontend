@@ -16,8 +16,6 @@ import RegisterForm from './RegisterForm';
 import { authService } from '../../../infrastructure/services/AuthenticationService';
 import { UserModel } from '../../../infrastructure/models/UserModel';
 import { AuthenticationModel } from '../../../infrastructure/models/AuthenticationModel';
-import { SnackbarEnum } from '../snackbar/Snackbar';
-import Snackbar from '../snackbar/Snackbar';
 import { makeRegexForPath, READ_STORY_ROUTE } from '../../constants/routes';
 import { BroadcastEvents, SocketEvents } from '../../constants/events';
 import { LostPassword } from './LostPassword';
@@ -43,7 +41,6 @@ class AuthenticationModal extends Component {
     errorMessage: '',
     formState: FormStates.Login,
   };
-  snackbarRef = React.createRef();
 
   componentDidMount () {
     addBroadcastListener(async ({ data: { type, payload } }) => {
@@ -79,8 +76,7 @@ class AuthenticationModal extends Component {
 
     this.onAskIfShouldReplacePlayer();
 
-    this.snackbarRef.current.showSnackbar({
-      variant: SnackbarEnum.Variants.Success,
+    appStore.showSuccessSnackbar({
       message: 'Welcome!',
     });
     onSuccess && onSuccess();
@@ -345,7 +341,6 @@ class AuthenticationModal extends Component {
         >
           {this.renderModal(appStore.isAuthModalOpen)}
         </Formik>
-        <Snackbar innerRef={this.snackbarRef}/>
       </>
     );
   }

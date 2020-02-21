@@ -7,45 +7,40 @@ import { inject } from 'mobx-react';
 import { DialogTitle } from '../../../../../../shared/components/dialog/Title';
 import { DialogContent } from '../../../../../../shared/components/dialog/Content';
 import { DialogActions } from '../../../../../../shared/components/dialog/Actions';
-import Snackbar, { SnackbarEnum } from '../../../../../../shared/components/snackbar/Snackbar';
 import SaveCollectionForm from './SaveCollectionForm';
 import { collectionService } from '../../../../../../infrastructure/services/CollectionService';
 import { CollectionModel } from '../../../../../../infrastructure/models/CollectionModel';
 import { storyStorePropTypes } from '../../../../stores/StoryStore';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
+import { appStorePropTypes } from '../../../../../../shared/store/AppStore';
 
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
 
-@inject('storyStore')
+@inject('storyStore', 'appStore')
 class SaveCollectionModal extends Component {
-  snackbarRef = React.createRef();
-
   renderTitle() {
     return this.props.collection ? 'Edit collection' : 'Create collection';
   }
 
   saveCollection = async values => {
-    const collection = await this.snackbarRef.current.executeAndShowSnackbar(
-      collectionService.save,
-      [CollectionModel.forApi(values)],
-      {
-        variant: SnackbarEnum.Variants.Success,
-        message: 'Collection saved!',
-      },
-    );
-    this.props.storyStore.addCollection(collection);
+    const { storyStore, appStore } = this.props;
+    const collection = await collectionService.save(CollectionModel.forApi(values));
+    storyStore.addCollection(collection);
+    appStore.showSuccessSnackbar({
+      message: 'Collection saved!',
+    });
   };
 
   updateCollection = async values => {
-    const collection = await this.snackbarRef.current.executeAndShowSnackbar(
-      collectionService.update,
-      [values._id, CollectionModel.forApi(values)],
-      {
-        variant: SnackbarEnum.Variants.Success,
-        message: 'Collection updated!',
-      },
+    const { storyStore, appStore } = this.props;
+    const collection = await collectionService.update(
+      values._id,
+      CollectionModel.forApi(values)
     );
-    this.props.storyStore.updateCollection(values._id, collection);
+    storyStore.updateCollection(values._id, collection);
+    appStore.showSuccessSnackbar({
+      message: 'Collection updated!',
+    });
   };
 
   getInitialValues = () => {
@@ -115,7 +110,6 @@ class SaveCollectionModal extends Component {
         >
           {this.renderForm}
         </Formik>
-        <Snackbar innerRef={this.snackbarRef}/>
       </>
     );
   }
@@ -127,6 +121,7 @@ SaveCollectionModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   storyStore: storyStorePropTypes,
+  appStore: appStorePropTypes,
 };
 
 export default withStyles(dialogDefaultCss)(SaveCollectionModal);
