@@ -25,6 +25,8 @@ import AuthenticationModal from '../authentication/AuthenticationModal';
 import { TagModel } from '../../../infrastructure/models/TagModel';
 import EmailVerifyCmp from '../email-verify/EmailVerifyCmp';
 import RecoverPasswordContainer from '../recover-password/RecoverPasswordContainer';
+import { socket } from '../../../infrastructure/sockets/setup';
+import { SocketEvents } from '../../constants/events';
 
 const LazyAdminRoute = React.lazy(() => import('../../../admin/AdminRoute'));
 
@@ -43,16 +45,19 @@ class IndexRoute extends Component {
   };
 
   getUser = async () => {
+    const { appStore } = this.props;
+
     const jwt = localStorage.getItem('jwt');
     if (!jwt) {
-      this.props.appStore.generateLocalId();
+      appStore.generateLocalId();
       return;
     }
 
     try {
       await authService.checkToken();
       const user = await userService.getUserWithToken();
-      this.props.appStore.setUser(user);
+      appStore.setUser(user);
+      socket.emit(SocketEvents.UserOnline, user._id);
     } catch (e) {
       this.props.appStore.generateLocalId();
 

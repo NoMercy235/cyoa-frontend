@@ -19,13 +19,14 @@ import { AuthenticationModel } from '../../../infrastructure/models/Authenticati
 import { SnackbarEnum } from '../snackbar/Snackbar';
 import Snackbar from '../snackbar/Snackbar';
 import { makeRegexForPath, READ_STORY_ROUTE } from '../../constants/routes';
-import { BroadcastEvents } from '../../constants/events';
+import { BroadcastEvents, SocketEvents } from '../../constants/events';
 import { LostPassword } from './LostPassword';
 import LostPasswordForm from './LostPasswordForm';
 
 import { styles } from './Authentication.css';
 import { dialogDefaultCss } from '../dialog/Dialog.css';
 import { addBroadcastListener, sendBroadcastMessage } from '../../BroadcastChannel';
+import { socket } from '../../../infrastructure/sockets/setup';
 
 const FormStates = {
   Login: 'login',
@@ -74,7 +75,7 @@ class AuthenticationModal extends Component {
   };
 
   onSuccess = () => {
-    const { onSuccess } = this.props;
+    const { onSuccess, appStore } = this.props;
 
     this.onAskIfShouldReplacePlayer();
 
@@ -83,6 +84,7 @@ class AuthenticationModal extends Component {
       message: 'Welcome!',
     });
     onSuccess && onSuccess();
+    socket.emit(SocketEvents.UserOnline, appStore.user._id);
   };
 
   login = async (response) => {
