@@ -5,21 +5,14 @@ import { withRouter } from 'react-router-dom';
 import { withStyles, Typography } from '@material-ui/core';
 
 import { appStorePropTypes } from '../../store/AppStore';
-import { BROADCAST_CHANNEL_NAME, BroadcastEvents } from '../../constants/events';
+import { BroadcastEvents } from '../../constants/events';
 
 import { styles } from './Authentication.css';
-
-const RigamoBC = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
+import { sendBroadcastMessage } from '../../BroadcastChannel';
 
 @inject('appStore')
 @observer
 class Authentication extends Component {
-  componentDidMount () {
-    RigamoBC.onmessage = ({ data: { type } }) => {
-      if (type !== BroadcastEvents.Logout) return;
-      this.onLogoutClick();
-    }
-  }
 
   onLoginClick = () => {
     this.props.appStore.setIsAuthModalOpen(true);
@@ -32,7 +25,7 @@ class Authentication extends Component {
 
   onLogoutClickBroadcast = () => {
     this.onLogoutClick();
-    RigamoBC.postMessage({ type: BroadcastEvents.Logout });
+    sendBroadcastMessage({ type: BroadcastEvents.Logout });
   };
 
   renderLogin = () => {

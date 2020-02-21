@@ -19,14 +19,13 @@ import { AuthenticationModel } from '../../../infrastructure/models/Authenticati
 import { SnackbarEnum } from '../snackbar/Snackbar';
 import Snackbar from '../snackbar/Snackbar';
 import { makeRegexForPath, READ_STORY_ROUTE } from '../../constants/routes';
-import { BROADCAST_CHANNEL_NAME, BroadcastEvents } from '../../constants/events';
+import { BroadcastEvents } from '../../constants/events';
 import { LostPassword } from './LostPassword';
 import LostPasswordForm from './LostPasswordForm';
 
 import { styles } from './Authentication.css';
 import { dialogDefaultCss } from '../dialog/Dialog.css';
-
-const RigamoBC = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
+import { addBroadcastListener, sendBroadcastMessage } from '../../BroadcastChannel';
 
 const FormStates = {
   Login: 'login',
@@ -46,10 +45,10 @@ class AuthenticationModal extends Component {
   snackbarRef = React.createRef();
 
   componentDidMount () {
-    RigamoBC.onmessage = async ({ data: { type, payload } }) => {
+    addBroadcastListener(async ({ data: { type, payload } }) => {
       if (type !== BroadcastEvents.Login) return;
       await this.login(payload);
-    }
+    });
   }
 
   onClose = () => {
@@ -101,7 +100,7 @@ class AuthenticationModal extends Component {
     const response = await authService.login(values);
 
     this.login(response);
-    RigamoBC.postMessage({
+    sendBroadcastMessage({
       type: BroadcastEvents.Login,
       payload: response,
     });

@@ -23,6 +23,8 @@ import MenuDropdown from '../../menu/MenuDropdown';
 import Authentication from '../../authentication/Authentication';
 import { SnackbarEnum } from '../../snackbar/Snackbar';
 import Snackbar from '../../snackbar/Snackbar';
+import { addBroadcastListener } from '../../../BroadcastChannel';
+import { BroadcastEvents } from '../../../constants/events';
 
 import { styles } from '../Styles.css';
 
@@ -30,6 +32,13 @@ import { styles } from '../Styles.css';
 @observer
 class Header extends Component {
   snackbarRef = React.createRef();
+
+  componentDidMount () {
+    addBroadcastListener(({ data: { type } }) => {
+      if (type !== BroadcastEvents.Logout) return;
+      this.onHandleLogout();
+    });
+  }
 
   goToLanding = () => {
     this.props.history.push(LANDING_ROUTE);
