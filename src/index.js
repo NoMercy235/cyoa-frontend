@@ -1,4 +1,5 @@
-import 'react-app-polyfill/ie11';
+// Removing IE11 specific polyfills because MobX@5.x does not support it anyway
+// import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import React from 'react';
 import ReactDOM from 'react-dom';
