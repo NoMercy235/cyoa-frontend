@@ -5,9 +5,12 @@ export const BroadcastEvents = {
 };
 
 export const SocketEvents = {
-  Connected: 'connected',
-  Disconnected: 'disconnected',
+  Connect: 'connect',
+  Disconnect: 'disconnect',
   UserOnline: 'USER_ONLINE',
   UserOffline: 'USER_OFFLINE',
   UsersOnline: 'USERS_ONLINE',
+  Errors: {
+    Connect: 'connect_error'
+  }
 };

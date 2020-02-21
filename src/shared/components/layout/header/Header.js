@@ -74,6 +74,10 @@ class Header extends Component {
   renderUsersOnline = () => {
     const { appStore } = this.props;
 
+    if (!appStore.isWebSocketConnected) {
+      return null;
+    }
+
     return (
       <Tooltip title="Users online">
         <div>

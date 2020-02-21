@@ -18,6 +18,14 @@ socket.on(SocketEvents.UsersOnline, data => {
   appStore.setOnlineUsers(data.onlineUsers);
 });
 
+socket.on(SocketEvents.Connect, function() {
+  appStore.setIsWebSocketConnected(true);
+});
+
+socket.on(SocketEvents.Errors.Connect, function() {
+  appStore.setIsWebSocketConnected(false);
+});
+
 class App extends Component {
   render() {
     return (

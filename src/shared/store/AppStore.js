@@ -9,6 +9,7 @@ const makeRandomId = function () {
 };
 
 class AppStore {
+  @observable isWebSocketConnected;
   @observable HeaderCmp;
   @observable user;
   @observable onlineUsers = 0;
@@ -28,6 +29,10 @@ class AppStore {
   };
 
   localId = '';
+
+  @action setIsWebSocketConnected = value => {
+    this.isWebSocketConnected = value;
+  };
 
   @action generateLocalId = () => {
     this.localId = localStorage.getItem('localId');
@@ -87,6 +92,9 @@ class AppStore {
 }
 
 export const appStorePropTypes = PropTypes.shape({
+  isWebSocketConnected: PropTypes.bool,
+  setIsWebSocketConnected: PropTypes.func,
+
   user: PropTypes.instanceOf(UserModel),
   onlineUsers: PropTypes.number,
 
