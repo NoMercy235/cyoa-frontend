@@ -29,7 +29,7 @@ class NotFoundCmp extends Component {
     return (
       <div className={styles.container}>
         <img
-          alt="No result was found"
+          alt="Nothing here"
           src={sadFace}
         />
         <Typography
@@ -46,7 +46,7 @@ class NotFoundCmp extends Component {
           color="inherit"
           noWrap
         >
-          The resource you are looking for was not found? {this.renderReturnHome()}?
+          This place seems to be long gone. {this.renderReturnHome()}?
         </Typography>
       </div>
     );

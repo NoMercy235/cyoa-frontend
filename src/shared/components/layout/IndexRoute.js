@@ -138,6 +138,7 @@ class IndexRoute extends Component {
             <Route path={EMAIL_VERIFY_ROUTE} component={EmailVerifyCmp} />
             <Route path={RECOVER_PASSWORD_ROUTE} component={RecoverPasswordContainer} />
             <Redirect exact path='/' to={LANDING_ROUTE} />
+            <Redirect to={NOT_FOUND_ROUTE} />
           </Switch>
         </Suspense>
 
