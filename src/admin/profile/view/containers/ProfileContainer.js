@@ -6,17 +6,28 @@ import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
 import { appStore, appStorePropTypes } from '../../../../shared/store/AppStore';
 import { storyStorePropTypes } from '../../../stories/stores/StoryStore';
 import ProfileForm from '../components/ProfileForm/ProfileForm';
-import { userService } from '../../../../infrastructure/services/UserService';
+import { publicUserService, userService } from '../../../../infrastructure/services/UserService';
 import { UserModel } from '../../../../infrastructure/models/UserModel';
 import ProfileHeader from '../components/ProfileHeader/ProfileHeader';
+import LoadingCmp from '../../../../shared/components/loading/LoadingCmp';
 
 import styles from './ProfileContainer.module.scss';
 
 @inject('storyStore', 'appStore')
 @observer
 class ProfileContainer extends Component {
-  componentDidMount () {
-    // get user summary (nr of stories written, read, etc)
+  state = {
+    canRender: false,
+    userOverview: undefined,
+  };
+
+  async componentDidMount () {
+    const { appStore: { user } } = this.props;
+    const overview = await publicUserService.getUserOverview(user._id);
+    this.setState({
+      canRender: true,
+      userOverview: overview,
+    })
   }
 
   onUpdateUser = async (values, formik) => {
@@ -32,6 +43,11 @@ class ProfileContainer extends Component {
 
   render() {
     const { appStore: { user } } = this.props;
+    const { canRender, userOverview } = this.state;
+
+    if (!canRender) {
+      return <LoadingCmp/>
+    }
 
     return (
       <>
@@ -42,6 +58,7 @@ class ProfileContainer extends Component {
         <div className={styles.container}>
           <ProfileHeader
             user={user}
+            userOverview={userOverview}
           />
           <ProfileForm
             user={user}

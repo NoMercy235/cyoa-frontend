@@ -10,6 +10,9 @@ class ProfileHeader extends Component {
   render () {
     const {
       user,
+      userOverview: {
+        storiesWritten
+      }
     } = this.props;
 
     return (
@@ -21,14 +24,17 @@ class ProfileHeader extends Component {
           Overview
         </Typography>
         <div>Joined on: {user.createdAtShort}</div>
-        <div>Stories written: TODO</div>
+        <div>Stories written: {storiesWritten}</div>
       </div>
     );
   }
 }
 
 ProfileHeader.propTypes = {
-  user: PropTypes.instanceOf(UserModel).isRequired
+  user: PropTypes.instanceOf(UserModel).isRequired,
+  userOverview: PropTypes.shape({
+    storiesWritten: PropTypes.number,
+  }),
 };
 
 export default ProfileHeader;

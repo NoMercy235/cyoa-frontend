@@ -23,4 +23,16 @@ class UserService extends BaseService {
   };
 }
 
+class PublicUserService extends BaseService {
+  endpoint = 'public/user';
+
+  getUserOverview = (id) => {
+    const url = `${this.endpoint}/overview/${id}`;
+    return this.client
+      .get(url)
+      .then(BaseService.onSuccess);
+  };
+}
+
 export const userService = new UserService();
+export const publicUserService = new PublicUserService();
