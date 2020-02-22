@@ -14,7 +14,10 @@ class ProfileHeader extends Component {
 
     return (
       <div className={styles.container}>
-        <Typography variant="h4">
+        <Typography
+          variant="h4"
+          className={styles.header}
+        >
           Overview
         </Typography>
         <div>Joined on: {user.createdAtShort}</div>

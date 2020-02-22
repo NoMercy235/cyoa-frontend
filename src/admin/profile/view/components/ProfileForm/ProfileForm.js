@@ -59,7 +59,10 @@ class ProfileForm extends Component {
 
     return (
       <div className={styles.container}>
-        <Typography variant="h6">
+        <Typography
+          variant="h4"
+          className={styles.header}
+        >
           Details
         </Typography>
         <Formik

@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import { Helmet } from 'react-helmet';
 
 import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
-import { appStorePropTypes } from '../../../../shared/store/AppStore';
+import { appStore, appStorePropTypes } from '../../../../shared/store/AppStore';
 import { storyStorePropTypes } from '../../../stories/stores/StoryStore';
 import ProfileForm from '../components/ProfileForm/ProfileForm';
 import { userService } from '../../../../infrastructure/services/UserService';
@@ -21,10 +21,10 @@ class ProfileContainer extends Component {
 
   onUpdateUser = async (values, formik) => {
     const { appStore: { user, showSuccessSnackbar } } = this.props;
-
     try {
-      await userService.update(user.email, UserModel.forApi(values));
+      const updatedUser = await userService.update(user.email, UserModel.forApi(values));
       showSuccessSnackbar({ message: 'Profile updated!' });
+      appStore.setUser(updatedUser);
     } finally {
       formik.setSubmitting(false);
     }

@@ -17,6 +17,10 @@ class UserService extends BaseService {
       .catch(() => null);
 
   };
+
+  update = (id, user) => {
+    return super.update(id, user).then(u => new UserModel(u));
+  };
 }
 
 export const userService = new UserService();
