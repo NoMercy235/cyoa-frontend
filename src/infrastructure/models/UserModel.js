@@ -10,7 +10,7 @@ export class UserModel extends BaseModel {
   lastName;
 
   constructor (metadata) {
-    super();
+    super(metadata);
     Object.assign(this, metadata);
   }
 

@@ -11,7 +11,8 @@ export const renderInput = (
     className,
     disabled,
     required = true,
-    textarea = {}
+    textarea = {},
+    fullWidth = false,
   }
 ) => {
   return (
@@ -28,6 +29,7 @@ export const renderInput = (
             disabled={disabled}
             multiline={!!textarea}
             rows={textarea.rows}
+            fullWidth={fullWidth}
             {...(required ? hasError(formik, name) : {})}
           />
         );

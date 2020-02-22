@@ -8,10 +8,17 @@ import { storyStorePropTypes } from '../../../stories/stores/StoryStore';
 import ProfileForm from '../components/ProfileForm';
 import { userService } from '../../../../infrastructure/services/UserService';
 import { UserModel } from '../../../../infrastructure/models/UserModel';
+import ProfileHeader from '../components/ProfileHeader';
+
+import styles from './ProfileContainer.module.scss';
 
 @inject('storyStore', 'appStore')
 @observer
 class ProfileContainer extends Component {
+  componentDidMount () {
+    // get user summary (nr of stories written, read, etc)
+  }
+
   onUpdateUser = async (values, formik) => {
     const { appStore: { user, showSuccessSnackbar } } = this.props;
 
@@ -32,10 +39,15 @@ class ProfileContainer extends Component {
           <title>Rigamo | Profile</title>
         </Helmet>
         <Breadcrumb/>
-        <ProfileForm
-          user={user}
-          onUpdateUser={this.onUpdateUser}
-        />
+        <div className={styles.container}>
+          <ProfileHeader
+            user={user}
+          />
+          <ProfileForm
+            user={user}
+            onUpdateUser={this.onUpdateUser}
+          />
+        </div>
       </>
     );
   }

@@ -25,21 +25,8 @@ export class StoryModel extends BaseModel {
   rating = 0;
 
   constructor(metadata) {
-    super();
+    super(metadata);
     Object.assign(this, metadata);
-    if (this.created_at) {
-      this.created_at = moment(this.created_at);
-    }
-  }
-
-  get createdAt() {
-    if (!this.created_at) return '';
-    return this.created_at.format('DD-MM-YYYY HH:mm');
-  }
-
-  get createdAtShort() {
-    if (!this.created_at) return '';
-    return this.created_at.format('DD-MM-YYYY');
   }
 
   get humanReadTimes() {

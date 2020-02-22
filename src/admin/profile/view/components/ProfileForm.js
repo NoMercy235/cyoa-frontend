@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Formik } from 'formik';
+import { Typography } from '@material-ui/core';
 
 import BasicFormActions from '../../../../shared/components/form/BasicFormActions';
 import { renderInput } from '../../../../shared/formUtils';
@@ -35,6 +36,7 @@ class ProfileForm extends Component {
             name: 'description',
             textarea: { rows: 6 },
             required: false,
+            fullWidth: true,
           }
         )}
         {formik.dirty && (
@@ -56,14 +58,19 @@ class ProfileForm extends Component {
     } = this.props;
 
     return (
-      <Formik
-        enableReinitialize={true}
-        initialValues={{ email, firstName, lastName, description }}
-        onSubmit={onUpdateUser}
-        validate={this.validate}
-      >
-        {this.renderForm}
-      </Formik>
+      <div className={styles.container}>
+        <Typography variant="h6">
+          Details
+        </Typography>
+        <Formik
+          enableReinitialize={true}
+          initialValues={{ email, firstName, lastName, description }}
+          onSubmit={onUpdateUser}
+          validate={this.validate}
+        >
+          {this.renderForm}
+        </Formik>
+      </div>
     );
   }
 }
