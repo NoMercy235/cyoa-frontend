@@ -1,4 +1,5 @@
 import { BaseService } from './BaseService';
+import { UserModel } from '../models/UserModel';
 
 class UserService extends BaseService {
   endpoint = 'api/user';
@@ -12,6 +13,7 @@ class UserService extends BaseService {
     return this.client
       .get(url)
       .then(BaseService.onSuccess)
+      .then(data => new UserModel(data))
       .catch(() => null);
 
   };
