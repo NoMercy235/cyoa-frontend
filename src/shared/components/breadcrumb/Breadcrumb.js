@@ -6,6 +6,7 @@ import classNames from 'classnames';
 
 import {
   adminBreadcrumb,
+  profileBreadcrumb,
   publicBreadcrumb,
   storyReadBreadcrumb,
   storyViewBreadcrumb,
@@ -41,6 +42,13 @@ const getBreadCrumbs = () => {
   if (/\/admin\/stories/.test(path)) {
     return [
       adminBreadcrumb(),
+    ];
+  }
+
+  if (/\/admin\/profile/.test(path)) {
+    return [
+      adminBreadcrumb(),
+      profileBreadcrumb(),
     ];
   }
 };

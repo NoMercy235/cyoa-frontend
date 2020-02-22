@@ -4,6 +4,7 @@ export const READ_STORY_ROUTE = '/public/read/:storyId';
 export const ADMIN_ROUTE = '/admin';
 export const ADMIN_STORIES_ROUTE = '/admin/stories';
 export const ADMIN_STORY_VIEW_ROUTE = '/admin/stories/:id';
+export const ADMIN_PROFILE_ROUTE = '/admin/profile';
 
 export const NOT_FOUND_ROUTE = '/404';
 

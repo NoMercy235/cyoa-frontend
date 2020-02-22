@@ -16,9 +16,10 @@ import HomeIcon from '@material-ui/icons/Home';
 import InfoIcon from '@material-ui/icons/Info';
 import ArrowBack from '@material-ui/icons/ArrowBackOutlined';
 import ViewStoryIcon from '@material-ui/icons/Pageview';
+import UserIcon from '@material-ui/icons/Face';
 
 import { appStorePropTypes } from '../../store/AppStore';
-import { ADMIN_STORIES_ROUTE, LANDING_ROUTE } from '../../constants/routes';
+import { ADMIN_PROFILE_ROUTE, ADMIN_STORIES_ROUTE, LANDING_ROUTE } from '../../constants/routes';
 import ttaLogo from '../../../assets/tta-logo.png';
 import gitHub from '../../../assets/github.png';
 import withAuthCmp from '../../hoc/withAuthCmp';
@@ -56,6 +57,12 @@ const adminMenu = [
     label: 'My stories',
     route: ADMIN_STORIES_ROUTE,
     icon: <ViewStoryIcon />,
+  },
+  {
+    name: 'profile',
+    label: 'Profile',
+    route: ADMIN_PROFILE_ROUTE,
+    icon: <UserIcon />,
   },
 ];
 
