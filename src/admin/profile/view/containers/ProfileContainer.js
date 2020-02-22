@@ -5,10 +5,10 @@ import { Helmet } from 'react-helmet';
 import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
 import { appStorePropTypes } from '../../../../shared/store/AppStore';
 import { storyStorePropTypes } from '../../../stories/stores/StoryStore';
-import ProfileForm from '../components/ProfileForm';
+import ProfileForm from '../components/ProfileForm/ProfileForm';
 import { userService } from '../../../../infrastructure/services/UserService';
 import { UserModel } from '../../../../infrastructure/models/UserModel';
-import ProfileHeader from '../components/ProfileHeader';
+import ProfileHeader from '../components/ProfileHeader/ProfileHeader';
 
 import styles from './ProfileContainer.module.scss';
 

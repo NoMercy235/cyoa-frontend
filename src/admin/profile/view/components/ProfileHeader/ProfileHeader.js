@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Typography } from '@material-ui/core';
 
-import { UserModel } from '../../../../infrastructure/models/UserModel';
+import { UserModel } from '../../../../../infrastructure/models/UserModel';
 
 import styles from './ProfileHeader.module.scss';
 
@@ -11,7 +11,6 @@ class ProfileHeader extends Component {
     const {
       user,
     } = this.props;
-    console.log(user);
 
     return (
       <div className={styles.container}>
