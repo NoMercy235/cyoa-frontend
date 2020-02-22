@@ -69,7 +69,7 @@ class SaveAttributeModal extends Component {
 
   updateAttribute = async values => {
     const { storyViewStore, appStore } = this.props;
-    const attribute = await attributeService.save(AttributeModel.forApi(values));
+    const attribute = await attributeService.update(values._id, AttributeModel.forApi(values));
     storyViewStore.updateAttribute(values._id, attribute);
     appStore.showSuccessSnackbar({
       message: 'Attribute updated!',
