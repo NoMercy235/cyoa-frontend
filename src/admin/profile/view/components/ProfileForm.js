@@ -6,6 +6,8 @@ import BasicFormActions from '../../../../shared/components/form/BasicFormAction
 import { renderInput } from '../../../../shared/formUtils';
 import { UserModel } from '../../../../infrastructure/models/UserModel';
 
+import styles from './ProfileForm.module.scss';
+
 class ProfileForm extends Component {
   onCancel = formik => () => {
     formik.resetForm();
@@ -20,14 +22,18 @@ class ProfileForm extends Component {
   renderForm = (formik) => {
     return (
       <>
-        {renderInput(formik, { label: 'Email', name: 'email', disabled: true })}
-        {renderInput(formik, { label: 'First Name', name: 'firstName', })}
-        {renderInput(formik, { label: 'Last Name', name: 'lastName', })}
+        <div className={styles.fieldsContainer}>
+          {renderInput(formik, { label: 'Email', name: 'email', disabled: true })}
+          {renderInput(formik, { label: 'First Name', name: 'firstName', })}
+          {renderInput(formik, { label: 'Last Name', name: 'lastName', })}
+        </div>
         {formik.dirty && (
-          <BasicFormActions
-            formik={formik}
-            onClose={this.onCancel(formik)}
-          />
+          <div className={styles.buttonsContainer}>
+            <BasicFormActions
+              formik={formik}
+              onClose={this.onCancel(formik)}
+            />
+          </div>
         )}
       </>
     );

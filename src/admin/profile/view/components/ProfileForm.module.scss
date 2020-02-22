@@ -1,0 +1,18 @@
+.fieldsContainer {
+  margin-bottom: 8px;
+  display: flex;
+
+  & > div {
+    flex: 1;
+  }
+
+  & > div:not(:last-of-type) {
+    margin-right: 8px;
+  }
+}
+
+.buttonsContainer {
+  & > div:not(:last-of-type) {
+    margin-right: 8px;
+  }
+}
