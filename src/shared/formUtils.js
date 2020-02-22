@@ -5,7 +5,14 @@ import { TextField } from '@material-ui/core';
 
 export const renderInput = (
   formik,
-  { label, name, className, disabled, required = true }
+  {
+    label,
+    name,
+    className,
+    disabled,
+    required = true,
+    textarea = {}
+  }
 ) => {
   return (
     <Field
@@ -19,6 +26,8 @@ export const renderInput = (
             className={className}
             value={formik.values[name]}
             disabled={disabled}
+            multiline={!!textarea}
+            rows={textarea.rows}
             {...(required ? hasError(formik, name) : {})}
           />
         );

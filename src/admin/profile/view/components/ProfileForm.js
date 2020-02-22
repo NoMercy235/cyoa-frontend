@@ -27,6 +27,16 @@ class ProfileForm extends Component {
           {renderInput(formik, { label: 'First Name', name: 'firstName', })}
           {renderInput(formik, { label: 'Last Name', name: 'lastName', })}
         </div>
+        {renderInput(
+          formik,
+          {
+            className: styles.descriptionField,
+            label: 'Some words about you',
+            name: 'description',
+            textarea: { rows: 6 },
+            required: false,
+          }
+        )}
         {formik.dirty && (
           <div className={styles.buttonsContainer}>
             <BasicFormActions
@@ -41,14 +51,14 @@ class ProfileForm extends Component {
 
   render () {
     const {
-      user: { email, firstName, lastName },
+      user: { email, firstName, lastName, description },
       onUpdateUser
     } = this.props;
 
     return (
       <Formik
         enableReinitialize={true}
-        initialValues={{ email, firstName, lastName }}
+        initialValues={{ email, firstName, lastName, description }}
         onSubmit={onUpdateUser}
         validate={this.validate}
       >

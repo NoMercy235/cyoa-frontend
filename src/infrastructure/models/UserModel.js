@@ -28,6 +28,7 @@ export class UserModel extends BaseModel {
     return {
       firstName: user.firstName,
       lastName: user.lastName,
+      description: user.description,
     };
   }
 }
