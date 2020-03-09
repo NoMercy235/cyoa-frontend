@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Formik } from 'formik';
-import { Typography } from '@material-ui/core';
+import { Card, CardContent, CardActions, CardHeader, Typography } from '@material-ui/core';
 
 import BasicFormActions from '../../../../../shared/components/form/BasicFormActions';
 import { renderInput } from '../../../../../shared/formUtils';
@@ -23,30 +23,31 @@ class ProfileForm extends Component {
   renderForm = (formik) => {
     return (
       <>
-        <div className={styles.fieldsContainer}>
-          {renderInput(formik, { label: 'Email', name: 'email', disabled: true })}
-          {renderInput(formik, { label: 'First Name', name: 'firstName', })}
-          {renderInput(formik, { label: 'Last Name', name: 'lastName', })}
-        </div>
-        {renderInput(
-          formik,
-          {
-            className: styles.descriptionField,
-            label: 'Some words about you',
-            name: 'description',
-            textarea: { rows: 6 },
-            required: false,
-            fullWidth: true,
-          }
-        )}
-        {formik.dirty && (
-          <div className={styles.buttonsContainer}>
-            <BasicFormActions
-              formik={formik}
-              onClose={this.onCancel(formik)}
-            />
+        <CardContent>
+          <div className={styles.fieldsContainer}>
+            {renderInput(formik, { label: 'Email', name: 'email', disabled: true })}
+            {renderInput(formik, { label: 'First Name', name: 'firstName', })}
+            {renderInput(formik, { label: 'Last Name', name: 'lastName', })}
           </div>
-        )}
+          {renderInput(
+            formik,
+            {
+              className: styles.descriptionField,
+              label: 'Some words about you',
+              name: 'description',
+              textarea: { rows: 6 },
+              required: false,
+              fullWidth: true,
+            }
+          )}
+        </CardContent>
+        <CardActions className={styles.buttonsContainer}>
+          <BasicFormActions
+            disabled={!formik.dirty}
+            formik={formik}
+            onClose={this.onCancel(formik)}
+          />
+        </CardActions>
       </>
     );
   };
@@ -58,13 +59,10 @@ class ProfileForm extends Component {
     } = this.props;
 
     return (
-      <div className={styles.container}>
-        <Typography
-          variant="h4"
-          className={styles.header}
-        >
-          Details
-        </Typography>
+      <Card className={styles.container}>
+        <CardHeader
+          title={<Typography variant="h4">Details</Typography>}
+        />
         <Formik
           enableReinitialize={true}
           initialValues={{ email, firstName, lastName, description }}
@@ -73,7 +71,7 @@ class ProfileForm extends Component {
         >
           {this.renderForm}
         </Formik>
-      </div>
+      </Card>
     );
   }
 }
