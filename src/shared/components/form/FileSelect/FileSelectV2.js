@@ -1,5 +1,6 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import styles from './FileSelectV2.module.scss';
 
@@ -19,11 +20,17 @@ class FileSelectV2 extends React.Component {
   };
 
   render() {
-    const { id, accept, initialImage, stylesProp } = this.props;
+    const {
+      className,
+      id,
+      accept,
+      initialImage,
+      stylesProp
+    } = this.props;
 
     return (
       <div
-        className={styles.container}
+        className={classNames(styles.container, className)}
         style={stylesProp}
       >
         <input
@@ -33,7 +40,10 @@ class FileSelectV2 extends React.Component {
           accept={accept}
           onChange={this.onFileUploaded}
         />
-        <label htmlFor={id}>
+        <label
+          htmlFor={id}
+          className={styles.uploadLabel}
+        >
           <div
             className={styles.uploadInputOverlay}
             style={stylesProp}
@@ -58,6 +68,7 @@ FileSelectV2.propTypes = {
   stylesProp: PropTypes.object,
   initialImage: PropTypes.string,
   accept: PropTypes.string,
+  disabled: PropTypes.bool,
   onFileUploaded: PropTypes.func.isRequired,
 };
 

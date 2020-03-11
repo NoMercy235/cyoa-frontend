@@ -42,6 +42,7 @@ class ProfileHeader extends Component {
         />
         <CardContent>
           <FilePicker
+            className={styles.imagePicker}
             inputId="profile-picture"
             initialImage={profile || notFoundImg}
             cropperProps={{

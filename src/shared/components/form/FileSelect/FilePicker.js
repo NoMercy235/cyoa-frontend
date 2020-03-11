@@ -46,14 +46,14 @@ class FilePicker extends React.Component {
 
   render() {
     const { file, pickerState, image } = this.state;
-    const { inputId, initialImage, cropperProps } = this.props;
+    const { className, inputId, initialImage, cropperProps } = this.props;
 
     switch (pickerState) {
       case PickerStates.Select:
         return (
           <FileSelectV2
             id={inputId}
-            stylesProp={cropperProps.cropperProps.size}
+            className={className}
             initialImage={initialImage}
             onFileUploaded={this.onFileUploaded}
           />
@@ -83,7 +83,7 @@ class FilePicker extends React.Component {
 }
 
 FilePicker.propTypes = {
-  className: PropTypes.string,
+  className: PropTypes.string.isRequired,
   inputId: PropTypes.string.isRequired,
   initialImage: PropTypes.string,
   cropperProps: PropTypes.object.isRequired,

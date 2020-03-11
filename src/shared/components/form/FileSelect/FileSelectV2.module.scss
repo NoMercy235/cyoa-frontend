@@ -1,4 +1,7 @@
+@import "../../../../variables.scss";
+
 .container {
+  position: relative;
   display: flex;
   flex-direction: column;
 
@@ -8,10 +11,16 @@
     }
   }
 
+  .uploadLabel {
+    @media screen and (max-width: $SCREEN_MAX_WIDTH_SM) {
+      pointer-events: none;
+    }
+  }
+
   .uploadInputOverlay {
     position: absolute;
     opacity: 0;
-    z-index: 100;
+    width: 100%;
     pointer-events: none;
     background-color: #ccc;
     font-size: 48px;
@@ -19,6 +28,10 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+
+    @media screen and (max-width: $SCREEN_MAX_WIDTH_SM) {
+      display: none;
+    }
   }
 
   .initialImage {
@@ -26,6 +39,13 @@
 
     &:hover {
       cursor: pointer;
+    }
+
+    @media screen and (max-width: $SCREEN_MAX_WIDTH_SM) {
+      &:hover {
+        cursor: default;
+      }
+      pointer-events: none;
     }
   }
 }

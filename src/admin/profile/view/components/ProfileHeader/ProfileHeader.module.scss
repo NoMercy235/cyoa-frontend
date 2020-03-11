@@ -1,4 +1,8 @@
 .container {
   display: flex;
   flex-direction: column;
+
+  .imagePicker {
+    max-width: 400px;
+  }
 }
