@@ -30,6 +30,13 @@ class ProfileContainer extends Component {
     })
   }
 
+  onUpdateProfilePicture = async (img) => {
+    const { appStore: { showSuccessSnackbar } } = this.props;
+
+    await userService.uploadProfilePicture(img);
+    showSuccessSnackbar({ message: 'Profile updated!' });
+  };
+
   onUpdateUser = async (values, formik) => {
     const { appStore: { user, showSuccessSnackbar } } = this.props;
     try {
@@ -59,6 +66,7 @@ class ProfileContainer extends Component {
           <ProfileHeader
             user={user}
             userOverview={userOverview}
+            onUpdateProfilePicture={this.onUpdateProfilePicture}
           />
           <ProfileForm
             user={user}

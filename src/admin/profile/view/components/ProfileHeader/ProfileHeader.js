@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, Typography } from '@material-ui/core';
 
 import { UserModel } from '../../../../../infrastructure/models/UserModel';
 import FilePicker from '../../../../../shared/components/form/FileSelect/FilePicker';
-import { publicUserService, userService } from '../../../../../infrastructure/services/UserService';
+import { publicUserService } from '../../../../../infrastructure/services/UserService';
 
 import styles from './ProfileHeader.module.scss';
 import notFoundImg from '../../../../../assets/notfound.png';
@@ -19,6 +19,12 @@ class ProfileHeader extends Component {
     const { profile } = await publicUserService.getProfilePicture(user._id);
     this.setState({ profile })
   }
+
+  onProfileSave = async (img) => {
+    const { onUpdateProfilePicture } = this.props;
+    await onUpdateProfilePicture(img);
+    this.setState({ profile: img });
+  };
 
   render () {
     const {
@@ -44,10 +50,7 @@ class ProfileHeader extends Component {
                 size: { height: 300, width: 400 },
               }
             }}
-            onFileSave={async (img) => {
-              await userService.uploadProfilePicture(img);
-              this.setState({ profile: img });
-            }}
+            onFileSave={this.onProfileSave}
           />
           <div>Joined on: {user.createdAtShort}</div>
           <div>Stories written: {storiesWritten}</div>
@@ -62,6 +65,7 @@ ProfileHeader.propTypes = {
   userOverview: PropTypes.shape({
     storiesWritten: PropTypes.number,
   }),
+  onUpdateProfilePicture: PropTypes.func.isRequired,
 };
 
 export default ProfileHeader;
