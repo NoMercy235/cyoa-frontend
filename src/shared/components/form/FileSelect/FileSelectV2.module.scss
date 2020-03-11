@@ -1,12 +1,35 @@
 .container {
   display: flex;
   flex-direction: column;
+
+  &:hover {
+    .uploadInputOverlay {
+      opacity: 0.5;
+    }
+  }
+
+  .uploadInputOverlay {
+    position: absolute;
+    opacity: 0;
+    z-index: 100;
+    pointer-events: none;
+    background-color: #ccc;
+    font-size: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .initialImage {
+    max-width: 100%;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
 
 .uploadInput {
   display: none;
-}
-
-.initialImage {
-  max-width: 100%;
 }

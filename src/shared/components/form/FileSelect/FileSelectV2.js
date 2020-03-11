@@ -34,6 +34,12 @@ class FileSelectV2 extends React.Component {
           onChange={this.onFileUploaded}
         />
         <label htmlFor={id}>
+          <div
+            className={styles.uploadInputOverlay}
+            style={stylesProp}
+          >
+            Choose photo
+          </div>
           <img
             alt=""
             src={initialImage}
