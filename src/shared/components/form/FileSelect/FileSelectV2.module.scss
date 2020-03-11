@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.uploadInput {
+  display: none;
+}
+
+.initialImage {
+  max-width: 100%;
+}

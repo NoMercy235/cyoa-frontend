@@ -3,10 +3,23 @@ import * as PropTypes from 'prop-types';
 import { Card, CardContent, CardHeader, Typography } from '@material-ui/core';
 
 import { UserModel } from '../../../../../infrastructure/models/UserModel';
+import FilePicker from '../../../../../shared/components/form/FileSelect/FilePicker';
+import { publicUserService, userService } from '../../../../../infrastructure/services/UserService';
 
 import styles from './ProfileHeader.module.scss';
+import notFoundImg from '../../../../../assets/notfound.png';
 
 class ProfileHeader extends Component {
+  state = {
+    profile: undefined,
+  };
+
+  async componentDidMount () {
+    const { user } = this.props;
+    const { profile } = await publicUserService.getProfilePicture(user._id);
+    this.setState({ profile })
+  }
+
   render () {
     const {
       user,
@@ -14,6 +27,7 @@ class ProfileHeader extends Component {
         storiesWritten
       }
     } = this.props;
+    const { profile } = this.state;
 
     return (
       <Card className={styles.container}>
@@ -21,6 +35,20 @@ class ProfileHeader extends Component {
           title={<Typography variant="h4">Overview</Typography>}
         />
         <CardContent>
+          <FilePicker
+            inputId="profile-picture"
+            initialImage={profile || notFoundImg}
+            cropperProps={{
+              size: { height: 500, width: 500 },
+              cropperProps: {
+                size: { height: 300, width: 400 },
+              }
+            }}
+            onFileSave={async (img) => {
+              await userService.uploadProfilePicture(img);
+              this.setState({ profile: img });
+            }}
+          />
           <div>Joined on: {user.createdAtShort}</div>
           <div>Stories written: {storiesWritten}</div>
         </CardContent>

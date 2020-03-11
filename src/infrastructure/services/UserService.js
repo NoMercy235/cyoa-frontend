@@ -18,6 +18,15 @@ class UserService extends BaseService {
 
   };
 
+  uploadProfilePicture (img) {
+    const url = `${this.endpoint}/profilePicture`;
+
+    return this.client
+      .post(url, { profile: img })
+      .then(BaseService.onSuccess)
+      .catch(() => null);
+  }
+
   update = (id, user) => {
     return super.update(id, user).then(u => new UserModel(u));
   };
@@ -28,6 +37,13 @@ class PublicUserService extends BaseService {
 
   getUserOverview = (id) => {
     const url = `${this.endpoint}/overview/${id}`;
+    return this.client
+      .get(url)
+      .then(BaseService.onSuccess);
+  };
+
+  getProfilePicture = (userId) => {
+    const url = `${this.endpoint}/profilePicture/${userId}`;
     return this.client
       .get(url)
       .then(BaseService.onSuccess);
