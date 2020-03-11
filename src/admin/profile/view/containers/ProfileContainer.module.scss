@@ -1,3 +1,18 @@
+@import "../../../../variables.scss";
+
 .container {
   display: flex;
+
+  & > div:first-child {
+    margin-right: 8px;
+  }
+
+  @media screen and (max-width: $SCREEN_MAX_WIDTH_SM) {
+    flex-direction: column;
+
+    & > div:first-child {
+      margin-bottom: 8px;
+      margin-right: 0;
+    }
+  }
 }
