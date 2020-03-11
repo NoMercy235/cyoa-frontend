@@ -14,15 +14,19 @@ const PickerStates = {
 
 class FilePicker extends React.Component {
   state = {
+    file: undefined,
     image: this.props.initialImage || '',
     pickerState: PickerStates.Select,
   };
 
   onFileUploaded = async file => {
     // TODO: validations
-    // TODO: save image extension and use it
     const image = await getBase64FromFile(file);
-    this.setState({ image, pickerState: PickerStates.Crop });
+    this.setState({
+      file,
+      image,
+      pickerState: PickerStates.Crop
+    });
   };
 
   onPreviewImage = (image) => {
@@ -41,7 +45,7 @@ class FilePicker extends React.Component {
   };
 
   render() {
-    const { pickerState, image } = this.state;
+    const { file, pickerState, image } = this.state;
     const { inputId, initialImage, cropperProps } = this.props;
 
     switch (pickerState) {
@@ -58,6 +62,7 @@ class FilePicker extends React.Component {
         return (
           <ImageCropper
             image={image}
+            imageType={file.type}
             {...cropperProps}
             onPreview={this.onPreviewImage}
             onCancel={this.onCancel}

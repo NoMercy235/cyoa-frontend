@@ -9,6 +9,7 @@ import * as styles from './ImageCropper.module.scss';
 
 const ImageCropper = ({
   image,
+  imageType,
   size,
   cropperProps = {},
   onCropSelected,
@@ -26,11 +27,12 @@ const ImageCropper = ({
   const onCropComplete = useCallback(async (croppedArea, croppedAreaPixels) => {
     const croppedImage = await getCroppedImg(
       image,
-      croppedAreaPixels
+      croppedAreaPixels,
+      imageType
     );
     setCroppedImage(croppedImage);
     onCropSelected && onCropSelected(croppedImage);
-  }, [image, onCropSelected]);
+  }, [image, imageType, onCropSelected]);
 
   const onZoomChange = zoom => {
     setZoom(zoom)
@@ -81,6 +83,7 @@ const ImageCropper = ({
 
 ImageCropper.propTypes = {
   image: PropTypes.string.isRequired,
+  imageType: PropTypes.string.isRequired,
   size: PropTypes.shape({
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
