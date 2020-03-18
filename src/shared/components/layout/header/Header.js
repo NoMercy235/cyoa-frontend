@@ -22,7 +22,8 @@ import { LANDING_ROUTE } from '../../../constants/routes';
 import MenuDropdown from '../../menu/MenuDropdown';
 import Authentication from '../../authentication/Authentication';
 import { addBroadcastListener } from '../../../BroadcastChannel';
-import { BroadcastEvents } from '../../../constants/events';
+import { BroadcastEvents, SocketEvents } from '../../../constants/events';
+import { socket } from '../../../../infrastructure/sockets/setup';
 
 import { styles } from '../Styles.css';
 
@@ -49,6 +50,7 @@ class Header extends Component {
     appStore.showSuccessSnackbar({
       message: 'Goodbye!',
     });
+    socket.emit(SocketEvents.UserOffline);
     localStorage.removeItem('jwt');
     if (!window.location.pathname.startsWith('/public')) {
       history.replace('/');
