@@ -12,6 +12,7 @@ import { PROFILE_PIC_SIZE_SM } from '../../../../../shared/constants/profile';
 import LoadingCmp from '../../../../../shared/components/loading/LoadingCmp';
 
 import { styles } from './AuthorSummary.css';
+import notFoundImg from '../../../../../assets/notfound.png';
 
 class AuthorSummary extends Component {
   state = {
@@ -26,7 +27,13 @@ class AuthorSummary extends Component {
 
     if (profile) return ;
 
-    const { profile: authorProfile } = await publicUserService.getProfilePicture(authorId);
+    let authorProfile;
+    try {
+      const { profile } = await publicUserService.getProfilePicture(authorId);
+      authorProfile = profile;
+    } catch (e) {
+      authorProfile = notFoundImg;
+    }
     const overview = await publicUserService.getUserOverview(authorId);
     this.setState({
       canRender: true,
