@@ -98,7 +98,7 @@ class SaveSequenceModal extends Component {
         seq = await this.saveSequence(values);
       }
 
-      if (values.isStartSeq && story.startSeq !== values._id) {
+      if (values.isStartSeq && (!story.startSeq || story.startSeq !== values._id)) {
         await this.updateStoryStartSeq(seq);
       }
 
