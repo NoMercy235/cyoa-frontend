@@ -88,7 +88,7 @@ class AuthenticationModal extends Component {
 
     localStorage.setItem('jwt', response.token);
     appStore.setUser(
-      new UserModel(response.user)
+      new UserModel(Object.assign({}, response.user))
     );
     this.onSuccess();
     this.onClose();
@@ -97,11 +97,11 @@ class AuthenticationModal extends Component {
   loginBroadcast = async values => {
     const response = await authService.login(values);
 
-    this.login(response);
     sendBroadcastMessage({
       type: BroadcastEvents.Login,
       payload: response,
     });
+    this.login(response);
   };
 
   register = async (values) => {
