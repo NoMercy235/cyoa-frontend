@@ -39,7 +39,13 @@ class PublicUserService extends BaseService {
     const url = `${this.endpoint}/overview/${id}`;
     return this.client
       .get(url)
-      .then(BaseService.onSuccess);
+      .then(BaseService.onSuccess)
+      .then(overview => {
+        return {
+          ...overview,
+          user: new UserModel(overview.user),
+        }
+      });
   };
 
   getProfilePicture = (userId) => {

@@ -17,6 +17,7 @@ import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
 import MenuDropdown from '../../../../../shared/components/menu/MenuDropdown';
 import { appStorePropTypes } from '../../../../../shared/store/AppStore';
 import { makeReadStoryPath } from '../../../../../shared/constants/routes';
+import AuthorSummary from '../AuthorSummary/AuthorSummary';
 
 import { styles } from './StoryBox.css';
 
@@ -125,13 +126,23 @@ class StoryHeader extends Component {
     );
   };
 
+  renderAuthorSummary = () => {
+    const { story: { author, authorShort } } = this.props;
+    return (
+      <AuthorSummary
+        authorId={author}
+        authorName={authorShort}
+      />
+    );
+  };
+
   renderSubheader = () => {
     const { story } = this.props;
     const tags = (story.tagsName || []).join(', ');
 
     return (
       <>
-        By <b>{story.authorShort}</b> on {story.createdAtShort} <i>({tags})</i>
+        By {this.renderAuthorSummary()} on {story.createdAtShort} <i>({tags})</i>
       </>
     );
   };

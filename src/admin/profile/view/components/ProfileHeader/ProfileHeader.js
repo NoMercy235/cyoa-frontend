@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, Typography } from '@material-ui/core';
 import { UserModel } from '../../../../../infrastructure/models/UserModel';
 import FilePicker from '../../../../../shared/components/form/FileSelect/FilePicker';
 import { publicUserService } from '../../../../../infrastructure/services/UserService';
+import { EDITABLE_PROFILE_SIZE, PROFILE_PIC_SIZE_MD } from '../../../../../shared/constants/profile';
 
 import styles from './ProfileHeader.module.scss';
 import notFoundImg from '../../../../../assets/notfound.png';
@@ -46,9 +47,9 @@ class ProfileHeader extends Component {
             inputId="profile-picture"
             initialImage={profile || notFoundImg}
             cropperProps={{
-              size: { height: 500, width: 500 },
+              size: EDITABLE_PROFILE_SIZE,
               cropperProps: {
-                size: { height: 300, width: 400 },
+                size: PROFILE_PIC_SIZE_MD,
               }
             }}
             onFileSave={this.onProfileSave}
