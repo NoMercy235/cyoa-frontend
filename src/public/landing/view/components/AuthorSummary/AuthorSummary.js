@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 
 import { publicUserService } from '../../../../../infrastructure/services/UserService';
-import { PROFILE_PIC_SIZE_SM } from '../../../../../shared/constants/profile';
+import { PROFILE_HOVER_DELAY, PROFILE_PIC_SIZE_SM } from '../../../../../shared/constants/profile';
 import LoadingCmp from '../../../../../shared/components/loading/LoadingCmp';
 
 import { styles } from './AuthorSummary.css';
@@ -84,6 +84,7 @@ class AuthorSummary extends Component {
         placement="bottom-start"
         classes={{ tooltip: classes.tooltip }}
         title={this.renderSummary()}
+        enterDelay={PROFILE_HOVER_DELAY}
         onOpen={this.getProfilePicture}
       >
         <b className={classes.authorName}>{authorName}</b>
