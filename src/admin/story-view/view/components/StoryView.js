@@ -7,6 +7,16 @@ import PlayerTabContainer from '../containers/PlayerTabContainer';
 import SequenceTabContainer from '../containers/SequenceTabContainer';
 import GeneralTabContainer from '../containers/GeneralTabContainer';
 import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
+import {
+  ADMIN_STORY_VIEW_ROUTE,
+  ADMIN_STORY_VIEW_ROUTE_ATTRIBUTES,
+  ADMIN_STORY_VIEW_ROUTE_GENERAL,
+  ADMIN_STORY_VIEW_ROUTE_SEQUENCES,
+  NOT_FOUND_ROUTE,
+  makePath,
+} from '../../../../shared/constants/routes';
+import WriteStoryContainer from '../containers/WriteStoryContainer';
 
 const TabsEnum = {
   General: 'General',
@@ -14,13 +24,41 @@ const TabsEnum = {
   Sequences: 'Sequences',
 };
 
+const isTryingV2 = localStorage.getItem('writeStoryV2');
+
+const getCurrentTab = (story) => {
+  if (window.location.pathname === makePath(ADMIN_STORY_VIEW_ROUTE_ATTRIBUTES, { ':id': story._id })) {
+    return TabsEnum.Player
+  }
+  if (window.location.pathname === makePath(ADMIN_STORY_VIEW_ROUTE_SEQUENCES, { ':id': story._id })) {
+    return TabsEnum.Sequences
+  }
+  return TabsEnum.General
+};
+
 class StoryView extends Component {
   state = {
-    currentTab: TabsEnum.General,
+    currentTab: getCurrentTab(this.props.story),
   };
 
   handleChange = (event, value) => {
+    const { story, history } = this.props;
     this.setState({ currentTab: value });
+    let route;
+    switch (value) {
+      case TabsEnum.General:
+        route = ADMIN_STORY_VIEW_ROUTE_GENERAL;
+        break;
+      case TabsEnum.Player:
+        route = ADMIN_STORY_VIEW_ROUTE_ATTRIBUTES;
+        break;
+      case TabsEnum.Sequences:
+        route = ADMIN_STORY_VIEW_ROUTE_SEQUENCES;
+        break;
+      default:
+    }
+
+    history.push(makePath(route, { ':id': story._id }))
   };
 
   render() {
@@ -39,18 +77,35 @@ class StoryView extends Component {
             <Tab value={TabsEnum.Sequences} label={TabsEnum.Sequences} />
           </Tabs>
         </AppBar>
-        {currentTab === TabsEnum.General && <GeneralTabContainer story={story} />}
-        {currentTab === TabsEnum.Player && (
-          <PlayerTabContainer
-            story={story}
-            getAttributes={this.props.getAttributes}
+        <Switch>
+          <Route
+            exact
+            path={ADMIN_STORY_VIEW_ROUTE_GENERAL}
+            render={() => (
+              <GeneralTabContainer story={story} />
+            )}
           />
-        )}
-        {currentTab === TabsEnum.Sequences && (
-          <SequenceTabContainer
-            story={story}
+          <Route
+            exact
+            path={ADMIN_STORY_VIEW_ROUTE_ATTRIBUTES}
+            render={() => (
+              <PlayerTabContainer
+                story={story}
+                getAttributes={this.props.getAttributes}
+              />
+            )}
           />
-        )}
+          <Route
+            exact
+            path={ADMIN_STORY_VIEW_ROUTE_SEQUENCES}
+            render={() => isTryingV2
+              ? <WriteStoryContainer story={story} />
+              : <SequenceTabContainer story={story} />
+            }
+          />
+          <Redirect exact from={ADMIN_STORY_VIEW_ROUTE} to={ADMIN_STORY_VIEW_ROUTE_GENERAL}/>
+          <Redirect to={NOT_FOUND_ROUTE}/>
+        </Switch>
       </>
     );
   }
@@ -59,6 +114,10 @@ class StoryView extends Component {
 StoryView.propTypes = {
   story: PropTypes.instanceOf(StoryModel).isRequired,
   getAttributes: PropTypes.func.isRequired,
+
+  match: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
-export default StoryView;
+export default withRouter(StoryView);

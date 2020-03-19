@@ -28,7 +28,9 @@ import RecoverPasswordContainer from '../recover-password/RecoverPasswordContain
 import { socket } from '../../../infrastructure/sockets/setup';
 import { SocketEvents } from '../../constants/events';
 
-const LazyAdminRoute = React.lazy(() => import('../../../admin/AdminRoute'));
+const LazyAdminRoute = withAuth(
+  React.lazy(() => import('../../../admin/AdminRoute'))
+);
 
 @inject('appStore')
 @observer
@@ -133,7 +135,7 @@ class IndexRoute extends Component {
         <Suspense fallback={this.renderFallback()}>
           <Switch>
             <Route path={LANDING_ROUTE} component={PublicRoute} />
-            <Route path={ADMIN_ROUTE} component={withAuth(LazyAdminRoute)} />
+            <Route path={ADMIN_ROUTE} component={LazyAdminRoute} />
             <Route path={NOT_FOUND_ROUTE} component={NotFoundCmp} />
             <Route path={EMAIL_VERIFY_ROUTE} component={EmailVerifyCmp} />
             <Route path={RECOVER_PASSWORD_ROUTE} component={RecoverPasswordContainer} />
