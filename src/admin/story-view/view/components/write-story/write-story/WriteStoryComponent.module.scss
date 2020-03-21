@@ -1,0 +1,14 @@
+.writeStoryContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  & > div[id^="write-story-graph"] {
+    flex: 1;
+
+    & > svg {
+      height: 100% !important;
+      width: 100% !important;
+    }
+  }
+}

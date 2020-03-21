@@ -8,6 +8,7 @@ import { StoryModel } from '../../../infrastructure/models/StoryModel';
 class StoryViewStore {
   @observable attributes = [];
   @observable sequences = [];
+  @observable allStoryOptions = [];
   @observable chapters = [];
   @observable currentStory = null;
 
@@ -91,6 +92,10 @@ class StoryViewStore {
     seq.options = seq.options.filter(o => o._id !== optionId);
   };
 
+  @action setAllStoryOptions = (options) => {
+    this.allStoryOptions = options;
+  };
+
   @action setCurrentStory = story => {
     this.currentStory = story;
   };
@@ -163,6 +168,8 @@ export const storyViewStorePropTypes = PropTypes.shape({
   addOptionToSequence: PropTypes.func,
   updateOption: PropTypes.func,
   removeOptionFromSequence: PropTypes.func,
+
+  setAllStoryOptions: PropTypes.func,
 
   setCurrentStory: PropTypes.func,
   updateCurrentStory: PropTypes.func,
