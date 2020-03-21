@@ -1,14 +1,24 @@
+@import "../../../../../../variables.scss";
+
 .writeStoryContainer {
   height: 100%;
   display: flex;
   flex-direction: column;
 
-  & > div[id^="write-story-graph"] {
+  .writeStoryCard {
     flex: 1;
 
-    & > svg {
-      height: 100% !important;
-      width: 100% !important;
+    & > div {
+      height: 100%;
+
+      & div[id^="write-story-graph"] {
+        height: 100%;
+
+        & > svg {
+          height: 100% !important;
+          width: 100% !important;
+        }
+      }
     }
   }
 }

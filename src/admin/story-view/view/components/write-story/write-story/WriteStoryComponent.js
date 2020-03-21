@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Graph } from 'react-d3-graph';
 
-import { Button } from '@material-ui/core';
+import { Card, CardContent } from '@material-ui/core';
 import {
   getNewGraph,
   optionToLink,
@@ -14,6 +14,7 @@ import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import { GRAPH_ID } from '../../../../../../shared/constants/graph';
 
 import styles from './WriteStoryComponent.module.scss';
+import ActionsToolbarComponent from '../actions-toolbar/ActionsToolbarComponent';
 
 class WriteStoryComponent extends Component {
   state = {
@@ -53,41 +54,42 @@ class WriteStoryComponent extends Component {
 
     return (
       <div className={styles.writeStoryContainer}>
-        <div>
-          <Button
-            onClick={this.onOpenSaveSeqModal}
-          >
-            New
-          </Button>
-        </div>
-        <Graph
-          id={GRAPH_ID}
-          ref={this.graphRef}
-          data={data}
-          config={{
-            directed: true,
-            nodeHighlightBehavior: true,
-            staticGraphWithDragAndDrop: true,
-            node: {
-              labelProperty: 'name',
-              fontSize: 16,
-              highlightFontSize: 20,
-              highlightFontWeight: 'bold',
-              highlightColor: 'aqua',
-            },
-            link: {
-              // renderLabel: true,
-              // labelProperty: 'action',
-              fontSize: 16,
-              highlightFontSize: 20,
-              highlightFontWeight: 'bold',
-              highlightColor: 'lightblue',
-              strokeWidth: 3,
-            },
-          }}
-          onClickNode={onEditSequence}
-          onClickLink={onEditOption}
+        <ActionsToolbarComponent
+          onAddNewSequenceModalOpen={this.onOpenSaveSeqModal}
+          onSaveStory={console.log}
         />
+        <Card className={styles.writeStoryCard}>
+          <CardContent>
+            <Graph
+              id={GRAPH_ID}
+              ref={this.graphRef}
+              data={data}
+              config={{
+                directed: true,
+                nodeHighlightBehavior: true,
+                staticGraphWithDragAndDrop: true,
+                node: {
+                  labelProperty: 'name',
+                  fontSize: 16,
+                  highlightFontSize: 20,
+                  highlightFontWeight: 'bold',
+                  highlightColor: 'aqua',
+                },
+                link: {
+                  // renderLabel: true,
+                  // labelProperty: 'action',
+                  fontSize: 16,
+                  highlightFontSize: 20,
+                  highlightFontWeight: 'bold',
+                  highlightColor: 'lightblue',
+                  strokeWidth: 3,
+                },
+              }}
+              onClickNode={onEditSequence}
+              onClickLink={onEditOption}
+            />
+          </CardContent>
+        </Card>
       </div>
     );
   }
