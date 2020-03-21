@@ -24,7 +24,7 @@ const TabsEnum = {
   Sequences: 'Sequences',
 };
 
-const isTryingV2 = localStorage.getItem('writeStoryV2');
+const isTryingV2 = localStorage.getItem('writeStoryV2') === 'true';
 
 const getCurrentTab = (story) => {
   if (window.location.pathname === makePath(ADMIN_STORY_VIEW_ROUTE_ATTRIBUTES, { ':id': story._id })) {
