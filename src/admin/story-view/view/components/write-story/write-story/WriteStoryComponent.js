@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Graph } from 'react-d3-graph';
+import { toJS } from 'mobx';
 
 import { Card, CardContent } from '@material-ui/core';
 import {
-  generateRandomPosition,
   getNewGraph,
   optionToLink,
   seqToNode
@@ -13,14 +13,21 @@ import { SequenceModel } from '../../../../../../infrastructure/models/SequenceM
 import { OptionModel } from '../../../../../../infrastructure/models/OptionModel';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import { GRAPH_ID } from '../../../../../../shared/constants/graph';
-import { socket } from '../../../../../../infrastructure/sockets/setup';
-import { SocketEvents } from '../../../../../../shared/constants/events';
 
 import styles from './WriteStoryComponent.module.scss';
 import ActionsToolbarComponent from '../actions-toolbar/ActionsToolbarComponent';
+import SaveGraphSequence from '../save-graph-sequence/SaveGraphSequence';
+
+const ViewStates = {
+  View: 'VIEW',
+  SaveSequence: 'SAVE_SEQUENCE',
+  SaveOptions: 'SAVE_OPTIONS',
+};
 
 class WriteStoryComponent extends Component {
   state = {
+    viewState: ViewStates.View,
+    resource: undefined,
     nodes: this.props.sequences,
     links: this.props.options,
   };
@@ -30,36 +37,44 @@ class WriteStoryComponent extends Component {
     console.log(getNewGraph(this.graphRef));
   };
 
-  onOpenSaveSeqModal = () => {
-    // TODO: open modal
+  getSequence = async (sequenceId) => {
+    const { sequences } = this.props;
+    const result = sequences.find(({ _id }) => _id === sequenceId);
+    return new SequenceModel(toJS(result));
+  };
 
-    // mock save
-    const { story } = this.props;
+  onOpenSaveSeqModal = async (sequenceId) => {
+    let resource;
+    if (sequenceId) {
+      resource = await this.getSequence(sequenceId);
+    }
 
-    const seq = new SequenceModel({
-      name: `test-${new Date().getTime()}`,
-      content: 'test',
-      story: story._id,
-      ...generateRandomPosition(),
-    });
-    socket.emit(
-      SocketEvents.NewSequenceRequest,
-      SequenceModel.forApi(seq, ['story', 'x', 'y']),
-    );
+    this.setState({
+      viewState: ViewStates.SaveSequence,
+      resource,
+    })
+  };
+
+  onHandleDrawerClose = () => {
+    this.setState({
+      viewState: ViewStates.View
+    })
   };
 
   render () {
     const {
       story,
-      onEditSequence,
+      onSaveSequence,
       onEditOption,
       onUpdateSeqPosition,
     } = this.props;
-    const { nodes, links } = this.state;
+    const { viewState, resource, nodes, links } = this.state;
     const data = {
       nodes: nodes.map(seqToNode(story)),
       links: links
         .reduce((curr, option) => {
+          // Display only one link from a sequence to another
+          // even if there are multiple options
           if (curr.find(o => o.sequence === option.sequence)) {
             return curr;
           }
@@ -71,45 +86,54 @@ class WriteStoryComponent extends Component {
     console.log(data);
 
     return (
-      <div className={styles.writeStoryContainer}>
-        <ActionsToolbarComponent
-          onAddNewSequenceModalOpen={this.onOpenSaveSeqModal}
-          onSaveStory={this.onSaveStory}
+      <>
+        <div className={styles.writeStoryContainer}>
+          <ActionsToolbarComponent
+            onAddNewSequenceModalOpen={this.onOpenSaveSeqModal}
+            onSaveStory={this.onSaveStory}
+          />
+          <Card className={styles.writeStoryCard}>
+            <CardContent>
+              <Graph
+                id={GRAPH_ID}
+                ref={this.graphRef}
+                data={data}
+                config={{
+                  directed: true,
+                  nodeHighlightBehavior: true,
+                  staticGraphWithDragAndDrop: true,
+                  node: {
+                    labelProperty: 'name',
+                    fontSize: 16,
+                    highlightFontSize: 20,
+                    highlightFontWeight: 'bold',
+                    highlightColor: 'aqua',
+                  },
+                  link: {
+                    // renderLabel: true,
+                    // labelProperty: 'action',
+                    fontSize: 16,
+                    highlightFontSize: 20,
+                    highlightFontWeight: 'bold',
+                    highlightColor: 'lightblue',
+                    strokeWidth: 3,
+                  },
+                }}
+                onClickNode={this.onOpenSaveSeqModal}
+                onClickLink={onEditOption}
+                onNodePositionChange={onUpdateSeqPosition}
+              />
+            </CardContent>
+          </Card>
+        </div>
+        <SaveGraphSequence
+          open={viewState === ViewStates.SaveSequence}
+          story={story}
+          sequence={resource}
+          onSuccess={onSaveSequence}
+          onDrawerClose={this.onHandleDrawerClose}
         />
-        <Card className={styles.writeStoryCard}>
-          <CardContent>
-            <Graph
-              id={GRAPH_ID}
-              ref={this.graphRef}
-              data={data}
-              config={{
-                directed: true,
-                nodeHighlightBehavior: true,
-                staticGraphWithDragAndDrop: true,
-                node: {
-                  labelProperty: 'name',
-                  fontSize: 16,
-                  highlightFontSize: 20,
-                  highlightFontWeight: 'bold',
-                  highlightColor: 'aqua',
-                },
-                link: {
-                  // renderLabel: true,
-                  // labelProperty: 'action',
-                  fontSize: 16,
-                  highlightFontSize: 20,
-                  highlightFontWeight: 'bold',
-                  highlightColor: 'lightblue',
-                  strokeWidth: 3,
-                },
-              }}
-              onClickNode={onEditSequence}
-              onClickLink={onEditOption}
-              onNodePositionChange={onUpdateSeqPosition}
-            />
-          </CardContent>
-        </Card>
-      </div>
+      </>
     );
   }
 }
@@ -119,7 +143,7 @@ WriteStoryComponent.propTypes = {
   sequences: PropTypes.arrayOf(PropTypes.shape(SequenceModel)),
   options: PropTypes.arrayOf(PropTypes.shape(OptionModel)),
 
-  onEditSequence: PropTypes.func.isRequired,
+  onSaveSequence: PropTypes.func.isRequired,
   onEditOption: PropTypes.func.isRequired,
   onUpdateSeqPosition: PropTypes.func.isRequired,
 };

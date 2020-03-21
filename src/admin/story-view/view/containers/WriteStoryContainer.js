@@ -11,6 +11,7 @@ import { optionService } from '../../../../infrastructure/services/OptionService
 import { socket } from '../../../../infrastructure/sockets/setup';
 import { SocketEvents } from '../../../../shared/constants/events';
 import { SequenceModel } from '../../../../infrastructure/models/SequenceModel';
+import { storyService } from '../../../../infrastructure/services/StoryService';
 
 @inject('storyViewStore')
 @observer
@@ -52,8 +53,39 @@ class WriteStoryContainer extends Component {
     storyViewStore.setAllStoryOptions(options);
   };
 
-  onEditSequence = (seqId) => {
-    console.log(seqId);
+  updateStoryStartSeq = async seq => {
+    const { storyViewStore, story } = this.props;
+    storyService.update(story._id, { startSeq: seq._id });
+    // This does trigger the render function a second time (after the
+    // update or addition of a new sequence) but it shouldn't affect
+    // performance as there are not many things rendered and this
+    // method should not be called often.
+    storyViewStore.updateCurrentStory(
+      { startSeq: seq._id }
+    );
+  };
+
+  onSaveSequence = async (sequence, isStartSeq) => {
+    if (!sequence._id) {
+      socket.emit(
+        SocketEvents.NewSequenceRequest,
+        SequenceModel.forApi(sequence, ['story', 'x', 'y']),
+      );
+    } else {
+      const { story } = this.props;
+
+      if (isStartSeq && (!story.startSeq || story.startSeq !== sequence._id)) {
+        await this.updateStoryStartSeq(sequence);
+      }
+
+      socket.emit(
+        SocketEvents.UpdateSequenceRequest,
+        {
+          _id: sequence._id,
+          ...SequenceModel.forApi(sequence),
+        },
+      );
+    }
   };
 
   onEditOption = (optionId) => {
@@ -86,7 +118,7 @@ class WriteStoryContainer extends Component {
         story={currentStory}
         sequences={sequences}
         options={allStoryOptions}
-        onEditSequence={this.onEditSequence}
+        onSaveSequence={this.onSaveSequence}
         onEditOption={this.onEditOption}
         onUpdateSeqPosition={this.onUpdateSeqPosition}
       />

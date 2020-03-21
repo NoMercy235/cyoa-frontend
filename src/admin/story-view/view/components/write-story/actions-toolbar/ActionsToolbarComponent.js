@@ -5,12 +5,16 @@ import { Button } from '@material-ui/core';
 import styles from './ActionsToolbarComponent.module.scss';
 
 class ActionsToolbarComponent extends Component {
+  onAddNewSequenceModalOpen = () => {
+    this.props.onAddNewSequenceModalOpen();
+  };
+
   render () {
-    const { onAddNewSequenceModalOpen, onSaveStory } = this.props;
+    const { onSaveStory } = this.props;
     return (
       <div className={styles.toolbarContainer}>
         <Button
-          onClick={onAddNewSequenceModalOpen}
+          onClick={this.onAddNewSequenceModalOpen}
           variant="outlined"
           color="primary"
         >
