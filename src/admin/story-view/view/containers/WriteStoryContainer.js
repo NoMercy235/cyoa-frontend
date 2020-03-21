@@ -60,6 +60,13 @@ class WriteStoryContainer extends Component {
     console.log(optionId);
   };
 
+  onUpdateSeqPosition = (seqId, x, y) => {
+    socket.emit(
+      SocketEvents.UpdateSequenceRequest,
+      { _id: seqId, x, y },
+    );
+  };
+
   render() {
     const {
       storyViewStore: {
@@ -81,6 +88,7 @@ class WriteStoryContainer extends Component {
         options={allStoryOptions}
         onEditSequence={this.onEditSequence}
         onEditOption={this.onEditOption}
+        onUpdateSeqPosition={this.onUpdateSeqPosition}
       />
     );
   }

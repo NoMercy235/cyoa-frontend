@@ -4,6 +4,7 @@ import { Graph } from 'react-d3-graph';
 
 import { Card, CardContent } from '@material-ui/core';
 import {
+  generateRandomPosition,
   getNewGraph,
   optionToLink,
   seqToNode
@@ -39,10 +40,11 @@ class WriteStoryComponent extends Component {
       name: `test-${new Date().getTime()}`,
       content: 'test',
       story: story._id,
+      ...generateRandomPosition(),
     });
     socket.emit(
       SocketEvents.NewSequenceRequest,
-      SequenceModel.forApi(seq, ['story']),
+      SequenceModel.forApi(seq, ['story', 'x', 'y']),
     );
   };
 
@@ -51,6 +53,7 @@ class WriteStoryComponent extends Component {
       story,
       onEditSequence,
       onEditOption,
+      onUpdateSeqPosition,
     } = this.props;
     const { nodes, links } = this.state;
     const data = {
@@ -102,6 +105,7 @@ class WriteStoryComponent extends Component {
               }}
               onClickNode={onEditSequence}
               onClickLink={onEditOption}
+              onNodePositionChange={onUpdateSeqPosition}
             />
           </CardContent>
         </Card>
@@ -117,6 +121,7 @@ WriteStoryComponent.propTypes = {
 
   onEditSequence: PropTypes.func.isRequired,
   onEditOption: PropTypes.func.isRequired,
+  onUpdateSeqPosition: PropTypes.func.isRequired,
 };
 
 export default WriteStoryComponent;

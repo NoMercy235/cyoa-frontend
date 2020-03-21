@@ -17,9 +17,13 @@ export const generateRandomPosition = () => {
 };
 
 export const seqToNode = story => seq => {
+  const position = seq.x && seq.y
+    ? { x: seq.x, y: seq.y }
+    : generateRandomPosition();
+
   return {
     id: seq._id,
-    ...generateRandomPosition(),
+    ...position,
     size: GRAPH_NODE_SIZE,
     name: seq.name,
     ...(story.startSeq === seq._id && {

@@ -11,6 +11,8 @@ export class SequenceModel extends BaseModel {
   hasScenePic = false;
   content = '';
   isEnding = false;
+  x = 0;
+  y = 0;
   @observable options = [];
 
   constructor(metadata) {
