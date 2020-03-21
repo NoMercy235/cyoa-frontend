@@ -8,6 +8,9 @@ import { sequenceService } from '../../../../infrastructure/services/SequenceSer
 import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
 import LoadingCmp from '../../../../shared/components/loading/LoadingCmp';
 import { optionService } from '../../../../infrastructure/services/OptionService';
+import { socket } from '../../../../infrastructure/sockets/setup';
+import { SocketEvents } from '../../../../shared/constants/events';
+import { SequenceModel } from '../../../../infrastructure/models/SequenceModel';
 
 @inject('storyViewStore')
 @observer
@@ -21,8 +24,15 @@ class WriteStoryContainer extends Component {
       this.getSequences(),
       this.getOptions(),
     ]);
-    this.setState({ canRender: true })
+    this.setState({ canRender: true });
+    this.setupSocketResponses();
   }
+  setupSocketResponses = () => {
+    const { storyViewStore } = this.props;
+    socket.on(SocketEvents.NewSequenceResponse, seq => {
+      storyViewStore.addSequence(new SequenceModel(seq));
+    });
+  };
 
   getSequences = async () => {
     const {

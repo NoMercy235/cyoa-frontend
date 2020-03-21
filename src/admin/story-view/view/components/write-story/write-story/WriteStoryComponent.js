@@ -12,6 +12,8 @@ import { SequenceModel } from '../../../../../../infrastructure/models/SequenceM
 import { OptionModel } from '../../../../../../infrastructure/models/OptionModel';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import { GRAPH_ID } from '../../../../../../shared/constants/graph';
+import { socket } from '../../../../../../infrastructure/sockets/setup';
+import { SocketEvents } from '../../../../../../shared/constants/events';
 
 import styles from './WriteStoryComponent.module.scss';
 import ActionsToolbarComponent from '../actions-toolbar/ActionsToolbarComponent';
@@ -23,12 +25,25 @@ class WriteStoryComponent extends Component {
   };
   graphRef = React.createRef();
 
-  saveGraph = () => {
+  onSaveStory = () => {
     console.log(getNewGraph(this.graphRef));
   };
 
   onOpenSaveSeqModal = () => {
     // TODO: open modal
+
+    // mock save
+    const { story } = this.props;
+
+    const seq = new SequenceModel({
+      name: `test-${new Date().getTime()}`,
+      content: 'test',
+      story: story._id,
+    });
+    socket.emit(
+      SocketEvents.NewSequenceRequest,
+      SequenceModel.forApi(seq, ['story']),
+    );
   };
 
   render () {
@@ -56,7 +71,7 @@ class WriteStoryComponent extends Component {
       <div className={styles.writeStoryContainer}>
         <ActionsToolbarComponent
           onAddNewSequenceModalOpen={this.onOpenSaveSeqModal}
-          onSaveStory={console.log}
+          onSaveStory={this.onSaveStory}
         />
         <Card className={styles.writeStoryCard}>
           <CardContent>

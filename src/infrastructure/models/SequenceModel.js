@@ -4,6 +4,7 @@ import { ERRORS } from '../../shared/constants/errors';
 
 export class SequenceModel extends BaseModel {
   _id = '';
+  story = '';
   chapter = '';
   name = '';
   scenePic = '';
@@ -28,13 +29,17 @@ export class SequenceModel extends BaseModel {
     return errors;
   }
 
-  static forApi(sequence) {
+  static forApi(sequence, extraFields = []) {
     return {
       name: sequence.name,
       scenePic: sequence.scenePic,
       content: sequence.content,
       isEnding: sequence.isEnding,
       chapter: sequence.chapter,
+      ...(extraFields.reduce((curr, field) => {
+        curr[field] = sequence[field];
+        return curr;
+      }, {})),
     };
   }
 
