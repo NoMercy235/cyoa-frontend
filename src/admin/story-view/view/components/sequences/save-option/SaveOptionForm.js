@@ -117,7 +117,6 @@ SaveOptionForm.propTypes = {
   formik: PropTypes.object.isRequired,
   story: PropTypes.instanceOf(StoryModel).isRequired,
   attributes: PropTypes.arrayOf(PropTypes.instanceOf(AttributeModel)).isRequired,
-  onClose: PropTypes.func.isRequired,
   onSearchRequest: PropTypes.func.isRequired,
 };
 

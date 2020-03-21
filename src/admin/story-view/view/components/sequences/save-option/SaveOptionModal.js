@@ -136,7 +136,6 @@ class SaveOptionModal extends Component {
             formik={formik}
             story={storyViewStore.currentStory}
             attributes={storyViewStore.attributes}
-            onClose={this.onClose(formik.resetForm)}
             onSearchRequest={this.onSearchRequest}
           />
         </DialogContent>
