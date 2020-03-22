@@ -12,6 +12,7 @@ import { socket } from '../../../../infrastructure/sockets/setup';
 import { SocketEvents } from '../../../../shared/constants/events';
 import { SequenceModel } from '../../../../infrastructure/models/SequenceModel';
 import { storyService } from '../../../../infrastructure/services/StoryService';
+import { attributeService } from '../../../../infrastructure/services/AttributeService';
 
 @inject('storyViewStore')
 @observer
@@ -24,6 +25,7 @@ class WriteStoryContainer extends Component {
     await Promise.all([
       this.getSequences(),
       this.getOptions(),
+      this.getAttributes(),
     ]);
     this.setState({ canRender: true });
     this.setupSocketResponses();
@@ -51,6 +53,14 @@ class WriteStoryContainer extends Component {
     const { story, storyViewStore } = this.props;
     const options = await optionService.getAllStoryOptions(story._id);
     storyViewStore.setAllStoryOptions(options);
+  };
+
+  getAttributes = async () => {
+    const { story, storyViewStore } = this.props;
+    const params = { ':story': story._id };
+    attributeService.setNextRouteParams(params);
+    const attributes = await attributeService.list();
+    storyViewStore.setAttributes(attributes);
   };
 
   updateStoryStartSeq = async seq => {
@@ -106,6 +116,7 @@ class WriteStoryContainer extends Component {
         currentStory,
         sequences,
         allStoryOptions,
+        attributes,
       },
     } = this.props;
     const { canRender } = this.state;
@@ -119,6 +130,7 @@ class WriteStoryContainer extends Component {
         story={currentStory}
         sequences={sequences}
         options={allStoryOptions}
+        attributes={attributes}
         onSaveSequence={this.onSaveSequence}
         onSaveOptions={this.onSaveOptions}
         onUpdateSeqPosition={this.onUpdateSeqPosition}

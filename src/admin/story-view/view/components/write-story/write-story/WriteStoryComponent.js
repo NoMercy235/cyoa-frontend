@@ -17,6 +17,7 @@ import { GRAPH_ID } from '../../../../../../shared/constants/graph';
 import ActionsToolbarComponent from '../actions-toolbar/ActionsToolbarComponent';
 import SaveGraphSequence from '../save-graph-sequence/SaveGraphSequence';
 import SaveGraphOptions from '../save-graph-options/SaveGraphOptions';
+import { AttributeModel } from '../../../../../../infrastructure/models/AttributeModel';
 
 import styles from './WriteStoryComponent.module.scss';
 
@@ -115,6 +116,7 @@ class WriteStoryComponent extends Component {
   render () {
     const {
       story,
+      attributes,
       onSaveSequence,
       onSaveOptions,
       onUpdateSeqPosition,
@@ -198,7 +200,7 @@ class WriteStoryComponent extends Component {
           story={story}
           sourceDest={sourceDest}
           options={options}
-          attributes={[]}
+          attributes={attributes}
           addOption={this.addOption}
           replaceOptionInArray={this.replaceOptionInArray}
           removeOptionInArray={this.removeOptionInArray}
@@ -212,8 +214,9 @@ class WriteStoryComponent extends Component {
 
 WriteStoryComponent.propTypes = {
   story: PropTypes.instanceOf(StoryModel),
-  sequences: PropTypes.arrayOf(PropTypes.shape(SequenceModel)),
-  options: PropTypes.arrayOf(PropTypes.shape(OptionModel)),
+  sequences: PropTypes.arrayOf(PropTypes.instanceOf(SequenceModel)),
+  options: PropTypes.arrayOf(PropTypes.instanceOf(OptionModel)),
+  attributes: PropTypes.arrayOf(PropTypes.instanceOf(AttributeModel)),
 
   onSaveSequence: PropTypes.func.isRequired,
   onSaveOptions: PropTypes.func.isRequired,
