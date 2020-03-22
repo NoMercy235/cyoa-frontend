@@ -18,6 +18,7 @@ class ActionsToolbarComponent extends Component {
     return (
       <div className={styles.toolbarContainer}>
         <Button
+          className={styles.newSequenceBtn}
           onClick={this.onAddNewSequenceModalOpen}
           variant="outlined"
           color="primary"
