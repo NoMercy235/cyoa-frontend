@@ -7,16 +7,18 @@ import { Card, CardContent } from '@material-ui/core';
 import {
   getNewGraph,
   optionToLink,
-  seqToNode
+  seqToNode,
+  sourceDestInitialValues
 } from '../../../../../../shared/utils/graphUtils';
 import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
 import { OptionModel } from '../../../../../../infrastructure/models/OptionModel';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import { GRAPH_ID } from '../../../../../../shared/constants/graph';
-
-import styles from './WriteStoryComponent.module.scss';
 import ActionsToolbarComponent from '../actions-toolbar/ActionsToolbarComponent';
 import SaveGraphSequence from '../save-graph-sequence/SaveGraphSequence';
+import SaveGraphOptions from '../save-graph-options/SaveGraphOptions';
+
+import styles from './WriteStoryComponent.module.scss';
 
 const ViewStates = {
   View: 'VIEW',
@@ -27,7 +29,9 @@ const ViewStates = {
 class WriteStoryComponent extends Component {
   state = {
     viewState: ViewStates.View,
-    resource: undefined,
+    sequence: undefined,
+    sourceDest: sourceDestInitialValues,
+    options: [],
     nodes: this.props.sequences,
     links: this.props.options,
   };
@@ -37,26 +41,69 @@ class WriteStoryComponent extends Component {
     console.log(getNewGraph(this.graphRef));
   };
 
-  getSequence = async (sequenceId) => {
+  getSequence = (sequenceId) => {
     const { sequences } = this.props;
     const result = sequences.find(({ _id }) => _id === sequenceId);
     return new SequenceModel(toJS(result));
   };
 
   onOpenSaveSeqModal = async (sequenceId) => {
-    let resource;
-    if (sequenceId) {
-      resource = await this.getSequence(sequenceId);
+    this.setState({
+      viewState: ViewStates.SaveSequence,
+      sequence: sequenceId ? this.getSequence(sequenceId) : undefined,
+    })
+  };
+
+  onOpenSaveOptionsModal = async (fromSeqId, toSeqId) => {
+    let sourceDest = sourceDestInitialValues;
+    if (fromSeqId && toSeqId) {
+      const fromSeq = this.getSequence(fromSeqId);
+      const toSeq = this.getSequence(toSeqId);
+      sourceDest = {
+        sequence: {
+          value: fromSeqId,
+          label: fromSeq.name,
+        },
+        nextSeq: {
+          value: toSeqId,
+          label: toSeq.name
+        }
+      }
     }
 
     this.setState({
-      viewState: ViewStates.SaveSequence,
-      resource,
+      viewState: ViewStates.SaveOptions,
+      sourceDest,
+      options: [new OptionModel({
+        action: 'New action'
+      })],
     })
+  };
+
+  addOption = () => {
+    const { options } = this.state;
+    const newOptions = [...options, new OptionModel({ action: 'New Option' })];
+    this.setState({ options: newOptions });
+  };
+
+  replaceOptionInArray = (index, newOption) => {
+    const { options } = this.state;
+    const newOptions = options.map((option, i) => {
+      return i === index ? newOption : option;
+    });
+    this.setState({ options: newOptions });
+  };
+
+  removeOptionInArray = (index) => {
+    const { options } = this.state;
+    const newOptions = options.filter((option, i) => i !== index);
+    this.setState({ options: newOptions });
   };
 
   onHandleDrawerClose = () => {
     this.setState({
+      sequence: undefined,
+      options: [],
       viewState: ViewStates.View
     })
   };
@@ -65,10 +112,18 @@ class WriteStoryComponent extends Component {
     const {
       story,
       onSaveSequence,
-      onEditOption,
+      onSaveOptions,
       onUpdateSeqPosition,
     } = this.props;
-    const { viewState, resource, nodes, links } = this.state;
+    const {
+      viewState,
+      sequence,
+      sourceDest,
+      options,
+      nodes,
+      links,
+    } = this.state;
+
     const data = {
       nodes: nodes.map(seqToNode(story)),
       links: links
@@ -90,6 +145,7 @@ class WriteStoryComponent extends Component {
         <div className={styles.writeStoryContainer}>
           <ActionsToolbarComponent
             onAddNewSequenceModalOpen={this.onOpenSaveSeqModal}
+            onAddNewOptionModalOpen={this.onOpenSaveOptionsModal}
             onSaveStory={this.onSaveStory}
           />
           <Card className={styles.writeStoryCard}>
@@ -120,7 +176,7 @@ class WriteStoryComponent extends Component {
                   },
                 }}
                 onClickNode={this.onOpenSaveSeqModal}
-                onClickLink={onEditOption}
+                onClickLink={this.onOpenSaveOptionsModal}
                 onNodePositionChange={onUpdateSeqPosition}
               />
             </CardContent>
@@ -129,8 +185,20 @@ class WriteStoryComponent extends Component {
         <SaveGraphSequence
           open={viewState === ViewStates.SaveSequence}
           story={story}
-          sequence={resource}
+          sequence={sequence}
           onSuccess={onSaveSequence}
+          onDrawerClose={this.onHandleDrawerClose}
+        />
+        <SaveGraphOptions
+          open={viewState === ViewStates.SaveOptions}
+          story={story}
+          sourceDest={sourceDest}
+          options={options}
+          attributes={[]}
+          addOption={this.addOption}
+          replaceOptionInArray={this.replaceOptionInArray}
+          removeOptionInArray={this.removeOptionInArray}
+          onSubmitAll={onSaveOptions}
           onDrawerClose={this.onHandleDrawerClose}
         />
       </>
@@ -144,7 +212,7 @@ WriteStoryComponent.propTypes = {
   options: PropTypes.arrayOf(PropTypes.shape(OptionModel)),
 
   onSaveSequence: PropTypes.func.isRequired,
-  onEditOption: PropTypes.func.isRequired,
+  onSaveOptions: PropTypes.func.isRequired,
   onUpdateSeqPosition: PropTypes.func.isRequired,
 };
 

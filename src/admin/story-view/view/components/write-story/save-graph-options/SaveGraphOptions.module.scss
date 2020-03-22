@@ -1,0 +1,18 @@
+.container {
+  margin: 16px;
+
+  .addNewOptionPanel {
+    border: 3px solid rgba(0, 0, 0, 0.12);
+
+    &:hover {
+      cursor: pointer;
+      border: 3px dotted #3c3c3c;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+  }
+}

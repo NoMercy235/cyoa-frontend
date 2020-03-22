@@ -1,0 +1,17 @@
+.container {
+  padding: 16px;
+  margin-bottom: 16px;
+  overflow: visible;
+
+  & > form {
+    display: flex;
+
+    & > div {
+      flex: 1;
+    }
+
+    & > div:not(:last-of-type) {
+      margin-right: 8px;
+    }
+  }
+}

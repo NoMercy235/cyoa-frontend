@@ -88,8 +88,9 @@ class WriteStoryContainer extends Component {
     }
   };
 
-  onEditOption = (optionId) => {
-    console.log(optionId);
+  onSaveOptions = (options) => {
+    console.log(options);
+    // TODO: save on BE
   };
 
   onUpdateSeqPosition = (seqId, x, y) => {
@@ -119,7 +120,7 @@ class WriteStoryContainer extends Component {
         sequences={sequences}
         options={allStoryOptions}
         onSaveSequence={this.onSaveSequence}
-        onEditOption={this.onEditOption}
+        onSaveOptions={this.onSaveOptions}
         onUpdateSeqPosition={this.onUpdateSeqPosition}
       />
     );

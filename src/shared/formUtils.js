@@ -37,3 +37,9 @@ export const renderInput = (
     />
   );
 };
+
+export const submitAndValidateForm = async formik => {
+  formik.submitForm();
+  const errors = await formik.validateForm();
+  return Object.keys(errors).length > 0 ? errors : undefined;
+};

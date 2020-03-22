@@ -7,8 +7,16 @@ class BasicFormActions extends Component {
     disabled: false,
   };
 
+  onSave = () => {
+    const { formik, afterFormSubmit } = this.props;
+    formik.submitForm();
+    if (formik.isValid) {
+      afterFormSubmit && afterFormSubmit(formik);
+    }
+  };
+
   render() {
-    const { formik, disabled, onClose } = this.props;
+    const { formik, disabled, cancelLabel, saveLabel, onClose } = this.props;
 
     return (
       <>
@@ -17,15 +25,15 @@ class BasicFormActions extends Component {
           onClick={onClose}
           disabled={disabled || formik.isSubmitting}
         >
-          Cancel
+          {cancelLabel || 'Cancel'}
         </Button>
         <Button
           color="primary"
           type="submit"
           disabled={disabled || formik.isSubmitting}
-          onClick={formik.submitForm}
+          onClick={this.onSave}
         >
-          Save
+          {saveLabel || 'Save'}
         </Button>
       </>
     );
@@ -35,7 +43,10 @@ class BasicFormActions extends Component {
 BasicFormActions.propTypes = {
   formik: PropTypes.object.isRequired,
   disabled: PropTypes.bool,
+  cancelLabel: PropTypes.string,
+  saveLabel: PropTypes.string,
   onClose: PropTypes.func.isRequired,
+  afterFormSubmit: PropTypes.func,
 };
 
 export default BasicFormActions;

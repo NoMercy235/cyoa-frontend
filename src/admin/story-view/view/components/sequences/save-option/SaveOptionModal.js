@@ -14,40 +14,18 @@ import { optionService } from '../../../../../../infrastructure/services/OptionS
 import { OptionModel } from '../../../../../../infrastructure/models/OptionModel';
 import SaveOptionForm from './SaveOptionForm';
 import { ConsequenceModel } from '../../../../../../infrastructure/models/ConsequenceModel';
-import { debounced } from '../../../../../../shared/utilities';
-import { sequenceService } from '../../../../../../infrastructure/services/SequenceService';
 import { appStorePropTypes } from '../../../../../../shared/store/AppStore';
+import { getDebouncedSequences } from '../../../../../../shared/utils/sequencesUtils';
 
 import { styles } from './SaveOption.css';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
 
-const debouncedSequenceList = debounced(sequenceService.list);
-
 @inject('storyViewStore', 'appStore')
 class SaveOptionModal extends Component {
   onSearchRequest = async (searchQuery) => {
-    sequenceService.setNextRouteParams(
-      { ':story': this.props.storyViewStore.currentStory._id }
-    );
-    const { sequences } = (await debouncedSequenceList({
-      filters: {
-        name: {
-          op: 'ilike',
-          value: searchQuery,
-          options: {
-            allowEmpty: true,
-          },
-        },
-      },
-      pagination: {
-        page: 0,
-        limit: 20,
-      }
-    }));
-
-    return sequences.map(s => {
-      return { value: s._id, label: s.name };
-    });
+    const { storyViewStore: { currentStory: { _id: storyId } } } = this.props;
+    return (await getDebouncedSequences(storyId, searchQuery))
+      .map(s => ({ value: s._id, label: s.name }));
   };
 
   renderTitle() {

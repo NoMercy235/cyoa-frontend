@@ -9,6 +9,10 @@ class ActionsToolbarComponent extends Component {
     this.props.onAddNewSequenceModalOpen();
   };
 
+  onAddNewOptionModalOpen = () => {
+    this.props.onAddNewOptionModalOpen();
+  };
+
   render () {
     const { onSaveStory } = this.props;
     return (
@@ -19,6 +23,13 @@ class ActionsToolbarComponent extends Component {
           color="primary"
         >
           New Sequence
+        </Button>
+        <Button
+          onClick={this.onAddNewOptionModalOpen}
+          variant="outlined"
+          color="primary"
+        >
+          New Option
         </Button>
         <div className={styles.divider}/>
         <Button
@@ -35,6 +46,7 @@ class ActionsToolbarComponent extends Component {
 
 ActionsToolbarComponent.propTypes = {
   onAddNewSequenceModalOpen: PropTypes.func.isRequired,
+  onAddNewOptionModalOpen: PropTypes.func.isRequired,
   onSaveStory: PropTypes.func.isRequired,
 };
 

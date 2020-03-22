@@ -52,6 +52,11 @@ class SaveOptionForm extends Component {
 
   renderConsequences = (arrayHelpers) => {
     const { classes, formik, attributes } = this.props;
+
+    if (!attributes.length) {
+      return null;
+    }
+
     return (
       <>
         <Typography
@@ -83,7 +88,7 @@ class SaveOptionForm extends Component {
   };
 
   render() {
-    const { classes, story } = this.props;
+    const { classes, story, onSearchRequest } = this.props;
 
     return (
       <Form noValidate className={classes.form}>
@@ -92,11 +97,13 @@ class SaveOptionForm extends Component {
           required
           render={this.renderActionField}
         />
-        <Field
-          name="nextSeq"
-          required
-          render={this.renderNextSeqField}
-        />
+        {onSearchRequest && (
+          <Field
+            name="nextSeq"
+            required
+            render={this.renderNextSeqField}
+          />
+        )}
         {!story.isAvailableOffline
           ? (
             <FieldArray
@@ -117,7 +124,7 @@ SaveOptionForm.propTypes = {
   formik: PropTypes.object.isRequired,
   story: PropTypes.instanceOf(StoryModel).isRequired,
   attributes: PropTypes.arrayOf(PropTypes.instanceOf(AttributeModel)).isRequired,
-  onSearchRequest: PropTypes.func.isRequired,
+  onSearchRequest: PropTypes.func,
 };
 
 export default withStyles(styles)(SaveOptionForm);

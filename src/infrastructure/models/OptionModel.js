@@ -18,14 +18,14 @@ export class OptionModel extends BaseModel {
     }
   }
 
-  checkErrors() {
+  checkErrors(ignoreFields = []) {
     let errors = {};
 
     if (!this.action) {
       errors.action = ERRORS.fieldRequired;
     }
 
-    if (!this.nextSeq) {
+    if (!ignoreFields.includes('nextSeq') && !this.nextSeq) {
       errors.nextSeq = ERRORS.fieldRequired;
     }
 
@@ -51,7 +51,9 @@ export class OptionModel extends BaseModel {
     return {
       story: option.story,
       action: option.action,
-      sequence: option.sequence,
+      sequence: option.sequence.value
+        ? option.sequence.value
+        : option.sequence,
       nextSeq: option.nextSeq.value
         ? option.nextSeq.value
         : option.nextSeq,

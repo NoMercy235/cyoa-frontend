@@ -68,3 +68,8 @@ export const getNewGraph = (graphRef) => {
     }).flat()
   };
 };
+
+export const sourceDestInitialValues = {
+  sequence: undefined,
+  nextSeq: undefined,
+};
