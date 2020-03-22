@@ -14,7 +14,7 @@ import {
 import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
 import { OptionModel } from '../../../../../../infrastructure/models/OptionModel';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
-import { GRAPH_ID } from '../../../../../../shared/constants/graph';
+import { GRAPH_ID, GRAPH_WAIT_FOR_GRAPH_STATE_CHANGE } from '../../../../../../shared/constants/graph';
 import ActionsToolbarComponent from '../actions-toolbar/ActionsToolbarComponent';
 import SaveGraphSequence from '../save-graph-sequence/SaveGraphSequence';
 import SaveGraphOptions from '../save-graph-options/SaveGraphOptions';
@@ -34,8 +34,22 @@ class WriteStoryComponent extends Component {
     sequence: undefined,
     sourceDest: sourceDestInitialValues,
     options: [],
+    graphState: { staticGraph: true },
   };
   graphRef = React.createRef();
+
+  componentDidMount () {
+    /**
+     * When using { staticGraphWithDragAndDrop: true }, the nodes get slightly rearranged
+     * if they are too tight. In order to avoid this, we're initially setting the graph to
+     * { staticGraph: true } so everything gets placed where it is supposed to stay
+     * and then we change the graph to { staticGraphWithDragAndDrop: true } to allow the
+     * user to move the nodes
+     */
+    setTimeout(() => {
+      this.setState({ graphState: { staticGraphWithDragAndDrop: true } });
+    }, GRAPH_WAIT_FOR_GRAPH_STATE_CHANGE);
+  }
 
   onSaveStory = () => {
     console.log(getNewGraph(this.graphRef));
@@ -135,6 +149,7 @@ class WriteStoryComponent extends Component {
       sequence,
       sourceDest,
       options,
+      graphState,
     } = this.state;
 
     const data = {
@@ -173,7 +188,7 @@ class WriteStoryComponent extends Component {
                 config={{
                   directed: true,
                   nodeHighlightBehavior: true,
-                  staticGraphWithDragAndDrop: true,
+                  ...graphState,
                   node: {
                     labelProperty: 'name',
                     fontSize: 16,
