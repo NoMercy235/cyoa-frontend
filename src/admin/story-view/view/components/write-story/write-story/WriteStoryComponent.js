@@ -5,7 +5,7 @@ import { toJS } from 'mobx';
 
 import { Card, CardContent } from '@material-ui/core';
 import {
-  getNewGraph,
+  getNewGraph, getOptionsBetweenNodes,
   optionToLink,
   seqToNode,
   sourceDestInitialValues
@@ -56,7 +56,12 @@ class WriteStoryComponent extends Component {
 
   onOpenSaveOptionsModal = async (fromSeqId, toSeqId) => {
     let sourceDest = sourceDestInitialValues;
+    let optionsToLoad = [new OptionModel({
+      action: 'New action'
+    })];
+
     if (fromSeqId && toSeqId) {
+      const { options } = this.props;
       const fromSeq = this.getSequence(fromSeqId);
       const toSeq = this.getSequence(toSeqId);
       sourceDest = {
@@ -68,15 +73,14 @@ class WriteStoryComponent extends Component {
           value: toSeqId,
           label: toSeq.name
         }
-      }
+      };
+      optionsToLoad = getOptionsBetweenNodes(fromSeqId, toSeqId, options);
     }
 
     this.setState({
       viewState: ViewStates.SaveOptions,
       sourceDest,
-      options: [new OptionModel({
-        action: 'New action'
-      })],
+      options: optionsToLoad,
     })
   };
 

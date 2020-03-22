@@ -73,3 +73,9 @@ export const sourceDestInitialValues = {
   sequence: undefined,
   nextSeq: undefined,
 };
+
+export const getOptionsBetweenNodes = (fromSeqId, toSeqId, options) => {
+  return options.filter(({ sequence, nextSeq }) => {
+    return sequence === fromSeqId && nextSeq === toSeqId;
+  });
+};
