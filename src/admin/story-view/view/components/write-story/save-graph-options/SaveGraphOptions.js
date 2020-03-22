@@ -83,10 +83,12 @@ class SaveGraphOptions extends Component {
   };
 
   renderSourceDestForm = formik => {
+    const { sourceDest } = this.props;
     this.formikRef[GRAPH_SOURCE_DEST_PROPERTY] = formik;
     return (
       <GraphOptionSourceDest
         formik={formik}
+        disabled={!!Object.values(sourceDest).filter(Boolean).length}
         onSearchRequest={this.onSearchRequest}
       />
     );

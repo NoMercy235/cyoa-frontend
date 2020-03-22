@@ -10,11 +10,12 @@ import styles from './GraphOptionSourceDest.module.scss';
 class GraphOptionSourceDest extends Component {
 
   renderSequenceField = ({ field }) => {
-    const { formik, onSearchRequest } = this.props;
+    const { formik, disabled, onSearchRequest } = this.props;
     return (
       <FormikAutocompleteContainer
         formik={formik}
         field={field}
+        disabled={disabled}
         label="From"
         placeholder="Search for sequences"
         searchOnFocus={true}
@@ -24,11 +25,12 @@ class GraphOptionSourceDest extends Component {
   };
 
   renderNextSeqField = ({ field }) => {
-    const { formik, onSearchRequest } = this.props;
+    const { formik, disabled, onSearchRequest } = this.props;
     return (
       <FormikAutocompleteContainer
         formik={formik}
         field={field}
+        disabled={disabled}
         label="Leads to"
         placeholder="Search for sequences"
         searchOnFocus={true}
@@ -59,6 +61,7 @@ class GraphOptionSourceDest extends Component {
 
 GraphOptionSourceDest.propTypes = {
   formik: PropTypes.object.isRequired,
+  disabled: PropTypes.bool.isRequired,
   onSearchRequest: PropTypes.func.isRequired,
 };
 
