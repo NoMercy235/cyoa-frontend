@@ -35,6 +35,9 @@ class WriteStoryContainer extends Component {
     socket.on(SocketEvents.NewSequenceResponse, seq => {
       storyViewStore.addSequence(new SequenceModel(seq));
     });
+    socket.on(SocketEvents.UpdateSequenceResponse, seq => {
+      storyViewStore.updateSequenceInPlace(seq._id, seq);
+    });
   };
 
   getSequences = async () => {
