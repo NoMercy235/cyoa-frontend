@@ -96,6 +96,17 @@ class StoryViewStore {
     this.allStoryOptions = options;
   };
 
+  @action addToAllStoryOptions = (newOptions = []) => {
+    this.allStoryOptions = [...this.allStoryOptions, ...newOptions];
+  };
+
+  @action updateInAllStoryOptions = (updatedOptions = []) => {
+    this.allStoryOptions = this.allStoryOptions.map((option) => {
+      const exists = updatedOptions.find(uo => uo._id === option._id);
+      return exists || option;
+    });
+  };
+
   @action setCurrentStory = story => {
     this.currentStory = story;
   };
@@ -170,6 +181,8 @@ export const storyViewStorePropTypes = PropTypes.shape({
   removeOptionFromSequence: PropTypes.func,
 
   setAllStoryOptions: PropTypes.func,
+  addToAllStoryOptions: PropTypes.func,
+  updateInAllStoryOptions: PropTypes.func,
 
   setCurrentStory: PropTypes.func,
   updateCurrentStory: PropTypes.func,

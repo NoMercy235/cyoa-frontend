@@ -38,10 +38,7 @@ export class SequenceModel extends BaseModel {
       content: sequence.content,
       isEnding: sequence.isEnding,
       chapter: sequence.chapter,
-      ...(extraFields.reduce((curr, field) => {
-        curr[field] = sequence[field];
-        return curr;
-      }, {})),
+      ...BaseModel.handleExtraFieldsForApi(sequence, extraFields),
     };
   }
 

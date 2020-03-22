@@ -5,7 +5,8 @@ import { toJS } from 'mobx';
 
 import { Card, CardContent } from '@material-ui/core';
 import {
-  getNewGraph, getOptionsBetweenNodes,
+  getNewGraph,
+  getOptionsBetweenNodes,
   optionToLink,
   seqToNode,
   sourceDestInitialValues
@@ -33,8 +34,6 @@ class WriteStoryComponent extends Component {
     sequence: undefined,
     sourceDest: sourceDestInitialValues,
     options: [],
-    nodes: this.props.sequences,
-    links: this.props.options,
   };
   graphRef = React.createRef();
 
@@ -56,9 +55,11 @@ class WriteStoryComponent extends Component {
   };
 
   onOpenSaveOptionsModal = async (fromSeqId, toSeqId) => {
+    const { story } = this.props;
     let sourceDest = sourceDestInitialValues;
     let optionsToLoad = [new OptionModel({
-      action: 'New action'
+      action: 'New option',
+      story: story._id,
     })];
 
     if (fromSeqId && toSeqId) {
@@ -86,8 +87,13 @@ class WriteStoryComponent extends Component {
   };
 
   addOption = () => {
+    const { story } = this.props;
     const { options } = this.state;
-    const newOptions = [...options, new OptionModel({ action: 'New Option' })];
+    const newOption = new OptionModel({
+      action: 'New Option',
+      story: story._id,
+    });
+    const newOptions = [...options, newOption];
     this.setState({ options: newOptions });
   };
 
@@ -108,6 +114,7 @@ class WriteStoryComponent extends Component {
   onHandleDrawerClose = () => {
     this.setState({
       sequence: undefined,
+      sourceDest: sourceDestInitialValues,
       options: [],
       viewState: ViewStates.View
     })
@@ -116,6 +123,8 @@ class WriteStoryComponent extends Component {
   render () {
     const {
       story,
+      sequences,
+      options: optionFromContainer,
       attributes,
       onSaveSequence,
       onSaveOptions,
@@ -126,17 +135,18 @@ class WriteStoryComponent extends Component {
       sequence,
       sourceDest,
       options,
-      nodes,
-      links,
     } = this.state;
 
     const data = {
-      nodes: nodes.map(seqToNode(story)),
-      links: links
+      nodes: sequences.map(seqToNode(story)),
+      links: optionFromContainer
         .reduce((curr, option) => {
           // Display only one link from a sequence to another
           // even if there are multiple options
-          if (curr.find(o => o.sequence === option.sequence)) {
+          const linkBetweenNodesExists = curr.find(o => {
+            return o.sequence === option.sequence && o.nextSeq === option.nextSeq;
+          });
+          if (linkBetweenNodesExists) {
             return curr;
           }
           return [...curr, option];

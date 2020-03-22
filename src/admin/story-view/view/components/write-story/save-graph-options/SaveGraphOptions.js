@@ -30,6 +30,11 @@ class SaveGraphOptions extends Component {
       .map(s => ({ value: s._id, label: s.name }));
   };
 
+  onDrawerClose = () => {
+    this.formikRef = {};
+    this.props.onDrawerClose();
+  };
+
   onSubmitAll = async () => {
     const {
       [GRAPH_SOURCE_DEST_PROPERTY]: sourceDestFormik,
@@ -54,7 +59,8 @@ class SaveGraphOptions extends Component {
         option.nextSeq = nextSeq;
         return option;
       });
-    onSubmitAll(newOptions);
+    await onSubmitAll(newOptions);
+    this.onDrawerClose();
   };
 
   onSubmit = index => async (values) => {
@@ -144,12 +150,10 @@ class SaveGraphOptions extends Component {
   };
 
   renderActionButtons = () => {
-    const { onDrawerClose } = this.props;
-
     return (
       <div className={styles.buttons}>
         <Button
-          onClick={onDrawerClose}
+          onClick={this.onDrawerClose}
           color="secondary"
         >
           Cancel
@@ -168,14 +172,13 @@ class SaveGraphOptions extends Component {
     const {
       open,
       options = [],
-      onDrawerClose,
     } = this.props;
 
     return (
       <Drawer
         anchor="top"
         open={open}
-        onClose={onDrawerClose}
+        onClose={this.onDrawerClose}
       >
         <div className={styles.container}>
           {this.renderSourceDestContainer()}

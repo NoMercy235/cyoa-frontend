@@ -5,6 +5,7 @@ import { ConsequenceModel } from './ConsequenceModel';
 
 export class OptionModel extends BaseModel {
   _id = '';
+  story = '';
   action = '';
   sequence = '';
   nextSeq = '';
@@ -47,7 +48,7 @@ export class OptionModel extends BaseModel {
     return errors;
   }
 
-  static forApi(option) {
+  static forApi(option, extraFields) {
     return {
       story: option.story,
       action: option.action,
@@ -58,6 +59,7 @@ export class OptionModel extends BaseModel {
         ? option.nextSeq.value
         : option.nextSeq,
       consequences: option.consequences,
+      ...BaseModel.handleExtraFieldsForApi(option, extraFields),
     };
   }
 

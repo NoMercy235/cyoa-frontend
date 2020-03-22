@@ -13,6 +13,7 @@ import { SocketEvents } from '../../../../shared/constants/events';
 import { SequenceModel } from '../../../../infrastructure/models/SequenceModel';
 import { storyService } from '../../../../infrastructure/services/StoryService';
 import { attributeService } from '../../../../infrastructure/services/AttributeService';
+import { OptionModel } from '../../../../infrastructure/models/OptionModel';
 
 @inject('storyViewStore')
 @observer
@@ -37,6 +38,11 @@ class WriteStoryContainer extends Component {
     });
     socket.on(SocketEvents.UpdateSequenceResponse, seq => {
       storyViewStore.updateSequenceInPlace(seq._id, seq);
+    });
+    socket.on(SocketEvents.SaveOptionsResponse, result => {
+      const { created, updated } = result;
+      storyViewStore.addToAllStoryOptions(created.map(option => new OptionModel(option)));
+      storyViewStore.updateInAllStoryOptions(updated.map(option => new OptionModel(option)));
     });
   };
 
@@ -102,8 +108,10 @@ class WriteStoryContainer extends Component {
   };
 
   onSaveOptions = (options) => {
-    console.log(options);
-    // TODO: save on BE
+    socket.emit(
+      SocketEvents.SaveOptionsRequest,
+      options.map(option => OptionModel.forApi(option, ['_id'])),
+    );
   };
 
   onUpdateSeqPosition = (seqId, x, y) => {

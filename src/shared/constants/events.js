@@ -32,6 +32,10 @@ export const SocketEvents = {
   UpdateOptionError: 'UPDATE_OPTION_ERROR',
   DeleteOptionError: 'DELETE_OPTION_ERROR',
 
+  SaveOptionsRequest: 'SAVE_OPTIONS_REQUEST',
+  SaveOptionsResponse: 'SAVE_OPTIONS_RESPONSE',
+  SaveOptionsError: 'SAVE_OPTIONS_ERROR',
+
   Errors: {
     Connect: 'connect_error'
   }
