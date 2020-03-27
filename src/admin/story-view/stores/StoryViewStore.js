@@ -70,9 +70,9 @@ class StoryViewStore {
   };
 
   @action removeSequenceWithRelatedOptions = sequenceId => {
-    const optionsToRemove = this.allStoryOptions.filter(option => {
-      return option.nextSeq === sequenceId;
-    });
+    const optionsToRemove = this.allStoryOptions
+      .filter(option => option.nextSeq === sequenceId)
+      .map(option => option._id);
     this.removeAllStoryOptions(optionsToRemove);
     this.removeSequence(sequenceId);
   };
@@ -117,9 +117,7 @@ class StoryViewStore {
 
   @action removeAllStoryOptions = (optionsToRemove = []) => {
     this.allStoryOptions = this.allStoryOptions.filter((option) => {
-      return optionsToRemove.find(optToRemove => {
-        return optToRemove._id !== option._id;
-      });
+      return !optionsToRemove.includes(option._id);
     });
   };
 

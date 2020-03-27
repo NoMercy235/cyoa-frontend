@@ -106,29 +106,16 @@ class WriteStoryComponent extends Component {
     })
   };
 
-  addOption = () => {
-    const { story } = this.props;
-    const { options } = this.state;
-    const newOption = new OptionModel({
-      action: 'New Option',
-      story: story._id,
+  onSaveOptions = (newOptions) => {
+    const { onSaveOptions } = this.props;
+    const {
+      options: initialOptions,
+    } = this.state;
+    const optionsToDelete = initialOptions.filter(opt => {
+      return !newOptions.find(newOption => newOption._id === opt._id);
     });
-    const newOptions = [...options, newOption];
-    this.setState({ options: newOptions });
-  };
 
-  replaceOptionInArray = (index, newOption) => {
-    const { options } = this.state;
-    const newOptions = options.map((option, i) => {
-      return i === index ? newOption : option;
-    });
-    this.setState({ options: newOptions });
-  };
-
-  removeOptionInArray = (index) => {
-    const { options } = this.state;
-    const newOptions = options.filter((option, i) => i !== index);
-    this.setState({ options: newOptions });
+    onSaveOptions(newOptions, optionsToDelete);
   };
 
   onHandleDrawerClose = () => {
@@ -136,7 +123,7 @@ class WriteStoryComponent extends Component {
       sequence: undefined,
       sourceDest: sourceDestInitialValues,
       options: [],
-      viewState: ViewStates.View
+      viewState: ViewStates.View,
     })
   };
 
@@ -147,7 +134,6 @@ class WriteStoryComponent extends Component {
       options: optionsFromContainer,
       attributes,
       onSaveSequence,
-      onSaveOptions,
       onUpdateSeqPosition,
     } = this.props;
     const {
@@ -227,18 +213,17 @@ class WriteStoryComponent extends Component {
           onSuccess={onSaveSequence}
           onDrawerClose={this.onHandleDrawerClose}
         />
-        <SaveGraphOptions
-          open={viewState === ViewStates.SaveOptions}
-          story={story}
-          sourceDest={sourceDest}
-          options={options}
-          attributes={attributes}
-          addOption={this.addOption}
-          replaceOptionInArray={this.replaceOptionInArray}
-          removeOptionInArray={this.removeOptionInArray}
-          onSubmitAll={onSaveOptions}
-          onDrawerClose={this.onHandleDrawerClose}
-        />
+        {viewState === ViewStates.SaveOptions && (
+          <SaveGraphOptions
+            open={viewState === ViewStates.SaveOptions}
+            story={story}
+            sourceDest={sourceDest}
+            options={options}
+            attributes={attributes}
+            onSubmitAll={this.onSaveOptions}
+            onDrawerClose={this.onHandleDrawerClose}
+          />
+        )}
       </>
     );
   }

@@ -22,7 +22,35 @@ import { ERRORS } from '../../../../../../shared/constants/errors';
 import styles from './SaveGraphOptions.module.scss';
 
 class SaveGraphOptions extends Component {
+  state = {
+    options: this.props.options,
+  };
   formikRef = {};
+
+  addOption = () => {
+    const { story } = this.props;
+    const { options } = this.state;
+    const newOption = new OptionModel({
+      action: 'New Option',
+      story: story._id,
+    });
+    const newOptions = [...options, newOption];
+    this.setState({ options: newOptions });
+  };
+
+  replaceOptionInArray = index => newOption => {
+    const { options } = this.state;
+    const newOptions = options.map((option, i) => {
+      return i === index ? newOption : option;
+    });
+    this.setState({ options: newOptions });
+  };
+
+  removeOptionInArray = (index) => () => {
+    const { options } = this.state;
+    const newOptions = options.filter((option, i) => i !== index);
+    this.setState({ options: newOptions });
+  };
 
   onSearchRequest = async (searchQuery) => {
     const { story } = this.props;
@@ -63,11 +91,6 @@ class SaveGraphOptions extends Component {
     this.onDrawerClose();
   };
 
-  onSubmit = index => async (values) => {
-    const { replaceOptionInArray } = this.props;
-    replaceOptionInArray(index, values);
-  };
-
   validate = values => {
     const model = new OptionModel(values);
     return model.checkErrors(['nextSeq']);
@@ -82,10 +105,6 @@ class SaveGraphOptions extends Component {
       errors.nextSeq = ERRORS.fieldRequired;
     }
     return errors;
-  };
-
-  removeOptionInArray = index => () => {
-    this.props.removeOptionInArray(index);
   };
 
   renderSourceDestForm = formik => {
@@ -135,11 +154,10 @@ class SaveGraphOptions extends Component {
   };
 
   renderNewOptionPanel = () => {
-    const { addOption } = this.props;
     return (
       <ExpansionPanel
         disabled={true}
-        onClick={addOption}
+        onClick={this.addOption}
         className={styles.addNewOptionPanel}
       >
         <ExpansionPanelSummary>
@@ -169,10 +187,10 @@ class SaveGraphOptions extends Component {
   };
 
   render () {
-    const {
-      open,
-      options = [],
-    } = this.props;
+    const { open } = this.props;
+    const { options = [] } = this.state;
+
+    this.formikRef = {};
 
     return (
       <Drawer
@@ -189,7 +207,7 @@ class SaveGraphOptions extends Component {
                 enableReinitialize={true}
                 initialValues={option}
                 validateOnChange={false}
-                onSubmit={this.onSubmit(index)}
+                onSubmit={this.replaceOptionInArray(index)}
                 validate={this.validate}
               >
                 {this.renderCollapsibleOption(option, index)}
@@ -221,9 +239,6 @@ SaveGraphOptions.propTypes = {
   options: PropTypes.arrayOf(PropTypes.instanceOf(OptionModel)),
   attributes: PropTypes.arrayOf(PropTypes.instanceOf(AttributeModel)),
 
-  addOption: PropTypes.func.isRequired,
-  replaceOptionInArray: PropTypes.func.isRequired,
-  removeOptionInArray: PropTypes.func.isRequired,
   onSubmitAll: PropTypes.func.isRequired,
   onDrawerClose: PropTypes.func.isRequired,
 };

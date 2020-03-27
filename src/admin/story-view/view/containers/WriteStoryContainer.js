@@ -57,6 +57,9 @@ class WriteStoryContainer extends Component {
       storyViewStore.addToAllStoryOptions(created.map(option => new OptionModel(option)));
       storyViewStore.updateInAllStoryOptions(updated.map(option => new OptionModel(option)));
     });
+    socket.on(SocketEvents.DeleteOptionsResponse, optionIds => {
+      storyViewStore.removeAllStoryOptions(optionIds);
+    });
   };
 
   getSequences = async () => {
@@ -121,7 +124,6 @@ class WriteStoryContainer extends Component {
   };
 
   onDeleteSequence = () => {
-    const {} = this.props;
     const { resourceToDelete: sequence } = this.state;
     socket.emit(
       SocketEvents.DeleteSequenceRequest,
@@ -150,10 +152,14 @@ class WriteStoryContainer extends Component {
     });
   };
 
-  onSaveOptions = (options) => {
+  onSaveOptions = (newOptions, optionsToDelete) => {
     socket.emit(
       SocketEvents.SaveOptionsRequest,
-      options.map(option => OptionModel.forApi(option, ['_id'])),
+      newOptions.map(option => OptionModel.forApi(option, ['_id'])),
+    );
+    socket.emit(
+      SocketEvents.DeleteOptionsRequest,
+      optionsToDelete.map(option => option._id),
     );
   };
 
