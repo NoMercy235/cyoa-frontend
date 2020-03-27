@@ -29,6 +29,7 @@ class WriteStoryContainer extends Component {
   state = {
     canRender: false,
     isDeleteSequenceModalOpen: false,
+    isDeleteOptionsModalOpen: false,
     resourceToDelete: undefined,
   };
 
@@ -132,6 +133,12 @@ class WriteStoryContainer extends Component {
     this.onCloseDeleteModals();
   };
 
+  onDeleteOptionsBetweenSequences = () => {
+    const { resourceToDelete: { options } } = this.state;
+    this.onSaveOptions([], options);
+    this.onCloseDeleteModals();
+  };
+
   onDeleteSequenceModalOpen = (seqId) => {
     const {
       storyViewStore,
@@ -144,6 +151,21 @@ class WriteStoryContainer extends Component {
     });
   };
 
+  onOpenDeleteOptionsModal = (fromSeqId, toSeqId, options) => {
+    const { storyViewStore } = this.props;
+
+    const fromSeq = storyViewStore.getSequenceById(fromSeqId);
+    const toSeq = storyViewStore.getSequenceById(toSeqId);
+    this.setState({
+      isDeleteOptionsModalOpen: true,
+      resourceToDelete: {
+        fromSeq,
+        toSeq,
+        options,
+      },
+    });
+  };
+
   onCloseDeleteModals = () => {
     this.setState({
       isDeleteSequenceModalOpen: false,
@@ -152,12 +174,12 @@ class WriteStoryContainer extends Component {
     });
   };
 
-  onSaveOptions = (newOptions, optionsToDelete) => {
-    socket.emit(
+  onSaveOptions = (newOptions = [], optionsToDelete = []) => {
+    newOptions.length && socket.emit(
       SocketEvents.SaveOptionsRequest,
       newOptions.map(option => OptionModel.forApi(option, ['_id'])),
     );
-    socket.emit(
+    optionsToDelete.length && socket.emit(
       SocketEvents.DeleteOptionsRequest,
       optionsToDelete.map(option => option._id),
     );
@@ -170,7 +192,8 @@ class WriteStoryContainer extends Component {
     );
   };
 
-  renderDeleteSequenceModalContent = (sequence = {}) => {
+  renderDeleteSequenceModalContent = () => {
+    const { resourceToDelete: sequence = {} } = this.state;
     return (
       <>
         <Typography>You are about to delete the following sequence:</Typography>
@@ -187,16 +210,26 @@ class WriteStoryContainer extends Component {
   };
 
   renderDeleteSequenceModal = () => {
-    const {
-      isDeleteSequenceModalOpen,
-      resourceToDelete,
-    } = this.state;
+    const { isDeleteSequenceModalOpen } = this.state;
     return (
       <ConfirmationModal
         title="Delete sequence?"
-        description={this.renderDeleteSequenceModalContent(resourceToDelete)}
+        description={this.renderDeleteSequenceModalContent()}
         open={isDeleteSequenceModalOpen}
         onAccept={this.onDeleteSequence}
+        onClose={this.onCloseDeleteModals}
+      />
+    );
+  };
+
+  renderDeleteOptionsModal = () => {
+    const { isDeleteOptionsModalOpen } = this.state;
+    return (
+      <ConfirmationModal
+        title="Delete options?"
+        description={<Typography>You are about to delete all options between these sequences</Typography>}
+        open={isDeleteOptionsModalOpen}
+        onAccept={this.onDeleteOptionsBetweenSequences}
         onClose={this.onCloseDeleteModals}
       />
     );
@@ -226,10 +259,12 @@ class WriteStoryContainer extends Component {
           attributes={attributes}
           onSaveSequence={this.onSaveSequence}
           onDeleteSequenceModalOpen={this.onDeleteSequenceModalOpen}
+          onOpenDeleteOptionsModal={this.onOpenDeleteOptionsModal}
           onSaveOptions={this.onSaveOptions}
           onUpdateSeqPosition={this.onUpdateSeqPosition}
         />
         {this.renderDeleteSequenceModal()}
+        {this.renderDeleteOptionsModal()}
       </>
     );
   }

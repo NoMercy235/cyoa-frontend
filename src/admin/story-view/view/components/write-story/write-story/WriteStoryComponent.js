@@ -31,9 +31,12 @@ const ViewStates = {
 class WriteStoryComponent extends Component {
   state = {
     viewState: ViewStates.View,
+
+    // These are used for the save drawers
     sequence: undefined,
     sourceDest: sourceDestInitialValues,
     options: [],
+
     graphState: { staticGraph: true },
   };
   graphRef = React.createRef();
@@ -72,6 +75,17 @@ class WriteStoryComponent extends Component {
     const { onDeleteSequenceModalOpen } = this.props;
     e.preventDefault();
     onDeleteSequenceModalOpen(seqId);
+  };
+
+  onOpenDeleteOptionsModal = (e, fromSeqId, toSeqId) => {
+    const { onOpenDeleteOptionsModal } = this.props;
+    const { options } = this.props;
+    e.preventDefault();
+    onOpenDeleteOptionsModal(
+      fromSeqId,
+      toSeqId,
+      getOptionsBetweenNodes(fromSeqId, toSeqId, options),
+    );
   };
 
   onOpenSaveOptionsModal = async (fromSeqId, toSeqId) => {
@@ -201,6 +215,7 @@ class WriteStoryComponent extends Component {
                 onClickNode={this.onOpenSaveSeqModal}
                 onRightClickNode={this.onOpenDeleteSeqModal}
                 onClickLink={this.onOpenSaveOptionsModal}
+                onRightClickLink={this.onOpenDeleteOptionsModal}
                 onNodePositionChange={onUpdateSeqPosition}
               />
             </CardContent>
@@ -237,6 +252,7 @@ WriteStoryComponent.propTypes = {
 
   onSaveSequence: PropTypes.func.isRequired,
   onDeleteSequenceModalOpen: PropTypes.func.isRequired,
+  onOpenDeleteOptionsModal: PropTypes.func.isRequired,
   onSaveOptions: PropTypes.func.isRequired,
   onUpdateSeqPosition: PropTypes.func.isRequired,
 };
