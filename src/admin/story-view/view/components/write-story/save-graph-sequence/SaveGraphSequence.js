@@ -18,7 +18,7 @@ class SaveGraphSequence extends Component {
     // This was done because the isStartSeq property is not located on
     // the sequence, but on the story, thus it couldn't have been
     // loaded correctly while editing in any other way.
-    resource.isStartSeq = story.startSeq === resource._id;
+    resource.isStartSeq = story.startSeq && story.startSeq === resource._id;
     return resource;
   };
 
