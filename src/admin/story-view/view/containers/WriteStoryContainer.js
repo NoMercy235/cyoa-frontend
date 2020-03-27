@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
+import {
+  ExpansionPanel,
+  ExpansionPanelDetails,
+  ExpansionPanelSummary,
+  Typography,
+} from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
 import WriteStoryComponent from '../components/write-story/write-story/WriteStoryComponent';
@@ -14,12 +21,15 @@ import { SequenceModel } from '../../../../infrastructure/models/SequenceModel';
 import { storyService } from '../../../../infrastructure/services/StoryService';
 import { attributeService } from '../../../../infrastructure/services/AttributeService';
 import { OptionModel } from '../../../../infrastructure/models/OptionModel';
+import ConfirmationModal from '../../../../shared/components/confirmation/ConfirmationModal';
 
 @inject('storyViewStore')
 @observer
 class WriteStoryContainer extends Component {
   state = {
     canRender: false,
+    isDeleteSequenceModalOpen: false,
+    resourceToDelete: undefined,
   };
 
   async componentDidMount () {
@@ -38,6 +48,9 @@ class WriteStoryContainer extends Component {
     });
     socket.on(SocketEvents.UpdateSequenceResponse, seq => {
       storyViewStore.updateSequenceInPlace(seq._id, seq);
+    });
+    socket.on(SocketEvents.DeleteSequenceResponse, seq => {
+      storyViewStore.removeSequenceWithRelatedOptions(seq._id);
     });
     socket.on(SocketEvents.SaveOptionsResponse, result => {
       const { created, updated } = result;
@@ -107,6 +120,36 @@ class WriteStoryContainer extends Component {
     }
   };
 
+  onDeleteSequence = () => {
+    const {} = this.props;
+    const { resourceToDelete: sequence } = this.state;
+    socket.emit(
+      SocketEvents.DeleteSequenceRequest,
+      sequence._id,
+    );
+    this.onCloseDeleteModals();
+  };
+
+  onDeleteSequenceModalOpen = (seqId) => {
+    const {
+      storyViewStore,
+    } = this.props;
+
+    const sequence = storyViewStore.getSequenceById(seqId);
+    this.setState({
+      isDeleteSequenceModalOpen: true,
+      resourceToDelete: sequence,
+    });
+  };
+
+  onCloseDeleteModals = () => {
+    this.setState({
+      isDeleteSequenceModalOpen: false,
+      isDeleteOptionsModalOpen: false,
+      resourceToDelete: undefined,
+    });
+  };
+
   onSaveOptions = (options) => {
     socket.emit(
       SocketEvents.SaveOptionsRequest,
@@ -118,6 +161,38 @@ class WriteStoryContainer extends Component {
     socket.emit(
       SocketEvents.UpdateSequenceRequest,
       { _id: seqId, x, y },
+    );
+  };
+
+  renderDeleteSequenceModalContent = (sequence = {}) => {
+    return (
+      <>
+        <Typography>You are about to delete the following sequence:</Typography>
+        <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <b>{sequence.name}</b>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <span>{sequence.content}</span>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+      </>
+    );
+  };
+
+  renderDeleteSequenceModal = () => {
+    const {
+      isDeleteSequenceModalOpen,
+      resourceToDelete,
+    } = this.state;
+    return (
+      <ConfirmationModal
+        title="Delete sequence?"
+        description={this.renderDeleteSequenceModalContent(resourceToDelete)}
+        open={isDeleteSequenceModalOpen}
+        onAccept={this.onDeleteSequence}
+        onClose={this.onCloseDeleteModals}
+      />
     );
   };
 
@@ -137,15 +212,19 @@ class WriteStoryContainer extends Component {
     }
 
     return (
-      <WriteStoryComponent
-        story={currentStory}
-        sequences={sequences}
-        options={allStoryOptions}
-        attributes={attributes}
-        onSaveSequence={this.onSaveSequence}
-        onSaveOptions={this.onSaveOptions}
-        onUpdateSeqPosition={this.onUpdateSeqPosition}
-      />
+      <>
+        <WriteStoryComponent
+          story={currentStory}
+          sequences={sequences}
+          options={allStoryOptions}
+          attributes={attributes}
+          onSaveSequence={this.onSaveSequence}
+          onDeleteSequenceModalOpen={this.onDeleteSequenceModalOpen}
+          onSaveOptions={this.onSaveOptions}
+          onUpdateSeqPosition={this.onUpdateSeqPosition}
+        />
+        {this.renderDeleteSequenceModal()}
+      </>
     );
   }
 }

@@ -69,6 +69,14 @@ class StoryViewStore {
     this.sequences = this.sequences.filter(a => a._id !== sequenceId);
   };
 
+  @action removeSequenceWithRelatedOptions = sequenceId => {
+    const optionsToRemove = this.allStoryOptions.filter(option => {
+      return option.nextSeq === sequenceId;
+    });
+    this.removeAllStoryOptions(optionsToRemove);
+    this.removeSequence(sequenceId);
+  };
+
   @action setOptionsToSequence = (sequenceId, options) => {
     const s = this.getSequenceById(sequenceId);
     s.options = options;
@@ -104,6 +112,14 @@ class StoryViewStore {
     this.allStoryOptions = this.allStoryOptions.map((option) => {
       const exists = updatedOptions.find(uo => uo._id === option._id);
       return exists || option;
+    });
+  };
+
+  @action removeAllStoryOptions = (optionsToRemove = []) => {
+    this.allStoryOptions = this.allStoryOptions.filter((option) => {
+      return optionsToRemove.find(optToRemove => {
+        return optToRemove._id !== option._id;
+      });
     });
   };
 
@@ -174,6 +190,8 @@ export const storyViewStorePropTypes = PropTypes.shape({
   getAttributeById: PropTypes.func,
   updateSequence: PropTypes.func,
   updateSequenceInPlace: PropTypes.func,
+  removeSequence: PropTypes.func,
+  removeSequenceWithRelatedOptions: PropTypes.func,
 
   setOptionsToSequence: PropTypes.func,
   addOptionToSequence: PropTypes.func,

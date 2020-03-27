@@ -68,6 +68,12 @@ class WriteStoryComponent extends Component {
     })
   };
 
+  onOpenDeleteSeqModal = (e, seqId) => {
+    const { onDeleteSequenceModalOpen } = this.props;
+    e.preventDefault();
+    onDeleteSequenceModalOpen(seqId);
+  };
+
   onOpenSaveOptionsModal = async (fromSeqId, toSeqId) => {
     const { story } = this.props;
     let sourceDest = sourceDestInitialValues;
@@ -138,7 +144,7 @@ class WriteStoryComponent extends Component {
     const {
       story,
       sequences,
-      options: optionFromContainer,
+      options: optionsFromContainer,
       attributes,
       onSaveSequence,
       onSaveOptions,
@@ -154,7 +160,7 @@ class WriteStoryComponent extends Component {
 
     const data = {
       nodes: sequences.map(seqToNode(story)),
-      links: optionFromContainer
+      links: optionsFromContainer
         .reduce((curr, option) => {
           // Display only one link from a sequence to another
           // even if there are multiple options
@@ -207,6 +213,7 @@ class WriteStoryComponent extends Component {
                   },
                 }}
                 onClickNode={this.onOpenSaveSeqModal}
+                onRightClickNode={this.onOpenDeleteSeqModal}
                 onClickLink={this.onOpenSaveOptionsModal}
                 onNodePositionChange={onUpdateSeqPosition}
               />
@@ -244,6 +251,7 @@ WriteStoryComponent.propTypes = {
   attributes: PropTypes.arrayOf(PropTypes.instanceOf(AttributeModel)),
 
   onSaveSequence: PropTypes.func.isRequired,
+  onDeleteSequenceModalOpen: PropTypes.func.isRequired,
   onSaveOptions: PropTypes.func.isRequired,
   onUpdateSeqPosition: PropTypes.func.isRequired,
 };
