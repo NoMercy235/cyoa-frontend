@@ -185,41 +185,43 @@ class WriteStoryComponent extends Component {
             onAddNewOptionModalOpen={this.onOpenSaveOptionsModal}
             onSaveStory={this.onSaveStory}
           />
-          <Card className={styles.writeStoryCard}>
-            <CardContent>
-              <Graph
-                id={GRAPH_ID}
-                ref={this.graphRef}
-                data={data}
-                config={{
-                  directed: true,
-                  nodeHighlightBehavior: true,
-                  ...graphState,
-                  node: {
-                    labelProperty: 'name',
-                    fontSize: 16,
-                    highlightFontSize: 20,
-                    highlightFontWeight: 'bold',
-                    highlightColor: 'aqua',
-                  },
-                  link: {
-                    // renderLabel: true,
-                    // labelProperty: 'action',
-                    fontSize: 16,
-                    highlightFontSize: 20,
-                    highlightFontWeight: 'bold',
-                    highlightColor: 'lightblue',
-                    strokeWidth: 3,
-                  },
-                }}
-                onClickNode={this.onOpenSaveSeqModal}
-                onRightClickNode={this.onOpenDeleteSeqModal}
-                onClickLink={this.onOpenSaveOptionsModal}
-                onRightClickLink={this.onOpenDeleteOptionsModal}
-                onNodePositionChange={onUpdateSeqPosition}
-              />
-            </CardContent>
-          </Card>
+          {!!data.nodes.length && (
+            <Card className={styles.writeStoryCard}>
+              <CardContent>
+                <Graph
+                  id={GRAPH_ID}
+                  ref={this.graphRef}
+                  data={data}
+                  config={{
+                    directed: true,
+                    nodeHighlightBehavior: true,
+                    ...graphState,
+                    node: {
+                      labelProperty: 'name',
+                      fontSize: 16,
+                      highlightFontSize: 20,
+                      highlightFontWeight: 'bold',
+                      highlightColor: 'aqua',
+                    },
+                    link: {
+                      // renderLabel: true,
+                      // labelProperty: 'action',
+                      fontSize: 16,
+                      highlightFontSize: 20,
+                      highlightFontWeight: 'bold',
+                      highlightColor: 'lightblue',
+                      strokeWidth: 3,
+                    },
+                  }}
+                  onClickNode={this.onOpenSaveSeqModal}
+                  onRightClickNode={this.onOpenDeleteSeqModal}
+                  onClickLink={this.onOpenSaveOptionsModal}
+                  onRightClickLink={this.onOpenDeleteOptionsModal}
+                  onNodePositionChange={onUpdateSeqPosition}
+                />
+              </CardContent>
+            </Card>
+          )}
         </div>
         <SaveGraphSequence
           open={viewState === ViewStates.SaveSequence}
