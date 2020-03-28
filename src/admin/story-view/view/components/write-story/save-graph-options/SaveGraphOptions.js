@@ -27,6 +27,12 @@ class SaveGraphOptions extends Component {
   };
   formikRef = {};
 
+  componentDidUpdate (prevProps, prevState, snapshot) {
+    if (this.props.options !== prevProps.options) {
+      this.setState({ options: this.props.options });
+    }
+  }
+
   addOption = () => {
     const { story } = this.props;
     const { options } = this.state;

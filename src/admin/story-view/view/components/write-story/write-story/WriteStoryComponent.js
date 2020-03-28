@@ -230,17 +230,15 @@ class WriteStoryComponent extends Component {
           onSuccess={onSaveSequence}
           onDrawerClose={this.onHandleDrawerClose}
         />
-        {viewState === ViewStates.SaveOptions && (
-          <SaveGraphOptions
-            open={viewState === ViewStates.SaveOptions}
-            story={story}
-            sourceDest={sourceDest}
-            options={options}
-            attributes={attributes}
-            onSubmitAll={this.onSaveOptions}
-            onDrawerClose={this.onHandleDrawerClose}
-          />
-        )}
+        <SaveGraphOptions
+          open={viewState === ViewStates.SaveOptions}
+          story={story}
+          sourceDest={sourceDest}
+          options={options}
+          attributes={attributes}
+          onSubmitAll={this.onSaveOptions}
+          onDrawerClose={this.onHandleDrawerClose}
+        />
       </>
     );
   }
