@@ -67,8 +67,11 @@ class WriteStoryComponent extends Component {
   };
 
   onOpenDeleteSeqModal = (e, seqId) => {
-    const { onDeleteSequenceModalOpen } = this.props;
+    const { sequences, onDeleteSequenceModalOpen } = this.props;
     e.preventDefault();
+    if (sequences.length === 1) {
+      return;
+    }
     onDeleteSequenceModalOpen(seqId);
   };
 
