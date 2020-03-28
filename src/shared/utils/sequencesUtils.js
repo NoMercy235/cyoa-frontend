@@ -3,7 +3,7 @@ import { sequenceService } from '../../infrastructure/services/SequenceService';
 
 const debouncedSequenceList = debounced(sequenceService.list);
 
-export const getDebouncedSequences = async (storyId, searchQuery) => {
+export const getDebouncedSequences = async (storyId, searchQuery, extraFilters) => {
   sequenceService.setNextRouteParams(
     { ':story': storyId }
   );
@@ -16,6 +16,7 @@ export const getDebouncedSequences = async (storyId, searchQuery) => {
           allowEmpty: true,
         },
       },
+      ...extraFilters,
     },
     pagination: {
       page: 0,

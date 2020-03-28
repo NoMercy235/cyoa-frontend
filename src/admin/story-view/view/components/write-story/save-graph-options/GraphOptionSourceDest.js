@@ -19,7 +19,9 @@ class GraphOptionSourceDest extends Component {
         label="From"
         placeholder="Search for sequences"
         searchOnFocus={true}
-        onSearchRequest={onSearchRequest}
+        onSearchRequest={onSearchRequest({
+          isEnding: { op: 'equals', value: false }
+        })}
       />
     );
   };
@@ -34,7 +36,7 @@ class GraphOptionSourceDest extends Component {
         label="Leads to"
         placeholder="Search for sequences"
         searchOnFocus={true}
-        onSearchRequest={onSearchRequest}
+        onSearchRequest={onSearchRequest()}
       />
     );
   };

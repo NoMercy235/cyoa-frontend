@@ -58,9 +58,9 @@ class SaveGraphOptions extends Component {
     this.setState({ options: newOptions });
   };
 
-  onSearchRequest = async (searchQuery) => {
+  onSearchRequest = extraFilters => async (searchQuery) => {
     const { story } = this.props;
-    return (await getDebouncedSequences(story._id, searchQuery))
+    return (await getDebouncedSequences(story._id, searchQuery, extraFilters))
       .map(s => ({ value: s._id, label: s.name }));
   };
 
