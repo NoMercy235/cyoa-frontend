@@ -18,7 +18,6 @@ import { optionService } from '../../../../infrastructure/services/OptionService
 import { socket } from '../../../../infrastructure/sockets/setup';
 import { SocketEvents } from '../../../../shared/constants/events';
 import { SequenceModel } from '../../../../infrastructure/models/SequenceModel';
-import { storyService } from '../../../../infrastructure/services/StoryService';
 import { attributeService } from '../../../../infrastructure/services/AttributeService';
 import { OptionModel } from '../../../../infrastructure/models/OptionModel';
 import ConfirmationModal from '../../../../shared/components/confirmation/ConfirmationModal';
@@ -44,14 +43,23 @@ class WriteStoryContainer extends Component {
   }
   setupSocketResponses = () => {
     const { storyViewStore } = this.props;
-    socket.on(SocketEvents.NewSequenceResponse, seq => {
-      storyViewStore.addSequence(new SequenceModel(seq));
+    socket.on(SocketEvents.NewSequenceResponse, ({ sequence, story }) => {
+      storyViewStore.addSequence(new SequenceModel(sequence));
+      story && storyViewStore.updateCurrentStory(
+        { startSeq: story.startSeq }
+      );
     });
-    socket.on(SocketEvents.UpdateSequenceResponse, seq => {
-      storyViewStore.updateSequenceInPlace(seq._id, seq);
+    socket.on(SocketEvents.UpdateSequenceResponse, ({ sequence, story }) => {
+      storyViewStore.updateSequenceInPlace(sequence._id, sequence);
+      story && storyViewStore.updateCurrentStory(
+        { startSeq: story.startSeq }
+      );
     });
-    socket.on(SocketEvents.DeleteSequenceResponse, seq => {
-      storyViewStore.removeSequenceWithRelatedOptions(seq._id);
+    socket.on(SocketEvents.DeleteSequenceResponse, ({ sequence, story }) => {
+      storyViewStore.removeSequenceWithRelatedOptions(sequence._id);
+      story && storyViewStore.updateCurrentStory(
+        { startSeq: story.startSeq }
+      );
     });
     socket.on(SocketEvents.SaveOptionsResponse, result => {
       const { created, updated } = result;
@@ -89,46 +97,32 @@ class WriteStoryContainer extends Component {
     storyViewStore.setAttributes(attributes);
   };
 
-  updateStoryStartSeq = async seq => {
-    const { storyViewStore, story } = this.props;
-    storyService.update(story._id, { startSeq: seq._id });
-    // This does trigger the render function a second time (after the
-    // update or addition of a new sequence) but it shouldn't affect
-    // performance as there are not many things rendered and this
-    // method should not be called often.
-    storyViewStore.updateCurrentStory(
-      { startSeq: seq._id }
-    );
-  };
-
   onSaveSequence = async (sequence, isStartSeq) => {
     if (!sequence._id) {
       socket.emit(
         SocketEvents.NewSequenceRequest,
-        SequenceModel.forApi(sequence, ['story', 'x', 'y']),
+        {
+          sequence: SequenceModel.forApi(sequence, ['story', 'x', 'y']),
+          isStartSeq,
+        },
       );
     } else {
-      const { story } = this.props;
-
-      if (isStartSeq && (!story.startSeq || story.startSeq !== sequence._id)) {
-        await this.updateStoryStartSeq(sequence);
-      }
-
       socket.emit(
         SocketEvents.UpdateSequenceRequest,
         {
-          _id: sequence._id,
-          ...SequenceModel.forApi(sequence),
+          sequence: SequenceModel.forApi(sequence, ['_id']),
+          isStartSeq,
         },
       );
     }
   };
 
   onDeleteSequence = () => {
+    const { story } = this.props;
     const { resourceToDelete: sequence } = this.state;
     socket.emit(
       SocketEvents.DeleteSequenceRequest,
-      sequence._id,
+      { storyId: story._id, sequenceId: sequence._id },
     );
     this.onCloseDeleteModals();
   };
@@ -188,7 +182,7 @@ class WriteStoryContainer extends Component {
   onUpdateSeqPosition = (seqId, x, y) => {
     socket.emit(
       SocketEvents.UpdateSequenceRequest,
-      { _id: seqId, x, y },
+      { sequence: { _id: seqId, x, y } },
     );
   };
 

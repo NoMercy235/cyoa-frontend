@@ -11,6 +11,10 @@ import { NEW_SEQUENCE_POSITION } from '../../../../../../shared/constants/graph'
 
 import styles from './SaveGraphSequence.module.scss';
 
+const computeIsStartSeq = (story, seqId) => {
+  return !story.startSeq || story.startSeq === seqId;
+};
+
 class SaveGraphSequence extends Component {
   getInitialValues = () => {
     const { sequence, story } = this.props;
@@ -18,7 +22,7 @@ class SaveGraphSequence extends Component {
     // This was done because the isStartSeq property is not located on
     // the sequence, but on the story, thus it couldn't have been
     // loaded correctly while editing in any other way.
-    resource.isStartSeq = story.startSeq && story.startSeq === resource._id;
+    resource.isStartSeq = computeIsStartSeq(story, resource._id);
     return resource;
   };
 
@@ -52,7 +56,7 @@ class SaveGraphSequence extends Component {
       <div className={styles.formContainer}>
         <SaveSequenceForm
           formik={formik}
-          isStartSeq={story.startSeq === formik.initialValues._id}
+          isStartSeq={computeIsStartSeq(story, formik.initialValues._id)}
           chapters={[]}
           getSequence={console.log}
         />

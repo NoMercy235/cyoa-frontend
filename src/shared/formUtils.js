@@ -114,6 +114,7 @@ export const renderCheckboxInput = (
     className,
     disabled,
     required = true,
+    defaultValue,
   }
 ) => {
   return (
@@ -130,8 +131,8 @@ export const renderCheckboxInput = (
             <Checkbox
               {...field}
               disabled={disabled}
-              checked={formik.values[name]}
-              value=""
+              checked={!!formik.values[name]}
+              value={defaultValue}
             />
           );
         }}

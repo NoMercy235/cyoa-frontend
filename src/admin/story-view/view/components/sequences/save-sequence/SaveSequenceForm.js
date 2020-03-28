@@ -81,6 +81,7 @@ class SaveSequenceForm extends Component {
           name: 'isStartSeq',
           className: classes.checkboxFieldContainer,
           disabled: isStartSeq,
+          defaultValue: isStartSeq,
         })}
         {renderCheckboxInput(formik, {
           label: 'Is this an ending sequence?',
