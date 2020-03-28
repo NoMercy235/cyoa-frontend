@@ -79,13 +79,13 @@ class SaveSequenceForm extends Component {
         {renderCheckboxInput(formik, {
           label: 'Start the story with this sequence?',
           name: 'isStartSeq',
-          className: classes.isStartSeqContainer,
+          className: classes.checkboxFieldContainer,
           disabled: isStartSeq,
         })}
         {renderCheckboxInput(formik, {
           label: 'Is this an ending sequence?',
           name: 'isEnding',
-          className: classes.isStartSeqContainer
+          className: classes.checkboxFieldContainer
         })}
         {renderInput(formik, {
           label: 'Content',
