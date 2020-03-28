@@ -5,7 +5,6 @@ import { toJS } from 'mobx';
 
 import { Card, CardContent } from '@material-ui/core';
 import {
-  getNewGraph,
   getOptionsBetweenNodes,
   optionToLink,
   seqToNode,
@@ -53,10 +52,6 @@ class WriteStoryComponent extends Component {
       this.setState({ graphState: { staticGraphWithDragAndDrop: true } });
     }, GRAPH_WAIT_FOR_GRAPH_STATE_CHANGE);
   }
-
-  onSaveStory = () => {
-    console.log(getNewGraph(this.graphRef));
-  };
 
   getSequence = (sequenceId) => {
     const { sequences } = this.props;
@@ -183,7 +178,6 @@ class WriteStoryComponent extends Component {
           <ActionsToolbarComponent
             onAddNewSequenceModalOpen={this.onOpenSaveSeqModal}
             onAddNewOptionModalOpen={this.onOpenSaveOptionsModal}
-            onSaveStory={this.onSaveStory}
           />
           {!!data.nodes.length && (
             <Card className={styles.writeStoryCard}>

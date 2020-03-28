@@ -14,7 +14,6 @@ class ActionsToolbarComponent extends Component {
   };
 
   render () {
-    const { onSaveStory } = this.props;
     return (
       <div className={styles.toolbarContainer}>
         <Button
@@ -33,13 +32,6 @@ class ActionsToolbarComponent extends Component {
           New Option
         </Button>
         <div className={styles.divider}/>
-        <Button
-          onClick={onSaveStory}
-          variant="contained"
-          color="primary"
-        >
-          Save
-        </Button>
       </div>
     );
   }
@@ -48,7 +40,6 @@ class ActionsToolbarComponent extends Component {
 ActionsToolbarComponent.propTypes = {
   onAddNewSequenceModalOpen: PropTypes.func.isRequired,
   onAddNewOptionModalOpen: PropTypes.func.isRequired,
-  onSaveStory: PropTypes.func.isRequired,
 };
 
 export default ActionsToolbarComponent;

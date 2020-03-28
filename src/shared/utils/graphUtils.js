@@ -52,30 +52,6 @@ export const optionToLink = (option, index, options) => {
   }
 };
 
-export const getNewGraph = (graphRef) => {
-  const {
-    current: {
-      state: {
-        nodes,
-        links
-      }
-    }
-  } = graphRef;
-  return {
-    nodes: Object.values(nodes).map(node => {
-      return { id: node.id, x: node.x, y: node.y };
-    }),
-    links: Object.entries(links).map(([source, targets]) => {
-      return Object.keys(targets).map(target => {
-        return {
-          source,
-          target,
-        };
-      });
-    }).flat()
-  };
-};
-
 export const sourceDestInitialValues = {
   sequence: undefined,
   nextSeq: undefined,
