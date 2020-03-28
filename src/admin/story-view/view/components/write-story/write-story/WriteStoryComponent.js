@@ -204,8 +204,6 @@ class WriteStoryComponent extends Component {
                       highlightColor: 'aqua',
                     },
                     link: {
-                      // renderLabel: true,
-                      // labelProperty: 'action',
                       fontSize: 16,
                       highlightFontSize: 20,
                       highlightFontWeight: 'bold',

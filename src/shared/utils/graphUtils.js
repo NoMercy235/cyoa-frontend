@@ -1,5 +1,5 @@
 import { ThemeColors } from '../utilities';
-import { GRAPH_NODE_SIZE } from '../constants/graph';
+import { GRAPH_NODE_SIZE, GraphLinkTypes } from '../constants/graph';
 
 export const NodeSymbol = {
   Circle: 'circle',
@@ -37,11 +37,17 @@ export const seqToNode = story => seq => {
   }
 };
 
-export const optionToLink = option => {
+export const optionToLink = (option, index, options) => {
+  const hasTwoWay = options
+    .find(otherOption => {
+      return otherOption.sequence === option.nextSeq
+        && otherOption.nextSeq === option.sequence;
+    });
+
   return {
     source: option.sequence,
     target: option.nextSeq,
-    action: option.action,
+    ...(!!hasTwoWay && { type: GraphLinkTypes.CurveSmooth }),
   }
 };
 
