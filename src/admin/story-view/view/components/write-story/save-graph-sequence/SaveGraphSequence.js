@@ -46,13 +46,13 @@ class SaveGraphSequence extends Component {
   };
 
   renderForm = formik => {
-    const { onDrawerClose } = this.props;
+    const { story, onDrawerClose } = this.props;
 
     return (
       <div className={styles.formContainer}>
         <SaveSequenceForm
           formik={formik}
-          isStartSeq={false}
+          isStartSeq={story.startSeq === formik.initialValues._id}
           chapters={[]}
           getSequence={console.log}
         />
