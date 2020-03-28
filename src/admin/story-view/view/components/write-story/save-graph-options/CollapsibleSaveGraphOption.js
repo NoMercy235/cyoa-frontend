@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import classNames from 'classnames';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
@@ -90,6 +91,7 @@ class CollapsibleSaveGraphOption extends Component {
       >
         <ExpansionPanelSummary
           onClick={this.toggle}
+          expandIcon={<ExpandMoreIcon />}
         >
           <div
             className={classNames(styles.summaryRow, {
