@@ -71,7 +71,7 @@ class StoryViewStore {
 
   @action removeSequenceWithRelatedOptions = sequenceId => {
     const optionsToRemove = this.allStoryOptions
-      .filter(option => option.nextSeq === sequenceId)
+      .filter(({ sequence, nextSeq }) => nextSeq === sequenceId || sequence === sequenceId)
       .map(option => option._id);
     this.removeAllStoryOptions(optionsToRemove);
     this.removeSequence(sequenceId);
