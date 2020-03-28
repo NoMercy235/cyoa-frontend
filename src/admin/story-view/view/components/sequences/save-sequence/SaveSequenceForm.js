@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { Field, Form } from 'formik';
-import { withStyles, Button, Checkbox, TextField, Typography } from '@material-ui/core';
+import { Form } from 'formik';
+import { withStyles, Button } from '@material-ui/core';
 
-import { hasError } from '../../../../../../shared/components/form/helpers';
 import FileSelect from '../../../../../../shared/components/form/FileSelect/FileSelect';
 import { ChapterModel } from '../../../../../../infrastructure/models/ChapterModel';
-import Select from '../../../../../../shared/components/form/Select/Select';
+import { renderCheckboxInput, renderInput, renderSelectInput } from '../../../../../../shared/formUtils';
 
 import { styles } from './SaveSequence.css';
 
@@ -60,120 +59,40 @@ class SaveSequenceForm extends Component {
     );
   };
 
-  renderChapterField = ({ field }) => {
-    const { formik, classes } = this.props;
-    const chapters = this.getChapters();
-    return (
-      <Select
-        className={classes.chapterField}
-        formikField={field}
-        label="Chapter"
-        fullWidth
-        items={chapters}
-        disabled={!chapters.length}
-        {...hasError(formik, 'chapter')}
-      />
-    );
-  };
-
-  renderNameField = ({ field }) => {
-    const { formik } = this.props;
-    return (
-      <TextField
-        {...field}
-        label="Name"
-        fullWidth
-        value={formik.values.name}
-        {...hasError(formik, 'name')}
-      />
-    );
-  };
-
-  renderIsStartSeqField = ({ field }) => {
-    const { formik, isStartSeq } = this.props;
-    return (
-      <Checkbox
-        {...field}
-        disabled={isStartSeq}
-        checked={formik.values.isStartSeq}
-        value=""
-      />
-    );
-  };
-
-  renderIsEndingField = ({ field }) => {
-    const { formik } = this.props;
-    return (
-      <Checkbox
-        {...field}
-        checked={formik.values.isEnding}
-        value=""
-      />
-    );
-  };
-
-  renderContentField = ({ field }) => {
-    const { formik } = this.props;
-    return (
-      <TextField
-        {...field}
-        type="text"
-        label="Content"
-        fullWidth
-        multiline
-        rows={10}
-        value={formik.values.content}
-        {...hasError(formik, 'content')}
-      />
-    );
-  };
-
   render() {
-    const { classes, chapters } = this.props;
+    const { classes, formik, chapters, isStartSeq } = this.props;
 
     return (
       <Form noValidate>
-        {!!chapters.length && (
-          <Field
-            name="chapter"
-            required
-            render={this.renderChapterField}
-          />
-        )}
-        <Field
-          name="name"
-          required
-          render={this.renderNameField}
-        />
-        <Typography
-          className={classes.isStartSeqContainer}
-          variant="inherit"
-          color="inherit"
-          noWrap
-        >
-          Start the story with this sequence?
-          <Field
-            name="isStartSeq"
-            render={this.renderIsStartSeqField}
-          />
-        </Typography>
-        <Typography
-          className={classes.isStartSeqContainer}
-          variant="inherit"
-          color="inherit"
-          noWrap
-        >
-          Is this an ending sequence?
-          <Field
-            name="isEnding"
-            render={this.renderIsEndingField}
-          />
-        </Typography>
-        <Field
-          name="content"
-          required
-          render={this.renderContentField}
-        />
+        {!!chapters.length && renderSelectInput(formik, {
+          label: 'Chapter',
+          name: 'chapter',
+          className: classes.chapterField,
+          fullWidth: true,
+          items: this.getChapters(),
+        })}
+        {renderInput(formik, {
+          label: 'Name',
+          name: 'name',
+          fullWidth: true,
+        })}
+        {renderCheckboxInput(formik, {
+          label: 'Start the story with this sequence?',
+          name: 'isStartSeq',
+          className: classes.isStartSeqContainer,
+          disabled: isStartSeq,
+        })}
+        {renderCheckboxInput(formik, {
+          label: 'Is this an ending sequence?',
+          name: 'isEnding',
+          className: classes.isStartSeqContainer
+        })}
+        {renderInput(formik, {
+          label: 'Content',
+          name: 'content',
+          fullWidth: true,
+          textarea: { rows: 10 },
+        })}
 
         {this.state.renderViewImage
           ? this.renderViewImage()

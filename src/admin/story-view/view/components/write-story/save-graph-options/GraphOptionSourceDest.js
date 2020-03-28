@@ -1,60 +1,34 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { Field, Form } from 'formik';
+import { Form } from 'formik';
 import { Card } from '@material-ui/core';
 
-import FormikAutocompleteContainer from '../../../../../../shared/components/form/Autocomplete/FormikAutocompleteContainer';
+import { renderAutocompleteInput } from '../../../../../../shared/formUtils';
 
 import styles from './GraphOptionSourceDest.module.scss';
 
 class GraphOptionSourceDest extends Component {
-
-  renderSequenceField = ({ field }) => {
-    const { formik, disabled, onSearchRequest } = this.props;
-    return (
-      <FormikAutocompleteContainer
-        formik={formik}
-        field={field}
-        disabled={disabled}
-        label="From"
-        placeholder="Search for sequences"
-        searchOnFocus={true}
-        onSearchRequest={onSearchRequest({
-          isEnding: { op: 'equals', value: false }
-        })}
-      />
-    );
-  };
-
-  renderNextSeqField = ({ field }) => {
-    const { formik, disabled, onSearchRequest } = this.props;
-    return (
-      <FormikAutocompleteContainer
-        formik={formik}
-        field={field}
-        disabled={disabled}
-        label="Leads to"
-        placeholder="Search for sequences"
-        searchOnFocus={true}
-        onSearchRequest={onSearchRequest()}
-      />
-    );
-  };
-
   render() {
+    const { formik, disabled, onSearchRequest } = this.props;
     return (
       <Card className={styles.container}>
         <Form noValidate>
-          <Field
-            name="sequence"
-            required
-            render={this.renderSequenceField}
-          />
-          <Field
-            name="nextSeq"
-            required
-            render={this.renderNextSeqField}
-          />
+          {renderAutocompleteInput(formik, {
+            label: 'From',
+            name: 'sequence',
+            placeholder: 'Search for sequences',
+            onSearchRequest: onSearchRequest({
+              isEnding: { op: 'equals', value: false },
+            }),
+            disabled
+          })}
+          {renderAutocompleteInput(formik, {
+            label: 'Leads to',
+            name: 'nextSeq',
+            placeholder: 'Search for sequences',
+            onSearchRequest: onSearchRequest(),
+            disabled
+          })}
         </Form>
       </Card>
     );
