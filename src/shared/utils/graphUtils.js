@@ -1,5 +1,5 @@
 import { ThemeColors } from '../utilities';
-import { GRAPH_NODE_SIZE, GraphLinkTypes } from '../constants/graph';
+import { GRAPH_ID, GRAPH_NODE_SIZE, GraphLinkTypes } from '../constants/graph';
 
 export const NodeSymbol = {
   Circle: 'circle',
@@ -10,9 +10,10 @@ export const NodeSymbol = {
 };
 
 export const generateRandomPosition = () => {
+  const graphDiv = document.querySelector(`div[id^="${GRAPH_ID}"]`);
   return {
-    x: Math.floor(Math.random() * 800),
-    y: Math.floor(Math.random() * 800),
+    x: Math.floor(Math.random() * Math.floor(graphDiv.offsetHeight / 2)),
+    y: Math.floor(Math.random() * Math.floor(graphDiv.offsetWidth / 2)),
   };
 };
 
