@@ -9,3 +9,8 @@ export const GraphLinkTypes = {
   CurveSmooth: 'CURVE_SMOOTH',
   CurveFull: 'CURVE_FULL',
 };
+
+export const NEW_SEQUENCE_POSITION = {
+  x: 30,
+  y: 30,
+};

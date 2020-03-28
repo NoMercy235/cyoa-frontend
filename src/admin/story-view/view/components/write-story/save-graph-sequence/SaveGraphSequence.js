@@ -7,7 +7,7 @@ import SaveSequenceForm from '../../sequences/save-sequence/SaveSequenceForm';
 import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
-import { generateRandomPosition } from '../../../../../../shared/utils/graphUtils';
+import { NEW_SEQUENCE_POSITION } from '../../../../../../shared/constants/graph';
 
 import styles from './SaveGraphSequence.module.scss';
 
@@ -28,9 +28,7 @@ class SaveGraphSequence extends Component {
       if (values._id && values.scenePic === sequence.scenePic) {
         delete values.scenePic;
       }
-      const { x, y } = generateRandomPosition();
-      values.x = x;
-      values.y = y;
+      Object.assign(values, NEW_SEQUENCE_POSITION);
 
       const { isStartSeq, ...newSequence } = values;
 
