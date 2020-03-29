@@ -14,3 +14,24 @@ export const NEW_SEQUENCE_POSITION = {
   x: 30,
   y: 30,
 };
+
+const NODE_LINK_CONFIG = {
+  fontSize: 16,
+  highlightFontSize: 20,
+  highlightFontWeight: 'bold',
+};
+
+export const GRAPH_DEFAULT_CONFIG = {
+  directed: true,
+  nodeHighlightBehavior: true,
+  node: {
+    labelProperty: 'name',
+    ...NODE_LINK_CONFIG,
+    highlightColor: 'aqua',
+  },
+  link: {
+    ...NODE_LINK_CONFIG,
+    highlightColor: 'lightblue',
+    strokeWidth: 3,
+  },
+};

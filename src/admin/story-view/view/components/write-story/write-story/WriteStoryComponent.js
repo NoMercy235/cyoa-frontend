@@ -6,14 +6,20 @@ import { toJS } from 'mobx';
 import { Card, CardContent } from '@material-ui/core';
 import {
   getOptionsBetweenNodes,
+  newGraphOption,
   optionToLink,
+  reduceOptionsToUniqueArray,
   seqToNode,
   sourceDestInitialValues
 } from '../../../../../../shared/utils/graphUtils';
 import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
 import { OptionModel } from '../../../../../../infrastructure/models/OptionModel';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
-import { GRAPH_ID, GRAPH_WAIT_FOR_GRAPH_STATE_CHANGE } from '../../../../../../shared/constants/graph';
+import {
+  GRAPH_DEFAULT_CONFIG,
+  GRAPH_ID,
+  GRAPH_WAIT_FOR_GRAPH_STATE_CHANGE
+} from '../../../../../../shared/constants/graph';
 import ActionsToolbarComponent from '../actions-toolbar/ActionsToolbarComponent';
 import SaveGraphSequence from '../save-graph-sequence/SaveGraphSequence';
 import SaveGraphOptions from '../save-graph-options/SaveGraphOptions';
@@ -102,10 +108,7 @@ class WriteStoryComponent extends Component {
   onOpenSaveOptionsModal = async (fromSeqId, toSeqId) => {
     const { story } = this.props;
     let sourceDest = sourceDestInitialValues;
-    let optionsToLoad = [new OptionModel({
-      action: 'New option',
-      story: story._id,
-    })];
+    let optionsToLoad = [newGraphOption(story)];
 
     if (fromSeqId && toSeqId) {
       const { options } = this.props;
@@ -175,17 +178,7 @@ class WriteStoryComponent extends Component {
     const data = {
       nodes: sequences.map(seqToNode(story, selectedNode)),
       links: optionsFromContainer
-        .reduce((curr, option) => {
-          // Display only one link from a sequence to another
-          // even if there are multiple options
-          const linkBetweenNodesExists = curr.find(o => {
-            return o.sequence === option.sequence && o.nextSeq === option.nextSeq;
-          });
-          if (linkBetweenNodesExists) {
-            return curr;
-          }
-          return [...curr, option];
-        }, [])
+        .reduce(reduceOptionsToUniqueArray, [])
         .map(optionToLink),
     };
 
@@ -206,23 +199,8 @@ class WriteStoryComponent extends Component {
                   ref={this.graphRef}
                   data={data}
                   config={{
-                    directed: true,
-                    nodeHighlightBehavior: true,
+                    ...GRAPH_DEFAULT_CONFIG,
                     ...graphState,
-                    node: {
-                      labelProperty: 'name',
-                      fontSize: 16,
-                      highlightFontSize: 20,
-                      highlightFontWeight: 'bold',
-                      highlightColor: 'aqua',
-                    },
-                    link: {
-                      fontSize: 16,
-                      highlightFontSize: 20,
-                      highlightFontWeight: 'bold',
-                      highlightColor: 'lightblue',
-                      strokeWidth: 3,
-                    },
                   }}
                   onClickNode={this.onOpenSaveSeqModal}
                   onDoubleClickNode={this.onDoubleClickNode}

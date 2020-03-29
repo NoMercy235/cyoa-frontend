@@ -1,5 +1,6 @@
 import { ThemeColors } from '../utilities';
 import { GRAPH_ID, GRAPH_NODE_SIZE, GraphLinkTypes } from '../constants/graph';
+import { OptionModel } from '../../infrastructure/models/OptionModel';
 
 export const NodeSymbol = {
   Circle: 'circle',
@@ -39,6 +40,18 @@ export const seqToNode = (story, selectedNode) => seq => {
   }
 };
 
+export const reduceOptionsToUniqueArray = (curr, option) => {
+  // Display only one link from a sequence to another
+  // even if there are multiple options
+  const linkBetweenNodesExists = curr.find(o => {
+    return o.sequence === option.sequence && o.nextSeq === option.nextSeq;
+  });
+  if (linkBetweenNodesExists) {
+    return curr;
+  }
+  return [...curr, option];
+};
+
 export const optionToLink = (option, index, options) => {
   const hasTwoWay = options
     .find(otherOption => {
@@ -62,4 +75,11 @@ export const getOptionsBetweenNodes = (fromSeqId, toSeqId, options) => {
   return options.filter(({ sequence, nextSeq }) => {
     return sequence === fromSeqId && nextSeq === toSeqId;
   });
+};
+
+export const newGraphOption = (story) => {
+  return new OptionModel({
+    action: 'New option',
+    story: story._id,
+  })
 };
