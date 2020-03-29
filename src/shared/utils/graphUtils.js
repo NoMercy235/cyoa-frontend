@@ -17,7 +17,7 @@ export const generateRandomPosition = () => {
   };
 };
 
-export const seqToNode = story => seq => {
+export const seqToNode = (story, selectedNode) => seq => {
   const position = seq.x && seq.y
     ? { x: seq.x, y: seq.y }
     : generateRandomPosition();
@@ -35,6 +35,7 @@ export const seqToNode = story => seq => {
       symbolType: NodeSymbol.Triangle,
       color: ThemeColors.Secondary,
     }),
+    ...(selectedNode === seq._id && { strokeColor: ThemeColors.Secondary }),
   }
 };
 

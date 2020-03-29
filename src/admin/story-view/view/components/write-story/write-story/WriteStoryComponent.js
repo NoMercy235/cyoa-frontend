@@ -37,6 +37,7 @@ class WriteStoryComponent extends Component {
     options: [],
 
     graphState: { staticGraph: true },
+    selectedNode: '',
   };
   graphRef = React.createRef();
 
@@ -63,7 +64,19 @@ class WriteStoryComponent extends Component {
     this.setState({
       viewState: ViewStates.SaveSequence,
       sequence: sequenceId ? this.getSequence(sequenceId) : undefined,
+      selectedNode: '',
     })
+  };
+
+  onDoubleClickNode = (seqId) => {
+    const { selectedNode } = this.state;
+
+    if (!selectedNode) {
+      this.setState({ selectedNode: seqId });
+      return;
+    }
+
+    this.onOpenSaveOptionsModal(selectedNode, seqId);
   };
 
   onOpenDeleteSeqModal = (e, seqId) => {
@@ -115,6 +128,7 @@ class WriteStoryComponent extends Component {
       viewState: ViewStates.SaveOptions,
       sourceDest,
       options: optionsToLoad,
+      selectedNode: '',
     })
   };
 
@@ -136,6 +150,7 @@ class WriteStoryComponent extends Component {
       sourceDest: sourceDestInitialValues,
       options: [],
       viewState: ViewStates.View,
+      selectedNode: '',
     })
   };
 
@@ -154,10 +169,11 @@ class WriteStoryComponent extends Component {
       sourceDest,
       options,
       graphState,
+      selectedNode,
     } = this.state;
 
     const data = {
-      nodes: sequences.map(seqToNode(story)),
+      nodes: sequences.map(seqToNode(story, selectedNode)),
       links: optionsFromContainer
         .reduce((curr, option) => {
           // Display only one link from a sequence to another
@@ -209,6 +225,7 @@ class WriteStoryComponent extends Component {
                     },
                   }}
                   onClickNode={this.onOpenSaveSeqModal}
+                  onDoubleClickNode={this.onDoubleClickNode}
                   onRightClickNode={this.onOpenDeleteSeqModal}
                   onClickLink={this.onOpenSaveOptionsModal}
                   onRightClickLink={this.onOpenDeleteOptionsModal}
