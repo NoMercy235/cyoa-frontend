@@ -1,5 +1,5 @@
 import { ThemeColors } from '../utilities';
-import { GRAPH_ID, GRAPH_NODE_SIZE, GraphLinkTypes, GraphNodeLabelPositions } from '../constants/graph';
+import { GRAPH_NODE_SIZE, GraphLinkTypes, GraphNodeLabelPositions } from '../constants/graph';
 import { OptionModel } from '../../infrastructure/models/OptionModel';
 
 export const NodeSymbol = {
@@ -10,11 +10,14 @@ export const NodeSymbol = {
   Wye: 'Wye',
 };
 
+const randomNumberInRange = (min, max) => {
+  return Math.floor(Math.random()*(max - min) + min);
+};
+
 export const generateRandomPosition = () => {
-  const graphDiv = document.querySelector(`div[id^="${GRAPH_ID}"]`);
   return {
-    x: Math.floor(Math.random() * Math.floor(graphDiv.offsetHeight / 2)),
-    y: Math.floor(Math.random() * Math.floor(graphDiv.offsetWidth / 2)),
+    x: randomNumberInRange(100, window.innerWidth/(4/3)),
+    y: randomNumberInRange(window.innerHeight/3, window.innerHeight/2),
   };
 };
 
