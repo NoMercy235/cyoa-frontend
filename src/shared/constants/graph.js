@@ -20,7 +20,7 @@ export const GraphNodeLabelPositions = {
 
 export const NEW_SEQUENCE_POSITION = {
   x: 30,
-  y: 30,
+  y: 50,
 };
 
 const NODE_LINK_CONFIG = {
