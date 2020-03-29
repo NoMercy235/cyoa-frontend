@@ -75,6 +75,11 @@ class WriteStoryComponent extends Component {
   };
 
   onDoubleClickNode = (seqId) => {
+    const { sequences } = this.props;
+
+    const sequence = sequences.find(({ _id }) => _id === seqId);
+    if (sequence.isEnding) return;
+
     const { selectedNode } = this.state;
 
     if (!selectedNode) {
