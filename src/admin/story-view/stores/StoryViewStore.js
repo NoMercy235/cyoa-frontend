@@ -17,7 +17,7 @@ class StoryViewStore {
   };
 
   @action addAttribute = attribute => {
-    this.attributes.push(attribute);
+    this.attributes = [...this.attributes, attribute];
   };
 
   @action updateAttribute = (id, newAttribute) => {
@@ -37,7 +37,7 @@ class StoryViewStore {
   };
 
   @action addSequence = sequence => {
-    this.sequences.push(sequence);
+    this.sequences = [...this.sequences, sequence];
   };
 
   @action updateSequence = (id, newSequence) => {
@@ -84,7 +84,7 @@ class StoryViewStore {
 
   @action addOptionToSequence = (sequenceId, option) => {
     const s = this.sequences.find(s => s._id === sequenceId);
-    s.options.push(option);
+    s.options = [...s.options, option];
   };
 
   @action updateOption = (sequenceId, optionId, option) => {
@@ -136,7 +136,7 @@ class StoryViewStore {
   };
 
   @action addChapter = chapter => {
-    this.chapters.push(chapter);
+    this.chapters = [...this.chapters, chapter];
   };
 
   @action updateChapter = (id, newChapter) => {
