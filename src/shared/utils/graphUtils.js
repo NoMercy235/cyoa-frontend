@@ -1,5 +1,5 @@
 import { ThemeColors } from '../utilities';
-import { GRAPH_ID, GRAPH_NODE_SIZE, GraphLinkTypes } from '../constants/graph';
+import { GRAPH_ID, GRAPH_NODE_SIZE, GraphLinkTypes, GraphNodeLabelPositions } from '../constants/graph';
 import { OptionModel } from '../../infrastructure/models/OptionModel';
 
 export const NodeSymbol = {
@@ -37,6 +37,7 @@ export const seqToNode = (story, selectedNode) => seq => {
       color: ThemeColors.Secondary,
     }),
     ...(selectedNode === seq._id && { strokeColor: ThemeColors.Secondary }),
+    labelPosition: GraphNodeLabelPositions.Top,
   }
 };
 

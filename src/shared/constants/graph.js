@@ -10,6 +10,14 @@ export const GraphLinkTypes = {
   CurveFull: 'CURVE_FULL',
 };
 
+export const GraphNodeLabelPositions = {
+  Top: 'top',
+  Right: 'right',
+  Bottom: 'bottom',
+  Left: 'left',
+  Center: 'center',
+};
+
 export const NEW_SEQUENCE_POSITION = {
   x: 30,
   y: 30,
