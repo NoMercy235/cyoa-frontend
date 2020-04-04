@@ -68,6 +68,11 @@ class WriteStoryComponent extends Component {
     setTimeout(() => {
       this.setState({ graphState: { staticGraphWithDragAndDrop: true } });
     }, GRAPH_WAIT_FOR_GRAPH_STATE_CHANGE);
+    window.addEventListener('mousedown', this.cancelPreviewTimeout, true);
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('mousedown', this.cancelPreviewTimeout, true);
   }
 
   getSequence = (sequenceId) => {
@@ -91,6 +96,7 @@ class WriteStoryComponent extends Component {
   };
 
   cancelPreviewTimeout = () => {
+    console.log('cancel timeout');
     this.previewTimeout && clearTimeout(this.previewTimeout);
   };
 
