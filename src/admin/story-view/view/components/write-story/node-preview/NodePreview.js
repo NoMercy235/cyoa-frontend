@@ -9,6 +9,7 @@ import { OptionModel } from '../../../../../../infrastructure/models/OptionModel
 import { OPTIONS_ADMIN_TABLE } from '../../../../../../shared/constants/tables';
 import { renderOptionTableTitle } from '../../sequences/option-table/OptionTableTitle';
 import TableCmp from '../../../../../../shared/components/table/TableCmp';
+import { parseContent } from '../../../../../../shared/utilities';
 
 import { styles } from './NodePreview.css';
 
@@ -92,9 +93,7 @@ class NodePreview extends Component {
         <div className={classes.previewContainer}>
           {this.renderPreviewHeader()}
           <Divider className={classes.divider}/>
-          <Typography>
-            {sequence.content}
-          </Typography>
+          {parseContent(sequence.content)}
           <Divider className={classes.divider}/>
           {this.renderOptionsTable()}
         </div>

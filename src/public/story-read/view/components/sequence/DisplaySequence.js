@@ -52,10 +52,6 @@ class DisplaySequence extends Component {
     );
   };
 
-  renderContent = () => {
-    return parseContent(this.props.seq.content);
-  };
-
   componentDidUpdate () {
     this.scrollToCardTop();
   }
@@ -68,7 +64,7 @@ class DisplaySequence extends Component {
           <CardHeader title={this.renderTitle()}/>
           <CardContent>
             {this.renderPicture()}
-            {this.renderContent()}
+            {parseContent(seq.content)}
           </CardContent>
           <CardActions disableSpacing>
             <List className={styles.optionsContainer}>
