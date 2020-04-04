@@ -1,6 +1,6 @@
 import { BaseModel } from './BaseModel';
 import { observable } from 'mobx';
-import { ERRORS } from '../../shared/constants/errors';
+import { ERRORS, Limits } from '../../shared/constants/errors';
 
 export class SequenceModel extends BaseModel {
   _id = '';
@@ -24,6 +24,8 @@ export class SequenceModel extends BaseModel {
     let errors = {};
     if (!this.name) {
       errors.name = ERRORS.fieldRequired;
+    } else if (this.name.length > Limits.SequenceNameLength) {
+      errors.name = ERRORS.fieldLengthExceeded(Limits.SequenceNameLength)
     }
     if (!this.content) {
       errors.content = ERRORS.fieldRequired;
