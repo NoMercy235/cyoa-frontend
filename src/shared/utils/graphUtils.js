@@ -1,5 +1,5 @@
 import { ThemeColors } from '../utilities';
-import { GRAPH_NODE_SIZE, GraphLinkTypes, GraphNodeLabelPositions } from '../constants/graph';
+import { GRAPH_NAME_MAX_LENGTH, GRAPH_NODE_SIZE, GraphLinkTypes, GraphNodeLabelPositions } from '../constants/graph';
 import { OptionModel } from '../../infrastructure/models/OptionModel';
 
 export const NodeSymbol = {
@@ -21,6 +21,12 @@ export const generateRandomPosition = () => {
   };
 };
 
+const getNodeLabel = label => {
+  return label.length < GRAPH_NAME_MAX_LENGTH
+    ? label
+    : `${label.substring(0, GRAPH_NAME_MAX_LENGTH)}...`;
+};
+
 export const seqToNode = (story, selectedNode) => seq => {
   const position = seq.x && seq.y
     ? { x: seq.x, y: seq.y }
@@ -30,7 +36,7 @@ export const seqToNode = (story, selectedNode) => seq => {
     id: seq._id,
     ...position,
     size: GRAPH_NODE_SIZE,
-    name: seq.name,
+    name: getNodeLabel(seq.name),
     ...(story.startSeq === seq._id && {
       symbolType: NodeSymbol.Wye,
       color: ThemeColors.Primary,

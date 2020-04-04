@@ -47,3 +47,5 @@ export const GRAPH_DEFAULT_CONFIG = {
 export const GRAPH_ENABLE_PREVIEW_LOCAL_STORAGE = 'isPreviewEnabled';
 
 export const GRAPH_PREVIEW_TIMEOUT = 1000;
+
+export const GRAPH_NAME_MAX_LENGTH = 30;
