@@ -6,6 +6,7 @@ import { toJS } from 'mobx';
 import { Card, CardContent } from '@material-ui/core';
 import {
   getOptionsBetweenNodes,
+  getOptionsForSequence,
   newGraphOption,
   optionToLink,
   reduceOptionsToUniqueArray,
@@ -273,7 +274,11 @@ class WriteStoryComponent extends Component {
         <NodePreview
           open={viewState === ViewStates.PreviewSequence}
           story={story}
-          sequence={sequence}
+          sequences={sequences}
+          {...(sequence && {
+            sequence,
+            options: getOptionsForSequence(sequence._id, optionsFromContainer),
+          })}
           onDrawerClose={this.onHandleDrawerClose}
         />
       </>

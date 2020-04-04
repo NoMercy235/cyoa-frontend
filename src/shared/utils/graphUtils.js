@@ -81,6 +81,12 @@ export const getOptionsBetweenNodes = (fromSeqId, toSeqId, options) => {
   });
 };
 
+export const getOptionsForSequence = (seqId, options) => {
+  return options.filter(({ sequence }) => {
+    return sequence === seqId;
+  });
+};
+
 export const newGraphOption = (story) => {
   return new OptionModel({
     action: 'New option',
