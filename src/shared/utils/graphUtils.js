@@ -24,7 +24,7 @@ export const generateRandomPosition = () => {
 const getNodeLabel = label => {
   return label.length < GRAPH_NAME_MAX_LENGTH
     ? label
-    : `${label.substring(0, GRAPH_NAME_MAX_LENGTH)}...`;
+    : `${label.substring(0, GRAPH_NAME_MAX_LENGTH).trim()}...`;
 };
 
 export const seqToNode = (story, selectedNode) => seq => {
