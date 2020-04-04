@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { Divider, Drawer, Typography, withStyles } from '@material-ui/core';
+import { IconButton, Divider, Drawer, Typography, withStyles, Tooltip } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 
 import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
@@ -31,8 +32,6 @@ class NodePreview extends Component {
   renderOptionsTable = () => {
     const { options = [] } = this.props;
 
-    console.log(options);
-
     const data = options.map(option => {
       return [
         option.action,
@@ -59,6 +58,25 @@ class NodePreview extends Component {
     );
   };
 
+  renderPreviewHeader = () => {
+    const { classes, sequence = {}, onDrawerClose } = this.props;
+    return (
+      <div className={classes.header}>
+        <Typography
+          className={classes.sequenceName}
+          variant="h6"
+        >
+          {sequence.name}
+        </Typography>
+        <Tooltip title="Close">
+          <IconButton onClick={onDrawerClose}>
+            <CloseIcon/>
+          </IconButton>
+        </Tooltip>
+      </div>
+    );
+  };
+
   render () {
     const { classes, open, sequence = {}, onDrawerClose } = this.props;
 
@@ -72,9 +90,7 @@ class NodePreview extends Component {
         classes={{ paperAnchorBottom: classes.drawer }}
       >
         <div className={classes.previewContainer}>
-          <Typography variant="h6">
-            {sequence.name}
-          </Typography>
+          {this.renderPreviewHeader()}
           <Divider className={classes.divider}/>
           <Typography>
             {sequence.content}
