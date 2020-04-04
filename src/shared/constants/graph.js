@@ -43,3 +43,7 @@ export const GRAPH_DEFAULT_CONFIG = {
     strokeWidth: 3,
   },
 };
+
+export const GRAPH_ENABLE_PREVIEW_LOCAL_STORAGE = 'isPreviewEnabled';
+
+export const GRAPH_PREVIEW_TIMEOUT = 1000;

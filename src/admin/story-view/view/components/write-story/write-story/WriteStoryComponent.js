@@ -17,13 +17,17 @@ import { OptionModel } from '../../../../../../infrastructure/models/OptionModel
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import {
   GRAPH_DEFAULT_CONFIG,
+  GRAPH_ENABLE_PREVIEW_LOCAL_STORAGE,
   GRAPH_ID,
+  GRAPH_PREVIEW_TIMEOUT,
   GRAPH_WAIT_FOR_GRAPH_STATE_CHANGE
 } from '../../../../../../shared/constants/graph';
 import ActionsToolbarComponent from '../actions-toolbar/ActionsToolbarComponent';
 import SaveGraphSequence from '../save-graph-sequence/SaveGraphSequence';
 import SaveGraphOptions from '../save-graph-options/SaveGraphOptions';
 import { AttributeModel } from '../../../../../../infrastructure/models/AttributeModel';
+import NodePreview from '../node-preview/NodePreview';
+import { LocalStorageManager } from '../../../../../../shared/utils/localStorageUtils';
 
 import styles from './WriteStoryComponent.module.scss';
 
@@ -31,11 +35,15 @@ const ViewStates = {
   View: 'VIEW',
   SaveSequence: 'SAVE_SEQUENCE',
   SaveOptions: 'SAVE_OPTIONS',
+  PreviewSequence: 'PREVIEW_SEQUENCE',
 };
+
+const isPreviewEnabled = LocalStorageManager.getBoolean(GRAPH_ENABLE_PREVIEW_LOCAL_STORAGE);
 
 class WriteStoryComponent extends Component {
   state = {
     viewState: ViewStates.View,
+    isPreviewEnabled: isPreviewEnabled,
 
     // These are used for the save drawers
     sequence: undefined,
@@ -46,6 +54,7 @@ class WriteStoryComponent extends Component {
     selectedNode: '',
   };
   graphRef = React.createRef();
+  previewTimeout;
 
   componentDidMount () {
     /**
@@ -72,6 +81,25 @@ class WriteStoryComponent extends Component {
       sequence: sequenceId ? this.getSequence(sequenceId) : undefined,
       selectedNode: '',
     })
+  };
+
+  onPreviewEnabledChange = (e, value) => {
+    this.setState({ isPreviewEnabled: value });
+    LocalStorageManager.setItem(GRAPH_ENABLE_PREVIEW_LOCAL_STORAGE, value);
+  };
+
+  cancelPreviewTimeout = () => {
+    this.previewTimeout && clearTimeout(this.previewTimeout);
+  };
+
+  onOpenSeqPreviewModal = async (sequenceId) => {
+    this.previewTimeout = setTimeout(() => {
+      this.setState({
+        viewState: ViewStates.PreviewSequence,
+        sequence: this.getSequence(sequenceId),
+        selectedNode: '',
+      });
+    }, GRAPH_PREVIEW_TIMEOUT);
   };
 
   onDoubleClickNode = (seqId) => {
@@ -153,6 +181,7 @@ class WriteStoryComponent extends Component {
   };
 
   onHandleDrawerClose = () => {
+    this.cancelPreviewTimeout();
     this.setState({
       sequence: undefined,
       sourceDest: sourceDestInitialValues,
@@ -178,6 +207,7 @@ class WriteStoryComponent extends Component {
       options,
       graphState,
       selectedNode,
+      isPreviewEnabled,
     } = this.state;
 
     const data = {
@@ -193,6 +223,8 @@ class WriteStoryComponent extends Component {
       <>
         <div className={styles.writeStoryContainer}>
           <ActionsToolbarComponent
+            isPreviewEnabled={isPreviewEnabled}
+            onPreviewEnabledChange={this.onPreviewEnabledChange}
             onAddNewSequenceModalOpen={this.onOpenSaveSeqModal}
             onAddNewOptionModalOpen={this.onOpenSaveOptionsModal}
           />
@@ -213,6 +245,10 @@ class WriteStoryComponent extends Component {
                   onClickLink={this.onOpenSaveOptionsModal}
                   onRightClickLink={this.onOpenDeleteOptionsModal}
                   onNodePositionChange={onUpdateSeqPosition}
+                  {...(isPreviewEnabled) && {
+                    onMouseOverNode: this.onOpenSeqPreviewModal,
+                    onMouseOutNode: this.cancelPreviewTimeout,
+                  }}
                 />
               </CardContent>
             </Card>
@@ -232,6 +268,12 @@ class WriteStoryComponent extends Component {
           options={options}
           attributes={attributes}
           onSubmitAll={this.onSaveOptions}
+          onDrawerClose={this.onHandleDrawerClose}
+        />
+        <NodePreview
+          open={viewState === ViewStates.PreviewSequence}
+          story={story}
+          sequence={sequence}
           onDrawerClose={this.onHandleDrawerClose}
         />
       </>

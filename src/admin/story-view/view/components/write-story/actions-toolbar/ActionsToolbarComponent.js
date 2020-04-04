@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { Button } from '@material-ui/core';
+import { Button, Switch } from '@material-ui/core';
 
 import styles from './ActionsToolbarComponent.module.scss';
 
@@ -14,6 +14,8 @@ class ActionsToolbarComponent extends Component {
   };
 
   render () {
+    const { isPreviewEnabled, onPreviewEnabledChange } = this.props;
+
     return (
       <div className={styles.toolbarContainer}>
         <Button
@@ -32,12 +34,23 @@ class ActionsToolbarComponent extends Component {
           New Option
         </Button>
         <div className={styles.divider}/>
+        <div>
+          Allow preview?
+          <Switch
+            value={isPreviewEnabled}
+            checked={isPreviewEnabled}
+            onChange={onPreviewEnabledChange}
+          />
+        </div>
       </div>
     );
   }
 }
 
 ActionsToolbarComponent.propTypes = {
+  isPreviewEnabled: PropTypes.bool.isRequired,
+
+  onPreviewEnabledChange: PropTypes.func.isRequired,
   onAddNewSequenceModalOpen: PropTypes.func.isRequired,
   onAddNewOptionModalOpen: PropTypes.func.isRequired,
 };
