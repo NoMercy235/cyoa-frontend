@@ -77,6 +77,7 @@ class WriteStoryComponent extends Component {
   };
 
   onOpenSaveSeqModal = async (sequenceId) => {
+    this.cancelPreviewTimeout();
     this.setState({
       viewState: ViewStates.SaveSequence,
       sequence: sequenceId ? this.getSequence(sequenceId) : undefined,
@@ -105,6 +106,7 @@ class WriteStoryComponent extends Component {
 
   onDoubleClickNode = (seqId) => {
     const { sequences } = this.props;
+    this.cancelPreviewTimeout();
 
     const sequence = sequences.find(({ _id }) => _id === seqId);
     if (sequence.isEnding) return;
@@ -121,6 +123,7 @@ class WriteStoryComponent extends Component {
 
   onOpenDeleteSeqModal = (e, seqId) => {
     const { sequences, onDeleteSequenceModalOpen } = this.props;
+    this.cancelPreviewTimeout();
     e.preventDefault();
     if (sequences.length === 1) {
       return;
