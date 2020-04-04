@@ -15,6 +15,7 @@ import {
   ADMIN_STORY_VIEW_ROUTE_SEQUENCES,
   NOT_FOUND_ROUTE,
   makePath,
+  ADMIN_WRITE_STORY_ROUTE,
 } from '../../../../shared/constants/routes';
 import WriteStoryContainer from '../containers/WriteStoryContainer';
 
@@ -22,16 +23,20 @@ const TabsEnum = {
   General: 'General',
   Player: 'Player',
   Sequences: 'Sequences',
+  WriteStory: 'Write Story',
 };
 
-const isTryingV2 = localStorage.getItem('writeStoryV2') === 'true';
-
 const getCurrentTab = (story) => {
-  if (window.location.pathname === makePath(ADMIN_STORY_VIEW_ROUTE_ATTRIBUTES, { ':id': story._id })) {
+  const { location: { pathname } } = window;
+
+  if (pathname === makePath(ADMIN_STORY_VIEW_ROUTE_ATTRIBUTES, { ':id': story._id })) {
     return TabsEnum.Player
   }
-  if (window.location.pathname === makePath(ADMIN_STORY_VIEW_ROUTE_SEQUENCES, { ':id': story._id })) {
+  if (pathname === makePath(ADMIN_STORY_VIEW_ROUTE_SEQUENCES, { ':id': story._id })) {
     return TabsEnum.Sequences
+  }
+  if (pathname === makePath(ADMIN_WRITE_STORY_ROUTE, { ':id': story._id })) {
+    return TabsEnum.WriteStory
   }
   return TabsEnum.General
 };
@@ -55,6 +60,9 @@ class StoryView extends Component {
       case TabsEnum.Sequences:
         route = ADMIN_STORY_VIEW_ROUTE_SEQUENCES;
         break;
+      case TabsEnum.WriteStory:
+        route = ADMIN_WRITE_STORY_ROUTE;
+        break;
       default:
     }
 
@@ -75,6 +83,7 @@ class StoryView extends Component {
               <Tab value={TabsEnum.Player} label={TabsEnum.Player} />
             )}
             <Tab value={TabsEnum.Sequences} label={TabsEnum.Sequences} />
+            <Tab value={TabsEnum.WriteStory} label={TabsEnum.WriteStory} />
           </Tabs>
         </AppBar>
         <Switch>
@@ -98,10 +107,12 @@ class StoryView extends Component {
           <Route
             exact
             path={ADMIN_STORY_VIEW_ROUTE_SEQUENCES}
-            render={() => isTryingV2
-              ? <WriteStoryContainer story={story} />
-              : <SequenceTabContainer story={story} />
-            }
+            render={() => <SequenceTabContainer story={story} />}
+          />
+          <Route
+            exact
+            path={ADMIN_WRITE_STORY_ROUTE}
+            render={() => <WriteStoryContainer story={story} />}
           />
           <Redirect exact from={ADMIN_STORY_VIEW_ROUTE} to={ADMIN_STORY_VIEW_ROUTE_GENERAL}/>
           <Redirect to={NOT_FOUND_ROUTE}/>

@@ -7,6 +7,7 @@ export const ADMIN_STORY_VIEW_ROUTE = '/admin/stories/:id';
 export const ADMIN_STORY_VIEW_ROUTE_GENERAL = `${ADMIN_STORY_VIEW_ROUTE}/general`;
 export const ADMIN_STORY_VIEW_ROUTE_ATTRIBUTES = `${ADMIN_STORY_VIEW_ROUTE}/attributes`;
 export const ADMIN_STORY_VIEW_ROUTE_SEQUENCES = `${ADMIN_STORY_VIEW_ROUTE}/sequences`;
+export const ADMIN_WRITE_STORY_ROUTE = `${ADMIN_STORY_VIEW_ROUTE}/writeStory`;
 export const ADMIN_PROFILE_ROUTE = '/admin/profile';
 
 export const NOT_FOUND_ROUTE = '/404';
