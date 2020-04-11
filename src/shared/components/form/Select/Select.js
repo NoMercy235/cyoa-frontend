@@ -62,7 +62,6 @@ class Select extends Component {
             <Input
               classes={{ disabled: classes.fieldDisabled }}
               disabled={disabled}
-              id="select-multiple-checkbox"
               {...formikField}
               error={!!helperText}
             />
