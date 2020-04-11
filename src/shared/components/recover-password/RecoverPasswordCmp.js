@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import { Field, Form } from 'formik';
 import { Button, TextField } from '@material-ui/core';
 
-import { hasError } from '../form/helpers';
+import { hasError } from '../../formUtils';
 
 class RecoverPasswordCmp extends Component {
   renderPasswordField = ({ field }) => {

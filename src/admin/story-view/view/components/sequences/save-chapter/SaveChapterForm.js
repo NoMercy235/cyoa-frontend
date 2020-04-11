@@ -3,11 +3,11 @@ import * as PropTypes from 'prop-types';
 import { Field, Form } from 'formik';
 import { withStyles, TextField } from '@material-ui/core';
 
-import { hasError } from '../../../../../../shared/components/form/helpers';
 import Select from '../../../../../../shared/components/form/Select/Select';
 import { ChapterModel } from '../../../../../../infrastructure/models/ChapterModel';
 
 import { styles } from './SaveChapter.css';
+import { hasError } from '../../../../../../shared/formUtils';
 
 class SaveChapterForm extends Component {
   getChapters = () => {

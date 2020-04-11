@@ -3,9 +3,8 @@ import * as PropTypes from 'prop-types';
 import { Field, Form } from 'formik';
 import { withStyles, TextField } from '@material-ui/core';
 
-import { hasError } from '../form/helpers';
-
 import { styles } from './Authentication.css';
+import { hasError } from '../../formUtils';
 
 class LoginForm extends Component {
   renderEmailField = ({ field }) => {

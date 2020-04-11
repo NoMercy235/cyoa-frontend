@@ -1,8 +1,7 @@
 import React from 'react';
 import { Field } from 'formik';
-import { TextField, Typography, Checkbox } from '@material-ui/core';
+import { Checkbox, TextField, Typography } from '@material-ui/core';
 
-import { hasError } from './components/form/helpers';
 import FormikAutocompleteContainer from './components/form/Autocomplete/FormikAutocompleteContainer';
 import Select from './components/form/Select/Select';
 import { ERRORS } from './constants/errors';
@@ -27,6 +26,19 @@ const getNestedPropertyFromStringPath = (obj, pathParts) => {
   if (pathParts.length === 1) return obj[pathParts[0]];
   return getNestedPropertyFromStringPath(obj[pathParts[0]], pathParts.splice(1))
 };
+
+export function hasError (formik, fieldName) {
+  const path = fieldName.split('.');
+  const touched = getInnerObject(formik.touched, path);
+  if (!touched) {
+    return {};
+  }
+  const errorText = getInnerObject(formik.errors, path);
+  return {
+    helperText: errorText,
+    error: !!errorText,
+  };
+}
 
 export const renderInput = (
   formik,
@@ -168,3 +180,12 @@ export const submitAndValidateForm = async formik => {
   const errors = await formik.validateForm();
   return Object.keys(errors).length > 0 ? errors : undefined;
 };
+
+export function getInnerObject (obj, path, stopBefore = 0) {
+  if (path.length > stopBefore) {
+    if (!obj[path[0]]) return '';
+    return getInnerObject(obj[path[0]], path.slice(1), stopBefore);
+  } else {
+    return obj;
+  }
+}

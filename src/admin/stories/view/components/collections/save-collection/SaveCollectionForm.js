@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import { Field, Form } from 'formik';
 import { TextField } from '@material-ui/core';
 
-import { hasError } from '../../../../../../shared/components/form/helpers';
+import { hasError } from '../../../../../../shared/formUtils';
 
 class SaveCollectionForm extends Component {
   renderNameField = ({ field }) => {

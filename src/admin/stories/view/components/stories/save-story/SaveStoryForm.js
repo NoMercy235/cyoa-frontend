@@ -4,12 +4,12 @@ import { Field, Form } from 'formik';
 import { withStyles, Switch, Typography, TextField } from '@material-ui/core';
 
 import Select from '../../../../../../shared/components/form/Select/Select';
-import { hasError } from '../../../../../../shared/components/form/helpers';
 import { TagModel } from '../../../../../../infrastructure/models/TagModel';
 import { CollectionModel } from '../../../../../../infrastructure/models/CollectionModel';
 import FileSelect from '../../../../../../shared/components/form/FileSelect/FileSelect';
 
 import { styles } from './SaveStory.css';
+import { hasError } from '../../../../../../shared/formUtils';
 
 class SaveStoryForm extends Component {
   tags = TagModel.get();

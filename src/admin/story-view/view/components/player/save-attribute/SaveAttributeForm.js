@@ -3,11 +3,11 @@ import * as PropTypes from 'prop-types';
 import { Field, Form } from 'formik';
 import { withStyles, TextField, Checkbox, Typography } from '@material-ui/core';
 
-import { hasError } from '../../../../../../shared/components/form/helpers';
 import FormikAutocompleteContainer
   from '../../../../../../shared/components/form/Autocomplete/FormikAutocompleteContainer';
 
 import { styles } from './SaveAttribute.css';
+import { hasError } from '../../../../../../shared/formUtils';
 
 class SaveAttributeForm extends Component {
   renderNameField = ({ field }) => {

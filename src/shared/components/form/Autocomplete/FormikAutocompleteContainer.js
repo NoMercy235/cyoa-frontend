@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 
 import Autocomplete from './Autocomplete';
 import { KeyCode } from '../../../utilities';
-import { hasError } from '../helpers';
+import { hasError } from '../../../formUtils';
 
 class FormikAutocompleteContainer extends Component {
   static defaultProps = {
