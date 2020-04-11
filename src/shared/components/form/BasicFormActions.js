@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Button } from '@material-ui/core';
 
+import { submitAndValidateForm } from '../../utils/formUtils';
+
 class BasicFormActions extends Component {
   static defaultProps = {
     disabled: false,
   };
 
-  onSave = () => {
+  onSave = async () => {
     const { formik, afterFormSubmit } = this.props;
-    formik.submitForm();
-    if (formik.isValid) {
-      afterFormSubmit && afterFormSubmit(formik);
+    const errors = await submitAndValidateForm(formik);
+    if (!errors) {
+      afterFormSubmit && await afterFormSubmit(formik);
     }
   };
 

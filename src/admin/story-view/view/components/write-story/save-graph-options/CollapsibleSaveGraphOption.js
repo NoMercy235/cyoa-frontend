@@ -36,15 +36,11 @@ class CollapsibleSaveGraphOption extends Component {
     this.setState({ expanded: true });
   };
 
-  collapse = () => {
+  collapse = async () => {
     const { formik } = this.props;
-    formik.submitForm();
+    await formik.submitForm();
     this.setState({ expanded: false });
-  };
-
-  afterFormSubmit = async ({ setSubmitting }) => {
-    this.collapse();
-    setSubmitting(false);
+    formik.setSubmitting(false);
   };
 
   onRemoveOptionInArray = (e) => {
@@ -52,9 +48,9 @@ class CollapsibleSaveGraphOption extends Component {
     e.stopPropagation();
   };
 
-  onCancel = () => {
+  onCancel = async () => {
     const { formik } = this.props;
-    formik.resetForm();
+    await formik.resetForm();
     this.collapse();
   };
 
@@ -73,7 +69,7 @@ class CollapsibleSaveGraphOption extends Component {
           <BasicFormActions
             formik={formik}
             saveLabel="Ok"
-            afterFormSubmit={this.afterFormSubmit}
+            afterFormSubmit={this.collapse}
             onClose={this.onCancel}
           />
         </div>
