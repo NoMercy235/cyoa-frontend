@@ -96,7 +96,6 @@ class WriteStoryComponent extends Component {
   };
 
   cancelPreviewTimeout = () => {
-    console.log('cancel timeout');
     this.previewTimeout && clearTimeout(this.previewTimeout);
   };
 
