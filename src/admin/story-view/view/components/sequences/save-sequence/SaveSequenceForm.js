@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Form } from 'formik';
-import { withStyles, Button } from '@material-ui/core';
+import { withStyles } from '@material-ui/core';
 
-import FileSelect from '../../../../../../shared/components/form/FileSelect/FileSelect';
 import { ChapterModel } from '../../../../../../infrastructure/models/ChapterModel';
 import { renderCheckboxInput, renderInput, renderSelectInput } from '../../../../../../shared/formUtils';
+import FilePicker from '../../../../../../shared/components/form/FileSelect/FilePicker';
+import {
+  MAX_SEQUENCE_SCENE_PIC_SIZE_MB,
+  SEQUENCE_PICTURE_CROPPER_SIZE,
+  SEQUENCE_PICTURE_PREVIEW_SIZE
+} from '../../../../../../shared/constants/sequences';
 
 import { styles } from './SaveSequence.css';
 
-class SaveSequenceForm extends Component {
-  state = {
-    renderViewImage: this.props.formik.values.hasScenePic,
-    scenePic: '',
-  };
+const compressOptions = {
+  maxSizeMB: MAX_SEQUENCE_SCENE_PIC_SIZE_MB,
+  maxWidthOrHeight: SEQUENCE_PICTURE_CROPPER_SIZE.height
+};
 
+class SaveSequenceForm extends Component {
   getChapters = () => {
     return this.props.chapters.map(c => {
       return { _id: c._id, name: c.name };
@@ -25,36 +30,20 @@ class SaveSequenceForm extends Component {
     this.props.formik.setFieldValue('scenePic', base64File);
   };
 
-  getSequence = async () => {
-    const seq = await this.props.getSequence();
-    this.setState({
-      renderViewImage: false,
-      scenePic: seq.scenePic,
-    });
-  };
-
-  renderViewImage = () => {
-    const { classes } = this.props;
-    return (
-      <Button
-        className={classes.uploadBtn}
-        variant="contained"
-        component="span"
-        onClick={this.getSequence}
-      >
-        View image
-      </Button>
-    );
-  };
-
   renderSelectImage = () => {
-    const { classes } = this.props;
+    const { formik: { values: { scenePic } } } = this.props;
     return (
-      <FileSelect
-        className={classes.uploadBtn}
-        label="Upload scene picture"
-        onFileUploaded={this.onFileUploaded}
-        initialPreview={this.state.scenePic}
+      <FilePicker
+        inputId="sequence-picture"
+        initialImage={scenePic}
+        cropperProps={{
+          size: SEQUENCE_PICTURE_PREVIEW_SIZE,
+          cropperProps: {
+            size: SEQUENCE_PICTURE_CROPPER_SIZE,
+          }
+        }}
+        compressOptions={compressOptions}
+        onFileSave={this.onFileUploaded}
       />
     );
   };
@@ -64,41 +53,43 @@ class SaveSequenceForm extends Component {
 
     return (
       <Form noValidate>
-        {!!chapters.length && renderSelectInput(formik, {
-          label: 'Chapter',
-          name: 'chapter',
-          className: classes.chapterField,
-          fullWidth: true,
-          items: this.getChapters(),
-        })}
-        {renderInput(formik, {
-          label: 'Name',
-          name: 'name',
-          fullWidth: true,
-        })}
-        {renderCheckboxInput(formik, {
-          label: 'Start the story with this sequence?',
-          name: 'isStartSeq',
-          className: classes.checkboxFieldContainer,
-          disabled: isStartSeq,
-          defaultValue: isStartSeq,
-        })}
-        {renderCheckboxInput(formik, {
-          label: 'Is this an ending sequence?',
-          name: 'isEnding',
-          className: classes.checkboxFieldContainer
-        })}
-        {renderInput(formik, {
-          label: 'Content',
-          name: 'content',
-          fullWidth: true,
-          textarea: { rows: 10 },
-        })}
-
-        {this.state.renderViewImage
-          ? this.renderViewImage()
-          : this.renderSelectImage()
-        }
+        <div className={classes.formContainer}>
+          <div className={classes.uploadBtn}>
+            {this.renderSelectImage()}
+          </div>
+          <div className={classes.inputsContainer}>
+            {!!chapters.length && renderSelectInput(formik, {
+              label: 'Chapter',
+              name: 'chapter',
+              className: classes.chapterField,
+              fullWidth: true,
+              items: this.getChapters(),
+            })}
+            {renderInput(formik, {
+              label: 'Name',
+              name: 'name',
+              fullWidth: true,
+            })}
+            {renderCheckboxInput(formik, {
+              label: 'Start the story with this sequence?',
+              name: 'isStartSeq',
+              className: classes.checkboxFieldContainer,
+              disabled: isStartSeq,
+              defaultValue: isStartSeq,
+            })}
+            {renderCheckboxInput(formik, {
+              label: 'Is this an ending sequence?',
+              name: 'isEnding',
+              className: classes.checkboxFieldContainer
+            })}
+            {renderInput(formik, {
+              label: 'Content',
+              name: 'content',
+              fullWidth: true,
+              textarea: { rows: 10 },
+            })}
+          </div>
+        </div>
       </Form>
     );
   }
@@ -109,7 +100,6 @@ SaveSequenceForm.propTypes = {
   formik: PropTypes.object.isRequired,
   isStartSeq: PropTypes.bool.isRequired,
   chapters: PropTypes.arrayOf(PropTypes.instanceOf(ChapterModel)).isRequired,
-  getSequence: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(SaveSequenceForm);

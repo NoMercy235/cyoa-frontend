@@ -1,3 +1,11 @@
+import imageCompression from 'browser-image-compression';
+
+export const compressImg = async (imageBase64, options) => {
+  const blobImg = await (await fetch(imageBase64)).blob();
+  const compressedImg = await imageCompression(blobImg, options);
+  return  await getBase64FromFile(compressedImg);
+};
+
 export const getBase64FromFile = (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();

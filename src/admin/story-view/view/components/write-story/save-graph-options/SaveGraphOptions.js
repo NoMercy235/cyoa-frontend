@@ -204,26 +204,28 @@ class SaveGraphOptions extends Component {
         open={open}
         onClose={this.onDrawerClose}
       >
-        <div className={styles.container}>
-          {this.renderSourceDestContainer()}
-          {options.map((option, index) => {
-            return (
-              <Formik
-                key={index}
-                enableReinitialize={true}
-                initialValues={option}
-                validateOnChange={false}
-                onSubmit={this.replaceOptionInArray(index)}
-                validate={this.validate}
-              >
-                {this.renderCollapsibleOption(option, index)}
-              </Formik>
-            )
-          })}
-          {this.renderNewOptionPanel()}
-          <Divider/>
-          {this.renderActionButtons()}
-        </div>
+        {open && (
+          <div className={styles.container}>
+            {this.renderSourceDestContainer()}
+            {options.map((option, index) => {
+              return (
+                <Formik
+                  key={index}
+                  enableReinitialize={true}
+                  initialValues={option}
+                  validateOnChange={false}
+                  onSubmit={this.replaceOptionInArray(index)}
+                  validate={this.validate}
+                >
+                  {this.renderCollapsibleOption(option, index)}
+                </Formik>
+              )
+            })}
+            {this.renderNewOptionPanel()}
+            <Divider/>
+            {this.renderActionButtons()}
+          </div>
+        )}
       </Drawer>
     );
   }

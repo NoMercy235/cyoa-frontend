@@ -5,9 +5,11 @@ import {
   CardContent,
   CardHeader,
   CardActions,
+  Divider,
   List,
   RootRef,
 } from '@material-ui/core';
+import classNames from 'classnames';
 
 import OptionChoice from './OptionChoice';
 import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
@@ -18,6 +20,8 @@ import { parseContent } from '../../../../../shared/utilities';
 import { ChapterModel } from '../../../../../infrastructure/models/ChapterModel';
 import { SequenceModel } from '../../../../../infrastructure/models/SequenceModel';
 import LoadingCmp from '../../../../../shared/components/loading/LoadingCmp';
+import TextWithImage from '../../../../../shared/components/text-with-image/TextWithImage';
+import { SEQUENCE_PICTURE_CROPPER_SIZE } from '../../../../../shared/constants/sequences';
 
 import styles from './DisplaySequence.module.scss';
 
@@ -63,11 +67,15 @@ class DisplaySequence extends Component {
         <>
           <CardHeader title={this.renderTitle()}/>
           <CardContent>
-            {this.renderPicture()}
-            {parseContent(seq.content)}
+            <TextWithImage
+              image={seq.scenePic}
+              size={SEQUENCE_PICTURE_CROPPER_SIZE}
+              text={parseContent(seq.content)}
+            />
+            <Divider/>
           </CardContent>
           <CardActions disableSpacing>
-            <List className={styles.optionsContainer}>
+            <List className={classNames(styles.optionsContainer, styles.optionsContainerEnforcer)}>
               {!seq.isEnding && seq.options.map(o => (
                 <OptionChoice
                   key={o._id}

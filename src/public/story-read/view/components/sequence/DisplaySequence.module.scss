@@ -1,9 +1,6 @@
-.endingContainer {
-  padding: 10px;
-}
-
-.optionsContainer {
+.optionsContainer.optionsContainerEnforcer {
   width: 100%;
+  padding-top: 0;
 
   .option:hover {
     cursor: pointer;

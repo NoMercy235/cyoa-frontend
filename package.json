@@ -10,6 +10,7 @@
     "@nomercy235/utils": "^1.3.1",
     "axios": "^0.19.0",
     "axios-progress-bar": "^1.2.0",
+    "browser-image-compression": "^1.0.9",
     "classnames": "^2.2.6",
     "d3": "^5.15.0",
     "formik": "^1.5.4",

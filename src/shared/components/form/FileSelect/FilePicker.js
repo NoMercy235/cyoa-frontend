@@ -2,7 +2,7 @@ import React from 'react';
 import * as PropTypes from 'prop-types';
 
 import ImageCropper from './ImageCropper';
-import { getBase64FromFile } from './fileHelpers';
+import { compressImg, getBase64FromFile } from './fileHelpers';
 import FileSelectV2 from './FileSelectV2';
 import ImagePreview from './ImagePreview';
 
@@ -29,8 +29,10 @@ class FilePicker extends React.Component {
     });
   };
 
-  onPreviewImage = (image) => {
-    this.setState({ image, pickerState: PickerStates.Preview });
+  onPreviewImage = async (image) => {
+    const { compressOptions = {} } = this.props;
+    const compressedBase64Img = await compressImg(image, compressOptions);
+    this.setState({ image: compressedBase64Img, pickerState: PickerStates.Preview });
   };
 
   onSave = async () => {
@@ -56,6 +58,7 @@ class FilePicker extends React.Component {
             className={className}
             initialImage={initialImage}
             onFileUploaded={this.onFileUploaded}
+            stylesProp={cropperProps.cropperProps.size}
           />
         );
       case PickerStates.Crop:
@@ -73,7 +76,7 @@ class FilePicker extends React.Component {
         return (
           <ImagePreview
             image={image}
-            size={{ ...(cropperProps.cropperProps.size) }}
+            size={cropperProps.cropperProps.size}
             onSave={this.onSave}
             onCancel={this.onCancel}
           />
@@ -83,10 +86,14 @@ class FilePicker extends React.Component {
 }
 
 FilePicker.propTypes = {
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
   inputId: PropTypes.string.isRequired,
   initialImage: PropTypes.string,
   cropperProps: PropTypes.object.isRequired,
+  compressOptions: PropTypes.shape({
+    maxSizeMB: PropTypes.number,
+    maxWidthOrHeight: PropTypes.number,
+  }),
   onFileSave: PropTypes.func.isRequired,
 };
 

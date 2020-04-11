@@ -10,6 +10,8 @@ import { OPTIONS_ADMIN_TABLE } from '../../../../../../shared/constants/tables';
 import { renderOptionTableTitle } from '../../sequences/option-table/OptionTableTitle';
 import TableCmp from '../../../../../../shared/components/table/TableCmp';
 import { parseContent } from '../../../../../../shared/utilities';
+import { SEQUENCE_PICTURE_CROPPER_SIZE } from '../../../../../../shared/constants/sequences';
+import TextWithImage from '../../../../../../shared/components/text-with-image/TextWithImage';
 
 import { styles } from './NodePreview.css';
 
@@ -81,8 +83,6 @@ class NodePreview extends Component {
   render () {
     const { classes, open, sequence = {}, onDrawerClose } = this.props;
 
-    // TODO: retrieve the picture and show it
-
     return (
       <Drawer
         anchor="bottom"
@@ -90,13 +90,19 @@ class NodePreview extends Component {
         onClose={onDrawerClose}
         classes={{ paperAnchorBottom: classes.drawer }}
       >
-        <div className={classes.previewContainer}>
-          {this.renderPreviewHeader()}
-          <Divider className={classes.divider}/>
-          {parseContent(sequence.content)}
-          <Divider className={classes.divider}/>
-          {this.renderOptionsTable()}
-        </div>
+        {open && (
+          <div className={classes.previewContainer}>
+            {this.renderPreviewHeader()}
+            <Divider className={classes.divider}/>
+            <TextWithImage
+              image={sequence.scenePic}
+              size={SEQUENCE_PICTURE_CROPPER_SIZE}
+              text={parseContent(sequence.content)}
+            />
+            <Divider className={classes.divider}/>
+            {this.renderOptionsTable()}
+          </div>
+        )}
       </Drawer>
     );
   }

@@ -14,17 +14,15 @@ class DisplayEnding extends Component {
   render() {
     if (!Utils.safeAccess(this.props.sequence, 'isEnding')) return '';
     return (
-      <div className={styles.endingContainer}>
-        <ListItem
-          className={styles.option}
-          onClick={this.onHandleClick}
-        >
-          <ListItemIcon>
-            <FaceIcon color="primary" fontSize="large" />
-          </ListItemIcon>
-          <ListItemText primary="The end." />
-        </ListItem>
-      </div>
+      <ListItem
+        className={styles.option}
+        onClick={this.onHandleClick}
+      >
+        <ListItemIcon>
+          <FaceIcon color="primary" fontSize="large" />
+        </ListItemIcon>
+        <ListItemText primary="The end." />
+      </ListItem>
     );
   }
 }

@@ -10,6 +10,7 @@ import BasicFormActions from '../../../../../../shared/components/form/BasicForm
 import { NEW_SEQUENCE_POSITION } from '../../../../../../shared/constants/graph';
 
 import styles from './SaveGraphSequence.module.scss';
+import notFoundImg from '../../../../../../assets/notfound.png';
 
 const computeIsStartSeq = (story, seqId) => {
   return !story.startSeq || story.startSeq === seqId;
@@ -23,6 +24,7 @@ class SaveGraphSequence extends Component {
     // the sequence, but on the story, thus it couldn't have been
     // loaded correctly while editing in any other way.
     resource.isStartSeq = computeIsStartSeq(story, resource._id);
+    resource.scenePic = resource.scenePic || notFoundImg;
     return resource;
   };
 
@@ -58,7 +60,6 @@ class SaveGraphSequence extends Component {
           formik={formik}
           isStartSeq={computeIsStartSeq(story, formik.initialValues._id)}
           chapters={[]}
-          getSequence={console.log}
         />
         <Divider/>
         <div className={styles.buttons}>
@@ -80,7 +81,7 @@ class SaveGraphSequence extends Component {
         open={open}
         onClose={onDrawerClose}
       >
-        <Formik
+        {open && <Formik
           enableReinitialize={true}
           initialValues={this.getInitialValues()}
           validateOnChange={false}
@@ -88,7 +89,7 @@ class SaveGraphSequence extends Component {
           validate={this.validate}
         >
           {this.renderForm}
-        </Formik>
+        </Formik>}
       </Drawer>
     );
   }
