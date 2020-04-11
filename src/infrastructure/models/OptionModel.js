@@ -5,18 +5,17 @@ import { ConsequenceModel } from './ConsequenceModel';
 import { RequirementModel } from './RequirementModel';
 
 const checkErrorsForExtra = (errors, extra, propName) => {
-  extra
+  const errorsArray = extra
     .map((extra, index) => {
       return {
         index,
         ...extra.checkErrors(),
       };
     })
-    .filter(errorObj => Object.keys(errorObj).length > 1)
-    .forEach(errorObj => {
-      if (!errors[propName]) errors[propName] = {};
-      errors[propName][errorObj.index] = errorObj;
-    });
+    .filter(errorObj => Object.keys(errorObj).length > 1);
+  if (errorsArray.length) {
+    errors[propName] = errorsArray;
+  }
 };
 
 export class OptionModel extends BaseModel {

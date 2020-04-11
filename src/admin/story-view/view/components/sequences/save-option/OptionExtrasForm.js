@@ -4,9 +4,9 @@ import { withStyles, IconButton, Tooltip } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { AttributeModel } from '../../../../../../infrastructure/models/AttributeModel';
+import { arrayToSelectFieldOptions, renderInput, renderSelectInput } from '../../../../../../shared/utils/formUtils';
 
 import { styles } from './SaveOption.css';
-import { arrayToSelectFieldOptions, renderInput, renderSelectInput } from '../../../../../../shared/utils/formUtils';
 
 class OptionExtrasForm extends Component {
   onRemoveExtra = () => {
@@ -18,6 +18,7 @@ class OptionExtrasForm extends Component {
     return (
       <div className={classes.extraRow}>
         {renderSelectInput(formik, {
+          required: true,
           label: 'Attribute',
           name: `${names.plural}.${index}.attribute`,
           className: classes.chapterField,

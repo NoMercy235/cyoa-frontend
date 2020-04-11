@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { FieldArray, Form } from 'formik';
-import { withStyles, Divider, IconButton, Tooltip, Typography } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
+import { withStyles, Typography } from '@material-ui/core';
 
 import { ConsequenceModel } from '../../../../../../infrastructure/models/ConsequenceModel';
 import { AttributeModel } from '../../../../../../infrastructure/models/AttributeModel';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import { renderAutocompleteInput, renderInput } from '../../../../../../shared/utils/formUtils';
 import { RequirementModel } from '../../../../../../infrastructure/models/RequirementModel';
+import OptionExtrasForm from './OptionExtrasForm';
+import ClickToAddItem from '../../../../../../shared/components/form/ClickToAddItem/ClickToAddItem';
 
 import { styles } from './SaveOption.css';
-import OptionExtrasForm from './OptionExtrasForm';
 
 class SaveOptionForm extends Component {
   onAddConsequence = arrayHelpers => () => {
@@ -42,19 +42,11 @@ class SaveOptionForm extends Component {
     return (
       <>
         <Typography
-          className={classes.extraHeader}
           variant="h6"
           color="inherit"
           noWrap
         >
           <span>Add {names.plural}</span>
-          <Tooltip title={`New ${names.singular}`}>
-            <IconButton
-              onClick={callbacks.onAddExtra(arrayHelpers)}
-            >
-              <AddIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
         </Typography>
         {formik.values[names.plural].map((extra, index) => (
           <OptionExtrasForm
@@ -66,6 +58,11 @@ class SaveOptionForm extends Component {
             onRemoveExtra={callbacks.onRemoveExtra(arrayHelpers)}
           />
         ))}
+        <ClickToAddItem
+          className={classes.extraAddNewItem}
+          label={`Click to add ${names.singular}`}
+          onClick={callbacks.onAddExtra(arrayHelpers)}
+        />
       </>
     );
   };
@@ -78,39 +75,42 @@ class SaveOptionForm extends Component {
     }
 
     return (
-      <>
-        <FieldArray
-          name="consequences"
-          render={this.renderExtraSection(
-            {
-              singular: 'consequence',
-              plural: 'consequences',
-              propName: 'changeValue',
-              propLabel: 'Change Value',
-            },
-            {
-              onAddExtra: this.onAddConsequence,
-              onRemoveExtra: this.onRemoveConsequence,
-            }
-          )}
-        />
-        <Divider className={classes.divider}/>
-        <FieldArray
-          name="requirements"
-          render={this.renderExtraSection(
-            {
-              singular: 'requirement',
-              plural: 'requirements',
-              propName: 'value',
-              propLabel: 'Value',
-            },
-            {
-              onAddExtra: this.onAddRequirement,
-              onRemoveExtra: this.onRemoveRequirement,
-            }
-          )}
-        />
-      </>
+      <div className={classes.extraSectionContainer}>
+        <div>
+          <FieldArray
+            name="consequences"
+            render={this.renderExtraSection(
+              {
+                singular: 'consequence',
+                plural: 'consequences',
+                propName: 'changeValue',
+                propLabel: 'Change Value',
+              },
+              {
+                onAddExtra: this.onAddConsequence,
+                onRemoveExtra: this.onRemoveConsequence,
+              }
+            )}
+          />
+        </div>
+        <div>
+          <FieldArray
+            name="requirements"
+            render={this.renderExtraSection(
+              {
+                singular: 'requirement',
+                plural: 'requirements',
+                propName: 'value',
+                propLabel: 'Value',
+              },
+              {
+                onAddExtra: this.onAddRequirement,
+                onRemoveExtra: this.onRemoveRequirement,
+              }
+            )}
+          />
+        </div>
+      </div>
     );
   };
 

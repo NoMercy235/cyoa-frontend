@@ -15,7 +15,7 @@ export class ConsequenceModel extends BaseModel {
     if (!this.attribute) {
       errors.attribute = ERRORS.fieldRequired;
     }
-    if (this.changeValue !== 0 && !this.changeValue) {
+    if (!this.changeValue) {
       errors.changeValue = ERRORS.fieldRequired;
     }
     return errors;

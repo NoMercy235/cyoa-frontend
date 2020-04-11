@@ -15,7 +15,7 @@ export class RequirementModel extends BaseModel {
     if (!this.attribute) {
       errors.attribute = ERRORS.fieldRequired;
     }
-    if (this.value !== 0 && !this.value) {
+    if (!this.value) {
       errors.value = ERRORS.fieldRequired;
     }
     return errors;

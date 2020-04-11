@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import {
   Drawer,
-  ExpansionPanel,
-  ExpansionPanelSummary,
   Button,
   Divider,
 } from '@material-ui/core';
@@ -18,6 +16,7 @@ import GraphOptionSourceDest from './GraphOptionSourceDest';
 import { GRAPH_SOURCE_DEST_PROPERTY } from '../../../../../../shared/constants/graph';
 import { submitAndValidateForm } from '../../../../../../shared/utils/formUtils';
 import { ERRORS } from '../../../../../../shared/constants/errors';
+import ClickToAddItem from '../../../../../../shared/components/form/ClickToAddItem/ClickToAddItem';
 
 import styles from './SaveGraphOptions.module.scss';
 
@@ -159,20 +158,6 @@ class SaveGraphOptions extends Component {
     )
   };
 
-  renderNewOptionPanel = () => {
-    return (
-      <ExpansionPanel
-        disabled={true}
-        onClick={this.addOption}
-        className={styles.addNewOptionPanel}
-      >
-        <ExpansionPanelSummary>
-          Click to add a new option
-        </ExpansionPanelSummary>
-      </ExpansionPanel>
-    );
-  };
-
   renderActionButtons = () => {
     return (
       <div className={styles.buttons}>
@@ -221,7 +206,10 @@ class SaveGraphOptions extends Component {
                 </Formik>
               )
             })}
-            {this.renderNewOptionPanel()}
+            <ClickToAddItem
+              label="Click to add a new option"
+              onClick={this.addOption}
+            />
             <Divider/>
             {this.renderActionButtons()}
           </div>
