@@ -30,6 +30,10 @@ class PublishBtn extends Component {
     }
   };
 
+  resetErrors = () => {
+    this.setState({ errors: [] });
+  };
+
   onChangePublishState = (published, message) => async () => {
     const { story, onPublishStateChanged, appStore } = this.props;
     const dbStory = await storyService.publish(story._id, published);
@@ -77,7 +81,8 @@ class PublishBtn extends Component {
           variant: 'contained',
           color: 'primary',
         }}
-        onClick={this.onChangePublishState(true, 'Story has been published!')}
+        onShowModal={this.resetErrors}
+        onModalSubmit={this.onChangePublishState(true, 'Story has been published!')}
         onPreCondition={this.onCheckIfCanPublish}
       >
         Publish

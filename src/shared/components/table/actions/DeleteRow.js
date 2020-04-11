@@ -14,7 +14,7 @@ class DeleteRow extends Component {
       <IconButtonHOC
         title={title}
         description={description}
-        onClick={onClick}
+        onModalSubmit={onClick}
         innerProps={{ disabled }}
       >
         <Tooltip title={tooltip || 'Delete'}>

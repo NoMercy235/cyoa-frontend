@@ -15,7 +15,7 @@ export function withModal(InnerComponent, Modal = ConfirmationModal) {
 
     onAccept = async e => {
       e.stopPropagation();
-      const { onClick, onPreCondition } = this.props;
+      const { onModalSubmit, onPreCondition } = this.props;
       if (onPreCondition) {
         this.setState({ shouldDisableButtons: true });
         const result = await onPreCondition();
@@ -23,16 +23,20 @@ export function withModal(InnerComponent, Modal = ConfirmationModal) {
         if (!result) return;
       }
       this.onHideModal();
-      onClick();
+      onModalSubmit();
     };
 
     onShowModal = (e) => {
       e.stopPropagation();
+      const { onShowModal } = this.props;
+      onShowModal && onShowModal();
       this.setState({ isOpen: true });
     };
 
     onHideModal = (e) => {
       e && e.stopPropagation();
+      const { onHideModal } = this.props;
+      onHideModal && onHideModal();
       this.setState({ isOpen: false });
     };
 
@@ -70,7 +74,9 @@ export function withModal(InnerComponent, Modal = ConfirmationModal) {
     description: PropTypes.oneOfType([
       PropTypes.string, PropTypes.func, PropTypes.object,
     ]).isRequired,
-    onClick: PropTypes.func,
+    onShowModal: PropTypes.func,
+    onHideModal: PropTypes.func,
+    onModalSubmit: PropTypes.func,
     onPreCondition: PropTypes.func,
     innerProps: PropTypes.object,
   };
