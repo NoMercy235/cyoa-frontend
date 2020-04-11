@@ -41,6 +41,7 @@ class WriteStoryContainer extends Component {
     this.setState({ canRender: true });
     this.setupSocketResponses();
   }
+
   setupSocketResponses = () => {
     const { storyViewStore } = this.props;
     socket.on(SocketEvents.NewSequenceResponse, ({ sequence, story }) => {
@@ -95,6 +96,10 @@ class WriteStoryContainer extends Component {
     attributeService.setNextRouteParams(params);
     const attributes = await attributeService.list();
     storyViewStore.setAttributes(attributes);
+  };
+
+  onStoryPublishStateChanged = story => {
+    this.props.storyViewStore.setCurrentStory(story);
   };
 
   onSaveSequence = async (sequence, isStartSeq) => {
@@ -256,6 +261,7 @@ class WriteStoryContainer extends Component {
           onOpenDeleteOptionsModal={this.onOpenDeleteOptionsModal}
           onSaveOptions={this.onSaveOptions}
           onUpdateSeqPosition={this.onUpdateSeqPosition}
+          onStoryPublishStateChanged={this.onStoryPublishStateChanged}
         />
         {this.renderDeleteSequenceModal()}
         {this.renderDeleteOptionsModal()}

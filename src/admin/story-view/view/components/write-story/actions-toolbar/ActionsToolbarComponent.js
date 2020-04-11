@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Button, Switch } from '@material-ui/core';
 import withDisabledStoryPublished from '../../../../../../shared/hoc/withDisabledStoryPublished';
+import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
+import PublishBtn from '../../general/PublishBtn';
 
 import styles from './ActionsToolbarComponent.module.scss';
 
@@ -17,7 +19,12 @@ class ActionsToolbarComponent extends Component {
   };
 
   render () {
-    const { isPreviewEnabled, onPreviewEnabledChange } = this.props;
+    const {
+      story,
+      isPreviewEnabled,
+      onPreviewEnabledChange,
+      onStoryPublishStateChanged,
+    } = this.props;
 
     return (
       <div className={styles.toolbarContainer}>
@@ -37,6 +44,10 @@ class ActionsToolbarComponent extends Component {
           New Option
         </BtnWithDisabledState>
         <div className={styles.divider}/>
+        <PublishBtn
+          story={story}
+          onPublishStateChanged={onStoryPublishStateChanged}
+        />
         <div>
           Allow preview?
           <Switch
@@ -51,6 +62,7 @@ class ActionsToolbarComponent extends Component {
 }
 
 ActionsToolbarComponent.propTypes = {
+  story: PropTypes.instanceOf(StoryModel).isRequired,
   isPreviewEnabled: PropTypes.bool.isRequired,
 
   onPreviewEnabledChange: PropTypes.func.isRequired,

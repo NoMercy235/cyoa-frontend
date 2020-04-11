@@ -22,8 +22,8 @@ export function withModal(InnerComponent, Modal = ConfirmationModal) {
         this.setState({ shouldDisableButtons: false });
         if (!result) return;
       }
-      this.onHideModal();
       onModalSubmit();
+      this.onHideModal();
     };
 
     onShowModal = (e) => {

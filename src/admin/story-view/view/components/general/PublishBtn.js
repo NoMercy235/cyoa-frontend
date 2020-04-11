@@ -111,7 +111,7 @@ class PublishBtn extends Component {
           variant: 'contained',
           color: 'secondary',
         }}
-        onClick={this.onChangePublishState(false, 'Story has been unpublished!')}
+        onModalSubmit={this.onChangePublishState(false, 'Story has been unpublished!')}
       >
         Unpublish
       </HOCButton>

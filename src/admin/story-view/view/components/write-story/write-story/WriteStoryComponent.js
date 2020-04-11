@@ -208,6 +208,7 @@ class WriteStoryComponent extends Component {
       attributes,
       onSaveSequence,
       onUpdateSeqPosition,
+      onStoryPublishStateChanged,
     } = this.props;
     const {
       viewState,
@@ -232,10 +233,12 @@ class WriteStoryComponent extends Component {
       <>
         <div className={styles.writeStoryContainer}>
           <ActionsToolbarComponent
+            story={story}
             isPreviewEnabled={isPreviewEnabled}
             onPreviewEnabledChange={this.onPreviewEnabledChange}
             onAddNewSequenceModalOpen={this.onOpenSaveSeqModal}
             onAddNewOptionModalOpen={this.onOpenSaveOptionsModal}
+            onStoryPublishStateChanged={onStoryPublishStateChanged}
           />
           {!!data.nodes.length && (
             <Card className={styles.writeStoryCard}>
@@ -307,6 +310,7 @@ WriteStoryComponent.propTypes = {
   onOpenDeleteOptionsModal: PropTypes.func.isRequired,
   onSaveOptions: PropTypes.func.isRequired,
   onUpdateSeqPosition: PropTypes.func.isRequired,
+  onStoryPublishStateChanged: PropTypes.func.isRequired,
 };
 
 export default WriteStoryComponent;
