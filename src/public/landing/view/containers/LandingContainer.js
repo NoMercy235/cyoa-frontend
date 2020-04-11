@@ -16,6 +16,7 @@ import LoadingCmp from '../../../../shared/components/loading/LoadingCmp';
 import { LANDING_PAGE_STORIES_CONTAINER_ID } from '../../../../shared/constants/global';
 
 import styles from './LandingContainer.module.scss';
+import { Helmet } from 'react-helmet';
 
 @inject('publicStoryStore', 'appStore')
 @observer
@@ -131,6 +132,9 @@ class LandingContainer extends Component {
 
     return (
       <>
+        <Helmet>
+          <title>Rigamo | Choose your own Adventure</title>
+        </Helmet>
         <Breadcrumb/>
         <div id={LANDING_PAGE_STORIES_CONTAINER_ID} className={styles.storiesContainer}>
           <NoResultsFound show={initialRequestDone && !hasStories}/>
