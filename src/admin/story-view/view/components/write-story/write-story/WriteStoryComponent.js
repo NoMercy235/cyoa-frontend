@@ -248,11 +248,13 @@ class WriteStoryComponent extends Component {
                     ...GRAPH_DEFAULT_CONFIG,
                     ...graphState,
                   }}
-                  onClickNode={this.onOpenSaveSeqModal}
-                  onDoubleClickNode={this.onDoubleClickNode}
-                  onRightClickNode={this.onOpenDeleteSeqModal}
-                  onClickLink={this.onOpenSaveOptionsModal}
-                  onRightClickLink={this.onOpenDeleteOptionsModal}
+                  {...(!story.published && {
+                    onClickNode: this.onOpenSaveSeqModal,
+                    onDoubleClickNode: this.onDoubleClickNode,
+                    onRightClickNode: this.onOpenDeleteSeqModal,
+                    onClickLink: this.onOpenSaveOptionsModal,
+                    onRightClickLink: this.onOpenDeleteOptionsModal,
+                  })}
                   onNodePositionChange={onUpdateSeqPosition}
                   {...(isPreviewEnabled) && {
                     onMouseOverNode: this.onOpenSeqPreviewModal,
@@ -295,10 +297,10 @@ class WriteStoryComponent extends Component {
 }
 
 WriteStoryComponent.propTypes = {
-  story: PropTypes.instanceOf(StoryModel),
-  sequences: PropTypes.arrayOf(PropTypes.instanceOf(SequenceModel)),
-  options: PropTypes.arrayOf(PropTypes.instanceOf(OptionModel)),
-  attributes: PropTypes.arrayOf(PropTypes.instanceOf(AttributeModel)),
+  story: PropTypes.instanceOf(StoryModel).isRequired,
+  sequences: PropTypes.arrayOf(PropTypes.instanceOf(SequenceModel)).isRequired,
+  options: PropTypes.arrayOf(PropTypes.instanceOf(OptionModel)).isRequired,
+  attributes: PropTypes.arrayOf(PropTypes.instanceOf(AttributeModel)).isRequired,
 
   onSaveSequence: PropTypes.func.isRequired,
   onDeleteSequenceModalOpen: PropTypes.func.isRequired,

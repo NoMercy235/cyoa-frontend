@@ -17,8 +17,13 @@ export default function withDisabledBtn (WrappedCmp) {
     };
 
     getNewProps = () => {
-      const newProps = Object.assign({}, this.props);
-      delete newProps.staticContext;
+      const {
+        storyViewStore,
+        staticContext,
+        propName,
+        condition,
+        ...newProps
+      } = this.props;
       return newProps;
     };
 
