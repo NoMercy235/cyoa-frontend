@@ -3,10 +3,8 @@ const { xNameNotUniqueError } = require('../../utils/selectorsAndXPaths');
 const { createStory, deleteStory } = require('../steps/AdminStory.steps');
 
 const xStoryTableRow = storyName => `//tr[contains(@class, "MuiTableRow-root")]/td/span[text()="${storyName}"]`;
-const xStoryTableDeleteAction = storyName => `//tr[contains(@class, "MuiTableRow-root")]/td/span[text()="${storyName}"]/../../td[last()]/div/button[last()]/span`;
 const xYesBtn = '//button[contains(., "Yes")]';
 const xStoryDeletedMessage = '//span[contains(., "Story deleted!")]';
-const xStorySavedMessage = '//span[contains(., "Story saved!")]';
 
 const xStoryNameTableCell = storyName => `//td[contains(@class, "MuiTableCell-root")]/span[text()="${storyName}"]`;
 const xStoryNameBreadcrumb = storyName => `//div[contains(@class, "MuiChip-root")]/span[text()="${storyName}"]`;
@@ -61,12 +59,11 @@ describe('Story workflow', () => {
     });
 
     it('should not allow the creation of a story with the same name', async () => {
-      const { waitForElement, closeSnackbar, closeModal } = context;
+      const { waitForElement, closeModal } = context;
 
       await createStory(context, { name: storyName }, { keepSnackbar: true });
 
       await waitForElement(xNameNotUniqueError);
-      await closeSnackbar();
       await closeModal();
     });
 

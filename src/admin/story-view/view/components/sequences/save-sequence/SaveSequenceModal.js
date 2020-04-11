@@ -15,6 +15,7 @@ import BasicFormActions from '../../../../../../shared/components/form/BasicForm
 import { storyService } from '../../../../../../infrastructure/services/StoryService';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import { appStorePropTypes } from '../../../../../../shared/store/AppStore';
+import { handleConflictError } from '../../../../../../shared/formUtils';
 
 import { styles } from './SaveSequence.css';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
@@ -84,7 +85,7 @@ class SaveSequenceModal extends Component {
     this.props.onClose();
   };
 
-  onSubmit = async (values, { setSubmitting, resetForm }) => {
+  onSubmit = async (values, { setSubmitting, setErrors, resetForm }) => {
     const { story, sequence, onSuccess } = this.props;
     try {
       let seq = {};
@@ -105,6 +106,8 @@ class SaveSequenceModal extends Component {
       onSuccess && await onSuccess();
       resetForm();
       this.onClose();
+    } catch (e) {
+      setErrors(handleConflictError(e));
     } finally {
       setSubmitting(false);
     }

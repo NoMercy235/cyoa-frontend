@@ -5,6 +5,14 @@ import { TextField, Typography, Checkbox } from '@material-ui/core';
 import { hasError } from './components/form/helpers';
 import FormikAutocompleteContainer from './components/form/Autocomplete/FormikAutocompleteContainer';
 import Select from './components/form/Select/Select';
+import { ERRORS } from './constants/errors';
+
+export const handleConflictError = errArr => {
+  if (!Array.isArray(errArr)) return {};
+  let result = {};
+  errArr.forEach(field => result[field] = ERRORS.fieldMustBeUnique);
+  return result;
+};
 
 export const renderInput = (
   formik,

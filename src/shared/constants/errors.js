@@ -2,6 +2,7 @@ export const ERRORS = {
   fieldRequired: 'This field is required',
   fieldLengthExceeded: limit => `This field can't have more than ${limit} characters`,
   fileTooLarge: 'The file is too large',
+  fieldMustBeUnique: 'This field must be unique',
 
   cannotPerformActionWhileStoryPublished: 'Cannot perform action while story is published',
 };

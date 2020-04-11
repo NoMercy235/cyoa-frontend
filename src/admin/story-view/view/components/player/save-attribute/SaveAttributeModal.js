@@ -15,6 +15,7 @@ import BasicFormActions from '../../../../../../shared/components/form/BasicForm
 import { debounced } from '../../../../../../shared/utilities';
 import { sequenceService } from '../../../../../../infrastructure/services/SequenceService';
 import { appStorePropTypes } from '../../../../../../shared/store/AppStore';
+import { handleConflictError } from '../../../../../../shared/formUtils';
 
 import { styles } from './SaveAttribute.css';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
@@ -85,7 +86,7 @@ class SaveAttributeModal extends Component {
     this.props.onClose();
   };
 
-  onSubmit = async (values, { setSubmitting, resetForm }) => {
+  onSubmit = async (values, { setSubmitting, setErrors, resetForm }) => {
     try {
       if (values._id) {
         await this.updateAttribute(values);
@@ -93,7 +94,9 @@ class SaveAttributeModal extends Component {
         await this.saveAttribute(values);
       }
       this.onClose(resetForm)();
-    } finally {
+    } catch (e) {
+      setErrors(handleConflictError(e));
+    }  finally {
       setSubmitting(false);
     }
   };

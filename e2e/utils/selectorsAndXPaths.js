@@ -18,5 +18,5 @@ module.exports = {
   sSnackbarCloseBtn: 'div[class*="MuiSnackbarContent-action"] > button',
   sDrawerBackdrop: 'div[class*="MuiBackdrop-root"]',
 
-  xNameNotUniqueError: '//span[contains(., "Name must be unique")]'
+  xNameNotUniqueError: '//p[contains(., "This field must be unique")]'
 };

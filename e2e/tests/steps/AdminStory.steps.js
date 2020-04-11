@@ -18,6 +18,8 @@ const sLongDescInput = 'textarea[name="longDescription"]';
 const xStoryTableDeleteAction = storyName => `//tr[contains(@class, "MuiTableRow-root")]/td/span[text()="${storyName}"]/../../td[last()]/div/button[last()]/span`;
 const xYesBtn = '//button[contains(., "Yes")]';
 
+const WAIT_AFTER_VISIBLE_MS = 500;
+
 const checkIfLocationIsGood = async ({ page, customConfig: { endpoint } }) => {
   const url = `${endpoint}admin/stories`;
   if (page.url().endsWith(url)) {
@@ -78,7 +80,7 @@ async function createStory (
   const storyName = name || faker.random.words(5);
 
   await clickOnElement(xSelectInput('tags'), {
-    waitAfterVisible: 100,
+    waitAfterVisible: WAIT_AFTER_VISIBLE_MS,
   });
   await clickOnElement(xSelectListItem('Adventure'));
   await clickOnElement(xModalContainer);
@@ -87,7 +89,7 @@ async function createStory (
 
   if (fromCollection) {
     await clickOnElement(xSelectInput('fromCollection'), {
-      waitAfterVisible: 100,
+      waitAfterVisible: WAIT_AFTER_VISIBLE_MS,
     });
     await clickOnElement(xSelectListItem(fromCollection));
     await clickOnElement(xModalContainer);
@@ -112,7 +114,7 @@ async function deleteStory (
   const { clickOnElement, closeSnackbar } = context;
   await checkIfLocationIsGood(context);
   await clickOnElement(xStoryTableDeleteAction(storyName), {
-    waitAfterVisible: 500,
+    waitAfterVisible: WAIT_AFTER_VISIBLE_MS,
   });
   await clickOnElement(xYesBtn);
   if (!keepSnackbar) {

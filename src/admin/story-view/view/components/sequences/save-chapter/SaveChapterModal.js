@@ -15,6 +15,7 @@ import SaveChapterForm from './SaveChapterForm';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
 import { appStorePropTypes } from '../../../../../../shared/store/AppStore';
 import { stopEvent } from '../../../../../../shared/utilities';
+import { handleConflictError } from '../../../../../../shared/formUtils';
 
 import { styles } from './SaveChapter.css';
 
@@ -58,7 +59,7 @@ class SaveChapterModal extends Component {
     this.props.onClose();
   };
 
-  onSubmit = async (values, { setSubmitting, resetForm }) => {
+  onSubmit = async (values, { setSubmitting, setErrors, resetForm }) => {
     try {
       if (values._id) {
         await this.updateChapter(values);
@@ -66,6 +67,8 @@ class SaveChapterModal extends Component {
         await this.saveChapter(values);
       }
       this.onClose(resetForm)();
+    } catch (e) {
+      setErrors(handleConflictError(e));
     } finally {
       setSubmitting(false);
     }

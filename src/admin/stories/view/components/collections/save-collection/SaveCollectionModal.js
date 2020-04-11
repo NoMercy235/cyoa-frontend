@@ -13,6 +13,7 @@ import { CollectionModel } from '../../../../../../infrastructure/models/Collect
 import { storyStorePropTypes } from '../../../../stores/StoryStore';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 import { appStorePropTypes } from '../../../../../../shared/store/AppStore';
+import { handleConflictError } from '../../../../../../shared/formUtils';
 
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
 
@@ -52,7 +53,7 @@ class SaveCollectionModal extends Component {
     this.props.onClose();
   };
 
-  onSubmit = async (values, { setSubmitting, resetForm }) => {
+  onSubmit = async (values, { setSubmitting, setErrors, resetForm }) => {
     try {
       if (values._id) {
         await this.updateCollection(values);
@@ -60,6 +61,8 @@ class SaveCollectionModal extends Component {
         await this.saveCollection(values);
       }
       this.onClose(resetForm)();
+    } catch (e) {
+      setErrors(handleConflictError(e));
     } finally {
       setSubmitting(false);
     }

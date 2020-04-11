@@ -15,6 +15,7 @@ import BasicFormActions from '../../../../../../shared/components/form/BasicForm
 import { TagModel } from '../../../../../../infrastructure/models/TagModel';
 import { Dialog } from '../../../../../../shared/components/dialog/Dialog';
 import { appStorePropTypes } from '../../../../../../shared/store/AppStore';
+import { handleConflictError } from '../../../../../../shared/formUtils';
 
 import { styles } from './SaveStory.css';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
@@ -56,7 +57,7 @@ class SaveStoryModal extends Component {
     this.props.onClose();
   };
 
-  onSubmit = async (values, { setSubmitting, resetForm }) => {
+  onSubmit = async (values, { setSubmitting, setErrors, resetForm }) => {
     const { onSuccess } = this.props;
 
     values.tagsName = TagModel.get()
@@ -70,6 +71,8 @@ class SaveStoryModal extends Component {
         : await this.saveStory(values);
       onSuccess && await onSuccess(story);
       this.onClose(resetForm)();
+    } catch (e) {
+      setErrors(handleConflictError(e));
     } finally {
       setSubmitting(false);
     }
