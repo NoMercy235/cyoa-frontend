@@ -2,9 +2,9 @@ import React from 'react';
 import { Field } from 'formik';
 import { Checkbox, TextField, Typography } from '@material-ui/core';
 
-import FormikAutocompleteContainer from './components/form/Autocomplete/FormikAutocompleteContainer';
-import Select from './components/form/Select/Select';
-import { ERRORS } from './constants/errors';
+import FormikAutocompleteContainer from '../components/form/Autocomplete/FormikAutocompleteContainer';
+import Select from '../components/form/Select/Select';
+import { ERRORS } from '../constants/errors';
 
 export const handleConflictError = errArr => {
   if (!Array.isArray(errArr)) return {};

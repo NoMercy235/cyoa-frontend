@@ -7,7 +7,7 @@ import FormikAutocompleteContainer
   from '../../../../../../shared/components/form/Autocomplete/FormikAutocompleteContainer';
 
 import { styles } from './SaveAttribute.css';
-import { hasError } from '../../../../../../shared/formUtils';
+import { hasError } from '../../../../../../shared/utils/formUtils';
 
 class SaveAttributeForm extends Component {
   renderNameField = ({ field }) => {

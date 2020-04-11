@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import { Form } from 'formik';
 import { Card } from '@material-ui/core';
 
-import { renderAutocompleteInput } from '../../../../../../shared/formUtils';
+import { renderAutocompleteInput } from '../../../../../../shared/utils/formUtils';
 
 import styles from './GraphOptionSourceDest.module.scss';
 

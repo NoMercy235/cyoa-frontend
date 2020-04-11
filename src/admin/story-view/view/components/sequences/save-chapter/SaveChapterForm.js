@@ -7,7 +7,7 @@ import Select from '../../../../../../shared/components/form/Select/Select';
 import { ChapterModel } from '../../../../../../infrastructure/models/ChapterModel';
 
 import { styles } from './SaveChapter.css';
-import { hasError } from '../../../../../../shared/formUtils';
+import { hasError } from '../../../../../../shared/utils/formUtils';
 
 class SaveChapterForm extends Component {
   getChapters = () => {

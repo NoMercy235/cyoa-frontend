@@ -15,7 +15,7 @@ import BasicFormActions from '../../../../../../shared/components/form/BasicForm
 import { TagModel } from '../../../../../../infrastructure/models/TagModel';
 import { Dialog } from '../../../../../../shared/components/dialog/Dialog';
 import { appStorePropTypes } from '../../../../../../shared/store/AppStore';
-import { handleConflictError } from '../../../../../../shared/formUtils';
+import { handleConflictError } from '../../../../../../shared/utils/formUtils';
 
 import { styles } from './SaveStory.css';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';

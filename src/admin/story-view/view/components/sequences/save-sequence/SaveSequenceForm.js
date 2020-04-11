@@ -9,7 +9,7 @@ import {
   renderCheckboxInput,
   renderInput,
   renderSelectInput
-} from '../../../../../../shared/formUtils';
+} from '../../../../../../shared/utils/formUtils';
 import FilePicker from '../../../../../../shared/components/form/FileSelect/FilePicker';
 import {
   MAX_SEQUENCE_SCENE_PIC_SIZE_MB,

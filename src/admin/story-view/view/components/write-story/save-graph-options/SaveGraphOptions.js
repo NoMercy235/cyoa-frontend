@@ -16,7 +16,7 @@ import { AttributeModel } from '../../../../../../infrastructure/models/Attribut
 import CollapsibleSaveGraphOption from './CollapsibleSaveGraphOption';
 import GraphOptionSourceDest from './GraphOptionSourceDest';
 import { GRAPH_SOURCE_DEST_PROPERTY } from '../../../../../../shared/constants/graph';
-import { submitAndValidateForm } from '../../../../../../shared/formUtils';
+import { submitAndValidateForm } from '../../../../../../shared/utils/formUtils';
 import { ERRORS } from '../../../../../../shared/constants/errors';
 
 import styles from './SaveGraphOptions.module.scss';

@@ -4,7 +4,7 @@ import { Field, Form } from 'formik';
 import { withStyles, TextField } from '@material-ui/core';
 
 import { styles } from './Authentication.css';
-import { hasError } from '../../formUtils';
+import { hasError } from '../../utils/formUtils';
 
 class RegisterForm extends Component {
   renderFirstNameField = ({ field }) => {

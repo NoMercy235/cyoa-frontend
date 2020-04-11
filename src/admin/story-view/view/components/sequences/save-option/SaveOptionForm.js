@@ -7,7 +7,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { ConsequenceModel } from '../../../../../../infrastructure/models/ConsequenceModel';
 import { AttributeModel } from '../../../../../../infrastructure/models/AttributeModel';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
-import { renderAutocompleteInput, renderInput } from '../../../../../../shared/formUtils';
+import { renderAutocompleteInput, renderInput } from '../../../../../../shared/utils/formUtils';
 import { RequirementModel } from '../../../../../../infrastructure/models/RequirementModel';
 
 import { styles } from './SaveOption.css';

@@ -15,7 +15,7 @@ import BasicFormActions from '../../../../../../shared/components/form/BasicForm
 import { storyService } from '../../../../../../infrastructure/services/StoryService';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import { appStorePropTypes } from '../../../../../../shared/store/AppStore';
-import { handleConflictError } from '../../../../../../shared/formUtils';
+import { handleConflictError } from '../../../../../../shared/utils/formUtils';
 
 import { styles } from './SaveSequence.css';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';

@@ -13,7 +13,7 @@ import { CollectionModel } from '../../../../../../infrastructure/models/Collect
 import { storyStorePropTypes } from '../../../../stores/StoryStore';
 import BasicFormActions from '../../../../../../shared/components/form/BasicFormActions';
 import { appStorePropTypes } from '../../../../../../shared/store/AppStore';
-import { handleConflictError } from '../../../../../../shared/formUtils';
+import { handleConflictError } from '../../../../../../shared/utils/formUtils';
 
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
 

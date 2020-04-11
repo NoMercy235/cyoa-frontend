@@ -15,7 +15,7 @@ import SaveChapterForm from './SaveChapterForm';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
 import { appStorePropTypes } from '../../../../../../shared/store/AppStore';
 import { stopEvent } from '../../../../../../shared/utilities';
-import { handleConflictError } from '../../../../../../shared/formUtils';
+import { handleConflictError } from '../../../../../../shared/utils/formUtils';
 
 import { styles } from './SaveChapter.css';
 

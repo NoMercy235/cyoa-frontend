@@ -6,7 +6,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { AttributeModel } from '../../../../../../infrastructure/models/AttributeModel';
 
 import { styles } from './SaveOption.css';
-import { arrayToSelectFieldOptions, renderInput, renderSelectInput } from '../../../../../../shared/formUtils';
+import { arrayToSelectFieldOptions, renderInput, renderSelectInput } from '../../../../../../shared/utils/formUtils';
 
 class OptionExtrasForm extends Component {
   onRemoveExtra = () => {

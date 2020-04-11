@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import { Card, CardContent, CardActions, CardHeader, Typography } from '@material-ui/core';
 
 import BasicFormActions from '../../../../../shared/components/form/BasicFormActions';
-import { renderInput } from '../../../../../shared/formUtils';
+import { renderInput } from '../../../../../shared/utils/formUtils';
 import { UserModel } from '../../../../../infrastructure/models/UserModel';
 
 import styles from './ProfileForm.module.scss';
