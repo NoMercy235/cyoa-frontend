@@ -1,6 +1,7 @@
 import React from 'react';
 import { Field } from 'formik';
 import { Checkbox, TextField, Typography } from '@material-ui/core';
+import { Utils } from '@nomercy235/utils';
 
 import FormikAutocompleteContainer from '../components/form/Autocomplete/FormikAutocompleteContainer';
 import Select from '../components/form/Select/Select';
@@ -22,9 +23,11 @@ export const arrayToSelectFieldOptions = (
   });
 };
 
-const getNestedPropertyFromStringPath = (obj, pathParts) => {
-  if (pathParts.length === 1) return obj[pathParts[0]];
-  return getNestedPropertyFromStringPath(obj[pathParts[0]], pathParts.splice(1))
+const getErrorFromArray = (errors, path) => {
+  return errors[path[0]] && Utils.safeAccess(
+    errors[path[0]].find(({ index }) => index === +path[1]),
+    path[2],
+  );
 };
 
 export function hasError (formik, fieldName) {
@@ -33,7 +36,9 @@ export function hasError (formik, fieldName) {
   if (!touched) {
     return {};
   }
-  const errorText = getInnerObject(formik.errors, path);
+  const errorText = path.length === 1
+    ? formik.errors[fieldName]
+    : getErrorFromArray(formik.errors, path);
   return {
     helperText: errorText,
     error: !!errorText,
@@ -62,7 +67,7 @@ export const renderInput = (
             {...field}
             label={label}
             className={className}
-            value={getNestedPropertyFromStringPath(formik.values, name.split('.'))}
+            value={getInnerObject(formik.values, name.split('.'))}
             disabled={disabled}
             multiline={!!textarea}
             rows={textarea.rows}
@@ -129,7 +134,7 @@ export const renderSelectInput = (
             formikField={field}
             label={label}
             className={className}
-            value={getNestedPropertyFromStringPath(formik.values, name.split('.'))}
+            value={getInnerObject(formik.values, name.split('.'))}
             disabled={disabled}
             items={items}
             {...(required ? hasError(formik, name) : {})}
@@ -165,7 +170,7 @@ export const renderCheckboxInput = (
             <Checkbox
               {...field}
               disabled={disabled}
-              checked={!!getNestedPropertyFromStringPath(formik.values, name.split('.'))}
+              checked={!!getInnerObject(formik.values, name.split('.'))}
               value={defaultValue}
             />
           );

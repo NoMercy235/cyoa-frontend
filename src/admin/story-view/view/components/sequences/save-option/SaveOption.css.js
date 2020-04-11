@@ -24,7 +24,7 @@ export const styles = theme => ({
       marginRight: theme.spacing(1),
     },
     '& > div:first-child': {
-      flex: 6,
+      flex: 3,
     },
     '& > div:nth-child(2)': {
       flex: 1,
