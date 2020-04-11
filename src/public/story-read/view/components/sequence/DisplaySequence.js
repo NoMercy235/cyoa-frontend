@@ -49,8 +49,28 @@ class DisplaySequence extends Component {
     this.scrollToCardTop();
   }
 
+  renderOptions = () => {
+    const { onOptionClick, player, seq: { options } } = this.props;
+    return options
+      .filter(o => {
+        if (!o.requirements.length) return true;
+        return o.requirements.every(requirement => {
+          const playerAttr = player.attributes.find(({ name }) => name === requirement.attribute);
+          return playerAttr.value >= requirement.value;
+        });
+      })
+      .map(o => (
+        <OptionChoice
+          key={o._id}
+          option={o}
+          player={player}
+          onOptionClick={onOptionClick}
+        />
+      ));
+  };
+
   renderSequence = () => {
-    const { onOptionClick, player, seq } = this.props;
+    const { onOptionClick, seq } = this.props;
 
     return (
         <>
@@ -65,14 +85,7 @@ class DisplaySequence extends Component {
           </CardContent>
           <CardActions disableSpacing>
             <List className={classNames(styles.optionsContainer, styles.optionsContainerEnforcer)}>
-              {!seq.isEnding && seq.options.map(o => (
-                <OptionChoice
-                  key={o._id}
-                  option={o}
-                  player={player}
-                  onOptionClick={onOptionClick}
-                />
-              ))}
+              {!seq.isEnding && this.renderOptions()}
               {seq.isEnding && (
                 <DisplayEnding
                   sequence={seq}
