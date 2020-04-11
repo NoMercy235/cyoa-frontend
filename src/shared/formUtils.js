@@ -14,6 +14,20 @@ export const handleConflictError = errArr => {
   return result;
 };
 
+export const arrayToSelectFieldOptions = (
+  arr,
+  { idProp = '_id', labelProp = 'name' } = {},
+) => {
+  return arr.map(item => {
+    return { _id: item[idProp], name: item[labelProp] };
+  });
+};
+
+const getNestedPropertyFromStringPath = (obj, pathParts) => {
+  if (pathParts.length === 1) return obj[pathParts[0]];
+  return getNestedPropertyFromStringPath(obj[pathParts[0]], pathParts.splice(1))
+};
+
 export const renderInput = (
   formik,
   {
@@ -36,7 +50,7 @@ export const renderInput = (
             {...field}
             label={label}
             className={className}
-            value={formik.values[name]}
+            value={getNestedPropertyFromStringPath(formik.values, name.split('.'))}
             disabled={disabled}
             multiline={!!textarea}
             rows={textarea.rows}
@@ -103,7 +117,7 @@ export const renderSelectInput = (
             formikField={field}
             label={label}
             className={className}
-            value={formik.values[name]}
+            value={getNestedPropertyFromStringPath(formik.values, name.split('.'))}
             disabled={disabled}
             items={items}
             {...(required ? hasError(formik, name) : {})}
@@ -139,7 +153,7 @@ export const renderCheckboxInput = (
             <Checkbox
               {...field}
               disabled={disabled}
-              checked={!!formik.values[name]}
+              checked={!!getNestedPropertyFromStringPath(formik.values, name.split('.'))}
               value={defaultValue}
             />
           );

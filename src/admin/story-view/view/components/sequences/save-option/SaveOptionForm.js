@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { FieldArray, Form } from 'formik';
-import { withStyles, IconButton, Tooltip, Typography } from '@material-ui/core';
+import { withStyles, Divider, IconButton, Tooltip, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
-import ConsequenceForm from './ConsequenceForm';
 import { ConsequenceModel } from '../../../../../../infrastructure/models/ConsequenceModel';
 import { AttributeModel } from '../../../../../../infrastructure/models/AttributeModel';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import { renderAutocompleteInput, renderInput } from '../../../../../../shared/formUtils';
+import { RequirementModel } from '../../../../../../infrastructure/models/RequirementModel';
 
 import { styles } from './SaveOption.css';
+import OptionExtrasForm from './OptionExtrasForm';
 
 class SaveOptionForm extends Component {
   onAddConsequence = arrayHelpers => () => {
@@ -18,11 +19,20 @@ class SaveOptionForm extends Component {
     arrayHelpers.push(consequence);
   };
 
+  onAddRequirement = arrayHelpers => () => {
+    const requirement = new RequirementModel();
+    arrayHelpers.push(requirement);
+  };
+
   onRemoveConsequence = arrayHelpers => index => {
     arrayHelpers.remove(index);
   };
 
-  renderConsequences = (arrayHelpers) => {
+  onRemoveRequirement = arrayHelpers => index => {
+    arrayHelpers.remove(index);
+  };
+
+  renderExtraSection = (names, callbacks) => arrayHelpers => {
     const { classes, formik, attributes } = this.props;
 
     if (!attributes.length) {
@@ -32,35 +42,80 @@ class SaveOptionForm extends Component {
     return (
       <>
         <Typography
-          className={classes.consequenceHeader}
+          className={classes.extraHeader}
           variant="h6"
           color="inherit"
           noWrap
         >
-          <span>Add consequences</span>
-          <Tooltip title="New consequence">
+          <span>Add {names.plural}</span>
+          <Tooltip title={`New ${names.singular}`}>
             <IconButton
-              onClick={this.onAddConsequence(arrayHelpers)}
+              onClick={callbacks.onAddExtra(arrayHelpers)}
             >
               <AddIcon fontSize="small" />
             </IconButton>
           </Tooltip>
         </Typography>
-        {formik.values.consequences.map((consequence, index) => (
-          <ConsequenceForm
+        {formik.values[names.plural].map((extra, index) => (
+          <OptionExtrasForm
             key={index}
+            names={names}
             formik={formik}
             index={index}
             attributes={attributes}
-            onRemoveConsequence={this.onRemoveConsequence(arrayHelpers)}
+            onRemoveExtra={callbacks.onRemoveExtra(arrayHelpers)}
           />
         ))}
       </>
     );
   };
 
+  renderExtras = () => {
+    const { classes, story } = this.props;
+
+    if (story.isAvailableOffline) {
+      return <Typography>Consequences/Requirements cannot be added for stories that are available offline</Typography>
+    }
+
+    return (
+      <>
+        <FieldArray
+          name="consequences"
+          render={this.renderExtraSection(
+            {
+              singular: 'consequence',
+              plural: 'consequences',
+              propName: 'changeValue',
+              propLabel: 'Change Value',
+            },
+            {
+              onAddExtra: this.onAddConsequence,
+              onRemoveExtra: this.onRemoveConsequence,
+            }
+          )}
+        />
+        <Divider className={classes.divider}/>
+        <FieldArray
+          name="requirements"
+          render={this.renderExtraSection(
+            {
+              singular: 'requirement',
+              plural: 'requirements',
+              propName: 'value',
+              propLabel: 'Value',
+            },
+            {
+              onAddExtra: this.onAddRequirement,
+              onRemoveExtra: this.onRemoveRequirement,
+            }
+          )}
+        />
+      </>
+    );
+  };
+
   render() {
-    const { classes, formik, story, onSearchRequest } = this.props;
+    const { classes, formik, onSearchRequest } = this.props;
 
     return (
       <Form noValidate className={classes.form}>
@@ -75,16 +130,7 @@ class SaveOptionForm extends Component {
           placeholder: 'Search for sequences',
           onSearchRequest
         })}
-        {!story.isAvailableOffline
-          ? (
-            <FieldArray
-              name="consequences"
-              render={this.renderConsequences}
-            />
-          )
-          : (
-            <Typography>Consequences cannot be added for stories that are available offline</Typography>
-          )}
+        {this.renderExtras()}
       </Form>
     );
   }

@@ -4,7 +4,12 @@ import { Form } from 'formik';
 import { withStyles } from '@material-ui/core';
 
 import { ChapterModel } from '../../../../../../infrastructure/models/ChapterModel';
-import { renderCheckboxInput, renderInput, renderSelectInput } from '../../../../../../shared/formUtils';
+import {
+  arrayToSelectFieldOptions,
+  renderCheckboxInput,
+  renderInput,
+  renderSelectInput
+} from '../../../../../../shared/formUtils';
 import FilePicker from '../../../../../../shared/components/form/FileSelect/FilePicker';
 import {
   MAX_SEQUENCE_SCENE_PIC_SIZE_MB,
@@ -20,12 +25,6 @@ const compressOptions = {
 };
 
 class SaveSequenceForm extends Component {
-  getChapters = () => {
-    return this.props.chapters.map(c => {
-      return { _id: c._id, name: c.name };
-    });
-  };
-
   onFileUploaded = base64File => {
     this.props.formik.setFieldValue('scenePic', base64File);
   };
@@ -63,7 +62,7 @@ class SaveSequenceForm extends Component {
               name: 'chapter',
               className: classes.chapterField,
               fullWidth: true,
-              items: this.getChapters(),
+              items: arrayToSelectFieldOptions(chapters),
             })}
             {renderInput(formik, {
               label: 'Name',

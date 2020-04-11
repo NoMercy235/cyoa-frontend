@@ -2,6 +2,22 @@ import { BaseModel } from './BaseModel';
 import { ERRORS } from '../../shared/constants/errors';
 import { Utils } from '@nomercy235/utils';
 import { ConsequenceModel } from './ConsequenceModel';
+import { RequirementModel } from './RequirementModel';
+
+const checkErrorsForExtra = (errors, extra, propName) => {
+  extra
+    .map((extra, index) => {
+      return {
+        index,
+        ...extra.checkErrors(),
+      };
+    })
+    .filter(errorObj => Object.keys(errorObj).length > 1)
+    .forEach(errorObj => {
+      if (!errors[propName]) errors[propName] = {};
+      errors[propName][errorObj.index] = errorObj;
+    });
+};
 
 export class OptionModel extends BaseModel {
   _id = '';
@@ -10,12 +26,16 @@ export class OptionModel extends BaseModel {
   sequence = '';
   nextSeq = '';
   consequences = [];
+  requirements = [];
 
   constructor(metadata) {
     super();
     Object.assign(this, metadata);
     if (Utils.safeAccess(this.consequences, 'length')) {
       this.consequences = this.consequences.map(c => new ConsequenceModel(c));
+    }
+    if (Utils.safeAccess(this.requirements, 'length')) {
+      this.requirements = this.requirements.map(r => new RequirementModel(r));
     }
   }
 
@@ -30,21 +50,8 @@ export class OptionModel extends BaseModel {
       errors.nextSeq = ERRORS.fieldRequired;
     }
 
-    errors.consequences = new Array(this.consequences.length);
-    this.consequences.forEach((c, i) => {
-      errors.consequences[i] = {
-        index: i,
-        ...c.checkErrors(),
-      };
-    });
-    errors.consequences = errors.consequences.filter(
-      e => e && (Object.keys(e).length > 1)
-    );
-
-    if (!errors.consequences.length) {
-      delete errors.consequences;
-    }
-
+    checkErrorsForExtra(errors, this.consequences, 'consequences');
+    checkErrorsForExtra(errors, this.requirements, 'requirements');
     return errors;
   }
 
@@ -59,6 +66,7 @@ export class OptionModel extends BaseModel {
         ? option.nextSeq.value
         : option.nextSeq,
       consequences: option.consequences,
+      requirements: option.requirements,
       ...BaseModel.handleExtraFieldsForApi(option, extraFields),
     };
   }
