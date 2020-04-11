@@ -2,7 +2,7 @@ export const styles = theme => ({
   chapterField: {
     width: '100%',
   },
-  isStartSeqContainer: {
+  checkboxFieldContainer: {
     display: 'flex',
     alignItems: 'center',
   },

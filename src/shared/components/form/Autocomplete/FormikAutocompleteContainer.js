@@ -69,6 +69,7 @@ class FormikAutocompleteContainer extends Component {
     const {
       formik,
       field,
+      disabled,
       label,
       placeholder,
     } = this.props;
@@ -82,6 +83,7 @@ class FormikAutocompleteContainer extends Component {
 
     return (
       <Autocomplete
+        disabled={disabled}
         placeholder={placeholder}
         inputProps={inputProps}
         value={field.value || ''}
@@ -99,6 +101,7 @@ class FormikAutocompleteContainer extends Component {
 FormikAutocompleteContainer.propTypes = {
   formik: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
+  disabled: PropTypes.bool,
   label: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   searchOnFocus: PropTypes.bool,

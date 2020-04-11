@@ -1,8 +1,10 @@
 import { BaseService } from './BaseService';
 import { OptionModel } from '../models/OptionModel';
+import { makePath } from '../../shared/constants/routes';
 
 class OptionService extends BaseService {
   endpoint = 'api/option/:sequence';
+  allOptionsEndpoint = 'api/option/story/:story';
 
   get = id => {
     return super.get(id).then(o => new OptionModel(o));
@@ -20,6 +22,14 @@ class OptionService extends BaseService {
 
   update = (id, option) => {
     return super.update(id, option).then(a => new OptionModel(a));
+  };
+
+  getAllStoryOptions = (storyId) => {
+    const endpoint = makePath(this.allOptionsEndpoint, { ':story': storyId });
+    return this.client.get(`${endpoint}?${BaseService.parseSort({ created_at: 'asc' })}`)
+      .then(BaseService.onSuccess).then(options => {
+      return options.map(o => new OptionModel(o));
+    });
   };
 }
 

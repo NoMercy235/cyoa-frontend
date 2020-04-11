@@ -5,6 +5,9 @@ export const styles = theme => ({
     flexGrow: 1,
     margin: theme.spacing(1, 0),
   },
+  reactSelectContainerDisabled: {
+    backgroundColor: 'rgba(0, 0, 0, 0.12)',
+  },
   input: {
     display: 'flex',
     padding: 0,

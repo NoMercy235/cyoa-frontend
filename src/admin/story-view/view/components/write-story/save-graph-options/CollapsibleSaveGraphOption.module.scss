@@ -1,0 +1,29 @@
+@import "../../../../../../variables.scss";
+
+.formContainer {
+  width: 100%;
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+  }
+}
+
+.summaryRow {
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  &.optionWithError {
+    color: red;
+  }
+
+  & > span {
+    flex: 1;
+  }
+
+  & > svg:hover {
+    color: $COLOR_SECONDARY;
+  }
+}

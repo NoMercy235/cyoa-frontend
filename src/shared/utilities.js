@@ -2,19 +2,12 @@ import React from 'react';
 import { createMuiTheme, Typography } from '@material-ui/core';
 import { runInAction } from 'mobx';
 
-export const parseContent = (content, options = {}) => {
-  return content.split('\n').map((line, i) => {
-    if (line === '') return <br key={i}/>;
-    return (
-      <Typography
-        key={i}
-        className={options.className || ''}
-        variant={options.variant || 'h6'}
-      >
-        {line}
-      </Typography>
-    );
-  });
+export const parseContent = (content) => {
+  return (
+    <Typography component="pre" style={{ whiteSpace: 'pre-line' }}>
+      {content}
+    </Typography>
+  );
 };
 
 /**

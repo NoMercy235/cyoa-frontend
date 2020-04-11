@@ -39,4 +39,11 @@ export class BaseModel {
 
     return 'An error has occurred';
   }
+
+  static handleExtraFieldsForApi (resource, extraFields = []) {
+    return (extraFields.reduce((curr, field) => {
+      curr[field] = resource[field];
+      return curr;
+    }, {}))
+  }
 }

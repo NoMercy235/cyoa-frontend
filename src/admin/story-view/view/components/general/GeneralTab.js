@@ -17,7 +17,7 @@ class GeneralTab extends Component {
           variant="h6"
           color="inherit"
         >
-          {story.shortDescription}
+          {parseContent(story.shortDescription)}
         </Typography>
         <div className={styles.longDescriptionContainer}>
           <img

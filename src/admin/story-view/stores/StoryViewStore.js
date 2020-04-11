@@ -8,6 +8,7 @@ import { StoryModel } from '../../../infrastructure/models/StoryModel';
 class StoryViewStore {
   @observable attributes = [];
   @observable sequences = [];
+  @observable allStoryOptions = [];
   @observable chapters = [];
   @observable currentStory = null;
 
@@ -16,7 +17,7 @@ class StoryViewStore {
   };
 
   @action addAttribute = attribute => {
-    this.attributes.push(attribute);
+    this.attributes = [...this.attributes, attribute];
   };
 
   @action updateAttribute = (id, newAttribute) => {
@@ -36,7 +37,7 @@ class StoryViewStore {
   };
 
   @action addSequence = sequence => {
-    this.sequences.push(sequence);
+    this.sequences = [...this.sequences, sequence];
   };
 
   @action updateSequence = (id, newSequence) => {
@@ -68,6 +69,14 @@ class StoryViewStore {
     this.sequences = this.sequences.filter(a => a._id !== sequenceId);
   };
 
+  @action removeSequenceWithRelatedOptions = sequenceId => {
+    const optionsToRemove = this.allStoryOptions
+      .filter(({ sequence, nextSeq }) => nextSeq === sequenceId || sequence === sequenceId)
+      .map(option => option._id);
+    this.removeAllStoryOptions(optionsToRemove);
+    this.removeSequence(sequenceId);
+  };
+
   @action setOptionsToSequence = (sequenceId, options) => {
     const s = this.getSequenceById(sequenceId);
     s.options = options;
@@ -75,7 +84,7 @@ class StoryViewStore {
 
   @action addOptionToSequence = (sequenceId, option) => {
     const s = this.sequences.find(s => s._id === sequenceId);
-    s.options.push(option);
+    s.options = [...s.options, option];
   };
 
   @action updateOption = (sequenceId, optionId, option) => {
@@ -89,6 +98,27 @@ class StoryViewStore {
   @action removeOptionFromSequence = (sequenceId, optionId) => {
     const seq = this.getSequenceById(sequenceId);
     seq.options = seq.options.filter(o => o._id !== optionId);
+  };
+
+  @action setAllStoryOptions = (options) => {
+    this.allStoryOptions = options;
+  };
+
+  @action addToAllStoryOptions = (newOptions = []) => {
+    this.allStoryOptions = [...this.allStoryOptions, ...newOptions];
+  };
+
+  @action updateInAllStoryOptions = (updatedOptions = []) => {
+    this.allStoryOptions = this.allStoryOptions.map((option) => {
+      const exists = updatedOptions.find(uo => uo._id === option._id);
+      return exists || option;
+    });
+  };
+
+  @action removeAllStoryOptions = (optionsToRemove = []) => {
+    this.allStoryOptions = this.allStoryOptions.filter((option) => {
+      return !optionsToRemove.includes(option._id);
+    });
   };
 
   @action setCurrentStory = story => {
@@ -106,7 +136,7 @@ class StoryViewStore {
   };
 
   @action addChapter = chapter => {
-    this.chapters.push(chapter);
+    this.chapters = [...this.chapters, chapter];
   };
 
   @action updateChapter = (id, newChapter) => {
@@ -158,11 +188,17 @@ export const storyViewStorePropTypes = PropTypes.shape({
   getAttributeById: PropTypes.func,
   updateSequence: PropTypes.func,
   updateSequenceInPlace: PropTypes.func,
+  removeSequence: PropTypes.func,
+  removeSequenceWithRelatedOptions: PropTypes.func,
 
   setOptionsToSequence: PropTypes.func,
   addOptionToSequence: PropTypes.func,
   updateOption: PropTypes.func,
   removeOptionFromSequence: PropTypes.func,
+
+  setAllStoryOptions: PropTypes.func,
+  addToAllStoryOptions: PropTypes.func,
+  updateInAllStoryOptions: PropTypes.func,
 
   setCurrentStory: PropTypes.func,
   updateCurrentStory: PropTypes.func,

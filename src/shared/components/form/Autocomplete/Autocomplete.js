@@ -144,6 +144,7 @@ class Autocomplete extends React.Component {
       classes,
       suggestions,
       isMulti,
+      disabled,
       value,
       onChange,
       onFocus = noop,
@@ -157,8 +158,12 @@ class Autocomplete extends React.Component {
     return (
       <div className={classes.root}>
         <ReactSelect
+          className={classNames({
+            [classes.reactSelectContainerDisabled]: disabled,
+          })}
           classes={classes}
           styles={this.getSelectStyles()}
+          isDisabled={disabled}
           textFieldProps={{
             InputLabelProps: {
               shrink: true,
@@ -193,6 +198,7 @@ Autocomplete.propTypes = {
 
   placeholder: PropTypes.string.isRequired,
   isMulti: PropTypes.bool,
+  disabled: PropTypes.bool,
   value: PropTypes.oneOfType([
     PropTypes.oneOf(['']),
     autocompleteSuggestionProp,

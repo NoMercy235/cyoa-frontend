@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { Field, FieldArray, Form } from 'formik';
-import { withStyles, IconButton, TextField, Tooltip, Typography } from '@material-ui/core';
-import { hasError } from '../../../../../../shared/components/form/helpers';
+import { FieldArray, Form } from 'formik';
+import { withStyles, IconButton, Tooltip, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
 import ConsequenceForm from './ConsequenceForm';
 import { ConsequenceModel } from '../../../../../../infrastructure/models/ConsequenceModel';
 import { AttributeModel } from '../../../../../../infrastructure/models/AttributeModel';
-import FormikAutocompleteContainer from '../../../../../../shared/components/form/Autocomplete/FormikAutocompleteContainer';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
+import { renderAutocompleteInput, renderInput } from '../../../../../../shared/formUtils';
 
 import { styles } from './SaveOption.css';
 
@@ -23,35 +22,13 @@ class SaveOptionForm extends Component {
     arrayHelpers.remove(index);
   };
 
-  renderActionField = ({ field }) => {
-    const { formik } = this.props;
-    return (
-      <TextField
-        {...field}
-        label="Action"
-        fullWidth
-        value={formik.values.action}
-        {...hasError(formik, 'action')}
-      />
-    );
-  };
-
-  renderNextSeqField = ({ field }) => {
-    const { formik, onSearchRequest } = this.props;
-    return (
-      <FormikAutocompleteContainer
-        formik={formik}
-        field={field}
-        label="Leads to"
-        placeholder="Search for sequences"
-        searchOnFocus={true}
-        onSearchRequest={onSearchRequest}
-      />
-    );
-  };
-
   renderConsequences = (arrayHelpers) => {
     const { classes, formik, attributes } = this.props;
+
+    if (!attributes.length) {
+      return null;
+    }
+
     return (
       <>
         <Typography
@@ -83,20 +60,21 @@ class SaveOptionForm extends Component {
   };
 
   render() {
-    const { classes, story } = this.props;
+    const { classes, formik, story, onSearchRequest } = this.props;
 
     return (
       <Form noValidate className={classes.form}>
-        <Field
-          name="action"
-          required
-          render={this.renderActionField}
-        />
-        <Field
-          name="nextSeq"
-          required
-          render={this.renderNextSeqField}
-        />
+        {renderInput(formik, {
+          label: 'Action',
+          name: 'action',
+          required: true,
+        })}
+        {onSearchRequest && renderAutocompleteInput(formik, {
+          label: 'Leads to',
+          name: 'nextSeq',
+          placeholder: 'Search for sequences',
+          onSearchRequest
+        })}
         {!story.isAvailableOffline
           ? (
             <FieldArray
@@ -117,8 +95,7 @@ SaveOptionForm.propTypes = {
   formik: PropTypes.object.isRequired,
   story: PropTypes.instanceOf(StoryModel).isRequired,
   attributes: PropTypes.arrayOf(PropTypes.instanceOf(AttributeModel)).isRequired,
-  onClose: PropTypes.func.isRequired,
-  onSearchRequest: PropTypes.func.isRequired,
+  onSearchRequest: PropTypes.func,
 };
 
 export default withStyles(styles)(SaveOptionForm);

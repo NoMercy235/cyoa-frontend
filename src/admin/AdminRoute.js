@@ -17,7 +17,7 @@ class AdminRoute extends Component {
     return (
       <Switch>
         <Route exact path={ADMIN_STORIES_ROUTE} component={StoryRoute} />
-        <Route exact path={ADMIN_STORY_VIEW_ROUTE} component={StoryViewRoute} />
+        <Route path={ADMIN_STORY_VIEW_ROUTE} component={StoryViewRoute} />
         <Route exact path={ADMIN_PROFILE_ROUTE} component={ProfileRoute} />
         <Redirect exact from={ADMIN_ROUTE} to={ADMIN_STORIES_ROUTE}/>
         <Redirect to={NOT_FOUND_ROUTE}/>

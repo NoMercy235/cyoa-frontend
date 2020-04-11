@@ -1,0 +1,12 @@
+.toolbarContainer {
+  display: flex;
+  margin: 8px 0;
+
+  .newSequenceBtn {
+    margin-right: 8px;
+  }
+
+  .divider {
+    flex: 1;
+  }
+}
