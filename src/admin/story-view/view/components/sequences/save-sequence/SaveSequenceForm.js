@@ -18,6 +18,7 @@ import {
 } from '../../../../../../shared/constants/sequences';
 
 import { styles } from './SaveSequence.css';
+import notFoundImg from '../../../../../../assets/notfound.png';
 
 const compressOptions = {
   maxSizeMB: MAX_SEQUENCE_SCENE_PIC_SIZE_MB,
@@ -34,7 +35,7 @@ class SaveSequenceForm extends Component {
     return (
       <FilePicker
         inputId="sequence-picture"
-        initialImage={scenePic}
+        initialImage={scenePic || notFoundImg}
         cropperProps={{
           size: SEQUENCE_PICTURE_PREVIEW_SIZE,
           cropperProps: {
