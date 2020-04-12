@@ -2,23 +2,21 @@ import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Button } from '@material-ui/core';
 
-import { submitAndValidateForm } from '../../utils/formUtils';
-
 class BasicFormActions extends Component {
   static defaultProps = {
     disabled: false,
   };
 
-  onSave = async () => {
-    const { formik, afterFormSubmit } = this.props;
-    const errors = await submitAndValidateForm(formik);
-    if (!errors) {
-      afterFormSubmit && await afterFormSubmit(formik);
-    }
-  };
-
   render() {
-    const { formik, disabled, cancelLabel, saveLabel, variant, onClose } = this.props;
+    const {
+      formik,
+      disabled,
+      cancelLabel,
+      saveLabel,
+      variant,
+      onSave,
+      onClose,
+    } = this.props;
 
     return (
       <>
@@ -34,7 +32,7 @@ class BasicFormActions extends Component {
           color="primary"
           type="submit"
           disabled={disabled || formik.isSubmitting}
-          onClick={this.onSave}
+          onClick={onSave || formik.submitForm}
           variant={variant}
         >
           {saveLabel || 'Save'}
@@ -50,8 +48,8 @@ BasicFormActions.propTypes = {
   cancelLabel: PropTypes.string,
   saveLabel: PropTypes.string,
   variant: PropTypes.string,
+  onSave: PropTypes.func,
   onClose: PropTypes.func.isRequired,
-  afterFormSubmit: PropTypes.func,
 };
 
 export default BasicFormActions;
