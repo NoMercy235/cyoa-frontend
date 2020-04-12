@@ -40,6 +40,8 @@ export class SequenceModel extends BaseModel {
       content: sequence.content,
       isEnding: sequence.isEnding,
       chapter: sequence.chapter,
+      x: sequence.x,
+      y: sequence.y,
       ...BaseModel.handleExtraFieldsForApi(sequence, extraFields),
     };
   }

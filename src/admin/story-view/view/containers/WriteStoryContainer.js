@@ -107,7 +107,7 @@ class WriteStoryContainer extends Component {
       socket.emit(
         SocketEvents.NewSequenceRequest,
         {
-          sequence: SequenceModel.forApi(sequence, ['story', 'x', 'y']),
+          sequence: SequenceModel.forApi(sequence, ['story']),
           isStartSeq,
         },
       );

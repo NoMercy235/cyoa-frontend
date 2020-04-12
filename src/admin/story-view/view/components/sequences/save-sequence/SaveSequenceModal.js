@@ -19,6 +19,7 @@ import { handleConflictError } from '../../../../../../shared/utils/formUtils';
 
 import { styles } from './SaveSequence.css';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
+import { NEW_SEQUENCE_POSITION } from '../../../../../../shared/constants/graph';
 
 @inject('storyViewStore', 'appStore')
 class SaveSequenceModal extends Component {
@@ -96,6 +97,8 @@ class SaveSequenceModal extends Component {
         }
         seq = await this.updateSequence(values);
       } else {
+        // Add coordinates for the graph
+        Object.assign(values, NEW_SEQUENCE_POSITION);
         seq = await this.saveSequence(values);
       }
 
