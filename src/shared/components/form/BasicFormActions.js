@@ -18,7 +18,7 @@ class BasicFormActions extends Component {
   };
 
   render() {
-    const { formik, disabled, cancelLabel, saveLabel, onClose } = this.props;
+    const { formik, disabled, cancelLabel, saveLabel, variant, onClose } = this.props;
 
     return (
       <>
@@ -26,6 +26,7 @@ class BasicFormActions extends Component {
           color="secondary"
           onClick={onClose}
           disabled={disabled || formik.isSubmitting}
+          variant={variant}
         >
           {cancelLabel || 'Cancel'}
         </Button>
@@ -34,6 +35,7 @@ class BasicFormActions extends Component {
           type="submit"
           disabled={disabled || formik.isSubmitting}
           onClick={this.onSave}
+          variant={variant}
         >
           {saveLabel || 'Save'}
         </Button>
@@ -47,6 +49,7 @@ BasicFormActions.propTypes = {
   disabled: PropTypes.bool,
   cancelLabel: PropTypes.string,
   saveLabel: PropTypes.string,
+  variant: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   afterFormSubmit: PropTypes.func,
 };

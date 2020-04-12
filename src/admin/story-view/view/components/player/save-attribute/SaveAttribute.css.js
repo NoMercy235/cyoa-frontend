@@ -3,7 +3,6 @@ export const styles = theme => ({
     display: 'flex',
   },
   name: {
-    flex: '1 1',
     paddingRight: theme.spacing(1),
   },
   startValue: {

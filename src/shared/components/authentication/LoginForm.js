@@ -1,53 +1,27 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { Field, Form } from 'formik';
-import { withStyles, TextField } from '@material-ui/core';
+import { Form } from 'formik';
+import { withStyles } from '@material-ui/core';
 
 import { styles } from './Authentication.css';
-import { hasError } from '../../utils/formUtils';
+import { renderInput } from '../../utils/formUtils';
 
 class LoginForm extends Component {
-  renderEmailField = ({ field }) => {
-    const { formik } = this.props;
-    return (
-      <TextField
-        {...field}
-        label="Email"
-        fullWidth
-        value={formik.values.email}
-        {...hasError(formik, 'email')}
-      />
-    );
-  };
-
-  renderPasswordField = ({ field }) => {
-    const { formik } = this.props;
-    return (
-      <TextField
-        {...field}
-        type="password"
-        label="Password"
-        fullWidth
-        value={formik.values.password}
-        {...hasError(formik, 'password')}
-      />
-    );
-  };
-
   render() {
-
+    const { formik } = this.props;
     return (
       <Form noValidate>
-        <Field
-          name="email"
-          required
-          render={this.renderEmailField}
-        />
-        <Field
-          name="password"
-          required
-          render={this.renderPasswordField}
-        />
+        {renderInput(formik, {
+          label: 'Email',
+          name: 'email',
+          fullWidth: true,
+        })}
+        {renderInput(formik, {
+          label: 'Password',
+          name: 'password',
+          fullWidth: true,
+          type: 'password',
+        })}
       </Form>
     );
   }

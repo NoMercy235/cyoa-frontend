@@ -60,7 +60,6 @@ class SaveSequenceForm extends Component {
             {!!chapters.length && renderSelectInput(formik, {
               label: 'Chapter',
               name: 'chapter',
-              className: classes.chapterField,
               fullWidth: true,
               items: arrayToSelectFieldOptions(chapters),
             })}

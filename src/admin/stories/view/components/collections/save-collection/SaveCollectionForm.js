@@ -1,53 +1,28 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { Field, Form } from 'formik';
-import { TextField } from '@material-ui/core';
+import { Form } from 'formik';
 
-import { hasError } from '../../../../../../shared/utils/formUtils';
+import { renderInput } from '../../../../../../shared/utils/formUtils';
 
 class SaveCollectionForm extends Component {
-  renderNameField = ({ field }) => {
-    const { formik } = this.props;
-    return (
-      <TextField
-        {...field}
-        label="Name"
-        fullWidth
-        value={formik.values.name}
-        {...hasError(formik, 'name')}
-      />
-    );
-  };
-
-  renderDescriptionField = ({ field }) => {
-    const { formik } = this.props;
-    return (
-      <TextField
-        {...field}
-        type="text"
-        label="Description"
-        fullWidth
-        multiline
-        rows={3}
-        value={formik.values.description}
-        {...hasError(formik, 'description')}
-      />
-    );
-  };
-
   render() {
+    const { formik } = this.props;
     return (
       <Form noValidate>
-        <Field
-          name="name"
-          required
-          render={this.renderNameField}
-        />
-        <Field
-          name="description"
-          required
-          render={this.renderDescriptionField}
-        />
+        {renderInput(formik, {
+          label: 'Name',
+          name: 'name',
+          fullWidth: true,
+        })}
+        {renderInput(formik, {
+          label: 'Description',
+          name: 'description',
+          fullWidth: true,
+          textarea: {
+            rows: 3,
+          },
+          required: false,
+        })}
       </Form>
     );
   }

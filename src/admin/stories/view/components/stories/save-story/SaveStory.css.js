@@ -2,18 +2,13 @@ export const styles = theme => ({
   firstRowContainer: {
     display: 'flex',
   },
-  tags: {
-    flex: '1 1',
-    paddingRight: theme.spacing(1),
-  },
   fromCollection: {
-    flex: '1 1',
+    marginLeft: theme.spacing(1),
   },
   uploadBtn: {
     marginTop: theme.spacing(1),
   },
   isAvailableOfflineContainer: {
-    display: 'flex',
-    alignItems: 'center',
+    margin: `${theme.spacing(1)}px 0`,
   },
 });

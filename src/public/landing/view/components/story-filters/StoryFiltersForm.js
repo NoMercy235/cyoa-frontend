@@ -1,66 +1,29 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { Field, Form } from 'formik';
+import { Form } from 'formik';
 import {
-  Button,
   List,
   ListItem,
   ListSubheader,
-  TextField,
 } from '@material-ui/core';
 
-import Select from '../../../../../shared/components/form/Select/Select';
 import { TagModel } from '../../../../../infrastructure/models/TagModel';
+import { renderInput, renderSelectInput } from '../../../../../shared/utils/formUtils';
+import BasicFormActions from '../../../../../shared/components/form/BasicFormActions';
 
 import styles from './StoryFilters.module.scss';
 
 class StoryFiltersForm extends Component {
   tags = TagModel.get();
 
-  resetFilters = () => {
+  resetFilters = async () => {
     const { formik } = this.props;
-    formik.resetForm({
+    await formik.setValues({
       tags: [],
       titleOrDescription: '',
       authorShort: '',
     });
-    formik.submitForm();
-  };
-
-  renderTagsField = ({ field }) => {
-    return (
-      <Select
-        className={styles.tagsFilter}
-        formikField={field}
-        label="Tags"
-        items={this.tags}
-        multiple={true}
-      />
-    );
-  };
-
-  renderTitleOrDescriptionField = ({ field }) => {
-    const { formik } = this.props;
-    return (
-      <TextField
-        {...field}
-        label="Title or description"
-        fullWidth
-        value={formik.values.titleOrDescription}
-      />
-    );
-  };
-
-  renderAuthorField = ({ field }) => {
-    const { formik } = this.props;
-    return (
-      <TextField
-        {...field}
-        label="Author"
-        fullWidth
-        value={formik.values.authorShort}
-      />
-    );
+    await formik.submitForm();
   };
 
   render() {
@@ -76,47 +39,37 @@ class StoryFiltersForm extends Component {
           }
         >
           <ListItem>
-            <Field
-              name="tags"
-              required
-              render={this.renderTagsField}
-            />
+            {renderSelectInput(formik, {
+              label: 'Tags',
+              name: 'tags',
+              fullWidth: true,
+              items: this.tags,
+            })}
           </ListItem>
           <ListItem>
-            <Field
-              name="titleOrDescription"
-              required
-              render={this.renderTitleOrDescriptionField}
-            />
+            {renderInput(formik, {
+              label: 'Title or description',
+              name: 'titleOrDescription',
+              fullWidth: true,
+              required: false,
+            })}
           </ListItem>
           <ListItem>
-            <Field
-              name="authorShort"
-              required
-              render={this.renderAuthorField}
-            />
+            {renderInput(formik, {
+              label: 'Author',
+              name: 'authorShort',
+              fullWidth: true,
+              required: false,
+            })}
           </ListItem>
-          <ListItem>
-            <Button
-              type="submit"
-              color="primary"
+          <ListItem className={styles.buttons}>
+            <BasicFormActions
+              formik={formik}
+              onClose={this.resetFilters}
               variant="outlined"
-              fullWidth={true}
-              disabled={formik.isSubmitting}
-            >
-              Search
-            </Button>
-          </ListItem>
-          <ListItem>
-            <Button
-              color="secondary"
-              variant="outlined"
-              fullWidth={true}
-              disabled={formik.isSubmitting}
-              onClick={this.resetFilters}
-            >
-              Reset filters
-            </Button>
+              saveLabel="Search"
+              cancelLabel="Reset filters"
+            />
           </ListItem>
         </List>
       </Form>

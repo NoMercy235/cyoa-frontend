@@ -21,7 +21,6 @@ class OptionExtrasForm extends Component {
           required: true,
           label: 'Attribute',
           name: `${names.plural}.${index}.attribute`,
-          className: classes.chapterField,
           fullWidth: true,
           items: arrayToSelectFieldOptions(attributes, { idProp: 'name' }),
         })}

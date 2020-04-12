@@ -77,9 +77,8 @@ class SaveOptionForm extends Component {
     return (
       <div className={classes.extraSectionContainer}>
         <div>
-          <FieldArray
-            name="consequences"
-            render={this.renderExtraSection(
+          <FieldArray name="consequences">
+            {this.renderExtraSection(
               {
                 singular: 'consequence',
                 plural: 'consequences',
@@ -91,12 +90,11 @@ class SaveOptionForm extends Component {
                 onRemoveExtra: this.onRemoveConsequence,
               }
             )}
-          />
+          </FieldArray>
         </div>
         <div>
-          <FieldArray
-            name="requirements"
-            render={this.renderExtraSection(
+          <FieldArray name="requirements">
+            {this.renderExtraSection(
               {
                 singular: 'requirement',
                 plural: 'requirements',
@@ -108,7 +106,7 @@ class SaveOptionForm extends Component {
                 onRemoveExtra: this.onRemoveRequirement,
               }
             )}
-          />
+          </FieldArray>
         </div>
       </div>
     );

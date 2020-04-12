@@ -1,8 +1,8 @@
-.container {
-  flex: 1 1;
-  overflow: hidden;
-
-  .tagsFilter {
-    width: 100%;
+.buttons {
+  & > button {
+    flex: 1;
+    &:first-of-type {
+      margin-right: 8px;
+    }
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field } from 'formik';
-import { Checkbox, TextField, Typography } from '@material-ui/core';
+import { Checkbox, Switch, TextField, Typography } from '@material-ui/core';
 import { Utils } from '@nomercy235/utils';
 
 import FormikAutocompleteContainer from '../components/form/Autocomplete/FormikAutocompleteContainer';
@@ -53,30 +53,31 @@ export const renderInput = (
     className,
     disabled,
     required = true,
-    textarea = {},
+    textarea,
     fullWidth = false,
+    type = 'text',
   }
 ) => {
   return (
     <Field
       name={name}
       required={required}
-      render={({ field }) => {
-        return (
-          <TextField
-            {...field}
-            label={label}
-            className={className}
-            value={getInnerObject(formik.values, name.split('.'))}
-            disabled={disabled}
-            multiline={!!textarea}
-            rows={textarea.rows}
-            fullWidth={fullWidth}
-            {...(required ? hasError(formik, name) : {})}
-          />
-        );
-      }}
-    />
+    >
+      {({ field }) => (
+        <TextField
+          {...field}
+          type={type}
+          label={label}
+          className={className}
+          value={getInnerObject(formik.values, name.split('.'))}
+          disabled={disabled}
+          multiline={!!textarea}
+          rows={Utils.safeAccess(textarea, 'rows')}
+          fullWidth={fullWidth}
+          {...(required ? hasError(formik, name) : {})}
+        />
+      )}
+    </Field>
   );
 };
 
@@ -96,20 +97,19 @@ export const renderAutocompleteInput = (
     <Field
       name={name}
       required={required}
-      render={({ field }) => {
-        return (
-          <FormikAutocompleteContainer
-            formik={formik}
-            field={field}
-            disabled={disabled}
-            label={label}
-            placeholder={placeholder}
-            searchOnFocus={searchOnFocus}
-            onSearchRequest={onSearchRequest}
-          />
-        );
-      }}
-    />
+    >
+      {({ field }) => (
+        <FormikAutocompleteContainer
+          formik={formik}
+          field={field}
+          disabled={disabled}
+          label={label}
+          placeholder={placeholder}
+          searchOnFocus={searchOnFocus}
+          onSearchRequest={onSearchRequest}
+        />
+      )}
+    </Field>
   );
 };
 
@@ -122,26 +122,29 @@ export const renderSelectInput = (
     disabled,
     required,
     items,
+    fullWidth,
+    multiple,
   }
 ) => {
   return (
     <Field
       name={name}
       required={required}
-      render={({ field }) => {
-        return (
-          <Select
-            formikField={field}
-            label={label}
-            className={className}
-            value={getInnerObject(formik.values, name.split('.'))}
-            disabled={disabled}
-            items={items}
-            {...(required ? hasError(formik, name) : {})}
-          />
-        );
-      }}
-    />
+    >
+      {({ field }) => (
+        <Select
+          formikField={field}
+          label={label}
+          className={className}
+          value={getInnerObject(formik.values, name.split('.'))}
+          disabled={disabled}
+          items={items}
+          fullWidth={fullWidth}
+          multiple={multiple}
+          {...(required ? hasError(formik, name) : {})}
+        />
+      )}
+    </Field>
   );
 };
 
@@ -154,34 +157,73 @@ export const renderCheckboxInput = (
     disabled,
     required = true,
     defaultValue,
+    variant,
   }
 ) => {
   return (
     <Typography
       className={className}
       noWrap
+      variant={variant || 'body2'}
     >
       {label}
       <Field
         name={name}
         required={required}
-        render={({ field }) => {
-          return (
-            <Checkbox
-              {...field}
-              disabled={disabled}
-              checked={!!getInnerObject(formik.values, name.split('.'))}
-              value={defaultValue}
-            />
-          );
-        }}
-      />
+      >
+        {({ field }) => (
+          <Checkbox
+            {...field}
+            disabled={disabled}
+            checked={!!getInnerObject(formik.values, name.split('.'))}
+            value={defaultValue}
+          />
+        )}
+      </Field>
+    </Typography>
+  );
+};
+
+export const renderSwitchInput = (
+  formik,
+  {
+    label,
+    name,
+    className,
+    disabled,
+    required,
+    defaultValue,
+    extraInfo,
+    variant,
+  }
+) => {
+  return (
+    <Typography
+      className={className}
+      noWrap
+      variant={variant || 'body2'}
+    >
+      {label}
+      <Field
+        name={name}
+        required={required}
+      >
+        {({ field }) => (
+          <Switch
+            {...field}
+            disabled={disabled}
+            checked={!!getInnerObject(formik.values, name.split('.'))}
+            value={defaultValue}
+          />
+        )}
+      </Field>
+      {extraInfo}
     </Typography>
   );
 };
 
 export const submitAndValidateForm = async formik => {
-  formik.submitForm();
+  await formik.submitForm();
   const errors = await formik.validateForm();
   return Object.keys(errors).length > 0 ? errors : undefined;
 };

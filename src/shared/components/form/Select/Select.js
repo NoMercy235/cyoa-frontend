@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { Utils } from '@nomercy235/utils';
+import classNames from 'classnames';
 
 import ClearSelectIcon from './ClearSelectIcon';
 
@@ -48,11 +49,25 @@ class Select extends Component {
   }
 
   render() {
-    const { className, label, items, disabled, formikField, helperText, classes, multiple } = this.props;
+    const {
+      classes,
+      className,
+      label,
+      items,
+      disabled,
+      formikField,
+      helperText,
+      multiple,
+      fullWidth,
+    } = this.props;
     const { selected } = this.state;
 
     return (
-      <FormControl className={className}>
+      <FormControl
+        className={classNames(className, {
+          [classes.fullWidth]: fullWidth
+        })}
+      >
         <InputLabel htmlFor={`select-${label}`}>{label}</InputLabel>
         <MuiSelect
           multiple={multiple}
@@ -118,6 +133,7 @@ Select.propTypes = {
   disabled: PropTypes.bool,
   className: PropTypes.string,
   multiple: PropTypes.bool,
+  fullWidth: PropTypes.bool,
   classes: PropTypes.object.isRequired,
 };
 
@@ -131,4 +147,7 @@ export default withStyles(theme => ({
       cursor: 'not-allowed',
     },
   },
+  fullWidth: {
+    width: '100%',
+  }
 }))(Select);
