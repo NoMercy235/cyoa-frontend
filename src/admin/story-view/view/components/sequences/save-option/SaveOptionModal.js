@@ -103,6 +103,7 @@ class SaveOptionModal extends Component {
         classes={{
           paper: classNames(classes.dialogSize, classes.saveOptionDialog),
         }}
+        maxWidth="xl"
       >
         <DialogTitle
           onClose={this.onClose(formik.resetForm)}

@@ -134,6 +134,7 @@ class SaveSequenceModal extends Component {
         open={open}
         onClose={this.onClose}
         classes={{ paper: classes.dialogSize }}
+        maxWidth="xl"
       >
         <DialogTitle
           onClose={this.onClose}
