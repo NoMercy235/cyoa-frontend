@@ -28,6 +28,7 @@ class OptionExtrasForm extends Component {
           label: names.propLabel,
           name: `${names.plural}.${index}.${names.propName}`,
           fullWidth: true,
+          type: 'number',
         })}
         <Tooltip title={`Remove ${names.singular}`}>
           <div className={classes.extraRemoveBtn}>
