@@ -1,14 +1,14 @@
 import React from 'react';
 
 export const renderConsequenceCell = option => {
-  return this.renderExtraCell(
+  return renderExtraCell(
     'consequences',
     (consequence) => consequence.changeValue,
   )(option);
 };
 
 export const renderRequirementCell = option => {
-  return this.renderExtraCell(
+  return renderExtraCell(
     'requirements',
     (requirement) => requirement.changeValue,
   )(option);
