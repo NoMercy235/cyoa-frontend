@@ -16,6 +16,7 @@ import { renderOptionTableTitle } from './OptionTableTitle';
 import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
 import withDisabledStoryPublished from '../../../../../../shared/hoc/withDisabledStoryPublished';
 import { OPTIONS_ADMIN_TABLE } from '../../../../../../shared/constants/tables';
+import { renderConsequenceCell, renderRequirementCell } from '../../../../../../shared/utils/optionsUtils';
 
 import { styles as tableStyles } from '../../../../../../shared/components/table/TableCmp.css';
 
@@ -45,16 +46,6 @@ class OptionTableCmp extends Component {
         </Tooltip>
       );
   };
-
-  getConsequences(option) {
-    return option.consequences
-      .filter(c => c.attribute)
-      .map((attr, i) =>
-        <div key={i}>
-          <b>{attr.attribute}</b>&nbsp;:&nbsp;<b>{attr.changeValue}</b>
-        </div>
-      );
-  }
 
   getOptions = async () => {
     const { sequence: { _id: id } } = this.props;
@@ -116,7 +107,8 @@ class OptionTableCmp extends Component {
       return [
         o.action,
         this.getNextSeqName(o),
-        this.getConsequences(o),
+        renderConsequenceCell(o),
+        renderRequirementCell(o),
         this.getActions(o),
       ];
     });

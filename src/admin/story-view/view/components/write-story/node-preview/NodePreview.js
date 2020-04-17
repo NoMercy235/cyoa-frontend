@@ -12,24 +12,15 @@ import TableCmp from '../../../../../../shared/components/table/TableCmp';
 import { parseContent } from '../../../../../../shared/utilities';
 import { SEQUENCE_PICTURE_CROPPER_SIZE } from '../../../../../../shared/constants/sequences';
 import TextWithImage from '../../../../../../shared/components/text-with-image/TextWithImage';
+import { renderConsequenceCell, renderRequirementCell } from '../../../../../../shared/utils/optionsUtils';
 
 import { styles } from './NodePreview.css';
 
 class NodePreview extends Component {
 
   renderNextSeqName = ({ nextSeq }) => {
-    const seq = this.props.sequences.find(({ _id }) => _id === nextSeq);
+    const seq = this.props.sequences.find(seq => seq._id === nextSeq);
     return seq && seq.name;
-  };
-
-  renderConsequenceCell = option => {
-    return option.consequences
-      .filter(c => c.attribute)
-      .map((attr, i) =>
-        <div key={i}>
-          <b>{attr.attribute}</b>&nbsp;:&nbsp;<b>{attr.changeValue}</b>
-        </div>
-      );
   };
 
   renderOptionsTable = () => {
@@ -39,7 +30,8 @@ class NodePreview extends Component {
       return [
         option.action,
         this.renderNextSeqName(option),
-        this.renderConsequenceCell(option),
+        renderConsequenceCell(option),
+        renderRequirementCell(option),
       ];
     });
 
