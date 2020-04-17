@@ -86,7 +86,7 @@ class SaveSequenceModal extends Component {
     this.props.onClose();
   };
 
-  onSubmit = async (values, { setSubmitting, setErrors, resetForm }) => {
+  onSubmit = async (values, { setSubmitting, setErrors }) => {
     const { story, sequence, onSuccess } = this.props;
     try {
       let seq = {};
@@ -107,11 +107,10 @@ class SaveSequenceModal extends Component {
       }
 
       onSuccess && await onSuccess();
-      resetForm();
+      setSubmitting(false);
       this.onClose();
     } catch (e) {
       setErrors(handleConflictError(e));
-    } finally {
       setSubmitting(false);
     }
   };

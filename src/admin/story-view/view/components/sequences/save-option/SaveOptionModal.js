@@ -19,6 +19,7 @@ import { getDebouncedSequences } from '../../../../../../shared/utils/sequencesU
 
 import { styles } from './SaveOption.css';
 import { dialogDefaultCss } from '../../../../../../shared/components/dialog/Dialog.css';
+import { handleConflictError } from '../../../../../../shared/utils/formUtils';
 
 @inject('storyViewStore', 'appStore')
 class SaveOptionModal extends Component {
@@ -70,20 +71,21 @@ class SaveOptionModal extends Component {
     });
   };
 
-  onClose = (resetForm) => () => {
-    resetForm(this.getInitialValues());
+  onClose = () => {
     this.props.onClose();
   };
 
-  onSubmit = async (values, { setSubmitting, resetForm }) => {
+  onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
       if (values._id) {
         await this.updateOption(values);
       } else {
         await this.saveOption(values);
       }
-      this.onClose(resetForm)();
-    } finally {
+      setSubmitting(false)
+      this.onClose();
+    } catch (e) {
+      setErrors(handleConflictError(e));
       setSubmitting(false);
     }
   };
@@ -99,14 +101,14 @@ class SaveOptionModal extends Component {
     return (
       <Dialog
         open={open}
-        onClose={this.onClose(formik.resetForm)}
+        onClose={this.onClose}
         classes={{
           paper: classNames(classes.dialogSize, classes.saveOptionDialog),
         }}
         maxWidth="xl"
       >
         <DialogTitle
-          onClose={this.onClose(formik.resetForm)}
+          onClose={this.onClose}
         >
           {this.renderTitle()}
         </DialogTitle>
@@ -121,7 +123,7 @@ class SaveOptionModal extends Component {
         <DialogActions>
           <BasicFormActions
             formik={formik}
-            onClose={this.onClose(formik.resetForm)}
+            onClose={this.onClose}
           />
         </DialogActions>
       </Dialog>

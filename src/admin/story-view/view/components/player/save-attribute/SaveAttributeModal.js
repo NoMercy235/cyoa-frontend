@@ -81,22 +81,21 @@ class SaveAttributeModal extends Component {
     return this.props.attribute || new AttributeModel();
   };
 
-  onClose = (resetForm) => () => {
-    resetForm(this.getInitialValues());
+  onClose = () => {
     this.props.onClose();
   };
 
-  onSubmit = async (values, { setSubmitting, setErrors, resetForm }) => {
+  onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
       if (values._id) {
         await this.updateAttribute(values);
       } else {
         await this.saveAttribute(values);
       }
-      this.onClose(resetForm)();
+      setSubmitting(false);
+      this.onClose();
     } catch (e) {
       setErrors(handleConflictError(e));
-    }  finally {
       setSubmitting(false);
     }
   };
@@ -111,25 +110,25 @@ class SaveAttributeModal extends Component {
     return (
       <Dialog
         open={open}
-        onClose={this.onClose(formik.resetForm)}
+        onClose={this.onClose}
         classes={{ paper: classes.dialogSize }}
       >
         <DialogTitle
-          onClose={this.onClose(formik.resetForm)}
+          onClose={this.onClose}
         >
           {this.renderTitle()}
         </DialogTitle>
         <DialogContent>
           <SaveAttributeForm
             formik={formik}
-            onClose={this.onClose(formik.resetForm)}
+            onClose={this.onClose}
             onSequenceSearch={this.onSequenceSearch}
           />
         </DialogContent>
         <DialogActions>
           <BasicFormActions
             formik={formik}
-            onClose={this.onClose(formik.resetForm)}
+            onClose={this.onClose}
           />
         </DialogActions>
       </Dialog>

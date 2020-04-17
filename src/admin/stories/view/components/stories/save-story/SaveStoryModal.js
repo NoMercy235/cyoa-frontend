@@ -52,12 +52,11 @@ class SaveStoryModal extends Component {
     return story || new StoryModel({ fromCollection });
   };
 
-  onClose = (resetForm) => () => {
-    resetForm(this.getInitialValues());
+  onClose = () => {
     this.props.onClose();
   };
 
-  onSubmit = async (values, { setSubmitting, setErrors, resetForm }) => {
+  onSubmit = async (values, { setSubmitting, setErrors }) => {
     const { onSuccess } = this.props;
 
     values.tagsName = TagModel.get()
@@ -70,11 +69,11 @@ class SaveStoryModal extends Component {
         ? await this.updateStory(values)
         : await this.saveStory(values);
       onSuccess && await onSuccess(story);
-      this.onClose(resetForm)();
+      setSubmitting(false)
+      this.onClose();
     } catch (e) {
+      setSubmitting(false)
       setErrors(handleConflictError(e));
-    } finally {
-      setSubmitting(false);
     }
   };
 
@@ -88,25 +87,25 @@ class SaveStoryModal extends Component {
     return (
       <Dialog
         open={open}
-        onClose={this.onClose(formik.resetForm)}
+        onClose={this.onClose}
         classes={{ paper: classes.dialogSize }}
       >
         <DialogTitle
-          onClose={this.onClose(formik.resetForm)}
+          onClose={this.onClose}
         >
           {this.renderTitle()}
         </DialogTitle>
         <DialogContent>
           <SaveStoryForm
             formik={formik}
-            onClose={this.onClose(formik.resetForm)}
+            onClose={this.onClose}
             collections={storyStore.collections}
           />
         </DialogContent>
         <DialogActions>
           <BasicFormActions
             formik={formik}
-            onClose={this.onClose(formik.resetForm)}
+            onClose={this.onClose}
           />
         </DialogActions>
       </Dialog>

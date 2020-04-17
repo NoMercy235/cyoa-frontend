@@ -21,8 +21,6 @@ import { styles } from './SaveChapter.css';
 
 @inject('storyViewStore', 'appStore')
 class SaveChapterModal extends Component {
-  mounted = false;
-
   renderTitle() {
     return this.props.chapter ? 'Edit chapter' : 'Create chapter';
   }
@@ -52,24 +50,22 @@ class SaveChapterModal extends Component {
     return this.props.chapter || new ChapterModel();
   };
 
-  onClose = (resetForm) => event => {
+  onClose = event => {
     event && event.stopPropagation();
-    if (!this.mounted) return;
-    resetForm(this.getInitialValues());
     this.props.onClose();
   };
 
-  onSubmit = async (values, { setSubmitting, setErrors, resetForm }) => {
+  onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
       if (values._id) {
         await this.updateChapter(values);
       } else {
         await this.saveChapter(values);
       }
-      this.onClose(resetForm)();
+      setSubmitting(false);
+      this.onClose();
     } catch (e) {
       setErrors(handleConflictError(e));
-    } finally {
       setSubmitting(false);
     }
   };
@@ -86,11 +82,11 @@ class SaveChapterModal extends Component {
       <Dialog
         open={open}
         onClick={stopEvent}
-        onClose={this.onClose(formik.resetForm)}
+        onClose={this.onClose}
         classes={{ paper: classes.dialogSize }}
       >
         <DialogTitle
-          onClose={this.onClose(formik.resetForm)}
+          onClose={this.onClose}
         >
           {this.renderTitle()}
         </DialogTitle>
@@ -98,13 +94,13 @@ class SaveChapterModal extends Component {
           <SaveChapterForm
             formik={formik}
             chapters={chapters}
-            onClose={this.onClose(formik.resetForm)}
+            onClose={this.onClose}
           />
         </DialogContent>
         <DialogActions>
           <BasicFormActions
             formik={formik}
-            onClose={this.onClose(formik.resetForm)}
+            onClose={this.onClose}
           />
         </DialogActions>
       </Dialog>
@@ -112,13 +108,8 @@ class SaveChapterModal extends Component {
   };
 
   componentDidMount () {
-    this.mounted = true;
     const params = { ':story': this.props.storyViewStore.currentStory._id };
     chapterService.setNextRouteParams(params);
-  }
-
-  componentWillUnmount () {
-    this.mounted = false;
   }
 
   render() {

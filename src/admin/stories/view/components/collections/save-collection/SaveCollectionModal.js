@@ -48,23 +48,22 @@ class SaveCollectionModal extends Component {
     return this.props.collection || new CollectionModel();
   };
 
-  onClose = (resetForm) => () => {
-    resetForm(this.getInitialValues());
+  onClose = () => {
     this.props.onClose();
   };
 
-  onSubmit = async (values, { setSubmitting, setErrors, resetForm }) => {
+  onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
       if (values._id) {
         await this.updateCollection(values);
       } else {
         await this.saveCollection(values);
       }
-      this.onClose(resetForm)();
+      setSubmitting(false)
+      this.onClose();
     } catch (e) {
-      setErrors(handleConflictError(e));
-    } finally {
       setSubmitting(false);
+      setErrors(handleConflictError(e));
     }
   };
 
@@ -78,24 +77,24 @@ class SaveCollectionModal extends Component {
     return (
       <Dialog
         open={open}
-        onClose={this.onClose(formik.resetForm)}
+        onClose={this.onClose}
         classes={{ paper: classes.dialogSize }}
       >
         <DialogTitle
-          onClose={this.onClose(formik.resetForm)}
+          onClose={this.onClose}
         >
           {this.renderTitle()}
         </DialogTitle>
         <DialogContent>
           <SaveCollectionForm
             formik={formik}
-            onClose={this.onClose(formik.resetForm)}
+            onClose={this.onClose}
           />
         </DialogContent>
         <DialogActions>
           <BasicFormActions
             formik={formik}
-            onClose={this.onClose(formik.resetForm)}
+            onClose={this.onClose}
           />
         </DialogActions>
       </Dialog>
