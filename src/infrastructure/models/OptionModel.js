@@ -75,6 +75,7 @@ export class OptionModel extends BaseModel {
       { name: 'Action' },
       { name: 'Leads to' },
       { name: 'Consequence' },
+      { name: 'Requirement' },
       {
         name: '',
         options: { filter: false, sort: false },

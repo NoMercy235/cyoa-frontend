@@ -10,7 +10,7 @@ export const renderConsequenceCell = option => {
 export const renderRequirementCell = option => {
   return renderExtraCell(
     'requirements',
-    (requirement) => requirement.changeValue,
+    (requirement) => requirement.value,
   )(option);
 };
 
