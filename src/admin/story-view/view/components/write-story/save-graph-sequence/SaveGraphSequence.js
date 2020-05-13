@@ -34,7 +34,9 @@ class SaveGraphSequence extends Component {
       if (values._id && values.scenePic === sequence.scenePic) {
         delete values.scenePic;
       }
-      Object.assign(values, NEW_SEQUENCE_POSITION);
+      if (!values.x && !values.y) {
+        Object.assign(values, NEW_SEQUENCE_POSITION);
+      }
 
       const { isStartSeq, ...newSequence } = values;
 
