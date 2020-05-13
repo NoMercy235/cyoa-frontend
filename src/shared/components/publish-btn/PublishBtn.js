@@ -3,15 +3,15 @@ import * as PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import { Button } from '@material-ui/core';
 
-import { storyService } from '../../../../../infrastructure/services/StoryService';
-import { StoryModel } from '../../../../../infrastructure/models/StoryModel';
-import { storyViewStorePropTypes } from '../../../stores/StoryViewStore';
-import { withModal } from '../../../../../shared/hoc/withModal';
-import { BACKEND_ERRORS } from '../../../../../shared/constants/errors';
-import { appStorePropTypes } from '../../../../../shared/store/AppStore';
-import { makePath, READ_STORY_ROUTE } from '../../../../../shared/constants/routes';
+import { storyService } from '../../../infrastructure/services/StoryService';
+import { StoryModel } from '../../../infrastructure/models/StoryModel';
+import { storyViewStorePropTypes } from '../../../admin/story-view/stores/StoryViewStore';
+import { withModal } from '../../hoc/withModal';
+import { BACKEND_ERRORS } from '../../constants/errors';
+import { appStorePropTypes } from '../../store/AppStore';
+import { makePath, READ_STORY_ROUTE } from '../../constants/routes';
 
-import styles from './GeneralTab.module.scss';
+import styles from './PublishBtn.module.scss';
 
 const HOCButton = withModal(Button);
 
@@ -135,6 +135,7 @@ class PublishBtn extends Component {
       <>
         {withTryStoryBtn && (
           <Button
+            className={styles.tryStoryBtn}
             color="secondary"
             onClick={this.onTryStoryClick}
           >

@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react';
 
 import GeneralTab from '../components/general/GeneralTab';
 import { StoryModel } from '../../../../infrastructure/models/StoryModel';
-import PublishBtn from '../components/general/PublishBtn';
+import PublishBtn from '../../../../shared/components/publish-btn/PublishBtn';
 import { renderGeneralTitle } from '../components/general/GeneralTitle';
 import { storyService } from '../../../../infrastructure/services/StoryService';
 

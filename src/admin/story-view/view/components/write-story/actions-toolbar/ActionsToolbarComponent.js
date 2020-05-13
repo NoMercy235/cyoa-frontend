@@ -4,7 +4,7 @@ import { Button, Switch } from '@material-ui/core';
 
 import withDisabledStoryPublished from '../../../../../../shared/hoc/withDisabledStoryPublished';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
-import PublishBtn from '../../general/PublishBtn';
+import PublishBtn from '../../../../../../shared/components/publish-btn/PublishBtn';
 
 import styles from './ActionsToolbarComponent.module.scss';
 
