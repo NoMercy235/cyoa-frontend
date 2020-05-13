@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Button, Switch } from '@material-ui/core';
+
 import withDisabledStoryPublished from '../../../../../../shared/hoc/withDisabledStoryPublished';
 import { StoryModel } from '../../../../../../infrastructure/models/StoryModel';
 import PublishBtn from '../../general/PublishBtn';
+import { makePath, READ_STORY_ROUTE } from '../../../../../../shared/constants/routes';
 
 import styles from './ActionsToolbarComponent.module.scss';
 
@@ -16,6 +18,11 @@ class ActionsToolbarComponent extends Component {
 
   onAddNewOptionModalOpen = () => {
     this.props.onAddNewOptionModalOpen();
+  };
+
+  onTryStoryClick = () => {
+    const { story } = this.props;
+    window.open(makePath(`${READ_STORY_ROUTE}?isPreview=true`, { ':storyId': story._id }), "_blank")
   };
 
   render () {
@@ -44,6 +51,12 @@ class ActionsToolbarComponent extends Component {
           New Option
         </BtnWithDisabledState>
         <div className={styles.divider}/>
+        <Button
+          color="secondary"
+          onClick={this.onTryStoryClick}
+        >
+          Try story
+        </Button>
         <PublishBtn
           story={story}
           onPublishStateChanged={onStoryPublishStateChanged}

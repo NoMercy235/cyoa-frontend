@@ -85,7 +85,7 @@ export class BaseService {
     if (options) {
       url += '?';
       Object.keys(options).forEach(key => {
-        url += `${key}=${options[key]}`;
+        url += `${key}=${options[key]}&`;
       });
     }
     return this.client.get(url).then(BaseService.onSuccess);

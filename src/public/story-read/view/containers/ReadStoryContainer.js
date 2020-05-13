@@ -3,8 +3,9 @@ import * as PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { Helmet } from "react-helmet";
+import * as queryString from 'query-string';
 
-import { publicStoryService } from '../../../../infrastructure/services/StoryService';
+import { publicStoryService, storyService } from '../../../../infrastructure/services/StoryService';
 import Breadcrumb from '../../../../shared/components/breadcrumb/Breadcrumb';
 import { publicChapterService } from '../../../../infrastructure/services/ChapterService';
 import { NOT_FOUND_ROUTE } from '../../../../shared/constants/routes';
@@ -112,7 +113,15 @@ class ReadStoryContainer extends Component {
   };
 
   getStory = async storyId => {
+    const { location: { search } } = this.props;
+    const qs = queryString.parse(search);
     const options = { ignoreFields: 'coverPic' };
+    if (qs.isPreview === 'true') {
+      return await storyService.get(storyId, {
+        ...options,
+        isPreview: true,
+      });
+    }
     return await publicStoryService.get(storyId, options);
   };
 
