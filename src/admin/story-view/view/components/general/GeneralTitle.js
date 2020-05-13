@@ -1,20 +1,21 @@
 import React from 'react';
+import { Typography } from '@material-ui/core';
 
 import HelpCmp from '../../../../../shared/components/help/HelpCmp';
 
 function getTitle() {
-  return 'Story general tab';
+  return 'Story details';
 }
 
 function getDescription () {
   return (
-    <>
-      <span>What you will find:</span>
-      <ul>
-        <li>The short and long descriptions of your story and its image</li>
-        <li>The (un)publish buttons which make your story available for the public</li>
-      </ul>
-    </>
+    <ul>
+      <li>
+        <Typography>
+          Here you will find a summary of the information relevant to your story.
+        </Typography>
+      </li>
+    </ul>
   );
 }
 

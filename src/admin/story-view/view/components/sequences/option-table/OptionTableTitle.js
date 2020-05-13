@@ -1,4 +1,5 @@
 import React from 'react';
+import { Typography } from '@material-ui/core';
 
 import HelpCmp from '../../../../../../shared/components/help/HelpCmp';
 
@@ -9,31 +10,71 @@ function getTitle() {
 function getDescription () {
   return (
     <>
-      <p>The options have the following structure:</p>
+      <Typography>The options have the following structure:</Typography>
       <ul>
-        <li><b>action</b> The text that will appear to the user when they want to select this option</li>
-        <li><b>leadsTo</b> The sequence that will follow after this option is chosen</li>
-        <li><b>consequences</b> One or more consequences that will take effect once the option has been chosen</li>
-        <li><b>requirements</b> One or more requirements that are needed in order for that option to be displayed to the user</li>
+        <li>
+          <Typography>
+            <b>action</b> - The text that will appear to the user when they want to select this option
+          </Typography>
+        </li>
+        <li>
+          <Typography>
+            <b>leadsTo</b> - The sequence that will follow after this option is chosen
+          </Typography>
+        </li>
+        <li>
+          <Typography>
+            <b>consequences</b> - One or more consequences that will take effect once the option has been chosen
+          </Typography>
+        </li>
+        <li>
+          <Typography>
+            <b>requirements</b> - One or more requirements that are needed in order for that option to be displayed to the user
+          </Typography>
+        </li>
       </ul>
-      <span>The consequences have the following structure:</span>
+      <Typography>The consequences have the following structure:</Typography>
       <ul>
-        <li><b>attribute</b> The attribute that they will affect</li>
-        <li><b>changeValue</b> The value which dictates how the original value of the attribute will change</li>
+        <li>
+          <Typography>
+            <b>attribute</b> - The attribute that they will affect
+          </Typography>
+        </li>
+        <li>
+          <Typography>
+            <b>changeValue</b> - The value which dictates how the original value of the attribute will change
+          </Typography>
+        </li>
       </ul>
-      <span>The requirements have the following structure:</span>
+      <Typography>The requirements have the following structure:</Typography>
       <ul>
-        <li><b>attribute</b> The attribute that need</li>
-        <li><b>value</b> The value that needs to be fulfilled</li>
+        <li>
+          <Typography>
+            <b>attribute</b> - The attribute that need
+          </Typography>
+        </li>
+        <li>
+          <Typography>
+            <b>value</b> - The value that needs to be fulfilled
+          </Typography>
+        </li>
       </ul>
-      <span>Example:</span>
+      <Typography>For example, given an option with the following</Typography>
       <ul>
-        <li>An option which the following consequences: -10 Coins; +1 Sword; can be used to give a player a sword for 10 coins</li>
-        <li>The above option does, however, have a requirement of 10 Coins. If the requirement is not met, the option will not be shown to the user</li>
+        <li>
+          <Typography>Consequences: <b>-10</b> Coins; <b>+1</b> Sword</Typography>
+        </li>
+        <li>
+          <Typography>Requirements: <b>10</b> Coins</Typography>
+        </li>
       </ul>
-      <p>An option is not required to have consequences or requirements. They can be removed if you wish so.</p>
-      <p>Consequences can target important attributes. Using a negative value for <b>changeValue</b> will cause that attribute to drop to negative values eventually.</p>
-      <p>Having an important attribute with negative value will immediately cause the player to lose the story and be shown the linked sequence of the attribute.</p>
+      <Typography>
+        A player will see this option only if they have at least <b>10</b> Coins and may or may not accept it
+      </Typography>
+      <br />
+      <Typography>An option is not required to have consequences or requirements. They can be removed if you wish so.</Typography>
+      <br />
+      <Typography>Consequences can target important attributes. Using a negative value for <b>changeValue</b> will cause that attribute to drop to negative values eventually. If an <b>important</b> attribute reaches 0 or a negative value, the player will immediately lose the story and they will be shown the linked sequence of the attribute that caused this.</Typography>
     </>
   );
 }

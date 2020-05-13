@@ -18,6 +18,7 @@ class HelpModal extends Component {
         open={open}
         onClose={onClose}
         classes={{ paper: classes.dialogSize }}
+        maxWidth="md"
       >
         <DialogTitle
           onClose={onClose}

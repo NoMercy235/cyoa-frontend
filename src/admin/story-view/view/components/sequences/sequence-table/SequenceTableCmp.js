@@ -189,7 +189,7 @@ class SequenceTableCmp extends Component {
         id={SEQUENCES_ADMIN_TABLE}
         tableRef={tableRef}
         className={className}
-        title={renderSequenceTableTitle()}
+        title={renderSequenceTableTitle(story)}
         columns={columns}
         data={data}
         options={options}
