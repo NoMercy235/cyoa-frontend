@@ -5,9 +5,6 @@ export const styles = theme => ({
   fromCollection: {
     marginLeft: theme.spacing(1),
   },
-  uploadBtn: {
-    marginTop: theme.spacing(1),
-  },
   isAvailableOfflineContainer: {
     margin: `${theme.spacing(1)}px 0`,
   },

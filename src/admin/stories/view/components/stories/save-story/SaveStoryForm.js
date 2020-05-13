@@ -5,7 +5,6 @@ import { withStyles, Typography } from '@material-ui/core';
 
 import { TagModel } from '../../../../../../infrastructure/models/TagModel';
 import { CollectionModel } from '../../../../../../infrastructure/models/CollectionModel';
-import FileSelect from '../../../../../../shared/components/form/FileSelect/FileSelect';
 import {
   arrayToSelectFieldOptions,
   renderInput,
@@ -17,10 +16,6 @@ import { styles } from './SaveStory.css';
 
 class SaveStoryForm extends Component {
   tags = TagModel.get();
-
-  onFileUploaded = base64File => {
-    this.props.formik.setFieldValue('coverPic', base64File);
-  };
 
   renderIsAvailableOfflineInfo = () => {
     const { formik } = this.props;
@@ -101,11 +96,6 @@ class SaveStoryForm extends Component {
             rows: 5,
           },
         })}
-        <FileSelect
-          className={classes.uploadBtn}
-          label="Upload cover"
-          onFileUploaded={this.onFileUploaded}
-        />
       </Form>
     );
   }
