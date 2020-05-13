@@ -34,6 +34,7 @@ class GeneralTab extends Component {
           <div className={styles.coverPic}>
             <FilePicker
               inputId="story-cover"
+              disabled={story.published}
               initialImage={story.coverPic || notFoundImg}
               cropperProps={{
                 size: STORY_PICTURE_PREVIEW_SIZE,

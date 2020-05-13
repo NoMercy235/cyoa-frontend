@@ -37,7 +37,7 @@
   .initialImage {
     max-width: 100%;
 
-    &:hover {
+    &.clickable:hover {
       cursor: pointer;
     }
 

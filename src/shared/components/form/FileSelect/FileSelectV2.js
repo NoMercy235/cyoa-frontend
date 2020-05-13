@@ -19,14 +19,41 @@ class FileSelectV2 extends React.Component {
     onFileUploaded(file);
   };
 
+  renderDisabled = () => {
+    const {
+      className,
+      initialImage,
+      stylesProp,
+    } = this.props;
+
+    return (
+      <div
+        className={classNames(styles.container, className)}
+        style={stylesProp}
+      >
+        <img
+          alt=""
+          src={initialImage}
+          className={styles.initialImage}
+          style={stylesProp}
+        />
+      </div>
+    );
+  };
+
   render() {
     const {
       className,
       id,
       accept,
       initialImage,
-      stylesProp
+      stylesProp,
+      disabled
     } = this.props;
+
+    if (disabled) {
+      return this.renderDisabled();
+    }
 
     return (
       <div
@@ -53,7 +80,7 @@ class FileSelectV2 extends React.Component {
           <img
             alt=""
             src={initialImage}
-            className={styles.initialImage}
+            className={classNames(styles.initialImage, styles.clickable)}
             style={stylesProp}
           />
         </label>
