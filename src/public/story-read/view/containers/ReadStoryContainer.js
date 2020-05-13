@@ -39,16 +39,23 @@ class ReadStoryContainer extends Component {
     unavailableOffline: false,
   };
 
+  isPreview = () => {
+    const { location: { search } } = this.props;
+    const qs = queryString.parse(search);
+    return qs.isPreview === 'true';
+  };
+
   goTo404 = () => {
     const { history } = this.props;
     history.replace(NOT_FOUND_ROUTE);
   };
 
-  getPlayer = async storyId => {
+  getPlayer = async (storyId, forceReset = false) => {
     const params = { ':story': storyId };
     playerService.setNextRouteParams(params);
     return await playerService.get(
-      this.props.appStore.getUserId()
+      this.props.appStore.getUserId(),
+      forceReset || this.isPreview(),
     );
   };
 
@@ -113,10 +120,8 @@ class ReadStoryContainer extends Component {
   };
 
   getStory = async storyId => {
-    const { location: { search } } = this.props;
-    const qs = queryString.parse(search);
     const options = { ignoreFields: 'coverPic' };
-    if (qs.isPreview === 'true') {
+    if (this.isPreview()) {
       return await storyService.get(storyId, {
         ...options,
         isPreview: true,
@@ -215,6 +220,13 @@ class ReadStoryContainer extends Component {
     await ratingService.update(getUserId(), story._id, rating);
   };
 
+  onRetry = async () => {
+    const { story: { _id: storyId } } = this.state;
+    const player = await this.getPlayer(storyId, true);
+    const sequence = await this.getSequence(player.lastStorySequence, storyId);
+    this.setState({ player, sequence, isFinished: false });
+  };
+
   async componentDidMount () {
     const { match, appStore } = this.props;
 
@@ -257,6 +269,7 @@ class ReadStoryContainer extends Component {
       <StoryFinished
         player={player}
         onlineStatus={onlineStatus}
+        onRetry={this.onRetry}
       />
     );
   };

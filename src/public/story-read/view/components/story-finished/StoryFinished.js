@@ -11,18 +11,11 @@ import {
 } from '@material-ui/core';
 
 import { LANDING_ROUTE } from '../../../../../shared/constants/routes';
-import { playerService } from '../../../../../infrastructure/services/PlayerService';
 import { PlayerModel } from '../../../../../infrastructure/models/PlayerModel';
 
 import styles from './StoryFinished.module.scss';
 
 class StoryFinished extends Component {
-  retry = async () => {
-    const { onlineStatus, player } = this.props;
-    onlineStatus && await playerService.delete(player._id);
-    window.location.reload();
-  };
-
   readOtherStories = async () => {
     this.props.history.push(LANDING_ROUTE);
   };
@@ -58,6 +51,7 @@ class StoryFinished extends Component {
   };
 
   render() {
+    const { onRetry } = this.props;
     return (
       <Card classes={{ root: styles.card }}>
         <CardHeader title={this.getTitle()}/>
@@ -69,7 +63,7 @@ class StoryFinished extends Component {
             <Button
               variant="contained"
               color="primary"
-              onClick={this.retry}
+              onClick={onRetry}
             >
               Try again?
             </Button>
@@ -93,6 +87,8 @@ StoryFinished.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   onlineStatus: PropTypes.bool.isRequired,
+
+  onRetry: PropTypes.func.isRequired,
 };
 
 export default withRouter(StoryFinished);

@@ -7,11 +7,11 @@ class PlayerService extends BaseService {
   updateEndpoint = 'public/player/updateAttributes/:playerId';
   deleteEndpoint = 'public/player';
 
-  get = playerId => {
+  get = (playerId, forceReset = false) => {
     let url = this.getOrCreateEndpoint;
 
     if (playerId) {
-      url += `?playerId=${playerId}`;
+      url += `?playerId=${playerId}&forceReset=${forceReset}`;
     }
 
     return this.client
