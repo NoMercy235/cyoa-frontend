@@ -42,7 +42,7 @@ class Header extends Component {
     this.props.history.push(LANDING_ROUTE);
   };
 
-  onHandleLogout = history => {
+  onHandleLogout = () => {
     const { appStore } = this.props;
 
     appStore.setUser(null);
@@ -53,7 +53,7 @@ class Header extends Component {
     socket.emit(SocketEvents.UserOffline);
     localStorage.removeItem('jwt');
     if (!window.location.pathname.startsWith('/public')) {
-      history.replace('/');
+      window.location = '/'
     } else if (window.location.pathname.startsWith('/public/read/')) {
       appStore.isKeepPlayerModalOpen = true;
     }

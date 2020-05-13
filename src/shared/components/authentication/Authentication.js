@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import { withRouter } from 'react-router-dom';
 import { withStyles, Typography } from '@material-ui/core';
 
 import { appStorePropTypes } from '../../store/AppStore';
@@ -18,13 +17,8 @@ class Authentication extends Component {
     this.props.appStore.setIsAuthModalOpen(true);
   };
 
-  onLogoutClick = () => {
-    const { history, onHandleLogout } = this.props;
-    onHandleLogout(history);
-  };
-
   onLogoutClickBroadcast = () => {
-    this.onLogoutClick();
+    this.props.onHandleLogout();
     sendBroadcastMessage({ type: BroadcastEvents.Logout });
   };
 
@@ -74,5 +68,5 @@ Authentication.propTypes = {
 };
 
 export default withStyles(styles)(
-  withRouter(Authentication)
+  Authentication
 );
