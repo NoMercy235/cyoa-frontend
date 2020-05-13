@@ -9,6 +9,7 @@ import { storyViewStorePropTypes } from '../../../stores/StoryViewStore';
 import { withModal } from '../../../../../shared/hoc/withModal';
 import { BACKEND_ERRORS } from '../../../../../shared/constants/errors';
 import { appStorePropTypes } from '../../../../../shared/store/AppStore';
+import { makePath, READ_STORY_ROUTE } from '../../../../../shared/constants/routes';
 
 import styles from './GeneralTab.module.scss';
 
@@ -17,7 +18,16 @@ const HOCButton = withModal(Button);
 @inject('storyViewStore', 'appStore')
 @observer
 class PublishBtn extends Component {
+  static defaultProps = {
+    withTryStoryBtn: true,
+  };
+
   state = { errors: [] };
+
+  onTryStoryClick = () => {
+    const { story } = this.props;
+    window.open(makePath(`${READ_STORY_ROUTE}?isPreview=true`, { ':storyId': story._id }), "_blank")
+  };
 
   onCheckIfCanPublish = async () => {
     const { story } = this.props;
@@ -119,17 +129,31 @@ class PublishBtn extends Component {
   };
 
   render() {
-    const { story } = this.props;
+    const { story, withTryStoryBtn } = this.props;
 
-    return story.published
-      ? this.renderUnpublishButton()
-      : this.renderPublishButton();
+    return (
+      <>
+        {withTryStoryBtn && (
+          <Button
+            color="secondary"
+            onClick={this.onTryStoryClick}
+          >
+            Try story
+          </Button>
+        )}
+        {story.published
+          ? this.renderUnpublishButton()
+          : this.renderPublishButton()
+        }
+      </>
+    );
   }
 }
 
 PublishBtn.propTypes = {
   story: PropTypes.shape(StoryModel).isRequired,
   onPublishStateChanged: PropTypes.func.isRequired,
+  withTryStoryBtn: PropTypes.bool,
 
   storyViewStore: storyViewStorePropTypes,
   appStore: appStorePropTypes,

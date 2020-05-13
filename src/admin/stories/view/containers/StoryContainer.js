@@ -15,10 +15,6 @@ import { appStorePropTypes } from '../../../../shared/store/AppStore';
 @inject('storyStore', 'appStore')
 @observer
 class StoryContainer extends Component {
-  onChangePublishState = (story) => {
-    this.props.storyStore.updateStory(story._id, story);
-  };
-
   async fetchStories(filters) {
     const stories = (await storyService.list(filters));
     this.props.storyStore.setStories(stories);
@@ -112,7 +108,6 @@ class StoryContainer extends Component {
               stories={stories}
               onStorySaved={this.onStorySaved}
               onDeleteStory={this.onDeleteStory}
-              onChangePublishState={this.onChangePublishState}
             />
           </div>
         </div>
