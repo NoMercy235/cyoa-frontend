@@ -1,9 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import * as PropTypes from 'prop-types';
 import Cropper from 'react-easy-crop'
 import { Button } from '@material-ui/core';
 
 import { getCroppedImg } from './fileHelpers';
+import LoadingCmp from '../../loading/LoadingCmp';
 
 import * as styles from './ImageCropper.module.scss';
 
@@ -17,28 +18,31 @@ const ImageCropper = ({
   onCancel,
 }) => {
   const [crop, setCrop] = useState(cropperProps.initialCrop || { x: 0, y: 0 });
+  const [croppedAriaPixels, setCroppedAriaPixels] = useState(null);
   const [zoom, setZoom] = useState(cropperProps.initialZoom || 1);
-  const [croppedImage, setCroppedImage] = useState(null);
+  const [isCropping, setIsCropping] = useState(false);
 
   const onCropChange = crop => {
     setCrop(crop)
   };
 
-  const onCropComplete = useCallback(async (croppedArea, croppedAreaPixels) => {
-    const croppedImage = await getCroppedImg(
-      image,
-      croppedAreaPixels,
-      imageType
-    );
-    setCroppedImage(croppedImage);
-    onCropSelected && onCropSelected(croppedImage);
-  }, [image, imageType, onCropSelected]);
+  const onCropComplete = async (croppedArea, croppedAreaPixels) => {
+    setCroppedAriaPixels(croppedAreaPixels);
+  };
 
   const onZoomChange = zoom => {
     setZoom(zoom)
   };
 
-  const onPreviewImage = () => {
+  const onPreviewImage = async () => {
+    setIsCropping(true);
+    const croppedImage = await getCroppedImg(
+      image,
+      croppedAriaPixels,
+      imageType
+    );
+    setIsCropping(false);
+    onCropSelected && onCropSelected(croppedImage);
     onPreview(croppedImage);
   };
 
@@ -51,16 +55,24 @@ const ImageCropper = ({
           width: `${size.width}px`,
         }}
       >
-        <Cropper
-          image={image}
-          crop={crop}
-          zoom={zoom}
-          aspect={cropperProps.aspect}
-          cropSize={cropperProps.size}
-          onCropChange={onCropChange}
-          onCropComplete={onCropComplete}
-          onZoomChange={onZoomChange}
-        />
+        {isCropping
+          ? (
+            <div className={styles.isCroppingContainer}>
+              <LoadingCmp/>
+            </div>
+          )
+          : (
+            <Cropper
+              image={image}
+              crop={crop}
+              zoom={zoom}
+              aspect={cropperProps.aspect}
+              cropSize={cropperProps.size}
+              onCropChange={onCropChange}
+              onCropComplete={onCropComplete}
+              onZoomChange={onZoomChange}
+            />
+          )}
       </div>
       <div className={styles.buttonsContainer}>
         <Button
