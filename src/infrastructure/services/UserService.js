@@ -14,8 +14,7 @@ class UserService extends BaseService {
       .get(url)
       .then(BaseService.onSuccess)
       .then(data => new UserModel(data))
-      .catch(() => null);
-
+    ;
   };
 
   uploadProfilePicture (img) {
@@ -24,7 +23,7 @@ class UserService extends BaseService {
     return this.client
       .post(url, { profile: img })
       .then(BaseService.onSuccess)
-      .catch(() => null);
+    ;
   }
 
   update = (id, user) => {
