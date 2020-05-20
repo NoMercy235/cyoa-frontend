@@ -9,6 +9,7 @@ const {
   xAppTitle,
 } = require('../../utils/selectorsAndXPaths');
 
+const xBreadcrumbHome = '//span[.="Home"]';
 const xWelcomeMessage = '//span[contains(., "Welcome")]';
 const xGoodbyeMessage = '//span[contains(., "Goodbye")]';
 const xMyStoriesLink = '//div[contains(@class, "MuiButtonBase-root")]/div[contains(., "My stories")]';
@@ -104,7 +105,7 @@ describe('Authentication happy path and restrictions', () => {
       { waitAfterVisible: 1000 }
     );
     await clickOnElement(xLogoutOption(credentials.email));
-    await waitForElement(xAppTitle);
+    await waitForElement(xBreadcrumbHome);
     expect(page.url().endsWith('/public')).toBe(true);
   });
 });

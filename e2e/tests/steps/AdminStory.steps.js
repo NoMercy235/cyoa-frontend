@@ -85,6 +85,7 @@ async function createStory (
   await clickOnElement(xSelectListItem('Adventure'));
   await clickOnElement(xModalContainer);
 
+  await page.waitFor(WAIT_AFTER_VISIBLE_MS);
   await page.type(sNameInput, storyName);
 
   if (fromCollection) {
