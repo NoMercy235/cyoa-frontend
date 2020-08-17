@@ -21,7 +21,6 @@ class SaveCollectionForm extends Component {
           textarea: {
             rows: 3,
           },
-          required: false,
         })}
       </Form>
     );
