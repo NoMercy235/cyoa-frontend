@@ -10,6 +10,8 @@ export const ONLINE_STATUS_POLLING_INTERVAL = 10000;
 export const SNACKBAR_AUTOHIDE_DURATION = 2000;
 
 export const APP_GITHUB_URL = 'https://github.com/NoMercy235/cyoa-frontend';
+export const APP_GITHUB_REPORT_ISSUE_URL = 'https://github.com/NoMercy235/cyoa-frontend/issues/new?assignees=&labels=bug&template=bug_report.md&title=';
+export const APP_GITHUB_FEATURE_REQUEST_URL = 'https://github.com/NoMercy235/cyoa-frontend/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=';
 
 export const STORY_RATING_LABELS = {
   1: 'Appalling',

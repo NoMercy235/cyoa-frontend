@@ -17,13 +17,18 @@ import InfoIcon from '@material-ui/icons/Info';
 import ArrowBack from '@material-ui/icons/ArrowBackOutlined';
 import ViewStoryIcon from '@material-ui/icons/Pageview';
 import UserIcon from '@material-ui/icons/Face';
+import BugReportIcon from '@material-ui/icons/BugReport';
+import FeatureRequestIcon from '@material-ui/icons/AssignmentTurnedIn';
 
 import { appStorePropTypes } from '../../store/AppStore';
 import { ADMIN_PROFILE_ROUTE, ADMIN_STORIES_ROUTE, LANDING_ROUTE } from '../../constants/routes';
 import ttaLogo from '../../../assets/tta-logo.png';
 import gitHub from '../../../assets/github.png';
 import withAuthCmp from '../../hoc/withAuthCmp';
-import { APP_GITHUB_URL } from '../../constants/global';
+import {
+  APP_GITHUB_FEATURE_REQUEST_URL,
+  APP_GITHUB_REPORT_ISSUE_URL,
+  APP_GITHUB_URL } from '../../constants/global';
 
 import { styles } from './Styles.css';
 
@@ -48,6 +53,22 @@ const extraMenu = [
         <img className={classes.sideMenuIcon} alt="Link to GitHub project" src={gitHub}/>
       );
     },
+  },
+  {
+    name: 'reportIssue',
+    label: 'Report an issue',
+    onClick: () => {
+      window.open(APP_GITHUB_REPORT_ISSUE_URL, "_blank")
+    },
+    icon: <BugReportIcon />,
+  },
+  {
+    name: 'featureRequest',
+    label: 'Request a feature',
+    onClick: () => {
+      window.open(APP_GITHUB_FEATURE_REQUEST_URL, "_blank")
+    },
+    icon: <FeatureRequestIcon />,
   },
 ];
 
@@ -145,11 +166,11 @@ class SideMenu extends Component {
           </List>
           <Divider />
           <List>
-            {extraMenu.map(this.renderItem)}
+            {this.renderAdminMenu()}
           </List>
           <Divider />
           <List>
-            {this.renderAdminMenu()}
+            {extraMenu.map(this.renderItem)}
           </List>
         </Drawer>
       </>
