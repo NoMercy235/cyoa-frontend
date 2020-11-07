@@ -5,9 +5,9 @@ export class ConsequenceModel extends BaseModel {
   attribute = '';
   changeValue = 0;
 
-  constructor(metadata) {
-    super();
-    Object.assign(this, metadata);
+  constructor(metadata, options) {
+    super(metadata, options);
+    this.assignToSelf(metadata);
   }
 
   checkErrors() {

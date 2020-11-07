@@ -27,9 +27,9 @@ export class OptionModel extends BaseModel {
   consequences = [];
   requirements = [];
 
-  constructor(metadata) {
-    super();
-    Object.assign(this, metadata);
+  constructor(metadata, options) {
+    super(metadata, options);
+    this.assignToSelf(metadata);
     if (Utils.safeAccess(this.consequences, 'length')) {
       this.consequences = this.consequences.map(c => new ConsequenceModel(c));
     }

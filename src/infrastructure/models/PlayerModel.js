@@ -7,9 +7,9 @@ export class PlayerModel extends BaseModel {
   lastStorySequence = '';
   attributes = [];
 
-  constructor(metadata) {
-    super();
-    Object.assign(this, metadata);
+  constructor(metadata, options) {
+    super(metadata, options);
+    this.assignToSelf(metadata);
   }
 
   static forApi(option) {

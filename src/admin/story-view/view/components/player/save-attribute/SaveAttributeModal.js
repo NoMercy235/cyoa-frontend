@@ -78,7 +78,7 @@ class SaveAttributeModal extends Component {
   };
 
   getInitialValues = () => {
-    return this.props.attribute || new AttributeModel();
+    return this.props.attribute || new AttributeModel({}, { withFormikId: true });
   };
 
   onClose = () => {

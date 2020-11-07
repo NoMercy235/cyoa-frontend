@@ -47,7 +47,7 @@ class SaveChapterModal extends Component {
   };
 
   getInitialValues = () => {
-    return this.props.chapter || new ChapterModel();
+    return this.props.chapter || new ChapterModel({}, { withFormikId: true });
   };
 
   onClose = event => {

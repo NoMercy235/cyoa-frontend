@@ -24,9 +24,9 @@ export class StoryModel extends BaseModel {
   readTimes = 0;
   rating = 0;
 
-  constructor(metadata) {
-    super(metadata);
-    Object.assign(this, metadata);
+  constructor(metadata, options) {
+    super(metadata, options);
+    this.assignToSelf(metadata);
   }
 
   get humanReadTimes() {

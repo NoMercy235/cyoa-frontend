@@ -5,9 +5,9 @@ export class RequirementModel extends BaseModel {
   attribute = '';
   value = 0;
 
-  constructor(metadata) {
-    super();
-    Object.assign(this, metadata);
+  constructor(metadata, options) {
+    super(metadata, options);
+    this.assignToSelf(metadata);
   }
 
   checkErrors() {

@@ -9,9 +9,9 @@ export class UserModel extends BaseModel {
   isAdmin;
   lastName;
 
-  constructor (metadata) {
-    super(metadata);
-    Object.assign(this, metadata);
+  constructor (metadata, options) {
+    super(metadata, options);
+    this.assignToSelf(metadata, options);
   }
 
   checkErrors = () => {

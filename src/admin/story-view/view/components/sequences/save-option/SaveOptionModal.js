@@ -63,12 +63,17 @@ class SaveOptionModal extends Component {
 
     // Here we don't need any parsing, because, by default, the nextSeq's value is an
     // empty string and that's a valid value.
-    return option || new OptionModel({
-      story: storyViewStore.currentStory._id,
-      consequences: storyViewStore.currentStory.isAvailableOffline
-        ? []
-        : [new ConsequenceModel()],
-    });
+    return option
+      ? option
+      : new OptionModel(
+        {
+          story: storyViewStore.currentStory._id,
+          consequences: storyViewStore.currentStory.isAvailableOffline
+            ? []
+            : [new ConsequenceModel()],
+        },
+        { withFormikId: true },
+      );
   };
 
   onClose = () => {

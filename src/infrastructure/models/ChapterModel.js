@@ -1,5 +1,4 @@
 import { BaseModel } from './BaseModel';
-import * as moment from 'moment';
 import { ERRORS } from '../../shared/constants/errors';
 
 export class ChapterModel extends BaseModel {
@@ -10,12 +9,9 @@ export class ChapterModel extends BaseModel {
   parentChapter = '';
   subChapters = [];
 
-  constructor(metadata) {
-    super();
-    Object.assign(this, metadata);
-    if (this.created_at) {
-      this.created_at = moment(this.created_at);
-    }
+  constructor(metadata, options) {
+    super(metadata, options);
+    this.assignToSelf(metadata);
   }
 
   get createdAt() {

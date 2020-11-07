@@ -19,7 +19,12 @@ const computeIsStartSeq = (story, seqId) => {
 class SaveGraphSequence extends Component {
   getInitialValues = () => {
     const { sequence, story } = this.props;
-    const resource = sequence || new SequenceModel({ story: story._id });
+    const resource = sequence
+      ? sequence
+      : new SequenceModel(
+        { story: story._id },
+        { withFormikId: true },
+      );
     // This was done because the isStartSeq property is not located on
     // the sequence, but on the story, thus it couldn't have been
     // loaded correctly while editing in any other way.
@@ -28,7 +33,7 @@ class SaveGraphSequence extends Component {
     return resource;
   };
 
-  onSubmit = async (values, { setSubmitting, resetForm }) => {
+  onSubmit = async (values, { setSubmitting }) => {
     const { sequence, onSuccess, onDrawerClose } = this.props;
     try {
       if (values._id && values.scenePic === sequence.scenePic) {
@@ -41,7 +46,6 @@ class SaveGraphSequence extends Component {
       const { isStartSeq, ...newSequence } = values;
 
       await onSuccess(newSequence, isStartSeq);
-      resetForm();
       onDrawerClose();
     } finally {
       setSubmitting(false);

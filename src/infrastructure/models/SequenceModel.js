@@ -15,9 +15,9 @@ export class SequenceModel extends BaseModel {
   y = 0;
   @observable options = [];
 
-  constructor(metadata) {
-    super();
-    Object.assign(this, metadata);
+  constructor(metadata, options) {
+    super(metadata, options);
+    this.assignToSelf(metadata);
   }
 
   checkErrors() {

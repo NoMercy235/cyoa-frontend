@@ -74,7 +74,12 @@ class SaveSequenceModal extends Component {
 
   getInitialValues = () => {
     const { sequence, selectedChapterId, isStartSeq } = this.props;
-    const resource = sequence || new SequenceModel({ chapter: selectedChapterId });
+    const resource = sequence
+      ? sequence
+      : new SequenceModel(
+        { chapter: selectedChapterId },
+        { withFormikId: true }
+      );
     // This was done because the isStartSeq property is not located on
     // the sequence, but on the story, thus it couldn't have been
     // loaded correctly while editing in any other way.

@@ -9,9 +9,9 @@ export class AttributeModel extends BaseModel {
   startValue = 0;
   linkedEnding = null;
 
-  constructor(metadata) {
-    super();
-    Object.assign(this, metadata);
+  constructor(metadata, options) {
+    super(metadata, options);
+    this.assignToSelf(metadata);
   }
 
   checkErrors() {

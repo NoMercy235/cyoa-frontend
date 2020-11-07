@@ -10,9 +10,9 @@ export class AuthenticationModel extends BaseModel {
   password = '';
   repeatPassword = '';
 
-  constructor (metadata) {
-    super();
-    Object.assign(this, metadata);
+  constructor (metadata, options) {
+    super(metadata, options);
+    this.assignToSelf(metadata);
   }
 
   checkErrors(ignoreFields = []) {

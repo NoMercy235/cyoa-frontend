@@ -45,7 +45,7 @@ class SaveCollectionModal extends Component {
   };
 
   getInitialValues = () => {
-    return this.props.collection || new CollectionModel();
+    return this.props.collection || new CollectionModel({}, { withFormikId: true });
   };
 
   onClose = () => {

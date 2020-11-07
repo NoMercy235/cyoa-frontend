@@ -3,13 +3,17 @@ import * as moment from 'moment';
 export class BaseModel {
   created_at;
   updated_at;
+  __formikId;
 
-  constructor (metadata = {}) {
+  constructor (metadata = {}, options = {}) {
     if (metadata.created_at) {
       metadata.created_at = moment(metadata.created_at);
     }
     if (metadata.updated_at) {
       metadata.updated_at = moment(metadata.updated_at);
+    }
+    if (options.withFormikId) {
+      this.__formikId = Math.random();
     }
   }
 
@@ -31,6 +35,13 @@ export class BaseModel {
   get updatedAtShort() {
     if (!this.updated_at) return '';
     return this.updated_at.format('DD-MM-YYYY');
+  }
+
+  assignToSelf(metadata = {}) {
+    Object
+      .keys(metadata)
+      .filter(key => !(['created_at', 'updated_at'].includes(key)))
+      .forEach(key => this[key] = metadata[key]);
   }
 
   static handleError(e) {
