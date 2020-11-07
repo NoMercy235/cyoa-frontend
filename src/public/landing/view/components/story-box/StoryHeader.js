@@ -47,9 +47,10 @@ class StoryHeader extends Component {
     this.setState({ isMakingOffline: false });
   };
 
-  goToReadStory = history => () => {
+  goToReadStory = (history) => (ev) => {
     const url = makeReadStoryPath(this.props.story._id);
     history.push(url);
+    ev.preventDefault();
   };
 
   renderTitle = () => {
@@ -68,6 +69,7 @@ class StoryHeader extends Component {
         color="inherit"
       >
         <a
+          href={makeReadStoryPath(story._id)}
           className={classNames({ [classes.storyTitle]: shouldBeClickable })}
           {...(shouldBeClickable ? { onClick: this.goToReadStory(history) } : {})}
         >

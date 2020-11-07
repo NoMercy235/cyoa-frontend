@@ -98,6 +98,7 @@ class Breadcrumb extends Component {
         className={classNames(styles.breadcrumb, {
           [styles.flexOne]: bc.shouldHaveFlexOne,
         })}
+        onClick={ev => ev.preventDefault()}
       >
         <Chip
           classes={{ root: styles.innerBreadcrumb }}
