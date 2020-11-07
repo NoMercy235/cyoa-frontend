@@ -38,7 +38,7 @@ class AppStore {
   };
 
   showSnackbar = (metadata) => {
-    Utils.safeAccess(this.snackbarRef.current, 'showSnackbar()', metadata);
+    Utils.safeAccess(this.snackbarRef, 'current.showSnackbar()', metadata);
   };
 
   showSuccessSnackbar = (metadata) => {
