@@ -16,9 +16,10 @@ import { styles } from './StoryBox.css';
 const ReadStoryButton = withOnlineCheck(Button);
 
 class StoryActions extends Component {
-  goToReadStory = history => () => {
+  goToReadStory = (history) => (ev) => {
     const url = makeReadStoryPath(this.props.story._id);
     history.push(url);
+    ev.preventDefault();
   };
 
   renderReadButton = () => {
@@ -28,6 +29,8 @@ class StoryActions extends Component {
 
     const Btn = withRouter(({ history }) => (
       <StoryBtn
+        component="a"
+        href={makeReadStoryPath(this.props.story._id)}
         onClick={this.goToReadStory(history)}
       >
         <span className={classes.readStoryLabel}>Read</span>

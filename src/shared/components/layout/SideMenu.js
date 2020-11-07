@@ -28,7 +28,8 @@ import withAuthCmp from '../../hoc/withAuthCmp';
 import {
   APP_GITHUB_FEATURE_REQUEST_URL,
   APP_GITHUB_REPORT_ISSUE_URL,
-  APP_GITHUB_URL } from '../../constants/global';
+  APP_GITHUB_URL,
+} from '../../constants/global';
 
 import { styles } from './Styles.css';
 
@@ -36,7 +37,7 @@ const publicMenu = [
   {
     name: 'home',
     label: 'Home',
-    route: LANDING_ROUTE,
+    href: LANDING_ROUTE,
     icon: <HomeIcon />,
   },
 ];
@@ -45,9 +46,8 @@ const extraMenu = [
   {
     name: 'github',
     label: 'Github',
-    onClick: () => {
-      window.open(APP_GITHUB_URL, "_blank")
-    },
+    href: APP_GITHUB_URL,
+    target: '_blank',
     icon: ({ classes }) => {
       return (
         <img className={classes.sideMenuIcon} alt="Link to GitHub project" src={gitHub}/>
@@ -57,18 +57,16 @@ const extraMenu = [
   {
     name: 'reportIssue',
     label: 'Report an issue',
-    onClick: () => {
-      window.open(APP_GITHUB_REPORT_ISSUE_URL, "_blank")
-    },
     icon: <BugReportIcon />,
+    href: APP_GITHUB_REPORT_ISSUE_URL,
+    target: '_blank',
   },
   {
     name: 'featureRequest',
     label: 'Request a feature',
-    onClick: () => {
-      window.open(APP_GITHUB_FEATURE_REQUEST_URL, "_blank")
-    },
     icon: <FeatureRequestIcon />,
+    href: APP_GITHUB_FEATURE_REQUEST_URL,
+    target: '_blank',
   },
 ];
 
@@ -76,13 +74,13 @@ const adminMenu = [
   {
     name: 'myStories',
     label: 'My stories',
-    route: ADMIN_STORIES_ROUTE,
+    href: ADMIN_STORIES_ROUTE,
     icon: <ViewStoryIcon />,
   },
   {
     name: 'profile',
     label: 'Profile',
-    route: ADMIN_PROFILE_ROUTE,
+    href: ADMIN_PROFILE_ROUTE,
     icon: <UserIcon />,
   },
 ];
@@ -92,9 +90,10 @@ const AuthRequiredListItem = withAuthCmp(ListItem);
 @inject('appStore')
 @observer
 class SideMenu extends Component {
-  onItemClick = (item, history) => () => {
-    history.push(item.route);
+  onItemClick = (history, item) => (ev) => {
     this.props.onHandleDrawerClose();
+    history.push(item.href);
+    ev.preventDefault();
   };
 
   renderAppLogo = () => {
@@ -125,7 +124,17 @@ class SideMenu extends Component {
       : item.icon;
 
     const Item = withRouter(({ history }) => (
-      <ListItem button onClick={item.onClick || this.onItemClick(item, history)}>
+      <ListItem
+        key={item.name}
+        button
+        component="a"
+        href={item.href}
+        target={item.target || '_self'}
+        {...(item.target !== '_blank'
+          ? { onClick: this.onItemClick(history, item) }
+          : {}
+        )}
+      >
         {item.icon && <ListItemIcon>{icon}</ListItemIcon>}
         <ListItemText primary={item.label} />
       </ListItem>

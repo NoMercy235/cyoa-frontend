@@ -67,12 +67,12 @@ class StoryHeader extends Component {
         variant="h6"
         color="inherit"
       >
-        <span
+        <a
           className={classNames({ [classes.storyTitle]: shouldBeClickable })}
           {...(shouldBeClickable ? { onClick: this.goToReadStory(history) } : {})}
         >
           {story.name}
-        </span>
+        </a>
       </Typography>
     ));
 

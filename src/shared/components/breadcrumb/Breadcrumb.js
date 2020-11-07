@@ -91,8 +91,10 @@ class Breadcrumb extends Component {
       : bc.label;
 
     return (
-      <span
+      <a
         key={i}
+        href={bc.path}
+        disabled={!this.isNotLast(i)}
         className={classNames(styles.breadcrumb, {
           [styles.flexOne]: bc.shouldHaveFlexOne,
         })}
@@ -108,7 +110,7 @@ class Breadcrumb extends Component {
           variant="outlined"
         />
         {this.isNotLast(i) && <span>&nbsp;&gt;&nbsp;</span>}
-      </span>
+      </a>
     );
   };
 
