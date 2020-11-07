@@ -1,5 +1,6 @@
 import * as PropTypes from 'prop-types';
 import { action, computed, observable } from 'mobx';
+import { Utils } from '@nomercy235/utils';
 
 import { UserModel } from '../../infrastructure/models/UserModel';
 import { QueryParams } from '../utilities';
@@ -37,7 +38,7 @@ class AppStore {
   };
 
   showSnackbar = (metadata) => {
-    this.snackbarRef.current.showSnackbar(metadata);
+    Utils.safeAccess(this.snackbarRef.current, 'showSnackbar()', metadata);
   };
 
   showSuccessSnackbar = (metadata) => {
