@@ -99,6 +99,13 @@ class IndexRoute extends Component {
   async componentDidMount () {
     const { appStore } = this.props;
 
+    window.addEventListener('unhandledrejection', error => {
+      appStore.showSnackbar({
+        variant: SnackbarEnum.Variants.Error,
+        message: error.reason,
+      });
+    });
+
     await this.setIdbStatus();
     await Promise.all([
       this.getTags(),
