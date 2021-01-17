@@ -40,7 +40,6 @@ export class BaseModel {
   assignToSelf(metadata = {}) {
     Object
       .keys(metadata)
-      .filter(key => !(['created_at', 'updated_at'].includes(key)))
       .forEach(key => this[key] = metadata[key]);
   }
 
