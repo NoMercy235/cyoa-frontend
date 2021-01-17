@@ -54,6 +54,6 @@ export class BaseModel {
     return (extraFields.reduce((curr, field) => {
       curr[field] = resource[field];
       return curr;
-    }, {}))
+    }, {}));
   }
 }
