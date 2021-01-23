@@ -102,7 +102,7 @@ class IndexRoute extends Component {
     window.addEventListener('unhandledrejection', error => {
       appStore.showSnackbar({
         variant: SnackbarEnum.Variants.Error,
-        message: error.reason,
+        message: JSON.stringify(error.reason),
       });
     });
 

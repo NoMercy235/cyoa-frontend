@@ -3,21 +3,16 @@ import { withStyles, Typography } from '@material-ui/core';
 
 import { styles } from './Authentication.css';
 
-export const NoAccount = withStyles(styles)(props => {
+export const ResendConfirmationEmail = withStyles(styles)(props => {
   const { classes, onHandleClick } = props;
-  const here = (
-    <span
-      className={classes.action}
-      onClick={onHandleClick}
-    >
-      here
-    </span>
-  );
   return (
     <Typography
+      className={classes.action}
+      onClick={onHandleClick}
       variant="caption"
-      color="inherit">
-      No account? Register {here}!
+      color="inherit"
+    >
+      Resend confirmation email to the address
     </Typography>
   );
 });

@@ -7,7 +7,7 @@ export const HasAccount = withStyles(styles)(props => {
   const { classes, onHandleClick } = props;
   const here = (
     <span
-      className={classes.here}
+      className={classes.action}
       onClick={onHandleClick}
     >
       here

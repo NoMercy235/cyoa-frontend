@@ -27,3 +27,5 @@ export const STORY_RATING_LABELS = {
 };
 
 export const LANDING_PAGE_STORIES_CONTAINER_ID = 'storiesContainer';
+
+export const CONFIRMATION_EMAIL_SENT_REFRESH_DELAY = 3000;

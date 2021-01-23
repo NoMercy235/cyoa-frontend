@@ -4,11 +4,12 @@ export const styles = theme => ({
     display: 'block',
   },
   helperTextContainer: {
+    marginTop: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-end',
   },
-  here: {
+  action: {
     color: theme.palette.primary.dark,
     fontWeight: 'bold',
     cursor: 'pointer',

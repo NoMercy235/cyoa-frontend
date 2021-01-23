@@ -20,6 +20,9 @@ import { makeRegexForPath, READ_STORY_ROUTE } from '../../constants/routes';
 import { BroadcastEvents, SocketEvents } from '../../constants/events';
 import { LostPassword } from './LostPassword';
 import LostPasswordForm from './LostPasswordForm';
+import { ResendConfirmationEmail } from './ResendConfirmationEmail';
+import { BACKEND_ERRORS } from '../../constants/errors';
+import { CONFIRMATION_EMAIL_SENT_REFRESH_DELAY } from '../../constants/global';
 
 import { styles } from './Authentication.css';
 import { dialogDefaultCss } from '../dialog/Dialog.css';
@@ -32,6 +35,7 @@ const FormStates = {
   LostPassword: 'lostPassword',
   SuccessRegister: 'successRegister',
   SuccessLostPassword: 'successLostPassword',
+  ConfirmationEmailSent: 'confirmationEmailSent',
 };
 
 @inject('appStore')
@@ -118,8 +122,22 @@ class AuthenticationModal extends Component {
     })
   };
 
+  resendConfirmationEmail = (email) => async () => {
+    await authService.resendConfirmationEmail(email);
+    this.setState({
+      errorMessage: '',
+      formState: FormStates.ConfirmationEmailSent,
+    });
+    setTimeout(() => {
+      this.setState({
+        formState: FormStates.Login,
+      });
+    }, CONFIRMATION_EMAIL_SENT_REFRESH_DELAY);
+  };
+
   renderTitle() {
     switch (this.state.formState) {
+      case FormStates.ConfirmationEmailSent:
       case FormStates.Login:
         return 'Login to your account';
       case FormStates.Register:
@@ -128,13 +146,13 @@ class AuthenticationModal extends Component {
         return 'Recover your password';
       case FormStates.SuccessRegister:
       case FormStates.SuccessLostPassword:
-        return 'Action completed';
       default:
     }
   }
 
   renderOkText() {
     switch (this.state.formState) {
+      case FormStates.ConfirmationEmailSent:
       case FormStates.Login:
         return 'Login';
       case FormStates.Register:
@@ -147,13 +165,13 @@ class AuthenticationModal extends Component {
 
   renderCancelText() {
     switch (this.state.formState) {
+      case FormStates.ConfirmationEmailSent:
       case FormStates.Login:
       case FormStates.Register:
       case FormStates.LostPassword:
         return 'Cancel';
       case FormStates.SuccessRegister:
       case FormStates.SuccessLostPassword:
-        return 'Ok';
       default:
     }
   }
@@ -184,9 +202,10 @@ class AuthenticationModal extends Component {
   }
 
   renderHelperText(formik) {
-    const { formState } = this.state;
+    const { formState, errorMessage } = this.state;
 
     switch (formState) {
+      case FormStates.ConfirmationEmailSent:
       case FormStates.Login:
         return (
           <>
@@ -196,6 +215,16 @@ class AuthenticationModal extends Component {
             <LostPassword
               onHandleClick={this.onHelperTextClick(formik, { formState: FormStates.LostPassword })}
             />
+            {errorMessage && formState === FormStates.ConfirmationEmailSent && (
+              <ResendConfirmationEmail
+                onHandleClick={this.resendConfirmationEmail(formik.values.email)}
+              />
+            )}
+            {!errorMessage && formState === FormStates.ConfirmationEmailSent && (
+              <Typography variant="caption">
+                Another confirmation email has been sent to the specified address.
+              </Typography>
+            )}
           </>
         );
       case FormStates.Register:
@@ -218,7 +247,14 @@ class AuthenticationModal extends Component {
     try {
       switch (this.state.formState) {
         case FormStates.Login:
-          return await this.loginBroadcast(values);
+          try {
+            return await this.loginBroadcast(values);
+          } catch (e) {
+            if (e[BACKEND_ERRORS.KEYS.emailNotVerified]) {
+              this.setState({ formState: FormStates.ConfirmationEmailSent });
+            }
+            throw e;
+          }
         case FormStates.Register:
           return await this.register(values);
         case FormStates.LostPassword:
@@ -259,6 +295,7 @@ class AuthenticationModal extends Component {
 
   renderForm = (formik) => {
     switch (this.state.formState) {
+      case FormStates.ConfirmationEmailSent:
       case FormStates.Login:
         return <LoginForm formik={formik} />;
       case FormStates.Register:
@@ -298,7 +335,7 @@ class AuthenticationModal extends Component {
 
   renderModal = isAuthModalOpen => formik => {
     const { classes } = this.props;
-    const { formState } = this.state;
+    const { formState, errorMessage } = this.state;
     this.formik = formik;
 
     return (
@@ -321,6 +358,7 @@ class AuthenticationModal extends Component {
             }
             okText={this.renderOkText()}
             cancelText={this.renderCancelText()}
+            disableSubmit={formState === FormStates.ConfirmationEmailSent && !!errorMessage}
             onClose={this.onClose}
           />
         </DialogActions>

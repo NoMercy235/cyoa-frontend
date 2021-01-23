@@ -7,7 +7,7 @@ export const LostPassword = withStyles(styles)(props => {
   const { classes, onHandleClick } = props;
   const Recover = (
     <span
-      className={classes.here}
+      className={classes.action}
       onClick={onHandleClick}
     >
       Recover

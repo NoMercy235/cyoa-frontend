@@ -55,6 +55,11 @@ class AuthenticationService extends BaseService {
     const res = await this.client.get(`auth/verifyEmail/${token}`);
     return res.data;
   }
+
+  resendConfirmationEmail = async (email) => {
+    const res = await this.client.get(`auth/resendEmail/${email}`);
+    return res.data;
+  }
 }
 
 export const authService = new AuthenticationService();
