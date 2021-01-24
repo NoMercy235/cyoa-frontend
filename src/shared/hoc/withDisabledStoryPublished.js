@@ -29,22 +29,27 @@ export default function withDisabledStoryPublished (WrappedCmp) {
         : story ? story.published: false;
     };
 
-    render() {
+    render = () => {
+      const { forwardedRef, ...rest } = this.props;
+
       return (
         <WithDisabledBtnWrappedCmp
+          ref={forwardedRef}
           reason={ERRORS.cannotPerformActionWhileStoryPublished}
           condition={this.isStoryPublished()}
-          {...this.props}
+          {...rest}
         />
       );
-    }
+    };
   }
 
   DisabledComponent.propTypes = {
+    forwardedRef: PropTypes.any,
     storyPublished: PropTypes.bool,
     storyViewStore: storyViewStorePropTypes,
   };
 
-
-  return DisabledComponent;
+  return React.forwardRef((props, ref) => {
+    return <DisabledComponent {...props} forwardedRef={ref} />;
+  });
 }
