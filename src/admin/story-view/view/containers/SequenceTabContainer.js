@@ -83,10 +83,12 @@ class SequenceTabContainer extends Component {
     optionService.setNextRouteParams(params);
 
     const option = await optionService.get(optionId);
-    option.nextSeq = {
-      value: option.nextSeq._id,
-      label: option.nextSeq.name,
-    };
+    option.nextSeq = option.nextSeq
+      ? {
+        value: option.nextSeq._id,
+        label: option.nextSeq.name,
+      }
+      : undefined;
     return option;
   };
 
