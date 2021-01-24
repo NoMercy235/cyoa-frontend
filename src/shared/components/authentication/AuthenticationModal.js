@@ -147,6 +147,7 @@ class AuthenticationModal extends Component {
       case FormStates.SuccessRegister:
       case FormStates.SuccessLostPassword:
       default:
+        return 'Action completed';
     }
   }
 
@@ -173,6 +174,7 @@ class AuthenticationModal extends Component {
       case FormStates.SuccessRegister:
       case FormStates.SuccessLostPassword:
       default:
+        return 'Ok';
     }
   }
 
