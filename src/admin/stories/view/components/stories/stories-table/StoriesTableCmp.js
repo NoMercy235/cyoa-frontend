@@ -76,7 +76,7 @@ class StoriesTableCmp extends Component {
           modalComponent={SaveStoryModal}
           storyPublished={row.published}
           innerProps={{
-            onSuccess: onStorySaved
+            onSuccess: onStorySaved,
           }}
         />
         <BasicDeleteBtnWithDisabledState

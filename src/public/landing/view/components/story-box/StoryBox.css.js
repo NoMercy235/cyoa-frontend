@@ -10,7 +10,7 @@ export const styles = theme => ({
     '&:not(:last-child)': {
       margin: '1px', // needed for the border shadowing
       marginBottom: theme.spacing(1),
-    }
+    },
   },
   visibleContent: {
     display: 'flex',
@@ -78,7 +78,7 @@ export const styles = theme => ({
     '&:hover': {
       color: theme.palette.primary.main,
       cursor: 'pointer',
-      textDecoration: 'underline'
-    }
+      textDecoration: 'underline',
+    },
   },
 });

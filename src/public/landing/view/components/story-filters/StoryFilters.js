@@ -18,7 +18,7 @@ class StoryFilters extends Component {
   };
 
   render() {
-    const {initialValues} = this.props;
+    const { initialValues } = this.props;
 
     return (
       <Paper className={styles.container}>

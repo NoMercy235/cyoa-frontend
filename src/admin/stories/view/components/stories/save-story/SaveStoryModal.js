@@ -69,10 +69,10 @@ class SaveStoryModal extends Component {
         ? await this.updateStory(values)
         : await this.saveStory(values);
       onSuccess && await onSuccess(story);
-      setSubmitting(false)
+      setSubmitting(false);
       this.onClose();
     } catch (e) {
-      setSubmitting(false)
+      setSubmitting(false);
       setErrors(handleConflictError(e));
     }
   };

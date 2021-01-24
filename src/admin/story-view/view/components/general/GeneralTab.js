@@ -8,7 +8,7 @@ import { parseContent } from '../../../../../shared/utilities';
 import {
   MAX_STORY_SCENE_PIC_SIZE_MB,
   STORY_PICTURE_CROPPER_SIZE,
-  STORY_PICTURE_PREVIEW_SIZE
+  STORY_PICTURE_PREVIEW_SIZE,
 } from '../../../../../shared/constants/stories';
 import FilePicker from '../../../../../shared/components/form/FileSelect/FilePicker';
 
@@ -16,7 +16,7 @@ import styles from './GeneralTab.module.scss';
 
 const compressOptions = {
   maxSizeMB: MAX_STORY_SCENE_PIC_SIZE_MB,
-  maxWidthOrHeight: STORY_PICTURE_CROPPER_SIZE.height
+  maxWidthOrHeight: STORY_PICTURE_CROPPER_SIZE.height,
 };
 
 class GeneralTab extends Component {
@@ -40,7 +40,7 @@ class GeneralTab extends Component {
                 size: STORY_PICTURE_PREVIEW_SIZE,
                 cropperProps: {
                   size: STORY_PICTURE_CROPPER_SIZE,
-                }
+                },
               }}
               compressOptions={compressOptions}
               onFileSave={onCoverPicChanged}

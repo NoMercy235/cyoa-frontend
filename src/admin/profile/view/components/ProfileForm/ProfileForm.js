@@ -26,8 +26,8 @@ class ProfileForm extends Component {
         <CardContent>
           <div className={styles.fieldsContainer}>
             {renderInput(formik, { label: 'Email', name: 'email', disabled: true })}
-            {renderInput(formik, { label: 'First Name', name: 'firstName', })}
-            {renderInput(formik, { label: 'Last Name', name: 'lastName', })}
+            {renderInput(formik, { label: 'First Name', name: 'firstName' })}
+            {renderInput(formik, { label: 'Last Name', name: 'lastName' })}
           </div>
           {renderInput(
             formik,
@@ -55,7 +55,7 @@ class ProfileForm extends Component {
   render () {
     const {
       user: { email, firstName, lastName, description },
-      onUpdateUser
+      onUpdateUser,
     } = this.props;
 
     return (

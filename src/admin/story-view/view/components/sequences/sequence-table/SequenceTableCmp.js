@@ -70,7 +70,7 @@ class SequenceTableCmp extends Component {
             story,
             selectedChapterId,
             onSuccess: onSequenceSave,
-            isStartSeq: this.isStartSeq(row)
+            isStartSeq: this.isStartSeq(row),
           }}
         />
         <BasicDeleteBtnWithDisabledState
@@ -177,7 +177,7 @@ class SequenceTableCmp extends Component {
               story,
               selectedChapterId,
               onSuccess: onSequenceSave,
-              isStartSeq: false
+              isStartSeq: false,
             }}
           />
         );
@@ -207,6 +207,10 @@ SequenceTableCmp.propTypes = {
   queryParams: PropTypes.shape({
     page: PropTypes.number,
     limit: PropTypes.number,
+    pagination: PropTypes.shape({
+      page: PropTypes.number,
+      total: PropTypes.number,
+    }),
   }).isRequired,
   selectedChapterId: PropTypes.string.isRequired,
   onDeleteSequence: PropTypes.func.isRequired,

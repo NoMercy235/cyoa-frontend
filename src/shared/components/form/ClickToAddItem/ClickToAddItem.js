@@ -20,6 +20,7 @@ const ClickToAddItem = ({ className, label, onClick }) => {
 };
 
 ClickToAddItem.propTypes = {
+  className: PropTypes.string,
   label: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };

@@ -5,6 +5,7 @@ import MUIDataTable from 'mui-datatables';
 import { withStyles, Paper, CircularProgress } from '@material-ui/core';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { inject, observer } from 'mobx-react';
+import { appStorePropTypes } from '../../store/AppStore';
 
 import { getMuiTheme, styles as tableStyles } from './TableCmp.css';
 
@@ -79,6 +80,7 @@ TableCmp.propTypes = {
   columns: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
   options: PropTypes.object,
+  appStore: appStorePropTypes,
 };
 
 export default withStyles(tableStyles)(TableCmp);

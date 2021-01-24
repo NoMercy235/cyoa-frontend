@@ -9,7 +9,7 @@ import {
   ADMIN_ROUTE,
   ADMIN_STORIES_ROUTE,
   ADMIN_STORY_VIEW_ROUTE,
-  NOT_FOUND_ROUTE
+  NOT_FOUND_ROUTE,
 } from '../shared/constants/routes';
 
 class AdminRoute extends Component {

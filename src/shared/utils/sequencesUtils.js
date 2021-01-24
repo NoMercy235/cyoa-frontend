@@ -21,7 +21,7 @@ export const getDebouncedSequences = async (storyId, searchQuery, extraFilters) 
     pagination: {
       page: 0,
       limit: 20,
-    }
+    },
   }));
   return sequences;
 };

@@ -246,7 +246,7 @@ class WriteStoryContainer extends Component {
     const { canRender } = this.state;
 
     if (!canRender) {
-      return <LoadingCmp/>
+      return <LoadingCmp/>;
     }
 
     return (

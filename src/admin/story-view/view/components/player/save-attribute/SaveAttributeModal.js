@@ -47,7 +47,7 @@ class SaveAttributeModal extends Component {
       pagination: {
         page: 0,
         limit: 20,
-      }
+      },
     }));
 
     return sequences.map(s => {

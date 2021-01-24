@@ -84,8 +84,8 @@ class StoryContainer extends Component {
       storyStore: {
         stories,
         collections,
-        selectedCollection
-      }
+        selectedCollection,
+      },
     } = this.props;
 
     return (

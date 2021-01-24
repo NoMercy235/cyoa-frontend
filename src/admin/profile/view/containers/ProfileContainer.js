@@ -27,7 +27,7 @@ class ProfileContainer extends Component {
     this.setState({
       canRender: true,
       userOverview: overview,
-    })
+    });
   }
 
   onUpdateProfilePicture = async (img) => {
@@ -53,7 +53,7 @@ class ProfileContainer extends Component {
     const { canRender, userOverview } = this.state;
 
     if (!canRender) {
-      return <LoadingCmp/>
+      return <LoadingCmp/>;
     }
 
     return (

@@ -54,7 +54,7 @@ class StoryBox extends Component {
   renderStorySummarySection = () => {
     const {
       classes,
-      story: { rating, ratingTimes, humanReadTimes }
+      story: { rating, ratingTimes, humanReadTimes },
     } = this.props;
 
     return (

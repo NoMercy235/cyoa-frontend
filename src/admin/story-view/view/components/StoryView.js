@@ -30,15 +30,15 @@ const getCurrentTab = (story) => {
   const { location: { pathname } } = window;
 
   if (pathname === makePath(ADMIN_STORY_VIEW_ROUTE_ATTRIBUTES, { ':id': story._id })) {
-    return TabsEnum.Player
+    return TabsEnum.Player;
   }
   if (pathname === makePath(ADMIN_STORY_VIEW_ROUTE_SEQUENCES, { ':id': story._id })) {
-    return TabsEnum.Sequences
+    return TabsEnum.Sequences;
   }
   if (pathname === makePath(ADMIN_WRITE_STORY_ROUTE, { ':id': story._id })) {
-    return TabsEnum.WriteStory
+    return TabsEnum.WriteStory;
   }
-  return TabsEnum.General
+  return TabsEnum.General;
 };
 
 class StoryView extends Component {
@@ -66,7 +66,7 @@ class StoryView extends Component {
       default:
     }
 
-    history.push(makePath(route, { ':id': story._id }))
+    history.push(makePath(route, { ':id': story._id }));
   };
 
   render() {

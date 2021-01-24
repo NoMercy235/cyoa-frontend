@@ -12,7 +12,7 @@ export const StoryListEnd = () => {
       <img className={styles.fossil} alt="End of page" src={fossil1}/>
       <div className={styles.message}>
         <Typography variant="h6">
-          This is it. There's nothing more past this point.
+          This is it. There is nothing more past this point.
         </Typography>
       </div>
       <img className={styles.fossil} alt="End of page" src={fossil2}/>

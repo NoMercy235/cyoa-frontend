@@ -18,7 +18,7 @@ class FiltersCmp extends Component {
       <Tooltip title="Advanced Filters">
         <IconButton
           onClick={onOpenAdvancedFilters}
-          color={filterType === FiltersType.Advanced ? "secondary" : "inherit"}
+          color={filterType === FiltersType.Advanced ? 'secondary' : 'inherit'}
         >
           <FilterIcon />
         </IconButton>
@@ -48,7 +48,7 @@ class FiltersCmp extends Component {
             }}
             value={quickSearchValue}
             inputProps={{
-             'aria-label': 'Quick search',
+              'aria-label': 'Quick search',
             }}
           />
         </div>

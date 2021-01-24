@@ -44,7 +44,7 @@ class SaveOptionModal extends Component {
     const option = await optionService.save(OptionModel.forApi(values));
     storyViewStore.addOptionToSequence(sequenceId, option);
     appStore.showSuccessSnackbar({
-      message: 'Option saved!'
+      message: 'Option saved!',
     });
   };
 
@@ -54,7 +54,7 @@ class SaveOptionModal extends Component {
     const option = await optionService.update(values._id, OptionModel.forApi(values));
     storyViewStore.updateOption(sequenceId, values._id, option);
     appStore.showSuccessSnackbar({
-      message: 'Option saved!'
+      message: 'Option saved!',
     });
   };
 
@@ -87,7 +87,7 @@ class SaveOptionModal extends Component {
       } else {
         await this.saveOption(values);
       }
-      setSubmitting(false)
+      setSubmitting(false);
       this.onClose();
     } catch (e) {
       setErrors(handleConflictError(e));

@@ -26,7 +26,7 @@ class StoryRating extends Component {
     } catch (e) {
       // No rating for the user
     } finally {
-      this.setState({ shouldShowLoading: false })
+      this.setState({ shouldShowLoading: false });
     }
   }
 
@@ -57,7 +57,7 @@ class StoryRating extends Component {
           variant="h6"
           color="inherit"
         >
-          Give your thoughts a bout this story to help increase it's visibility!
+          Give your thoughts about this story to help increase its visibility!
         </Typography>
 
         {shouldShowLoading

@@ -69,6 +69,7 @@ ActionsToolbarComponent.propTypes = {
   onPreviewEnabledChange: PropTypes.func.isRequired,
   onAddNewSequenceModalOpen: PropTypes.func.isRequired,
   onAddNewOptionModalOpen: PropTypes.func.isRequired,
+  onStoryPublishStateChanged: PropTypes.func.isRequired,
 };
 
 export default ActionsToolbarComponent;

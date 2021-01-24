@@ -19,10 +19,10 @@ class RecoverPasswordContainer extends Component {
       match: {
         params: {
           email,
-          token
-        }
+          token,
+        },
       },
-      history
+      history,
     } = this.props;
     try {
       await authService.recoverPassword({ token, email, password });
@@ -31,7 +31,7 @@ class RecoverPasswordContainer extends Component {
       appStore.showSnackbar({
         variant: SnackbarEnum.Variants.Error,
         message: 'Your request could not be completed',
-      })
+      });
     } finally {
       setSubmitting(false);
     }

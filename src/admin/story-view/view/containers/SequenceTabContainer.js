@@ -26,7 +26,7 @@ class SequenceTabContainer extends Component {
         sequences: {
           filters: {
             chapter: {
-              value: selectedChapterId
+              value: selectedChapterId,
             } = {},
           },
         },
@@ -50,7 +50,7 @@ class SequenceTabContainer extends Component {
     addCurrentLoadingAnimation(SEQUENCES_ADMIN_TABLE);
 
     if (chapterId === undefined) {
-      chapterId = selectedChapterId
+      chapterId = selectedChapterId;
     }
 
     const params = { ':story': match.params.id };
@@ -113,11 +113,11 @@ class SequenceTabContainer extends Component {
   };
 
   onMoveSeqUp = seq => {
-     this.onUpdateSequence(seq, false);
+    this.onUpdateSequence(seq, false);
   };
 
   onMoveSeqDown = seq => {
-      this.onUpdateSequence(seq, true);
+    this.onUpdateSequence(seq, true);
   };
 
   onChangeChapter = async chapterId => {

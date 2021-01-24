@@ -69,6 +69,7 @@ function configureGoogleCache (workbox) {
   );
 }
 
+// eslint-disable-next-line no-unused-vars
 function setupBasicEventListeners () {
   self.addEventListener('install', () => {
     console.log('[SW]: Installed');

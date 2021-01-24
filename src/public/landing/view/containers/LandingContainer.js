@@ -102,7 +102,7 @@ class LandingContainer extends Component {
 
     if (qs.recoverPasswordSuccess) {
       appStore.showSuccessSnackbar({
-        message: 'Password successfully changed! Please login to your account.'
+        message: 'Password successfully changed! Please login to your account.',
       });
     }
 
@@ -124,7 +124,7 @@ class LandingContainer extends Component {
     const {
       publicStoryStore: {
         reachedEnd,
-        stories
+        stories,
       },
     } = this.props;
     const { initialRequestDone } = this.state;

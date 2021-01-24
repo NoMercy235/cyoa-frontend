@@ -28,8 +28,8 @@ class OptionService extends BaseService {
     const endpoint = makePath(this.allOptionsEndpoint, { ':story': storyId });
     return this.client.get(`${endpoint}?${BaseService.parseSort({ created_at: 'asc' })}`)
       .then(BaseService.onSuccess).then(options => {
-      return options.map(o => new OptionModel(o));
-    });
+        return options.map(o => new OptionModel(o));
+      });
   };
 }
 

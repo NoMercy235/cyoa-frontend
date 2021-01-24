@@ -26,7 +26,7 @@ class SaveGraphOptions extends Component {
   };
   formikRef = {};
 
-  componentDidUpdate (prevProps, prevState, snapshot) {
+  componentDidUpdate (prevProps) {
     if (this.props.options !== prevProps.options) {
       this.setState({ options: this.props.options });
     }
@@ -155,7 +155,7 @@ class SaveGraphOptions extends Component {
         attributes={attributes}
         onRemoveOptionInArray={this.removeOptionInArray(index)}
       />
-    )
+    );
   };
 
   renderActionButtons = () => {
@@ -204,7 +204,7 @@ class SaveGraphOptions extends Component {
                 >
                   {this.renderCollapsibleOption(option, index)}
                 </Formik>
-              )
+              );
             })}
             <ClickToAddItem
               label="Click to add a new option"

@@ -73,29 +73,29 @@ class DisplaySequence extends Component {
     const { onOptionClick, seq } = this.props;
 
     return (
-        <>
-          <CardHeader title={this.renderTitle()}/>
-          <CardContent>
-            <TextWithImage
-              image={seq.scenePic}
-              size={SEQUENCE_PICTURE_CROPPER_SIZE}
-              text={parseContent(seq.content)}
-            />
-            <Divider/>
-          </CardContent>
-          <CardActions disableSpacing>
-            <List className={classNames(styles.optionsContainer, styles.optionsContainerEnforcer)}>
-              {!seq.isEnding && this.renderOptions()}
-              {seq.isEnding && (
-                <DisplayEnding
-                  sequence={seq}
-                  onHandleClick={onOptionClick}
-                />
-              )}
-            </List>
-          </CardActions>
-        </>
-      );
+      <>
+        <CardHeader title={this.renderTitle()}/>
+        <CardContent>
+          <TextWithImage
+            image={seq.scenePic}
+            size={SEQUENCE_PICTURE_CROPPER_SIZE}
+            text={parseContent(seq.content)}
+          />
+          <Divider/>
+        </CardContent>
+        <CardActions disableSpacing>
+          <List className={classNames(styles.optionsContainer, styles.optionsContainerEnforcer)}>
+            {!seq.isEnding && this.renderOptions()}
+            {seq.isEnding && (
+              <DisplayEnding
+                sequence={seq}
+                onHandleClick={onOptionClick}
+              />
+            )}
+          </List>
+        </CardActions>
+      </>
+    );
   };
 
   render() {

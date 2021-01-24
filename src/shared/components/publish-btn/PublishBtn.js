@@ -26,7 +26,11 @@ class PublishBtn extends Component {
 
   onTryStoryClick = () => {
     const { story } = this.props;
-    window.open(makePath(`${READ_STORY_ROUTE}?isPreview=true`, { ':storyId': story._id }), "_blank")
+    window.open(
+      makePath(`${READ_STORY_ROUTE}?isPreview=true`, 
+        { ':storyId': story._id }),
+      '_blank',
+    );
   };
 
   onCheckIfCanPublish = async () => {

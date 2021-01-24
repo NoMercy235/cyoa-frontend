@@ -112,14 +112,14 @@ class AuthenticationModal extends Component {
     await authService.register(values);
     this.setState({
       formState: FormStates.SuccessRegister,
-    })
+    });
   };
 
   lostPassword = async (values) => {
     await authService.lostPassword(values);
     this.setState({
       formState: FormStates.SuccessLostPassword,
-    })
+    });
   };
 
   resendConfirmationEmail = (email) => async () => {

@@ -47,7 +47,7 @@ export const seqToNode = (story, selectedNode) => seq => {
     }),
     ...(selectedNode === seq._id && { strokeColor: ThemeColors.Secondary }),
     labelPosition: GraphNodeLabelPositions.Top,
-  }
+  };
 };
 
 export const reduceOptionsToUniqueArray = (curr, option) => {
@@ -73,7 +73,7 @@ export const optionToLink = (option, index, options) => {
     source: option.sequence,
     target: option.nextSeq,
     ...(!!hasTwoWay && { type: GraphLinkTypes.CurveSmooth }),
-  }
+  };
 };
 
 export const sourceDestInitialValues = {
@@ -97,5 +97,5 @@ export const newGraphOption = (story) => {
   return new OptionModel({
     action: 'New option',
     story: story._id,
-  })
+  });
 };

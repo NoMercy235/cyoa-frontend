@@ -29,7 +29,7 @@ export class AuthenticationModel extends BaseModel {
       this.repeatPassword
     ) {
       if (!AuthenticationModel.validatePassword(this.password)) {
-        errors.password = `Password must have at least ${PASSWORD_MIN_LENGTH} characters`
+        errors.password = `Password must have at least ${PASSWORD_MIN_LENGTH} characters`;
       } else if (this.password !== this.repeatPassword) {
         errors.repeatPassword = 'Field must be the same as "Password"';
       }

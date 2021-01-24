@@ -53,7 +53,7 @@ class Header extends Component {
     socket.emit(SocketEvents.UserOffline);
     localStorage.removeItem('jwt');
     if (!window.location.pathname.startsWith('/public')) {
-      window.location = '/'
+      window.location = '/';
     } else if (window.location.pathname.startsWith('/public/read/')) {
       appStore.isKeepPlayerModalOpen = true;
     }

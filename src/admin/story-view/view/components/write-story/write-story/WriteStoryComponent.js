@@ -11,7 +11,7 @@ import {
   optionToLink,
   reduceOptionsToUniqueArray,
   seqToNode,
-  sourceDestInitialValues
+  sourceDestInitialValues,
 } from '../../../../../../shared/utils/graphUtils';
 import { SequenceModel } from '../../../../../../infrastructure/models/SequenceModel';
 import { OptionModel } from '../../../../../../infrastructure/models/OptionModel';
@@ -21,7 +21,7 @@ import {
   GRAPH_ENABLE_PREVIEW_LOCAL_STORAGE,
   GRAPH_ID,
   GRAPH_PREVIEW_TIMEOUT,
-  GRAPH_WAIT_FOR_GRAPH_STATE_CHANGE
+  GRAPH_WAIT_FOR_GRAPH_STATE_CHANGE,
 } from '../../../../../../shared/constants/graph';
 import ActionsToolbarComponent from '../actions-toolbar/ActionsToolbarComponent';
 import SaveGraphSequence from '../save-graph-sequence/SaveGraphSequence';
@@ -87,7 +87,7 @@ class WriteStoryComponent extends Component {
       viewState: ViewStates.SaveSequence,
       sequence: sequenceId ? this.getSequence(sequenceId) : undefined,
       selectedNode: '',
-    })
+    });
   };
 
   onPreviewEnabledChange = (e, value) => {
@@ -163,8 +163,8 @@ class WriteStoryComponent extends Component {
         },
         nextSeq: {
           value: toSeqId,
-          label: toSeq.name
-        }
+          label: toSeq.name,
+        },
       };
       optionsToLoad = getOptionsBetweenNodes(fromSeqId, toSeqId, options);
     }
@@ -174,7 +174,7 @@ class WriteStoryComponent extends Component {
       sourceDest,
       options: optionsToLoad,
       selectedNode: '',
-    })
+    });
   };
 
   onSaveOptions = (newOptions) => {
@@ -197,7 +197,7 @@ class WriteStoryComponent extends Component {
       options: [],
       viewState: ViewStates.View,
       selectedNode: '',
-    })
+    });
   };
 
   render () {

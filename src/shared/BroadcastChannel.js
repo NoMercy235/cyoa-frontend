@@ -23,8 +23,8 @@ import { BROADCAST_CHANNEL_NAME } from './constants/events';
    * @private
    */
   function getRandomString( length ) {
-    let text = "",
-      possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let text = '',
+      possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     for(let i=0; i < (length || 5); i++) {
       text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
@@ -37,14 +37,7 @@ import { BROADCAST_CHANNEL_NAME } from './constants/events';
    * @private
    */
   function isEmpty(obj) {
-    for( const prop in obj) {
-      if(obj.hasOwnProperty(prop))
-        return false;
-    }
-    return true;
-    // Also this is good.
-    // returns 0 if empty or an integer > 0 if non-empty
-    //return Object.keys(obj).length;
+    return Object.keys(obj).length;
   }
 
   /**
@@ -69,7 +62,7 @@ import { BROADCAST_CHANNEL_NAME } from './constants/events';
       cancelable: false,
       defaultPrevented: false,
       lastEventId: '',
-      origin: context.location.origin
+      origin: context.location.origin,
     };
   }
 
@@ -113,13 +106,13 @@ import { BROADCAST_CHANNEL_NAME } from './constants/events';
   /**
    * Empty function to prevent errors when calling onmessage.
    */
-  BroadcastChannel.prototype.onmessage = function( ev ){};
+  BroadcastChannel.prototype.onmessage = function(){};
 
   /**
    * Sends the message to different channels.
    * @param {Object} data - the data to be sent ( actually, it can be any JS type ).
    */
-  BroadcastChannel.prototype.postMessage = function( data ) {
+  BroadcastChannel.prototype.postMessage = function(data) {
     // Gets all the 'Same tab' channels available.
     if (!_channels) return;
 
@@ -128,20 +121,20 @@ import { BROADCAST_CHANNEL_NAME } from './constants/events';
     }
 
     // Build the event-like response.
-    const msgObj = buildResponse( data );
+    const msgObj = buildResponse(data);
 
     // SAME-TAB communication.
     const subscribers = _channels[ this.channelId ] || [];
-    for (let j in subscribers) {
-      if (subscribers.hasOwnProperty(j)) {
-        // We don't send the message to ourselves.
-        if (subscribers[j].closed || subscribers[j].name === this.name) continue;
-
-        if (subscribers[j].onmessage ) {
-          subscribers[j].onmessage( msgObj );
-        }
+    Object.keys(subscribers).forEach(j => {
+      // We don't send the message to ourselves.
+      if (subscribers[j].closed || subscribers[j].name === this.name) {
+        return;
       }
-    }
+
+      if (subscribers[j].onmessage ) {
+        subscribers[j].onmessage( msgObj );
+      }
+    });
 
     // CROSS-TAB communication.
     // Adds some properties to communicate among the tabs.
@@ -149,7 +142,7 @@ import { BROADCAST_CHANNEL_NAME } from './constants/events';
       channelId: this.channelId,
       bcId: this.name,
       tabId: _tabId,
-      message: msgObj
+      message: msgObj,
     };
     const editedJSON = JSON.stringify( editedObj ),
       lsKey = 'eomBCmessage_' + getRandomString() + '_' + this.channelId;
@@ -160,7 +153,7 @@ import { BROADCAST_CHANNEL_NAME } from './constants/events';
       throw new Error('Message conversion has resulted in an error.');
     }
 
-    setTimeout(function(){ context.localStorage.removeItem( lsKey ) }, 1000);
+    setTimeout(function(){ context.localStorage.removeItem( lsKey ); }, 1000);
 
   };
 
@@ -194,13 +187,11 @@ import { BROADCAST_CHANNEL_NAME } from './constants/events';
         _channels[ obj.channelId ] ) {
 
         const subscribers = _channels[ obj.channelId ];
-        for (let j in subscribers) {
-          if (subscribers.hasOwnProperty(j)) {
-            if (!subscribers[j].closed && subscribers[j].onmessage) {
-              subscribers[j].onmessage(obj.message);
-            }
+        Object.keys(subscribers).forEach(j => {
+          if (!subscribers[j].closed && subscribers[j].onmessage) {
+            subscribers[j].onmessage(obj.message);
           }
-        }
+        });
         // Remove the item for safety.
         context.localStorage.removeItem( key );
       }
@@ -265,4 +256,4 @@ export {
   removeBroadcastListener,
   sendBroadcastMessage,
   RigamoBC,
-}
+};

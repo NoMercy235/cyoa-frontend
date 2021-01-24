@@ -13,7 +13,7 @@ import {
   EMAIL_VERIFY_ROUTE,
   LANDING_ROUTE,
   NOT_FOUND_ROUTE,
-  RECOVER_PASSWORD_ROUTE
+  RECOVER_PASSWORD_ROUTE,
 } from '../../constants/routes';
 import { userService } from '../../../infrastructure/services/UserService';
 import { authService } from '../../../infrastructure/services/AuthenticationService';

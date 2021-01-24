@@ -47,7 +47,7 @@ class NodePreview extends Component {
             body: {
               noMatch: 'No options available',
             },
-          }
+          },
         }}
       />
     );

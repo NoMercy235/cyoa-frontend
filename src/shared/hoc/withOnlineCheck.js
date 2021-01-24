@@ -7,7 +7,7 @@ import { appStorePropTypes } from '../store/AppStore';
 
 const styles = () => ({
   disabled: {
-    cursor: 'not-allowed'
+    cursor: 'not-allowed',
   },
 });
 
@@ -84,6 +84,7 @@ export default function withOnlineCheck(WrappedCmp) {
   }
 
   OnlineCheckedComponent.propTypes = {
+    classes: PropTypes.object,
     propName: PropTypes.string,
 
     appStore: appStorePropTypes,

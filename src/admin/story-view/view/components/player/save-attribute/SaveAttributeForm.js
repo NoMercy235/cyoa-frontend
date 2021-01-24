@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core';
 import {
   renderAutocompleteInput,
   renderCheckboxInput,
-  renderInput
+  renderInput,
 } from '../../../../../../shared/utils/formUtils';
 
 import { styles } from './SaveAttribute.css';
@@ -40,7 +40,7 @@ class SaveAttributeForm extends Component {
           label: 'Associated ending',
           name: 'linkedEnding',
           placeholder: 'Search for sequences',
-          onSearchRequest: onSequenceSearch
+          onSearchRequest: onSequenceSearch,
         })}
         {renderInput(formik, {
           label: 'Description',

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
-import { Helmet } from "react-helmet";
+import { Helmet } from 'react-helmet';
 import * as queryString from 'query-string';
 
 import { publicStoryService, storyService } from '../../../../infrastructure/services/StoryService';
@@ -205,7 +205,7 @@ class ReadStoryContainer extends Component {
   onInitStoryRating = async () => {
     const {
       match,
-      appStore: { getUserId }
+      appStore: { getUserId },
     } = this.props;
 
     const storyId = match.params.storyId;

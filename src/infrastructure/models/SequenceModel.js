@@ -25,7 +25,7 @@ export class SequenceModel extends BaseModel {
     if (!this.name) {
       errors.name = ERRORS.fieldRequired;
     } else if (this.name.length > Limits.SequenceNameLength) {
-      errors.name = ERRORS.fieldLengthExceeded(Limits.SequenceNameLength)
+      errors.name = ERRORS.fieldLengthExceeded(Limits.SequenceNameLength);
     }
     if (!this.content) {
       errors.content = ERRORS.fieldRequired;

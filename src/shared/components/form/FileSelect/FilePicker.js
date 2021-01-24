@@ -25,7 +25,7 @@ class FilePicker extends React.Component {
     this.setState({
       file,
       image,
-      pickerState: PickerStates.Crop
+      pickerState: PickerStates.Crop,
     });
   };
 

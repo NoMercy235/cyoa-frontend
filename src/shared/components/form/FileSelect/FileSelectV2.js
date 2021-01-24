@@ -48,7 +48,7 @@ class FileSelectV2 extends React.Component {
       accept,
       initialImage,
       stylesProp,
-      disabled
+      disabled,
     } = this.props;
 
     if (disabled) {

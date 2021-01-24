@@ -42,6 +42,7 @@ export default function Rating ({ initialValue, max, labels, disabled, onChange 
 Rating.propTypes = {
   initialValue: PropTypes.number,
   max: PropTypes.number,
+  disabled: PropTypes.bool,
   labels: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
 };

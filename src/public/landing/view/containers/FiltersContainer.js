@@ -52,7 +52,8 @@ class FiltersContainer extends Component {
     });
 
     appStore.queryParams.publicStories.addCustomQueryParam({
-      name: 'quickSearch', value
+      name: 'quickSearch',
+      value,
     });
 
     const { stories } = await debouncedQuickList(

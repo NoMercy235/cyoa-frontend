@@ -21,7 +21,9 @@ module.exports = {
   ],
   "rules": {
     // enable additional rules
-    "indent": ["error", 2],
+    "indent": ["error", 2, {
+      "SwitchCase": 1
+    }],
     "quotes": ["error", "single"],
     "semi": ["error", "always"],
 
@@ -33,7 +35,13 @@ module.exports = {
     "no-console": "off",
 
     // custom
-    "react/prop-types": [2, { ignore: ['children'] }],
+    "no-useless-catch": 0,
+    "object-curly-spacing": [2, "always"],
+    "react/prop-types": [2, {
+      ignore: ['children', 'location', 'match', 'history'],
+      skipUndeclared: true
+    }],
+    "react/display-name": 0
   },
   "plugins": [
     "react",

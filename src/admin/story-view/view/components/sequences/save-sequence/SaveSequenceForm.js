@@ -8,13 +8,13 @@ import {
   arrayToSelectFieldOptions,
   renderCheckboxInput,
   renderInput,
-  renderSelectInput
+  renderSelectInput,
 } from '../../../../../../shared/utils/formUtils';
 import FilePicker from '../../../../../../shared/components/form/FileSelect/FilePicker';
 import {
   MAX_SEQUENCE_SCENE_PIC_SIZE_MB,
   SEQUENCE_PICTURE_CROPPER_SIZE,
-  SEQUENCE_PICTURE_PREVIEW_SIZE
+  SEQUENCE_PICTURE_PREVIEW_SIZE,
 } from '../../../../../../shared/constants/sequences';
 
 import { styles } from './SaveSequence.css';
@@ -22,7 +22,7 @@ import notFoundImg from '../../../../../../assets/notfound.png';
 
 const compressOptions = {
   maxSizeMB: MAX_SEQUENCE_SCENE_PIC_SIZE_MB,
-  maxWidthOrHeight: SEQUENCE_PICTURE_CROPPER_SIZE.height
+  maxWidthOrHeight: SEQUENCE_PICTURE_CROPPER_SIZE.height,
 };
 
 class SaveSequenceForm extends Component {
@@ -40,7 +40,7 @@ class SaveSequenceForm extends Component {
           size: SEQUENCE_PICTURE_PREVIEW_SIZE,
           cropperProps: {
             size: SEQUENCE_PICTURE_CROPPER_SIZE,
-          }
+          },
         }}
         compressOptions={compressOptions}
         onFileSave={this.onFileUploaded}
@@ -79,7 +79,7 @@ class SaveSequenceForm extends Component {
             {renderCheckboxInput(formik, {
               label: 'Is this an ending sequence?',
               name: 'isEnding',
-              className: classes.checkboxFieldContainer
+              className: classes.checkboxFieldContainer,
             })}
             {renderInput(formik, {
               label: 'Content',

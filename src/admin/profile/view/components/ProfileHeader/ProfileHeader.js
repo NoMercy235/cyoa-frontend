@@ -8,7 +8,7 @@ import { publicUserService } from '../../../../../infrastructure/services/UserSe
 import {
   EDITABLE_PROFILE_SIZE,
   MAX_PROFILE_SCENE_PIC_SIZE_MB,
-  PROFILE_PIC_SIZE_MD
+  PROFILE_PIC_SIZE_MD,
 } from '../../../../../shared/constants/profile';
 
 import styles from './ProfileHeader.module.scss';
@@ -16,7 +16,7 @@ import notFoundImg from '../../../../../assets/notfound.png';
 
 const compressOptions = {
   maxSizeMB: MAX_PROFILE_SCENE_PIC_SIZE_MB,
-  maxWidthOrHeight: EDITABLE_PROFILE_SIZE.height
+  maxWidthOrHeight: EDITABLE_PROFILE_SIZE.height,
 };
 
 class ProfileHeader extends Component {
@@ -27,7 +27,7 @@ class ProfileHeader extends Component {
   async componentDidMount () {
     const { user } = this.props;
     const { profile } = await publicUserService.getProfilePicture(user._id);
-    this.setState({ profile })
+    this.setState({ profile });
   }
 
   onProfileSave = async (img) => {
@@ -40,8 +40,8 @@ class ProfileHeader extends Component {
     const {
       user,
       userOverview: {
-        storiesWritten
-      }
+        storiesWritten,
+      },
     } = this.props;
     const { profile } = this.state;
 
@@ -59,7 +59,7 @@ class ProfileHeader extends Component {
               size: EDITABLE_PROFILE_SIZE,
               cropperProps: {
                 size: PROFILE_PIC_SIZE_MD,
-              }
+              },
             }}
             compressOptions={compressOptions}
             onFileSave={this.onProfileSave}

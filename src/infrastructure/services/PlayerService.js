@@ -26,7 +26,7 @@ class PlayerService extends BaseService {
       .put(this.withRouteParams(this.setEndpoint), playerMetadata)
       .then(response => {
         return new PlayerModel(BaseService.onSuccess(response));
-      })
+      });
   };
 
   update = metadata => {

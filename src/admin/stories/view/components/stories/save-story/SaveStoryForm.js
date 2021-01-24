@@ -9,7 +9,7 @@ import {
   arrayToSelectFieldOptions,
   renderInput,
   renderSelectInput,
-  renderSwitchInput
+  renderSwitchInput,
 } from '../../../../../../shared/utils/formUtils';
 
 import { styles } from './SaveStory.css';

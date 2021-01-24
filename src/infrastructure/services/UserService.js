@@ -43,7 +43,7 @@ class PublicUserService extends BaseService {
         return {
           ...overview,
           user: new UserModel(overview.user),
-        }
+        };
       });
   };
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as PropTypes from 'prop-types';
-import Cropper from 'react-easy-crop'
+import Cropper from 'react-easy-crop';
 import { Button } from '@material-ui/core';
 
 import { getCroppedImg } from './fileHelpers';
@@ -23,7 +23,7 @@ const ImageCropper = ({
   const [isCropping, setIsCropping] = useState(false);
 
   const onCropChange = crop => {
-    setCrop(crop)
+    setCrop(crop);
   };
 
   const onCropComplete = async (croppedArea, croppedAreaPixels) => {
@@ -31,7 +31,7 @@ const ImageCropper = ({
   };
 
   const onZoomChange = zoom => {
-    setZoom(zoom)
+    setZoom(zoom);
   };
 
   const onPreviewImage = async () => {

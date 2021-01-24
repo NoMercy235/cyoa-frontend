@@ -59,7 +59,7 @@ class SaveCollectionModal extends Component {
       } else {
         await this.saveCollection(values);
       }
-      setSubmitting(false)
+      setSubmitting(false);
       this.onClose();
     } catch (e) {
       setSubmitting(false);

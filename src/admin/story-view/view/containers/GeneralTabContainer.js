@@ -8,6 +8,7 @@ import { StoryModel } from '../../../../infrastructure/models/StoryModel';
 import PublishBtn from '../../../../shared/components/publish-btn/PublishBtn';
 import { renderGeneralTitle } from '../components/general/GeneralTitle';
 import { storyService } from '../../../../infrastructure/services/StoryService';
+import { storyViewStorePropTypes } from '../../stores/StoryViewStore';
 
 import styles from './GeneralTabContainer.module.scss';
 
@@ -56,6 +57,7 @@ class GeneralTabContainer extends Component {
 
 GeneralTabContainer.propTypes = {
   story: PropTypes.instanceOf(StoryModel).isRequired,
+  storyViewStore: storyViewStorePropTypes,
 };
 
 export default GeneralTabContainer;

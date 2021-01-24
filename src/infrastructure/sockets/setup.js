@@ -1,6 +1,6 @@
 import { config } from '../../config';
 
-import socketIOClient from "socket.io-client";
+import socketIOClient from 'socket.io-client';
 import { SocketEvents } from '../../shared/constants/events';
 import { appStore } from '../../shared/store/AppStore';
 

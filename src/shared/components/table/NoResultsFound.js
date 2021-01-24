@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import { Typography } from '@material-ui/core';
-import { inject, observer } from "mobx-react";
-import { Link } from "react-router-dom";
+import { inject, observer } from 'mobx-react';
+import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
-import { appStorePropTypes } from "../../store/AppStore";
-import { ADMIN_STORIES_ROUTE } from "../../constants/routes";
+import { appStorePropTypes } from '../../store/AppStore';
+import { ADMIN_STORIES_ROUTE } from '../../constants/routes';
 
 import classes from './NoResultsFound.module.scss';
 
-import noResultsGhost from "../../../assets/no-results-ghost.ico";
+import noResultsGhost from '../../../assets/no-results-ghost.ico';
 
 @inject('appStore')
 @observer

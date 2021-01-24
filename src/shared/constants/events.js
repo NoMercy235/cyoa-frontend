@@ -32,6 +32,6 @@ export const SocketEvents = {
   DeleteOptionsError: 'DELETE_OPTIONS_ERROR',
 
   Errors: {
-    Connect: 'connect_error'
-  }
+    Connect: 'connect_error',
+  },
 };

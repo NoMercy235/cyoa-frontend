@@ -71,7 +71,7 @@ class SaveOptionForm extends Component {
     const { classes, story } = this.props;
 
     if (story.isAvailableOffline) {
-      return <Typography>Consequences/Requirements cannot be added for stories that are available offline</Typography>
+      return <Typography>Consequences/Requirements cannot be added for stories that are available offline</Typography>;
     }
 
     return (
@@ -126,7 +126,7 @@ class SaveOptionForm extends Component {
           label: 'Leads to',
           name: 'nextSeq',
           placeholder: 'Search for sequences',
-          onSearchRequest
+          onSearchRequest,
         })}
         {this.renderExtras()}
       </Form>

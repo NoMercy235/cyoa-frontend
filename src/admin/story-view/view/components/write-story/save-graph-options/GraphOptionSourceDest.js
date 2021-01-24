@@ -20,14 +20,14 @@ class GraphOptionSourceDest extends Component {
             onSearchRequest: onSearchRequest({
               isEnding: { op: 'equals', value: false },
             }),
-            disabled
+            disabled,
           })}
           {renderAutocompleteInput(formik, {
             label: 'Leads to',
             name: 'nextSeq',
             placeholder: 'Search for sequences',
             onSearchRequest: onSearchRequest(),
-            disabled
+            disabled,
           })}
         </Form>
       </Card>

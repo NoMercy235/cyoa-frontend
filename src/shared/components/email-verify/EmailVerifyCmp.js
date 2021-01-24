@@ -11,13 +11,13 @@ class NotFoundCmp extends Component {
     const {
       match: {
         params: {
-          token: verifyToken
-        }
+          token: verifyToken,
+        },
       },
     } = this.props;
     const {
       emailVerifyToken: { redirectUrl },
-      token
+      token,
     } = await authService.verifyEmail(verifyToken);
 
     localStorage.setItem('jwt', token);

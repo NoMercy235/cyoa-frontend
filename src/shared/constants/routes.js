@@ -19,7 +19,7 @@ export const routeWithQueryParams = (route, queryParams) => {
   return Object
     .entries(queryParams)
     .reduce((currentRoute, [key, value]) => {
-      return `${currentRoute}${key}=${value}&`
+      return `${currentRoute}${key}=${value}&`;
     }, `${route}?`);
 };
 
@@ -52,7 +52,7 @@ export const makeReadStoryPath = (storyId, withOrigin = false) => {
   path += makePath(
     READ_STORY_ROUTE,
     {
-      ':storyId': storyId
+      ':storyId': storyId,
     }
   );
   return path;

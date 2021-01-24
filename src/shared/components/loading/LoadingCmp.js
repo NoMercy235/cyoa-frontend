@@ -12,7 +12,7 @@ class LoadingCmp extends Component {
       text,
       textVariant,
       thickness,
-      size
+      size,
     } = this.props;
 
     return (

@@ -134,7 +134,7 @@ export class QueryParams {
 export const convertNumberToHuman = (number) => {
   if (number < 100) return number;
 
-  return String(number).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return String(number).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
 export const stopEvent = (event) => {

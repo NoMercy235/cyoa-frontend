@@ -5,7 +5,7 @@ import {
   ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
-  Tooltip
+  Tooltip,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import classNames from 'classnames';

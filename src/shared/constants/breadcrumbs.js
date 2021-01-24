@@ -36,5 +36,5 @@ export const storyViewBreadcrumb = () => ({
 export const profileBreadcrumb = () => ({
   label: 'Profile',
   path: ADMIN_PROFILE_ROUTE,
-  icon: UserIcon
+  icon: UserIcon,
 });

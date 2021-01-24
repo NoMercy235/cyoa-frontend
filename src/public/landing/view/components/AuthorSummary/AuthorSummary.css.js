@@ -7,7 +7,7 @@ export const styles = theme => ({
     backgroundColor: 'white',
     border: `${BORDER_SIZE}px solid black`,
     padding: 0,
-    height: `auto`,
+    height: 'auto',
     maxWidth: 'unset',
   },
   loading: {
@@ -27,6 +27,6 @@ export const styles = theme => ({
     cursor: 'pointer',
     '&:hover': {
       textDecoration: 'underline',
-    }
+    },
   },
 });

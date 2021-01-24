@@ -41,11 +41,11 @@ class Select extends Component {
   onClear = () => {
     const { formikField, multiple } = this.props;
     const value = multiple ? [] : '';
-    this.handleChange({ target: { value, name: formikField.name }});
+    this.handleChange({ target: { value, name: formikField.name } });
   };
 
   static getDerivedStateFromProps(nextProps){
-    return { selected: nextProps.formikField.value};
+    return { selected: nextProps.formikField.value };
   }
 
   render() {
@@ -65,7 +65,7 @@ class Select extends Component {
     return (
       <FormControl
         className={classNames(className, {
-          [classes.fullWidth]: fullWidth
+          [classes.fullWidth]: fullWidth,
         })}
       >
         <InputLabel htmlFor={`select-${label}`}>{label}</InputLabel>
@@ -149,5 +149,5 @@ export default withStyles(theme => ({
   },
   fullWidth: {
     width: '100%',
-  }
+  },
 }))(Select);
