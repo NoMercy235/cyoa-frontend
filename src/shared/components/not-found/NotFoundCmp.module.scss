@@ -18,13 +18,4 @@
     white-space: normal;
     text-align: center;
   }
-
-  .goBackClickable {
-    color: cornflowerblue;
-
-    &:hover {
-      cursor: pointer;
-      text-decoration: underline;
-    }
-  }
 }

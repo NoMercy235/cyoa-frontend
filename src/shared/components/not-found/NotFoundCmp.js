@@ -1,30 +1,12 @@
 import React, { Component } from 'react';
 import { Typography } from '@material-ui/core';
-import { withRouter } from 'react-router-dom';
 
-import { LANDING_ROUTE } from '../../constants/routes';
+import ReturnHome from '../return-home/ReturnHome';
 
 import styles from './NotFoundCmp.module.scss';
 import sadFace from '../../../assets/sad-face.png';
 
 class NotFoundCmp extends Component {
-  onReturnHome = history => () => {
-    history.replace(LANDING_ROUTE);
-  };
-
-  renderReturnHome = () => {
-    const ReturnHomeLink = withRouter(({ history }) => (
-      <span
-        className={styles.goBackClickable}
-        onClick={this.onReturnHome(history)}
-      >
-        Return home
-      </span>
-    ));
-
-    return <ReturnHomeLink />;
-  };
-
   render() {
     return (
       <div className={styles.container}>
@@ -46,7 +28,8 @@ class NotFoundCmp extends Component {
           color="inherit"
           noWrap
         >
-          This place seems to be long gone. {this.renderReturnHome()}?
+          This place seems to be long gone.&nbsp;
+          <ReturnHome text="Return home"/>?
         </Typography>
       </div>
     );
