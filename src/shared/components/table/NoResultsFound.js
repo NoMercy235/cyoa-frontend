@@ -48,7 +48,7 @@ class NoResultsFound extends Component {
           color="inherit"
           noWrap
         >
-          Sadly, there were no results found
+          Sadly, there were no stories found
         </Typography>
         <img
           alt="No results found"
