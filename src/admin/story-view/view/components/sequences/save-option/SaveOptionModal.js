@@ -59,7 +59,10 @@ class SaveOptionModal extends Component {
   };
 
   getInitialValues = () => {
-    const { option, storyViewStore } = this.props;
+    const {
+      option,
+      storyViewStore: { currentStory: story, attributes },
+    } = this.props;
 
     // Here we don't need any parsing, because, by default, the nextSeq's value is an
     // empty string and that's a valid value.
@@ -67,8 +70,8 @@ class SaveOptionModal extends Component {
       ? option
       : new OptionModel(
         {
-          story: storyViewStore.currentStory._id,
-          consequences: storyViewStore.currentStory.isAvailableOffline
+          story: story._id,
+          consequences: story.isAvailableOffline || !attributes.length
             ? []
             : [new ConsequenceModel()],
         },
@@ -107,13 +110,16 @@ class SaveOptionModal extends Component {
       open,
     } = this.props;
 
+    const shouldShowConsequences = !currentStory.isAvailableOffline && attributes.length;
+
     return (
       <Dialog
         open={open}
         onClose={this.onClose}
         classes={{
           paper: classNames(classes.dialogSize, {
-            [classes.saveOptionDialog]: !currentStory.isAvailableOffline && attributes.length,
+            [classes.saveOptionDialogBig]: shouldShowConsequences,
+            [classes.saveOptionDialogMedium]: !shouldShowConsequences,
           }),
         }}
         maxWidth="xl"

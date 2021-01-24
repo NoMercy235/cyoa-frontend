@@ -1,6 +1,9 @@
 export const styles = theme => ({
-  saveOptionDialog: {
+  saveOptionDialogBig: {
     minHeight: '60vh',
+  },
+  saveOptionDialogMedium: {
+    minHeight: '40vh',
   },
   form: {
     display: 'flex',
