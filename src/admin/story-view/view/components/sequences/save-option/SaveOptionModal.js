@@ -101,14 +101,20 @@ class SaveOptionModal extends Component {
   };
 
   renderForm = formik => {
-    const { classes, storyViewStore, open } = this.props;
+    const {
+      classes,
+      storyViewStore: { currentStory, attributes },
+      open,
+    } = this.props;
 
     return (
       <Dialog
         open={open}
         onClose={this.onClose}
         classes={{
-          paper: classNames(classes.dialogSize, classes.saveOptionDialog),
+          paper: classNames(classes.dialogSize, {
+            [classes.saveOptionDialog]: !currentStory.isAvailableOffline && attributes.length,
+          }),
         }}
         maxWidth="xl"
       >
@@ -120,8 +126,8 @@ class SaveOptionModal extends Component {
         <DialogContent>
           <SaveOptionForm
             formik={formik}
-            story={storyViewStore.currentStory}
-            attributes={storyViewStore.attributes}
+            story={currentStory}
+            attributes={attributes}
             onSearchRequest={this.onSearchRequest}
           />
         </DialogContent>

@@ -68,10 +68,14 @@ class SaveOptionForm extends Component {
   };
 
   renderExtras = () => {
-    const { classes, story } = this.props;
+    const { classes, story, attributes } = this.props;
 
     if (story.isAvailableOffline) {
       return <Typography>Consequences/Requirements cannot be added for stories that are available offline</Typography>;
+    }
+
+    if (!attributes.length) {
+      return <Typography>Consequences/Requirements cannot be added for stories that have no <b>attributes</b></Typography>;
     }
 
     return (
