@@ -25,3 +25,7 @@ e2e/setup/test_config.js
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# e2e
+__pycache__
+e2e-python/automation.log
