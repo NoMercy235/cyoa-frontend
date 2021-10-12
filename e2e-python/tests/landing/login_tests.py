@@ -6,6 +6,7 @@ from logging import Logger
 from selenium import webdriver
 
 from pages.landing.login_page import LoginPage
+from pages.base_page import BasePage
 
 driver_path = path.dirname(__file__) + "\\" + path.join("..", "..", "drivers", "94-chromedriver.exe")
 chrome_path = path.dirname(__file__) + "\\" + path.join("..", "..", "GoogleChromePortable", "App", "Chrome-bin", "chrome.exe")
@@ -17,13 +18,16 @@ class LoginTests(unittest.TestCase):
     log_level: int
     credentials: dict
 
+    base_page: BasePage
     login_page: LoginPage
 
     @pytest.fixture(autouse=True)
     def classSetup(self, oneTimeSetUp):
         self.login_page = LoginPage(self.driver, self.log_level)
+        self.base_page = BasePage(self.driver, self.log_level)
 
     def test_login(self):
+        self.base_page.open_login_form()
         self.login_page.login(self.credentials.get("email"), self.credentials.get("password"))
         confirm_snackbar = self.login_page.get_confirm_snackbar()
 
@@ -31,14 +35,10 @@ class LoginTests(unittest.TestCase):
         self.assertEqual(confirm_snackbar.text, "Welcome!", "Confirm message is different")
 
     def test_empty_login(self):
-        self.login_page.open_login_form()
+        self.base_page.open_login_form()
         self.login_page.get_login_btn().click()
 
         email_field_error = self.login_page.get_email_field_error()
 
         self.assertIsNotNone(email_field_error, "Error message was not found")
         self.assertEqual(email_field_error.text, "Email is invalid", "Error message is different")
-
-
-# if __name__ == '__main__':
-#     unittest.main(verbosity=2)
