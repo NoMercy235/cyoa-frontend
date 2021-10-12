@@ -1,0 +1,19 @@
+13/10/2021 12:34:29 AM - root - INFO: Running one time setUp
+13/10/2021 12:34:30 AM - root - INFO: Running test_empty_login
+13/10/2021 12:34:31 AM - LoginPage - INFO: Find element(id): settingsBtn
+13/10/2021 12:34:31 AM - LoginPage - INFO: Find element(xpath): //li/span[text() = 'Login']
+13/10/2021 12:34:31 AM - LoginPage - INFO: Wait for element(name): email
+13/10/2021 12:34:32 AM - LoginPage - INFO: Find element(xpath): //button[@type='submit']/span[text()='Login']
+13/10/2021 12:34:32 AM - LoginPage - INFO: Find element(xpath): //p[contains(@class, 'Mui-error')][text()='Email is invalid']
+13/10/2021 12:34:32 AM - root - INFO: Finished test_empty_login
+13/10/2021 12:34:32 AM - root - INFO: Running test_login
+13/10/2021 12:34:32 AM - LoginPage - INFO: Find element(id): settingsBtn
+13/10/2021 12:34:32 AM - LoginPage - INFO: Find element(xpath): //li/span[text() = 'Login']
+13/10/2021 12:34:32 AM - LoginPage - INFO: Wait for element(name): email
+13/10/2021 12:34:32 AM - LoginPage - INFO: Find element(name): email
+13/10/2021 12:34:33 AM - LoginPage - INFO: Find element(name): password
+13/10/2021 12:34:33 AM - LoginPage - INFO: Find element(xpath): //button[@type='submit']/span[text()='Login']
+13/10/2021 12:34:33 AM - LoginPage - INFO: Wait for element(xpath): //div[contains(@class, 'MuiSnackbarContent-message')]
+13/10/2021 12:34:33 AM - LoginPage - INFO: Find element(xpath): //div[contains(@class, 'MuiSnackbarContent-message')]
+13/10/2021 12:34:33 AM - root - INFO: Finished test_login
+13/10/2021 12:34:36 AM - root - INFO: Running one time tearDown
