@@ -13,13 +13,14 @@ I started this project as a means to have some sort of "portofolio" which shows 
 #### Technologies used
 - Technologies: React, Express, Docker, Socket.IO
 - Languages: JavaScript, Bash
-- Others: [MobX](https://mobx.js.org/README.html) (State management), [Material UI](http://material-ui.com/) (Design System), [Formik](https://github.com/jaredpalmer/formik) (Form management)
+- Others: [MobX](https://mobx.js.org/README.html) (State management), [Material UI](http://material-ui.com/) (Design System), [Formik](https://github.com/jaredpalmer/formik) (Form management), [Jest](https://jestjs.io/) (E2E testing)
 
 #### Bragging points
 - Progressive Web App with support for client-side caching and offline capabilities (read stories offline after you download them) using Service Workers (through Workbox) and IndexedDB
-- Support for multiple screen sizes
-- Email verification on registering
-- Password reset
-- HTTPS support with certificate auto-renewal
+- Optimize for mobile usage and discovery (responisve layout, 100% accessibility and 92% SEO score on Lighthouse, compressed everything as much as possible to keep the bundle size small)
+- Email verification on registering + Password reset
 - Cross-tab communication with BroadcastChannel API
 - Cloud/Local progress saving on stories
+- Easy deployment through Docker (containers for frotend, backend and database)
+- HTTPS support (HTTP connections are automatically redirected to HTTPS) with automatic SSL generation (when they expire)
+- Nginx setup and sub-domain configuration (`https://rigamo.xyz` for the app and `https://api.rigamo.xyz` for API calls)
