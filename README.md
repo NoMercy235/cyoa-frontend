@@ -22,5 +22,5 @@ I started this project as a means to have some sort of "portofolio" which shows 
 - Cross-tab communication with BroadcastChannel API
 - Cloud/Local progress saving on stories
 - Easy deployment through Docker (containers for frotend, backend and database)
-- HTTPS support (HTTP connections are automatically redirected to HTTPS) with automatic SSL generation (when they expire)
+- HTTPS support (HTTP connections are automatically redirected to HTTPS) with automatic SSL generation (when it expires)
 - Nginx setup and sub-domain configuration (`https://rigamo.xyz` for the app and `https://api.rigamo.xyz` for API calls)
