@@ -24,3 +24,10 @@ I started this project as a means to have some sort of "portofolio" which shows 
 - Easy deployment through Docker (containers for frotend, backend and database)
 - HTTPS support (HTTP connections are automatically redirected to HTTPS) with automatic SSL generation (when it expires)
 - Nginx setup and sub-domain configuration (`https://rigamo.xyz` for the app and `https://api.rigamo.xyz` for API calls)
+
+#### How to run
+
+- npm install (make sure python2 is available. [For MacOS](https://stackoverflow.com/a/71957847/5619416))
+- npm start
+
+Or use docker-compose
